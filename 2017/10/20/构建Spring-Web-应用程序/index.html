@@ -3,17 +3,20 @@
 <head>
     <meta charset="utf-8">
     
-    <title>标签：: 生活 | coderlong的博客</title>
+    <title>构建Spring Web 应用程序 | coderlong的博客</title>
     
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
-    <meta property="og:type" content="website">
-<meta property="og:title" content="coderlong的博客">
-<meta property="og:url" content="https://coderlongren.github.io/tags/生活/index.html">
+        <meta name="keywords" content="" />
+    
+    <meta property="og:type" content="article">
+<meta property="og:title" content="构建Spring Web 应用程序">
+<meta property="og:url" content="https://coderlongren.github.io/2017/10/20/构建Spring-Web-应用程序/index.html">
 <meta property="og:site_name" content="coderlong的博客">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2017-10-20T11:01:24.075Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="coderlong的博客">
+<meta name="twitter:title" content="构建Spring Web 应用程序">
     
 
     
@@ -126,73 +129,117 @@
                         <div class="main-body-header">
     <h1 class="header">
     
-    <i class="icon fa fa-tag"></i>标签：: <em>生活</em>
+    未分类
     </h1>
 </div>
                         <div class="main-body-content">
-                            
-
-    
-    
+                            <article id="post-构建Spring-Web-应用程序" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
         
-        
-        <section class="archives-wrap">
-            <div class="archive-year-wrap">
-                <a href="/archives/2017" class="archive-year"><i class="icon fa fa-calendar-o"></i>2017</a>
-            </div>
-            <div class="archives">
-    
-    
-    
-        <div class="article-row">
-    
-        <article class="article article-summary">
-    <div class="article-summary-inner">
-        
-        <a href="/2017/10/20/坐看俩只狗打架/" class="thumbnail">
-    
-    
-        <span style="background-image:url(/images/3.jpg)" alt="坐看俩只狗打架" class="thumbnail-image"></span>
-    
-    
-        
-<span class="comment-counter">
-    <i class="fa fa-comments-o"></i>
-    
-        <span class="disqus-comment-count" data-disqus-identifier="" data-disqus-url="https://coderlongren.github.io/2017/10/20/坐看俩只狗打架/">0</span>
-    
-</span>
-
-
-    
-</a>
-
-        
-        <div class="article-meta">
-            <div class="category">
-            <a class="article-category-link" href="/categories/生活/">生活</a>
-            </div>
-            <div class="date"><time datetime="2017-10-20T10:29:27.000Z" itemprop="datePublished">2017-10-20</time></div>
-        </div>
-        
+            <header class="article-header">
+                
     
         <h1 class="article-title" itemprop="name">
-        <a href="/2017/10/20/坐看俩只狗打架/">坐看俩只狗打架</a>
+        构建Spring Web 应用程序
         </h1>
     
 
-        <p class="article-excerpt">
-            摘要： 菜鸟龙的第一篇博文
-        </p>
+            </header>
+        
+        
+            <div class="article-meta">
+                
+    <div class="article-date">
+        <a href="/2017/10/20/构建Spring-Web-应用程序/" class="article-date">
+            <time datetime="2017-10-20T11:01:24.000Z" itemprop="datePublished">2017-10-20</time>
+        </a>
+    </div>
+
+                
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            
+        </div>
+        <footer class="article-footer">
+            
+
+
+
+    <a data-url="https://coderlongren.github.io/2017/10/20/构建Spring-Web-应用程序/" data-id="cj8zsduqk000244nn5m09eyf0" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
     </div>
 </article>
+
+    <section id="comments">
     
-        </div>
+        
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
     
-
-
-    </div></section>
-
+    </section>
 
 
                         </div>
@@ -253,6 +300,19 @@
             
         </ul>
     </div>
+    
+        
+<nav id="article-nav">
+    
+    
+        <a href="/2017/10/20/坐看俩只狗打架/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">上一篇</strong>
+        <p class="article-nav-title">坐看俩只狗打架</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
     
     <div class="widgets-container">
         
@@ -410,11 +470,13 @@
     var disqus_shortname = 'hexo-theme-hueman';
     
     
+    var disqus_url = 'https://coderlongren.github.io/2017/10/20/构建Spring-Web-应用程序/';
+    
     (function() {
     var dsq = document.createElement('script');
     dsq.type = 'text/javascript';
     dsq.async = true;
-    dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
     (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
     })();
     </script>
