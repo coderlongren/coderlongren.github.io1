@@ -18,7 +18,7 @@
 <meta property="og:description" content="摘要：Tomcat的启动过程">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://coderlongren.github.io/images/tomcat.jpg">
-<meta property="og:updated_time" content="2017-10-22T12:22:21.461Z">
+<meta property="og:updated_time" content="2017-10-23T15:08:55.192Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Tomcat的顶层结构及启动过程">
 <meta name="twitter:description" content="摘要：Tomcat的启动过程">
@@ -177,7 +177,13 @@
         <div class="article-entry" itemprop="articleBody">
             <p>摘要：Tomcat的启动过程<br><a id="more"></a><br>正文：<br><img src="/images/tomcat.jpg" alt=""></p>
 <h2 id="Tomcat的顶层结构"><a href="#Tomcat的顶层结构" class="headerlink" title="#Tomcat的顶层结构"></a>#Tomcat的顶层结构</h2><pre><code>Tomcat的最顶层的容器叫做servlet，代表整个服务器，Servlet中包含至少一个Service，用于具体提供务
-</code></pre><p>。Service主要包含Connection Container 。</p>
+</code></pre><p>。Service主要包含Connection Container 。<br>从Tomcat启动调用栈可知，Bootstrap类的main方法为整个Tomcat的入口，在init初始化Bootstrap类的时候为设置Catalina的工作路径也就是Catalina_HOME信息、Catalina.base信息，在initClassLoaders方法中初始化类加载器，然后通过反射初始化org.apache.catalina.startup.Catalina作为catalina守护进程 </p>
+<p>##附上启动过程图：<br><img src="/images/tomcat1.png" alt=""></p>
+<h2 id="Tomcat中使用了观察者模式对Tomcat的生命周期进行了管理"><a href="#Tomcat中使用了观察者模式对Tomcat的生命周期进行了管理" class="headerlink" title="Tomcat中使用了观察者模式对Tomcat的生命周期进行了管理"></a>Tomcat中使用了观察者模式对Tomcat的生命周期进行了管理</h2><p>##Lifecycle接口<br>Tomcat通过catalina.Lifecycle接口统一管理生命周期所有的生命周期组件 都要实现这个接口 这个接口一共做了四件事情<br>    1 设置了13个string类型常量 用于区分足间发出的lifecycle事件时候的状态<br>    2 定义了三个管理 监听器的方法 add find remove 来增加 查找 移除lifecycle类型的监听器<br>    3 定义了四个生命周期的方法 Init start stop destroy 用于执行生命周期的各个阶段的操作<br>    4 获取状态的两个方法 getstate getstatename</p>
+<p>##LifecycleBase </p>
+<!-- UY BEGIN -->
+<p><div id="uyan_frame"></div></p>
+<p><script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=2147299"></script><br><!-- UY END --></p>
 
         </div>
         <footer class="article-footer">
