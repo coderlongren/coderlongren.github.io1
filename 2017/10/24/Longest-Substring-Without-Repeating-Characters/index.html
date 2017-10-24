@@ -3,26 +3,24 @@
 <head>
     <meta charset="utf-8">
     
-    <title>LeetCode007 | coderlong的博客</title>
+    <title>Longest Substring Without Repeating Characters | coderlong的博客</title>
     
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
-        <meta name="keywords" content="algorithm,java" />
+        <meta name="keywords" content="algorithm" />
     
-    <meta name="description" content="摘要：溢出很扯淡啊">
-<meta name="keywords" content="algorithm,java">
+    <meta name="description" content="摘要：Brute Force">
+<meta name="keywords" content="algorithm">
 <meta property="og:type" content="article">
-<meta property="og:title" content="LeetCode007">
-<meta property="og:url" content="https://coderlongren.github.io/2017/10/22/LeetCode007/index.html">
+<meta property="og:title" content="Longest Substring Without Repeating Characters">
+<meta property="og:url" content="https://coderlongren.github.io/2017/10/24/Longest-Substring-Without-Repeating-Characters/index.html">
 <meta property="og:site_name" content="coderlong的博客">
-<meta property="og:description" content="摘要：溢出很扯淡啊">
+<meta property="og:description" content="摘要：Brute Force">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://coderlongren.github.io/images/suanfa.jpeg">
-<meta property="og:updated_time" content="2017-10-22T12:39:37.849Z">
+<meta property="og:updated_time" content="2017-10-24T15:09:41.764Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="LeetCode007">
-<meta name="twitter:description" content="摘要：溢出很扯淡啊">
-<meta name="twitter:image" content="https://coderlongren.github.io/images/suanfa.jpeg">
+<meta name="twitter:title" content="Longest Substring Without Repeating Characters">
+<meta name="twitter:description" content="摘要：Brute Force">
     
 
     
@@ -143,14 +141,14 @@
     </h1>
 </div>
                         <div class="main-body-content">
-                            <article id="post-LeetCode007" class="article article-single article-type-post" itemscope itemprop="blogPost">
+                            <article id="post-Longest-Substring-Without-Repeating-Characters" class="article article-single article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
             <header class="article-header">
                 
     
         <h1 class="article-title" itemprop="name">
-        LeetCode007
+        Longest Substring Without Repeating Characters
         </h1>
     
 
@@ -160,51 +158,58 @@
             <div class="article-meta">
                 
     <div class="article-date">
-        <a href="/2017/10/22/LeetCode007/" class="article-date">
-            <time datetime="2017-10-22T12:01:47.000Z" itemprop="datePublished">2017-10-22</time>
+        <a href="/2017/10/24/Longest-Substring-Without-Repeating-Characters/" class="article-date">
+            <time datetime="2017-10-24T14:58:49.000Z" itemprop="datePublished">2017-10-24</time>
         </a>
     </div>
 
                 
     <div class="article-tag">
         <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/algorithm/">algorithm</a>, <a class="tag-link" href="/tags/java/">java</a>
+        <a class="tag-link" href="/tags/algorithm/">algorithm</a>
     </div>
 
             </div>
         
         
         <div class="article-entry" itemprop="articleBody">
-            <p>摘要：溢出很扯淡啊</p>
-<a id="more"></a>
-<p>正文：</p>
-<h1 id="reverse-the-Integer-int32"><a href="#reverse-the-Integer-int32" class="headerlink" title="reverse the Integer int32"></a>reverse the Integer int32</h1><p><img src="/images/suanfa.jpeg" alt=""></p>
-<hr>
-<p>但是反反复复输出好几遍，都是提示stackFlow,最够直接用Integer.MAX_VALUE来测试<br>输出的所有结果，就是到了最后一个溢出了，最后还是百度了，在while循环中加了一个<br>if判断，<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">((newresult - tail)/10 != result)</div></pre></td></tr></table></figure></p>
-<h2 id="说明是溢出，return0jieshu"><a href="#说明是溢出，return0jieshu" class="headerlink" title="说明是溢出，return0jieshu "></a>说明是溢出，return0jieshu </h2><p>##这样也算是解决了吗？<br>反正提交通过了，我还是没理解啊 </p>
-<pre><code>public int reverse(int x){
-    int result = 0;
-    while (x != 0) {
-        int tail = x%10;
-        int newresult = result*10 + tail;
-        if ((newresult - tail)/10 != result){
-            //如果 这里不相同的话  说明是溢出 
-            return 0;
+            <p>摘要：Brute Force<br><a id="more"></a><br>正文:</p>
+<p>##Approach #1 Brute Force [Time Limit Exceeded]<br>第一眼看到 求最长的非重复子串，就是三个for循环 求解，去掉非法的判断，花了十分钟得到了一个不得使用“蛮力”，时间复杂度O（n*3）可是明明用了hashSet的Contain（）方法了，Exception代码如下:<br>    class Solution {<br>            public static boolean allUnique(String string,int start,int end){</p>
+<pre><code>        Set&lt;Character&gt; set =new HashSet&lt;Character&gt;();
+        for (int i = start; i &lt; end; i++){
+            if (set.contains(string.toCharArray()[i])){
+                return false;
+            }
+            set.add(string.toCharArray()[i]);
         }
-        result = newresult;
-        x = x/10;
-    }
-    return result;
 
+        return true;
+    }
+    public int lengthOfLongestSubstring(String s) {
+        int length = s.length();
+        int ans = 0;
+        for (int i = 0; i &lt; length; i++){
+            for (int j = i + 1; j &lt;= length; j++){
+                if (allUnique(s, i, j)){
+                    ans = Math.max(ans, j - i);
+                }
+            }
+        }
+        return ans;
+    }
 }
-</code></pre>
+</code></pre><p>看了别人通过的代码才知道我的暴力破除的确不够优雅啊 ，奉上正确的代码，很简单就不注释了<br>    public int lengthOfLongestSubstring(String s) {<br>        if (s.length()==0) return 0;<br>        HashMap<character, integer=""> map = new HashMap<character, integer="">();<br>        int max=0;<br>        for (int i=0, j=0; i&lt;s.length(); ++i){<br>            if (map.containsKey(s.charAt(i))){<br>                j = Math.max(j,map.get(s.charAt(i))+1);<br>            }<br>            map.put(s.charAt(i),i);<br>            max = Math.max(max,i-j+1);<br>        }<br>        return max;<br>    }</character,></character,></p>
+<pre><code>&lt;!-- UY BEGIN --&gt;
+</code></pre><p><div id="uyan_frame"></div></p>
+<p><script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=2147299"></script><br><!-- UY END --></p>
+
         </div>
         <footer class="article-footer">
             
 
 
 
-    <a data-url="https://coderlongren.github.io/2017/10/22/LeetCode007/" data-id="cj95qza6o0000g4nnemavemh9" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
+    <a data-url="https://coderlongren.github.io/2017/10/24/Longest-Substring-Without-Repeating-Characters/" data-id="cj95qza6v0001g4nnn8g1j009" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
 <script>
     (function ($) {
         $('body').on('click', function() {
@@ -317,20 +322,10 @@
         
 <nav id="article-nav">
     
-        <a href="/2017/10/24/Longest-Substring-Without-Repeating-Characters/" id="article-nav-newer" class="article-nav-link-wrap">
-        <strong class="article-nav-caption">下一篇</strong>
-        <p class="article-nav-title">
-        
-            Longest Substring Without Repeating Characters
-        
-        </p>
-        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
-    </a>
     
-    
-        <a href="/2017/10/21/Tomcat的顶层结构及启动过程/" id="article-nav-older" class="article-nav-link-wrap">
+        <a href="/2017/10/22/LeetCode007/" id="article-nav-older" class="article-nav-link-wrap">
         <strong class="article-nav-caption">上一篇</strong>
-        <p class="article-nav-title">Tomcat的顶层结构及启动过程</p>
+        <p class="article-nav-title">LeetCode007</p>
         <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
         </a>
     
@@ -545,7 +540,7 @@
     var disqus_shortname = 'hexo-theme-hueman';
     
     
-    var disqus_url = 'https://coderlongren.github.io/2017/10/22/LeetCode007/';
+    var disqus_url = 'https://coderlongren.github.io/2017/10/24/Longest-Substring-Without-Repeating-Characters/';
     
     (function() {
     var dsq = document.createElement('script');
