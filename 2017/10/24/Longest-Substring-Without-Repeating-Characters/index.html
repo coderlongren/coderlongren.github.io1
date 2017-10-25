@@ -17,10 +17,12 @@
 <meta property="og:site_name" content="coderlong的博客">
 <meta property="og:description" content="摘要：Brute Force">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2017-10-24T15:09:41.764Z">
+<meta property="og:image" content="https://coderlongren.github.io/images/sahala.jpeg">
+<meta property="og:updated_time" content="2017-10-25T05:15:50.335Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Longest Substring Without Repeating Characters">
 <meta name="twitter:description" content="摘要：Brute Force">
+<meta name="twitter:image" content="https://coderlongren.github.io/images/sahala.jpeg">
     
 
     
@@ -173,9 +175,12 @@
         
         
         <div class="article-entry" itemprop="articleBody">
-            <p>摘要：Brute Force<br><a id="more"></a><br>正文:</p>
-<p>##Approach #1 Brute Force [Time Limit Exceeded]<br>第一眼看到 求最长的非重复子串，就是三个for循环 求解，去掉非法的判断，花了十分钟得到了一个不得使用“蛮力”，时间复杂度O（n*3）可是明明用了hashSet的Contain（）方法了，Exception代码如下:<br>    class Solution {<br>            public static boolean allUnique(String string,int start,int end){</p>
-<pre><code>        Set&lt;Character&gt; set =new HashSet&lt;Character&gt;();
+            <p>摘要：Brute Force<br><a id="more"></a><br>正文:<br><img src="/images/sahala.jpeg" alt="Sahara"></p>
+<h2 id="Approach-1-Brute-Force-Time-Limit-Exceeded"><a href="#Approach-1-Brute-Force-Time-Limit-Exceeded" class="headerlink" title="Approach #1 Brute Force [Time Limit Exceeded]"></a>Approach #1 Brute Force [Time Limit Exceeded]</h2><p>第一眼看到 求最长的非重复子串，就是三个for循环 求解，去掉非法的判断，花了十分钟得到了一个不得使用“蛮力”，时间复杂度O（n*3）可是明明用了hashSet的Contain（）方法了，Exception代码如下:</p>
+<pre><code>class Solution {
+        public static boolean allUnique(String string,int start,int end){
+
+        Set&lt;Character&gt; set =new HashSet&lt;Character&gt;();
         for (int i = start; i &lt; end; i++){
             if (set.contains(string.toCharArray()[i])){
                 return false;
@@ -198,9 +203,23 @@
         return ans;
     }
 }
-</code></pre><p>看了别人通过的代码才知道我的暴力破除的确不够优雅啊 ，奉上正确的代码，很简单就不注释了<br>    public int lengthOfLongestSubstring(String s) {<br>        if (s.length()==0) return 0;<br>        HashMap<character, integer=""> map = new HashMap<character, integer="">();<br>        int max=0;<br>        for (int i=0, j=0; i&lt;s.length(); ++i){<br>            if (map.containsKey(s.charAt(i))){<br>                j = Math.max(j,map.get(s.charAt(i))+1);<br>            }<br>            map.put(s.charAt(i),i);<br>            max = Math.max(max,i-j+1);<br>        }<br>        return max;<br>    }</character,></character,></p>
-<pre><code>&lt;!-- UY BEGIN --&gt;
-</code></pre><p><div id="uyan_frame"></div></p>
+</code></pre><hr>
+<p>看了别人通过的代码才知道我的暴力破除的确不够优雅啊 ，奉上正确的代码，很简单就不注释了</p>
+<pre><code>public int lengthOfLongestSubstring(String s) {
+    if (s.length()==0) return 0;
+    HashMap&lt;Character, Integer&gt; map = new HashMap&lt;Character, Integer&gt;();
+    int max=0;
+    for (int i=0, j=0; i&lt;s.length(); ++i){
+        if (map.containsKey(s.charAt(i))){
+            j = Math.max(j,map.get(s.charAt(i))+1);
+        }
+        map.put(s.charAt(i),i);
+        max = Math.max(max,i-j+1);
+    }
+    return max;
+}
+</code></pre><!-- UY BEGIN -->
+<p><div id="uyan_frame"></div></p>
 <p><script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=2147299"></script><br><!-- UY END --></p>
 
         </div>
@@ -209,7 +228,7 @@
 
 
 
-    <a data-url="https://coderlongren.github.io/2017/10/24/Longest-Substring-Without-Repeating-Characters/" data-id="cj95qza6v0001g4nnn8g1j009" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
+    <a data-url="https://coderlongren.github.io/2017/10/24/Longest-Substring-Without-Repeating-Characters/" data-id="cj96kxb6x00001knnasmkl2yx" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
 <script>
     (function ($) {
         $('body').on('click', function() {
@@ -347,7 +366,7 @@
                             <a href="/2017/10/24/Longest-Substring-Without-Repeating-Characters/" class="thumbnail">
     
     
-        <span class="thumbnail-image thumbnail-none"></span>
+        <span style="background-image:url(/images/sahala.jpeg)" alt="Longest Substring Without Repeating Characters" class="thumbnail-image"></span>
     
     
 </a>
