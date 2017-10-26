@@ -3,26 +3,26 @@
 <head>
     <meta charset="utf-8">
     
-    <title>Tomcat的顶层结构及启动过程 | coderlong的博客</title>
+    <title>Silent moon | coderlong的博客</title>
     
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
-        <meta name="keywords" content="java,Tomcat" />
+        <meta name="keywords" content="algorithm,moon,生活" />
     
-    <meta name="description" content="摘要：Tomcat的启动过程">
-<meta name="keywords" content="java,Tomcat">
+    <meta name="description" content="摘要： 很久没见到月亮了">
+<meta name="keywords" content="algorithm,moon,生活">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Tomcat的顶层结构及启动过程">
-<meta property="og:url" content="https://coderlongren.github.io/2017/10/21/Tomcat的顶层结构及启动过程/index.html">
+<meta property="og:title" content="Silent moon">
+<meta property="og:url" content="https://coderlongren.github.io/2017/10/26/Silent-moon/index.html">
 <meta property="og:site_name" content="coderlong的博客">
-<meta property="og:description" content="摘要：Tomcat的启动过程">
+<meta property="og:description" content="摘要： 很久没见到月亮了">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://coderlongren.github.io/images/tomcat.jpg">
-<meta property="og:updated_time" content="2017-10-25T01:07:42.792Z">
+<meta property="og:image" content="https://coderlongren.github.io/images/moon.jepg">
+<meta property="og:updated_time" content="2017-10-26T13:16:49.147Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Tomcat的顶层结构及启动过程">
-<meta name="twitter:description" content="摘要：Tomcat的启动过程">
-<meta name="twitter:image" content="https://coderlongren.github.io/images/tomcat.jpg">
+<meta name="twitter:title" content="Silent moon">
+<meta name="twitter:description" content="摘要： 很久没见到月亮了">
+<meta name="twitter:image" content="https://coderlongren.github.io/images/moon.jepg">
     
 
     
@@ -139,18 +139,18 @@
                         <div class="main-body-header">
     <h1 class="header">
     
-    未分类
+    <a class="page-title-link" href="/categories/生活/">生活</a>
     </h1>
 </div>
                         <div class="main-body-content">
-                            <article id="post-Tomcat的顶层结构及启动过程" class="article article-single article-type-post" itemscope itemprop="blogPost">
+                            <article id="post-Silent-moon" class="article article-single article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
             <header class="article-header">
                 
     
         <h1 class="article-title" itemprop="name">
-        Tomcat的顶层结构及启动过程
+        Silent moon
         </h1>
     
 
@@ -160,29 +160,35 @@
             <div class="article-meta">
                 
     <div class="article-date">
-        <a href="/2017/10/21/Tomcat的顶层结构及启动过程/" class="article-date">
-            <time datetime="2017-10-21T13:44:44.000Z" itemprop="datePublished">2017-10-21</time>
+        <a href="/2017/10/26/Silent-moon/" class="article-date">
+            <time datetime="2017-10-26T13:00:54.000Z" itemprop="datePublished">2017-10-26</time>
         </a>
     </div>
 
                 
     <div class="article-tag">
         <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/Tomcat/">Tomcat</a>, <a class="tag-link" href="/tags/java/">java</a>
+        <a class="tag-link" href="/tags/algorithm/">algorithm</a>, <a class="tag-link" href="/tags/moon/">moon</a>, <a class="tag-link" href="/tags/生活/">生活</a>
     </div>
 
             </div>
         
         
         <div class="article-entry" itemprop="articleBody">
-            <p>摘要：Tomcat的启动过程<br><a id="more"></a><br>正文：<br><img src="/images/tomcat.jpg" alt=""></p>
-<h1 id="Tomcat的顶层结构"><a href="#Tomcat的顶层结构" class="headerlink" title="Tomcat的顶层结构"></a>Tomcat的顶层结构</h1><hr>
-<p>Tomcat的最顶层的容器叫做servlet，代表整个服务器，Servlet中包含至少一个Service，用于具体提供务服务<br>。Service主要包含Connection Container 。<br>从Tomcat启动调用栈可知，Bootstrap类的main方法为整个Tomcat的入口，在init初始化Bootstrap类的时候为设置Catalina的工作路径也就是Catalina_HOME信息、Catalina.base信息，在initClassLoaders方法中初始化类加载器，然后通过反射初始化org.apache.catalina.startup.Catalina作为catalina守护进程 </p>
-<h2 id="附上启动过程图："><a href="#附上启动过程图：" class="headerlink" title="附上启动过程图："></a>附上启动过程图：</h2><p><img src="/images/tomcat1.png" alt=""></p>
-<h2 id="Tomcat中使用了观察者模式对Tomcat的生命周期进行了管理"><a href="#Tomcat中使用了观察者模式对Tomcat的生命周期进行了管理" class="headerlink" title="Tomcat中使用了观察者模式对Tomcat的生命周期进行了管理"></a>Tomcat中使用了观察者模式对Tomcat的生命周期进行了管理</h2><h2 id="Lifecycle接口"><a href="#Lifecycle接口" class="headerlink" title="Lifecycle接口"></a>Lifecycle接口</h2><p>Tomcat通过catalina.Lifecycle接口统一管理生命周期所有的生命周期组件 都要实现这个接口 这个接口一共做了四件事情<br>    1 设置了13个string类型常量 用于区分足间发出的lifecycle事件时候的状态<br>    2 定义了三个管理 监听器的方法 add find remove 来增加 查找 移除lifecycle类型的监听器<br>    3 定义了四个生命周期的方法 Init start stop destroy 用于执行生命周期的各个阶段的操作<br>    4 获取状态的两个方法 getstate getstatename</p>
-<h2 id="LifecycleBase"><a href="#LifecycleBase" class="headerlink" title="LifecycleBase"></a>LifecycleBase</h2><!-- UY BEGIN -->
-<p><div id="uyan_frame"></div></p>
-<p><script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=2147299"></script><br><!-- UY END --></p>
+            <p>摘要： 很久没见到月亮了<br><a id="more"></a></p>
+<h2 id="大数问题"><a href="#大数问题" class="headerlink" title="大数问题"></a>大数问题</h2><hr>
+<p><img src="/images/moon.jepg" alt=""><br>以前做过一道，求2的几百次方的大数运算，用的字符数组存储大数的每一位<br>Java就更加方便了，有专门的解决方案</p>
+<p>下面是 求两个大数的乘积<br>    public static String multiple(String x,String y){<br>            String result = “”;<br>            if (x == “1”){<br>                return y;<br>            }<br>            if (y == “1”){<br>                return x;<br>            }<br>            char[] str1 = x.toCharArray();<br>            char[] str2 = y.toCharArray();<br>            int length1 = str1.length;<br>            int length2 = str2.length;<br>            int[] res =new int[length1 + length2 - 1];<br>            //进行笛卡尔积<br>            for (int i = 0; i &lt; length1; i++){<br>                int n1 = str1[i] - ‘0’;<br>                for (int j = 0; j &lt; length2; j++){<br>                    int n2 = str2[j] - ‘0’;<br>                    res[i + j] += n1*n2;<br>                }<br>            }</p>
+<pre><code>        for (int i = res.length - 1; i &gt; 0; i--){
+                res[i - 1] += res[i]/10;
+                res[i] = res[i]%10;        
+        }
+        for (int i = 0; i&lt; res.length ;i++){
+            result+=res[i];
+        }
+        return result;
+}
+</code></pre><p>生活中没有算法！<br>有点麻烦的就是那个进位，出错了很多次，才找到合适的方法 </p>
 
         </div>
         <footer class="article-footer">
@@ -190,7 +196,7 @@
 
 
 
-    <a data-url="https://coderlongren.github.io/2017/10/21/Tomcat的顶层结构及启动过程/" data-id="cj98htjph00056onna0saw4b7" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
+    <a data-url="https://coderlongren.github.io/2017/10/26/Silent-moon/" data-id="cj98htjpg00046onnww7p6gmc" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
 <script>
     (function ($) {
         $('body').on('click', function() {
@@ -303,20 +309,10 @@
         
 <nav id="article-nav">
     
-        <a href="/2017/10/22/LeetCode007/" id="article-nav-newer" class="article-nav-link-wrap">
-        <strong class="article-nav-caption">下一篇</strong>
-        <p class="article-nav-title">
-        
-            LeetCode007
-        
-        </p>
-        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
-    </a>
     
-    
-        <a href="/2017/10/20/构建Spring-Web-应用程序/" id="article-nav-older" class="article-nav-link-wrap">
+        <a href="/2017/10/24/Longest-Substring-Without-Repeating-Characters/" id="article-nav-older" class="article-nav-link-wrap">
         <strong class="article-nav-caption">上一篇</strong>
-        <p class="article-nav-title">构建Spring Web 应用程序</p>
+        <p class="article-nav-title">Longest Substring Without Repeating Characters</p>
         <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
         </a>
     
@@ -531,7 +527,7 @@
     var disqus_shortname = 'hexo-theme-hueman';
     
     
-    var disqus_url = 'https://coderlongren.github.io/2017/10/21/Tomcat的顶层结构及启动过程/';
+    var disqus_url = 'https://coderlongren.github.io/2017/10/26/Silent-moon/';
     
     (function() {
     var dsq = document.createElement('script');
