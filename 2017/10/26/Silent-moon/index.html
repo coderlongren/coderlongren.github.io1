@@ -17,12 +17,12 @@
 <meta property="og:site_name" content="coderlong的博客">
 <meta property="og:description" content="摘要： 很久没见到月亮了">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://coderlongren.github.io/images/moon.jepg">
-<meta property="og:updated_time" content="2017-10-26T13:16:49.147Z">
+<meta property="og:image" content="https://coderlongren.github.io/images/moon.jpeg">
+<meta property="og:updated_time" content="2017-10-26T13:24:19.337Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Silent moon">
 <meta name="twitter:description" content="摘要： 很久没见到月亮了">
-<meta name="twitter:image" content="https://coderlongren.github.io/images/moon.jepg">
+<meta name="twitter:image" content="https://coderlongren.github.io/images/moon.jpeg">
     
 
     
@@ -177,18 +177,40 @@
         <div class="article-entry" itemprop="articleBody">
             <p>摘要： 很久没见到月亮了<br><a id="more"></a></p>
 <h2 id="大数问题"><a href="#大数问题" class="headerlink" title="大数问题"></a>大数问题</h2><hr>
-<p><img src="/images/moon.jepg" alt=""><br>以前做过一道，求2的几百次方的大数运算，用的字符数组存储大数的每一位<br>Java就更加方便了，有专门的解决方案</p>
-<p>下面是 求两个大数的乘积<br>    public static String multiple(String x,String y){<br>            String result = “”;<br>            if (x == “1”){<br>                return y;<br>            }<br>            if (y == “1”){<br>                return x;<br>            }<br>            char[] str1 = x.toCharArray();<br>            char[] str2 = y.toCharArray();<br>            int length1 = str1.length;<br>            int length2 = str2.length;<br>            int[] res =new int[length1 + length2 - 1];<br>            //进行笛卡尔积<br>            for (int i = 0; i &lt; length1; i++){<br>                int n1 = str1[i] - ‘0’;<br>                for (int j = 0; j &lt; length2; j++){<br>                    int n2 = str2[j] - ‘0’;<br>                    res[i + j] += n1*n2;<br>                }<br>            }</p>
-<pre><code>        for (int i = res.length - 1; i &gt; 0; i--){
-                res[i - 1] += res[i]/10;
-                res[i] = res[i]%10;        
+<p><img src="/images/moon.jpeg" alt=""><br>以前做过一道，求2的几百次方的大数运算，用的字符数组存储大数的每一位<br>Java就更加方便了，有专门的解决方案</p>
+<h2 id="下面是-求两个大数的乘积"><a href="#下面是-求两个大数的乘积" class="headerlink" title="下面是 求两个大数的乘积 "></a>下面是 求两个大数的乘积 </h2><pre><code>public static String multiple(String x,String y){
+    String result = &quot;&quot;;
+    if (x == &quot;1&quot;){
+        return y;
+    }
+    if (y == &quot;1&quot;){
+        return x;
+    }
+    char[] str1 = x.toCharArray();
+    char[] str2 = y.toCharArray();
+    int length1 = str1.length;
+    int length2 = str2.length;
+    int[] res =new int[length1 + length2 - 1];
+    //进行笛卡尔积 
+    for (int i = 0; i &lt; length1; i++){
+        int n1 = str1[i] - &apos;0&apos;;
+        for (int j = 0; j &lt; length2; j++){
+            int n2 = str2[j] - &apos;0&apos;;
+            res[i + j] += n1*n2;
         }
-        for (int i = 0; i&lt; res.length ;i++){
-            result+=res[i];
-        }
-        return result;
+    }
+
+    for (int i = res.length - 1; i &gt; 0; i--){
+            res[i - 1] += res[i]/10;
+            res[i] = res[i]%10;        
+    }
+    for (int i = 0; i&lt; res.length ;i++){
+        result+=res[i];
+    }
+    return result;
 }
-</code></pre><p>生活中没有算法！<br>有点麻烦的就是那个进位，出错了很多次，才找到合适的方法 </p>
+</code></pre><hr>
+<p>生活中没有算法！<br>有点麻烦的就是那个进位，出错了很多次，才找到合适的方法 </p>
 
         </div>
         <footer class="article-footer">
@@ -334,7 +356,7 @@
                             <a href="/2017/10/26/Silent-moon/" class="thumbnail">
     
     
-        <span style="background-image:url(/images/moon.jepg)" alt="Silent moon" class="thumbnail-image"></span>
+        <span style="background-image:url(/images/moon.jpeg)" alt="Silent moon" class="thumbnail-image"></span>
     
     
 </a>
