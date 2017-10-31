@@ -3,17 +3,24 @@
 <head>
     <meta charset="utf-8">
     
-    <title>归档 | coderlong的博客</title>
+    <title>Silent moon | coderlong的博客</title>
     
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
-    <meta property="og:type" content="website">
-<meta property="og:title" content="coderlong的博客">
-<meta property="og:url" content="https://coderlongren.github.io/archives/index.html">
+        <meta name="keywords" content="java,JVM" />
+    
+    <meta name="description" content="摘要： 探秘String Stringbuffer StrignBuilder">
+<meta name="keywords" content="java,JVM">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Silent moon">
+<meta property="og:url" content="https://coderlongren.github.io/2017/10/26/stringCompare/index.html">
 <meta property="og:site_name" content="coderlong的博客">
+<meta property="og:description" content="摘要： 探秘String Stringbuffer StrignBuilder">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2017-10-31T13:29:34.179Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="coderlong的博客">
+<meta name="twitter:title" content="Silent moon">
+<meta name="twitter:description" content="摘要： 探秘String Stringbuffer StrignBuilder">
     
 
     
@@ -130,460 +137,204 @@
                         <div class="main-body-header">
     <h1 class="header">
     
-    <i class="icon fa fa-archive"></i>归档
+    <a class="page-title-link" href="/categories/java/">java</a>
     </h1>
 </div>
                         <div class="main-body-content">
-                            
-
-    
-    
+                            <article id="post-stringCompare" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
         
-        
-        <section class="archives-wrap">
-            <div class="archive-year-wrap">
-                <a href="/archives/2017" class="archive-year"><i class="icon fa fa-calendar-o"></i>2017</a>
-            </div>
-            <div class="archives">
-    
-    
-    
-        <div class="article-row">
-    
-        <article class="article article-summary">
-    <div class="article-summary-inner">
-        
-        <a href="/2017/10/30/leetcode-backtracking/" class="thumbnail">
-    
-    
-        <span style="background-image:url(/images/sahala.jpg)" alt="leetcode backtracking" class="thumbnail-image"></span>
-    
-    
-        
-<span class="comment-counter">
-    <i class="fa fa-comments-o"></i>
-    
-        <span class="disqus-comment-count" data-disqus-identifier="" data-disqus-url="https://coderlongren.github.io/2017/10/30/leetcode-backtracking/">0</span>
-    
-</span>
-
-
-    
-</a>
-
-        
-        <div class="article-meta">
-            <div class="category">
-            <a class="article-category-link" href="/categories/algorithm/">algorithm</a>
-            </div>
-            <div class="date"><time datetime="2017-10-30T13:48:38.000Z" itemprop="datePublished">2017-10-30</time></div>
-        </div>
-        
+            <header class="article-header">
+                
     
         <h1 class="article-title" itemprop="name">
-        <a href="/2017/10/30/leetcode-backtracking/">leetcode backtracking</a>
+        Silent moon
         </h1>
     
 
-        <p class="article-excerpt">
-            摘要：回溯法
-        </p>
+            </header>
+        
+        
+            <div class="article-meta">
+                
+    <div class="article-date">
+        <a href="/2017/10/26/stringCompare/" class="article-date">
+            <time datetime="2017-10-26T13:00:54.000Z" itemprop="datePublished">2017-10-26</time>
+        </a>
     </div>
-</article>
-    
 
-    
-    
-    
-    
-        <article class="article article-summary">
-    <div class="article-summary-inner">
-        
-        <a href="/2017/10/26/Silent-moon/" class="thumbnail">
-    
-    
-        <span style="background-image:url(/images/moon.jpeg)" alt="Silent moon" class="thumbnail-image"></span>
-    
-    
-        
-<span class="comment-counter">
-    <i class="fa fa-comments-o"></i>
-    
-        <span class="disqus-comment-count" data-disqus-identifier="" data-disqus-url="https://coderlongren.github.io/2017/10/26/Silent-moon/">0</span>
-    
-</span>
+                
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/JVM/">JVM</a>, <a class="tag-link" href="/tags/java/">java</a>
+    </div>
 
-
-    
-</a>
-
-        
-        <div class="article-meta">
-            <div class="category">
-            <a class="article-category-link" href="/categories/生活/">生活</a>
             </div>
-            <div class="date"><time datetime="2017-10-26T13:00:54.000Z" itemprop="datePublished">2017-10-26</time></div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            <p>摘要： 探秘String Stringbuffer StrignBuilder</p>
+<h2 id=""><a href="#" class="headerlink" title=""></a><a id="more"></a></h2><h1 id="你了解String-类吗？"><a href="#你了解String-类吗？" class="headerlink" title="你了解String 类吗？"></a>你了解String 类吗？</h1><p>想要了解一个类，最好的办法就是看这个类的实现源代码，String类的实现在<br>\jdk1.6.0_14\src\java\lang\String.java   文件中。</p>
+<h2 id="打开这个类文件就会发现String类是被final修饰的："><a href="#打开这个类文件就会发现String类是被final修饰的：" class="headerlink" title="打开这个类文件就会发现String类是被final修饰的："></a>打开这个类文件就会发现String类是被final修饰的：</h2><pre><code>public final class String
+    implements java.io.Serializable, Comparable&lt;String&gt;, CharSequence
+{
+    /** The value is used for character storage. */
+    private final char value[];
+
+    /** The offset is the first index of the storage that is used. */
+    private final int offset;
+
+    /** The count is the number of characters in the String. */
+    private final int count;
+
+    /** Cache the hash code for the string */
+    private int hash; // Default to 0
+
+    /** use serialVersionUID from JDK 1.0.2 for interoperability */
+    private static final long serialVersionUID = -6849794470754667710L;
+
+    ......
+
+}
+</code></pre><hr>
+<p>从上面可以看出几点：</p>
+<p>1）String类是final类，也即意味着String类不能被继承，并且它的成员方法都默认为final方法。在Java中，被final修饰的类是不允许被继承的，并且该类中的成员方法都默认为final方法。在早期的JVM实现版本中，被final修饰的方法会被转为内嵌调用以提升执行效率。而从Java SE5/6开始，就渐渐摈弃这种方式了。因此在现在的Java<br>SE版本中，不需要考虑用final去提升方法调用效率。只有在确定不想让该方法被覆盖时，才将方法设置为final。<br>2）上面列举出了String类中所有的成员属性，从上面可以看出String类其实是通过char数组来保存字符串的。</p>
+<h2 id="下面再继续看String类的一些方法实现："><a href="#下面再继续看String类的一些方法实现：" class="headerlink" title="下面再继续看String类的一些方法实现："></a>下面再继续看String类的一些方法实现：</h2><pre><code>public String substring(int beginIndex, int endIndex) {
+    if (beginIndex &lt; 0) {
+        throw new StringIndexOutOfBoundsException(beginIndex);
+    }
+    if (endIndex &gt; count) {
+        throw new StringIndexOutOfBoundsException(endIndex);
+    }
+    if (beginIndex &gt; endIndex) {
+        throw new StringIndexOutOfBoundsException(endIndex - beginIndex);
+    }
+    return ((beginIndex == 0) &amp;&amp; (endIndex == count)) ? this :
+        new String(offset + beginIndex, endIndex - beginIndex, value);
+    }
+
+ public String concat(String str) {
+    int otherLen = str.length();
+    if (otherLen == 0) {
+        return this;
+    }
+    char buf[] = new char[count + otherLen];
+    getChars(0, count, buf, 0);
+    str.getChars(0, otherLen, buf, count);
+    return new String(0, count + otherLen, buf);
+    }
+
+ public String replace(char oldChar, char newChar) {
+    if (oldChar != newChar) {
+        int len = count;
+        int i = -1;
+        char[] val = value; /* avoid getfield opcode */
+        int off = offset;   /* avoid getfield opcode */
+
+        while (++i &lt; len) {
+        if (val[off + i] == oldChar) {
+            break;
+        }
+        }
+        if (i &lt; len) {
+        char buf[] = new char[len];
+        for (int j = 0 ; j &lt; i ; j++) {
+            buf[j] = val[off+j];
+        }
+        while (i &lt; len) {
+            char c = val[off + i];
+            buf[i] = (c == oldChar) ? newChar : c;
+            i++;
+        }
+        return new String(0, len, buf);
+        }
+    }
+    return this;
+</code></pre><hr>
+<p>从上面的三个方法可以看出，无论是sub操、concat还是replace操作都不是在原有的字符串上进行的，而是重新生成了一个新的字符串对象。也就是说进行这些操作后，最原始的字符串并没有被改变。</p>
+<p>在这里要永远记住一点：</p>
+<p>“对String对象的任何改变都不影响到原对象，相关的任何change操作都会生成新的对象”。</p>
+<p>在了解了于String类基础的知识后，下面来看一些在平常使用中容易忽略和混淆的地方。</p>
+
         </div>
-        
-    
-        <h1 class="article-title" itemprop="name">
-        <a href="/2017/10/26/Silent-moon/">Silent moon</a>
-        </h1>
-    
-
-        <p class="article-excerpt">
-            摘要： 很久没见到月亮了
-        </p>
-    </div>
-</article>
-    
-        </div>
-    
-
-    
-    
-    
-    
-        <div class="article-row">
-    
-        <article class="article article-summary">
-    <div class="article-summary-inner">
-        
-        <a href="/2017/10/26/stringCompare/" class="thumbnail">
-    
-    
-        <span class="thumbnail-image thumbnail-none"></span>
-    
-    
-        
-<span class="comment-counter">
-    <i class="fa fa-comments-o"></i>
-    
-        <span class="disqus-comment-count" data-disqus-identifier="" data-disqus-url="https://coderlongren.github.io/2017/10/26/stringCompare/">0</span>
-    
-</span>
-
-
-    
-</a>
-
-        
-        <div class="article-meta">
-            <div class="category">
-            <a class="article-category-link" href="/categories/java/">java</a>
-            </div>
-            <div class="date"><time datetime="2017-10-26T13:00:54.000Z" itemprop="datePublished">2017-10-26</time></div>
-        </div>
-        
-    
-        <h1 class="article-title" itemprop="name">
-        <a href="/2017/10/26/stringCompare/">Silent moon</a>
-        </h1>
-    
-
-        <p class="article-excerpt">
-            摘要： 探秘String Stringbuffer StrignBuilder
-
-        </p>
-    </div>
-</article>
-    
-
-    
-    
-    
-    
-        <article class="article article-summary">
-    <div class="article-summary-inner">
-        
-        <a href="/2017/10/24/Longest-Substring-Without-Repeating-Characters/" class="thumbnail">
-    
-    
-        <span style="background-image:url(/images/sahala.jpeg)" alt="Longest Substring Without Repeating Characters" class="thumbnail-image"></span>
-    
-    
-        
-<span class="comment-counter">
-    <i class="fa fa-comments-o"></i>
-    
-        <span class="disqus-comment-count" data-disqus-identifier="" data-disqus-url="https://coderlongren.github.io/2017/10/24/Longest-Substring-Without-Repeating-Characters/">0</span>
-    
-</span>
-
-
-    
-</a>
-
-        
-        <div class="article-meta">
-            <div class="category">
-            <a class="article-category-link" href="/categories/algorithm/">algorithm</a>
-            </div>
-            <div class="date"><time datetime="2017-10-24T14:58:49.000Z" itemprop="datePublished">2017-10-24</time></div>
-        </div>
-        
-    
-        <h1 class="article-title" itemprop="name">
-        <a href="/2017/10/24/Longest-Substring-Without-Repeating-Characters/">Longest Substring Without Repeating Characters</a>
-        </h1>
-    
-
-        <p class="article-excerpt">
-            摘要：Brute Force
-        </p>
-    </div>
-</article>
-    
-        </div>
-    
-
-    
-    
-    
-    
-        <div class="article-row">
-    
-        <article class="article article-summary">
-    <div class="article-summary-inner">
-        
-        <a href="/2017/10/22/LeetCode007/" class="thumbnail">
-    
-    
-        <span style="background-image:url(/images/suanfa.jpeg)" alt="LeetCode007" class="thumbnail-image"></span>
-    
-    
-        
-<span class="comment-counter">
-    <i class="fa fa-comments-o"></i>
-    
-        <span class="disqus-comment-count" data-disqus-identifier="" data-disqus-url="https://coderlongren.github.io/2017/10/22/LeetCode007/">0</span>
-    
-</span>
-
-
-    
-</a>
-
-        
-        <div class="article-meta">
-            <div class="category">
-            <a class="article-category-link" href="/categories/algorithm/">algorithm</a>
-            </div>
-            <div class="date"><time datetime="2017-10-22T12:01:47.000Z" itemprop="datePublished">2017-10-22</time></div>
-        </div>
-        
-    
-        <h1 class="article-title" itemprop="name">
-        <a href="/2017/10/22/LeetCode007/">LeetCode007</a>
-        </h1>
-    
-
-        <p class="article-excerpt">
-            摘要：溢出很扯淡啊
-        </p>
-    </div>
-</article>
-    
-
-    
-    
-    
-    
-        <article class="article article-summary">
-    <div class="article-summary-inner">
-        
-        <a href="/2017/10/21/Tomcat的顶层结构及启动过程/" class="thumbnail">
-    
-    
-        <span style="background-image:url(/images/tomcat.jpg)" alt="Tomcat的顶层结构及启动过程" class="thumbnail-image"></span>
-    
-    
-        
-<span class="comment-counter">
-    <i class="fa fa-comments-o"></i>
-    
-        <span class="disqus-comment-count" data-disqus-identifier="" data-disqus-url="https://coderlongren.github.io/2017/10/21/Tomcat的顶层结构及启动过程/">0</span>
-    
-</span>
-
-
-    
-</a>
-
-        
-        <div class="article-meta">
-            <div class="category">
+        <footer class="article-footer">
             
-            </div>
-            <div class="date"><time datetime="2017-10-21T13:44:44.000Z" itemprop="datePublished">2017-10-21</time></div>
-        </div>
-        
-    
-        <h1 class="article-title" itemprop="name">
-        <a href="/2017/10/21/Tomcat的顶层结构及启动过程/">Tomcat的顶层结构及启动过程</a>
-        </h1>
-    
 
-        <p class="article-excerpt">
-            摘要：Tomcat的启动过程
-        </p>
+
+
+    <a data-url="https://coderlongren.github.io/2017/10/26/stringCompare/" data-id="cj9fqfa0a0000ncnntpcb1fgl" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
     </div>
 </article>
-    
-        </div>
-    
 
-    
-    
-    
-    
-        <div class="article-row">
-    
-        <article class="article article-summary">
-    <div class="article-summary-inner">
-        
-        <a href="/2017/10/20/构建Spring-Web-应用程序/" class="thumbnail">
-    
-    
-        <span style="background-image:url(/images/spring.jpeg)" alt="构建Spring Web 应用程序" class="thumbnail-image"></span>
-    
+    <section id="comments">
     
         
-<span class="comment-counter">
-    <i class="fa fa-comments-o"></i>
-    
-        <span class="disqus-comment-count" data-disqus-identifier="" data-disqus-url="https://coderlongren.github.io/2017/10/20/构建Spring-Web-应用程序/">0</span>
-    
-</span>
-
-
-    
-</a>
-
-        
-        <div class="article-meta">
-            <div class="category">
-            <a class="article-category-link" href="/categories/java/">java</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/java/spring/">spring</a>
-            </div>
-            <div class="date"><time datetime="2017-10-20T11:01:24.000Z" itemprop="datePublished">2017-10-20</time></div>
-        </div>
-        
-    
-        <h1 class="article-title" itemprop="name">
-        <a href="/2017/10/20/构建Spring-Web-应用程序/">构建Spring Web 应用程序</a>
-        </h1>
-    
-
-        <p class="article-excerpt">
-            摘要： springmvc起步
-        </p>
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
     </div>
-</article>
-    
 
     
-    
-    
-    
-        <article class="article article-summary">
-    <div class="article-summary-inner">
-        
-        <a href="/2017/10/20/坐看俩只狗打架/" class="thumbnail">
-    
-    
-        <span style="background-image:url(/images/3.jpg)" alt="坐看俩只狗打架" class="thumbnail-image"></span>
-    
-    
-        
-<span class="comment-counter">
-    <i class="fa fa-comments-o"></i>
-    
-        <span class="disqus-comment-count" data-disqus-identifier="" data-disqus-url="https://coderlongren.github.io/2017/10/20/坐看俩只狗打架/">0</span>
-    
-</span>
-
-
-    
-</a>
-
-        
-        <div class="article-meta">
-            <div class="category">
-            <a class="article-category-link" href="/categories/生活/">生活</a>
-            </div>
-            <div class="date"><time datetime="2017-10-20T10:29:27.000Z" itemprop="datePublished">2017-10-20</time></div>
-        </div>
-        
-    
-        <h1 class="article-title" itemprop="name">
-        <a href="/2017/10/20/坐看俩只狗打架/">坐看俩只狗打架</a>
-        </h1>
-    
-
-        <p class="article-excerpt">
-            摘要：菜鸟龙的第一篇博文
-        </p>
-    </div>
-</article>
-    
-        </div>
-    
-
-    
-    
-    
-    
-        <div class="article-row">
-    
-        <article class="article article-summary">
-    <div class="article-summary-inner">
-        
-        <a href="/2017/10/20/hello-world/" class="thumbnail">
-    
-    
-        <span style="background-image:url(/images/hello.jpg)" alt="Hello World" class="thumbnail-image"></span>
-    
-    
-        
-<span class="comment-counter">
-    <i class="fa fa-comments-o"></i>
-    
-        <span class="disqus-comment-count" data-disqus-identifier="" data-disqus-url="https://coderlongren.github.io/2017/10/20/hello-world/">0</span>
-    
-</span>
-
-
-    
-</a>
-
-        
-        <div class="article-meta">
-            <div class="category">
-            
-            </div>
-            <div class="date"><time datetime="2017-10-20T10:11:18.454Z" itemprop="datePublished">2017-10-20</time></div>
-        </div>
-        
-    
-        <h1 class="article-title" itemprop="name">
-        <a href="/2017/10/20/hello-world/">Hello World</a>
-        </h1>
-    
-
-        <p class="article-excerpt">
-            Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
-
-Quic
-        </p>
-    </div>
-</article>
-    
-        </div>
-    
-
-
-    </div></section>
-
+    </section>
 
 
                         </div>
@@ -620,6 +371,29 @@ Quic
             
         </ul>
     </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2017/10/26/Silent-moon/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">下一篇</strong>
+        <p class="article-nav-title">
+        
+            Silent moon
+        
+        </p>
+        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
+    </a>
+    
+    
+        <a href="/2017/10/24/Longest-Substring-Without-Repeating-Characters/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">上一篇</strong>
+        <p class="article-nav-title">Longest Substring Without Repeating Characters</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
     
     <div class="widgets-container">
         
@@ -829,11 +603,13 @@ Quic
     var disqus_shortname = 'hexo-theme-hueman';
     
     
+    var disqus_url = 'https://coderlongren.github.io/2017/10/26/stringCompare/';
+    
     (function() {
     var dsq = document.createElement('script');
     dsq.type = 'text/javascript';
     dsq.async = true;
-    dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
     (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
     })();
     </script>
