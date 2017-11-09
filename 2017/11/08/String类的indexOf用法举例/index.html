@@ -3,26 +3,24 @@
 <head>
     <meta charset="utf-8">
     
-    <title>LeetCode007 | coderlong的博客</title>
+    <title>String类的indexOf用法举例 | coderlong的博客</title>
     
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
-        <meta name="keywords" content="algorithm,java" />
+        <meta name="keywords" content="java,tomcat" />
     
-    <meta name="description" content="摘要：溢出很扯淡啊">
-<meta name="keywords" content="algorithm,java">
+    <meta name="description" content="摘要: String类的indexof方法">
+<meta name="keywords" content="java,tomcat">
 <meta property="og:type" content="article">
-<meta property="og:title" content="LeetCode007">
-<meta property="og:url" content="https://coderlongren.github.io/2017/10/22/LeetCode007/index.html">
+<meta property="og:title" content="String类的indexOf用法举例">
+<meta property="og:url" content="https://coderlongren.github.io/2017/11/08/String类的indexOf用法举例/index.html">
 <meta property="og:site_name" content="coderlong的博客">
-<meta property="og:description" content="摘要：溢出很扯淡啊">
+<meta property="og:description" content="摘要: String类的indexof方法">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://coderlongren.github.io/images/suanfa.jpeg">
-<meta property="og:updated_time" content="2017-10-25T05:10:03.006Z">
+<meta property="og:updated_time" content="2017-11-08T12:26:10.494Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="LeetCode007">
-<meta name="twitter:description" content="摘要：溢出很扯淡啊">
-<meta name="twitter:image" content="https://coderlongren.github.io/images/suanfa.jpeg">
+<meta name="twitter:title" content="String类的indexOf用法举例">
+<meta name="twitter:description" content="摘要: String类的indexof方法">
     
 
     
@@ -139,18 +137,18 @@
                         <div class="main-body-header">
     <h1 class="header">
     
-    <a class="page-title-link" href="/categories/algorithm/">algorithm</a>
+    <a class="page-title-link" href="/categories/java/">java</a>
     </h1>
 </div>
                         <div class="main-body-content">
-                            <article id="post-LeetCode007" class="article article-single article-type-post" itemscope itemprop="blogPost">
+                            <article id="post-String类的indexOf用法举例" class="article article-single article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
             <header class="article-header">
                 
     
         <h1 class="article-title" itemprop="name">
-        LeetCode007
+        String类的indexOf用法举例
         </h1>
     
 
@@ -160,47 +158,29 @@
             <div class="article-meta">
                 
     <div class="article-date">
-        <a href="/2017/10/22/LeetCode007/" class="article-date">
-            <time datetime="2017-10-22T12:01:47.000Z" itemprop="datePublished">2017-10-22</time>
+        <a href="/2017/11/08/String类的indexOf用法举例/" class="article-date">
+            <time datetime="2017-11-08T12:16:10.000Z" itemprop="datePublished">2017-11-08</time>
         </a>
     </div>
 
                 
     <div class="article-tag">
         <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/algorithm/">algorithm</a>, <a class="tag-link" href="/tags/java/">java</a>
+        <a class="tag-link" href="/tags/java/">java</a>, <a class="tag-link" href="/tags/tomcat/">tomcat</a>
     </div>
 
             </div>
         
         
         <div class="article-entry" itemprop="articleBody">
-            <p>摘要：溢出很扯淡啊</p>
-<a id="more"></a>
-<p>正文：</p>
-<h1 id="reverse-the-Integer-int32"><a href="#reverse-the-Integer-int32" class="headerlink" title="reverse the Integer int32"></a>reverse the Integer int32</h1><p><img src="/images/suanfa.jpeg" alt=""></p>
-<hr>
-<p>但是反反复复输出好几遍，都是提示stackFlow,最够直接用Integer.MAX_VALUE来测试<br>输出的所有结果，就是到了最后一个溢出了，最后还是百度了，在while循环中加了一个<br>if判断，<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">((newresult - tail)/10 != result)</div></pre></td></tr></table></figure></p>
-<h2 id="说明是溢出，return0jieshu"><a href="#说明是溢出，return0jieshu" class="headerlink" title="说明是溢出，return0jieshu "></a>说明是溢出，return0jieshu </h2><h2 id="这样也算是解决了吗？"><a href="#这样也算是解决了吗？" class="headerlink" title="这样也算是解决了吗？"></a>这样也算是解决了吗？</h2><p>反正提交通过了，我还是没理解啊 </p>
-<pre><code>public int reverse(int x){
-    int result = 0;
-    while (x != 0) {
-        int tail = x%10;
-        int newresult = result*10 + tail;
-        if ((newresult - tail)/10 != result){
-            //如果 这里不相同的话  说明是溢出 
-            return 0;
-        }
-        result = newresult;
-        x = x/10;
-    }
-    return result;
-
-}
-</code></pre><hr>
-<!-- UY BEGIN -->
-<p><div id="uyan_frame"></div></p>
-<p><script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=2147299"></script><br><!-- UY END --></p>
+            <p>摘要: String类的indexof方法<br><a id="more"></a></p>
+<p>最近在学习Tomcat得组织结构，在自组建socket的解析 uri的方法中，多次使用了String的<br>indexOf方法，所以摘录了一下，常用的方法<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">int indexOf(String str)</div></pre></td></tr></table></figure></p>
+<p>返回第一次出现的指定子字符串在此字符串的索引</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">int indexOf(String str,int startIndex)</div></pre></td></tr></table></figure>
+<p>从指定的索引处开始，返回第一次出现的指定子字符串在此字符串中的索引。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">int lastIndexOf(String str)</div></pre></td></tr></table></figure>
+<p>返回此字符串中最右边 出现的指定子字符串在此字符串中的索引<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">int lastIndexOf(String str,int startIndex)</div></pre></td></tr></table></figure></p>
+<p>从指定的索引处开始向后搜索，返回在此字符串中最后一次出现的指定子字符串的索引。</p>
 
         </div>
         <footer class="article-footer">
@@ -208,7 +188,7 @@
 
 
 
-    <a data-url="https://coderlongren.github.io/2017/10/22/LeetCode007/" data-id="cj9sh1ksc000114nnm8qiuoqq" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
+    <a data-url="https://coderlongren.github.io/2017/11/08/String类的indexOf用法举例/" data-id="cj9sh1ktm000914nnygrt6dlh" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
 <script>
     (function ($) {
         $('body').on('click', function() {
@@ -321,20 +301,10 @@
         
 <nav id="article-nav">
     
-        <a href="/2017/10/24/Longest-Substring-Without-Repeating-Characters/" id="article-nav-newer" class="article-nav-link-wrap">
-        <strong class="article-nav-caption">下一篇</strong>
-        <p class="article-nav-title">
-        
-            Longest Substring Without Repeating Characters
-        
-        </p>
-        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
-    </a>
     
-    
-        <a href="/2017/10/21/Tomcat的顶层结构及启动过程/" id="article-nav-older" class="article-nav-link-wrap">
+        <a href="/2017/11/01/寝室停电了啊，哈哈/" id="article-nav-older" class="article-nav-link-wrap">
         <strong class="article-nav-caption">上一篇</strong>
-        <p class="article-nav-title">Tomcat的顶层结构及启动过程</p>
+        <p class="article-nav-title">寝室停电了啊，哈哈......</p>
         <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
         </a>
     
@@ -549,7 +519,7 @@
     var disqus_shortname = 'hexo-theme-hueman';
     
     
-    var disqus_url = 'https://coderlongren.github.io/2017/10/22/LeetCode007/';
+    var disqus_url = 'https://coderlongren.github.io/2017/11/08/String类的indexOf用法举例/';
     
     (function() {
     var dsq = document.createElement('script');
