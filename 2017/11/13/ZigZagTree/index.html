@@ -3,26 +3,26 @@
 <head>
     <meta charset="utf-8">
     
-    <title>构建Spring Web 应用程序 | coderlong的博客</title>
+    <title>ZigZagTree | coderlong的博客</title>
     
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
-        <meta name="keywords" content="java,spring" />
+        <meta name="keywords" content="algorithm,java" />
     
-    <meta name="description" content="摘要： springmvc起步">
-<meta name="keywords" content="java,spring">
+    <meta name="description" content="摘要: Binary Tree Level Order Traversal">
+<meta name="keywords" content="algorithm,java">
 <meta property="og:type" content="article">
-<meta property="og:title" content="构建Spring Web 应用程序">
-<meta property="og:url" content="https://coderlongren.github.io/2017/10/20/构建Spring-Web-应用程序/index.html">
+<meta property="og:title" content="ZigZagTree">
+<meta property="og:url" content="https://coderlongren.github.io/2017/11/13/ZigZagTree/index.html">
 <meta property="og:site_name" content="coderlong的博客">
-<meta property="og:description" content="摘要： springmvc起步">
+<meta property="og:description" content="摘要: Binary Tree Level Order Traversal">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://coderlongren.github.io/images/spring.jpeg">
-<meta property="og:updated_time" content="2017-11-12T04:28:39.941Z">
+<meta property="og:image" content="https://coderlongren.github.io/2017/11/13/ZigZagTree/images/beatme2.png">
+<meta property="og:updated_time" content="2017-11-13T12:02:48.788Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="构建Spring Web 应用程序">
-<meta name="twitter:description" content="摘要： springmvc起步">
-<meta name="twitter:image" content="https://coderlongren.github.io/images/spring.jpeg">
+<meta name="twitter:title" content="ZigZagTree">
+<meta name="twitter:description" content="摘要: Binary Tree Level Order Traversal">
+<meta name="twitter:image" content="https://coderlongren.github.io/2017/11/13/ZigZagTree/images/beatme2.png">
     
 
     
@@ -139,18 +139,18 @@
                         <div class="main-body-header">
     <h1 class="header">
     
-    <a class="page-title-link" href="/categories/java/">java</a><i class="icon fa fa-angle-right"></i><a class="page-title-link" href="/categories/java/spring/">spring</a>
+    <a class="page-title-link" href="/categories/algorithm/">algorithm</a>
     </h1>
 </div>
                         <div class="main-body-content">
-                            <article id="post-构建Spring-Web-应用程序" class="article article-single article-type-post" itemscope itemprop="blogPost">
+                            <article id="post-ZigZagTree" class="article article-single article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
             <header class="article-header">
                 
     
         <h1 class="article-title" itemprop="name">
-        构建Spring Web 应用程序
+        ZigZagTree
         </h1>
     
 
@@ -160,25 +160,77 @@
             <div class="article-meta">
                 
     <div class="article-date">
-        <a href="/2017/10/20/构建Spring-Web-应用程序/" class="article-date">
-            <time datetime="2017-10-20T11:01:24.000Z" itemprop="datePublished">2017-10-20</time>
+        <a href="/2017/11/13/ZigZagTree/" class="article-date">
+            <time datetime="2017-11-13T11:33:49.000Z" itemprop="datePublished">2017-11-13</time>
         </a>
     </div>
 
                 
     <div class="article-tag">
         <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/java/">java</a>, <a class="tag-link" href="/tags/spring/">spring</a>
+        <a class="tag-link" href="/tags/algorithm/">algorithm</a>, <a class="tag-link" href="/tags/java/">java</a>
     </div>
 
             </div>
         
         
         <div class="article-entry" itemprop="articleBody">
-            <p>摘要： springmvc起步<br><a id="more"></a><br>正文：<br><img src="/images/spring.jpeg" alt=""></p>
-<h2 id="Springmvc-起步"><a href="#Springmvc-起步" class="headerlink" title="Springmvc 起步"></a>Springmvc 起步</h2><p>多的无需多说 代码请看我的<a href="https://github.com/coderlongren" target="_blank" rel="external">GitHub</a><br><!-- UY BEGIN --></p>
-<p><div id="uyan_frame"></div></p>
-<p><script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=2147299"></script><br><!-- UY END --></p>
+            <p>摘要: Binary Tree Level Order Traversal<br><a id="more"></a><br>Given a binary tree, return the zigzag level order traversal of its nodes’ values. (ie, from left to right, then right to left for the next level and alternate between).</p>
+<p>For example:<br>Given binary tree {3,9,20,#,#,15,7},</p>
+<pre><code>3
+</code></pre><p>   / \<br>  9  20<br>    /  \<br>   15   7</p>
+<p>return its zigzag level order traversal as:</p>
+<p>[<br>  [3],<br>  [20,9],<br>  [15,7]<br>]<br>意思大概就是说，求一颗二叉树的ZigZag样式存储到list中，和之前的那一道深度遍历的题目是差不多的<br>我们可以维护两个栈，一个stack 是从左往右进栈,另一个是右往左进栈这样出栈的顺序就是我们想要的之<br>字形了。代码如下</p>
+<pre><code>public static List&lt;List&lt;Integer&gt;&gt; zigzagLevelOrder(TreeNode root) {
+    List&lt;List&lt;Integer&gt;&gt; res = new ArrayList&lt;List&lt;Integer&gt;&gt;();
+    if (root == null){
+        return res;
+    }
+    // 我们可以维护两个stack 一个stack 是从左往右进栈 另一个是 从右往左进栈
+    Stack&lt;TreeNode&gt; stack1 = new Stack&lt;TreeNode&gt;();
+    Stack&lt;TreeNode&gt; stack2 = new Stack&lt;TreeNode&gt;();
+    stack1.push(root);
+
+    while(!stack1.isEmpty() || !stack2.isEmpty()){
+        List&lt;Integer&gt; temp = new ArrayList&lt;Integer&gt;();
+        while(!stack1.isEmpty()){
+            TreeNode node = stack1.pop();
+            temp.add(node.val);
+            if (node.left != null){
+                stack2.add(node.left);
+            }
+            if (node.right != null){
+                stack2.add(node.right);
+            }
+        }
+        if (temp.size() != 0){
+            res.add(temp);    
+        }
+
+        //重新给temp赋值
+        temp = new ArrayList&lt;Integer&gt;();
+        while(!stack2.isEmpty()){
+            TreeNode node = stack2.pop();
+
+            temp.add(node.val);
+            if (node.right != null){
+                stack1.add(node.right);
+            }
+            if (node.left != null){
+                stack1.add(node.left);
+            }
+
+        }
+        if (temp.size() != 0){
+            res.add(temp);    
+        }
+
+    }
+    return res;
+
+}
+</code></pre><hr>
+<p>结果令人失望，只击败了6%，使用DP，降低了时间复杂度<br><img src="images/beatme2.png" alt="Accepted"></p>
 
         </div>
         <footer class="article-footer">
@@ -186,7 +238,7 @@
 
 
 
-    <a data-url="https://coderlongren.github.io/2017/10/20/构建Spring-Web-应用程序/" data-id="cj9y544qp000t78nn8s6wxms7" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
+    <a data-url="https://coderlongren.github.io/2017/11/13/ZigZagTree/" data-id="cj9y544oy000b78nn9h2cyysx" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
 <script>
     (function ($) {
         $('body').on('click', function() {
@@ -299,20 +351,10 @@
         
 <nav id="article-nav">
     
-        <a href="/2017/10/21/Tomcat的顶层结构及启动过程/" id="article-nav-newer" class="article-nav-link-wrap">
-        <strong class="article-nav-caption">下一篇</strong>
-        <p class="article-nav-title">
-        
-            Tomcat的顶层结构及启动过程
-        
-        </p>
-        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
-    </a>
     
-    
-        <a href="/2017/10/20/坐看俩只狗打架/" id="article-nav-older" class="article-nav-link-wrap">
+        <a href="/2017/11/08/String类的indexOf用法举例/" id="article-nav-older" class="article-nav-link-wrap">
         <strong class="article-nav-caption">上一篇</strong>
-        <p class="article-nav-title">坐看俩只狗打架</p>
+        <p class="article-nav-title">String类的indexOf用法举例</p>
         <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
         </a>
     
@@ -527,7 +569,7 @@
     var disqus_shortname = 'hexo-theme-hueman';
     
     
-    var disqus_url = 'https://coderlongren.github.io/2017/10/20/构建Spring-Web-应用程序/';
+    var disqus_url = 'https://coderlongren.github.io/2017/11/13/ZigZagTree/';
     
     (function() {
     var dsq = document.createElement('script');
