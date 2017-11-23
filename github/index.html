@@ -7,13 +7,19 @@
     
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
-    <meta property="og:type" content="website">
+    <meta name="description" content="此页面已丢失: 欢迎访问其他页面">
+<meta property="og:type" content="website">
 <meta property="og:title" content="coderlong的博客">
-<meta property="og:url" content="https://coderlongren.github.io/index.html">
+<meta property="og:url" content="https://coderlongren.github.io/github/index.html">
 <meta property="og:site_name" content="coderlong的博客">
+<meta property="og:description" content="此页面已丢失: 欢迎访问其他页面">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://coderlongren.github.io/images/huakai.jpeg">
+<meta property="og:updated_time" content="2017-11-23T05:15:48.704Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="coderlong的博客">
+<meta name="twitter:description" content="此页面已丢失: 欢迎访问其他页面">
+<meta name="twitter:image" content="https://coderlongren.github.io/images/huakai.jpeg">
     
 
     
@@ -67,10 +73,10 @@
                                     <a class="main-nav-list-link" href="/">主页</a>
                                 </li>
                             
-                                        <ul class="main-nav-list"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/java/">java</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/java/spring/">spring</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/生活/">生活</a></li></ul>
+                                        <ul class="main-nav-list"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/algorithm/">algorithm</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/java/">java</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/java/spring/">spring</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/生活/">生活</a></li></ul>
                                     
                                 <li class="main-nav-list-item" >
-                                    <a class="main-nav-list-link" href="/about/index.html">关于</a>
+                                    <a class="main-nav-list-link" href="/about">个人简介</a>
                                 </li>
                             
                                 <li class="main-nav-list-item" >
@@ -130,39 +136,105 @@
                         <div class="main-body-header">
     <h1 class="header">
     
-    <em class="page-title-link" data-url="home">我的GitHub</em>
+    coderlong的博客
     </h1>
 </div>
                         <div class="main-body-content">
-    <article id="page-undefined"  class="article article-single article-type-page" itemscope itemprop="blogPost">
+                            <article id="page-" class="article article-single article-type-page" itemscope itemprop="blogPost">
     <div class="article-inner">
         
-            <header class="article-header">
-                
-    
-        <h1 class="article-title" itemprop="name">
-         此页面荒废已久，还请移步其他页面，，，，，，，
-        </h1>
-            
-        <!-- UY BEGIN -->
-<div id="uyan_frame"></div>
-<script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=2147299"></script>
-<!-- UY END -->
-            </header>
         
         
+        <div class="article-entry" itemprop="articleBody">
+            <p>此页面已丢失: <a href="https://coderlongren.cn" target="_blank" rel="external">欢迎访问其他页面</a></p>
+<p><img src="/images/huakai.jpeg" alt=""></p>
+<!-- UY BEGIN -->
+<p><div id="uyan_frame"></div></p>
+<p><script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=2147299"></script><br><!-- UY END --></p>
+
+        </div>
         <footer class="article-footer">
             
+
+
+
+    <a data-url="https://coderlongren.github.io/github/index.html" data-id="cjab75bwo000154nntedorq3q" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
 
         </footer>
     </div>
 </article>
 
-                            
-                            
+    <section id="comments">
+    
+        
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
 
-     </div>
-         </section>
+    
+    </section>
+
+
+                        </div>
+                    </section>
                     <aside id="sidebar">
     <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
     <div class="sidebar-top">
@@ -208,10 +280,10 @@
                     <li>
                         
                         <div class="item-thumbnail">
-                            <a href="/2017/10/20/构建Spring-Web-应用程序/" class="thumbnail">
+                            <a href="/2017/11/13/ZigZagTree/" class="thumbnail">
     
     
-        <span style="background-image:url(/images/spring.jpeg)" alt="构建Spring Web 应用程序" class="thumbnail-image"></span>
+        <span style="background-image:url(/images/beatme2.png)" alt="ZigZagTree" class="thumbnail-image"></span>
     
     
 </a>
@@ -219,19 +291,39 @@
                         </div>
                         
                         <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/java/">java</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/java/spring/">spring</a></p>
-                            <p class="item-title"><a href="/2017/10/20/构建Spring-Web-应用程序/" class="title">构建Spring Web 应用程序</a></p>
-                            <p class="item-date"><time datetime="2017-10-20T11:01:24.000Z" itemprop="datePublished">2017-10-20</time></p>
+                            <p class="item-category"><a class="article-category-link" href="/categories/algorithm/">algorithm</a></p>
+                            <p class="item-title"><a href="/2017/11/13/ZigZagTree/" class="title">ZigZagTree</a></p>
+                            <p class="item-date"><time datetime="2017-11-13T11:33:49.000Z" itemprop="datePublished">2017-11-13</time></p>
                         </div>
                     </li>
                 
                     <li>
                         
                         <div class="item-thumbnail">
-                            <a href="/2017/10/20/坐看俩只狗打架/" class="thumbnail">
+                            <a href="/2017/11/08/String类的indexOf用法举例/" class="thumbnail">
     
     
-        <span style="background-image:url(/images/3.jpg)" alt="坐看俩只狗打架" class="thumbnail-image"></span>
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/java/">java</a></p>
+                            <p class="item-title"><a href="/2017/11/08/String类的indexOf用法举例/" class="title">String类的indexOf用法举例</a></p>
+                            <p class="item-date"><time datetime="2017-11-08T12:16:10.000Z" itemprop="datePublished">2017-11-08</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2017/11/01/寝室停电了啊，哈哈/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/images/cartoon-huoying.jpg)" alt="寝室停电了啊，哈哈......" class="thumbnail-image"></span>
     
     
 </a>
@@ -240,18 +332,18 @@
                         
                         <div class="item-inner">
                             <p class="item-category"><a class="article-category-link" href="/categories/生活/">生活</a></p>
-                            <p class="item-title"><a href="/2017/10/20/坐看俩只狗打架/" class="title">坐看俩只狗打架</a></p>
-                            <p class="item-date"><time datetime="2017-10-20T10:29:27.000Z" itemprop="datePublished">2017-10-20</time></p>
+                            <p class="item-title"><a href="/2017/11/01/寝室停电了啊，哈哈/" class="title">寝室停电了啊，哈哈......</a></p>
+                            <p class="item-date"><time datetime="2017-11-01T12:43:00.000Z" itemprop="datePublished">2017-11-01</time></p>
                         </div>
                     </li>
                 
                     <li>
                         
                         <div class="item-thumbnail">
-                            <a href="/2017/10/20/hello-world/" class="thumbnail">
+                            <a href="/2017/10/30/leetcode-backtracking/" class="thumbnail">
     
     
-        <span style="background-image:url(/images/hello.jpg)" alt="Hello World" class="thumbnail-image"></span>
+        <span style="background-image:url(/images/sahala1.jpg)" alt="leetcode backtracking" class="thumbnail-image"></span>
     
     
 </a>
@@ -259,9 +351,29 @@
                         </div>
                         
                         <div class="item-inner">
-                            <p class="item-category"></p>
-                            <p class="item-title"><a href="/2017/10/20/hello-world/" class="title">Hello World</a></p>
-                            <p class="item-date"><time datetime="2017-10-20T10:11:18.454Z" itemprop="datePublished">2017-10-20</time></p>
+                            <p class="item-category"><a class="article-category-link" href="/categories/algorithm/">algorithm</a></p>
+                            <p class="item-title"><a href="/2017/10/30/leetcode-backtracking/" class="title">leetcode backtracking</a></p>
+                            <p class="item-date"><time datetime="2017-10-30T13:48:38.000Z" itemprop="datePublished">2017-10-30</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2017/10/26/stringCompare/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/images/sahala2.jpg)" alt="stringComplare" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/java/">java</a></p>
+                            <p class="item-title"><a href="/2017/10/26/stringCompare/" class="title">stringComplare</a></p>
+                            <p class="item-date"><time datetime="2017-10-26T13:00:54.000Z" itemprop="datePublished">2017-10-26</time></p>
                         </div>
                     </li>
                 
@@ -286,7 +398,7 @@
     <div class="widget-wrap widget-list">
         <h3 class="widget-title">分类</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/java/">java</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/java/spring/">spring</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/生活/">生活</a><span class="category-list-count">1</span></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/algorithm/">algorithm</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/java/">java</a><span class="category-list-count">3</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/java/spring/">spring</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/生活/">生活</a><span class="category-list-count">3</span></li></ul>
         </div>
     </div>
 
@@ -296,7 +408,7 @@
     <div class="widget-wrap widget-list">
         <h3 class="widget-title">归档</h3>
         <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a><span class="archive-list-count">3</span></li></ul>
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">十一月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a><span class="archive-list-count">9</span></li></ul>
         </div>
     </div>
 
@@ -306,7 +418,7 @@
     <div class="widget-wrap widget-list">
         <h3 class="widget-title">标签</h3>
         <div class="widget">
-            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spring/">spring</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/生活/">生活</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/记录/">记录</a><span class="tag-list-count">1</span></li></ul>
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/">JVM</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Tomcat/">Tomcat</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/algorithm/">algorithm</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/leetcode/">leetcode</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/moon/">moon</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spring/">spring</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tomcat/">tomcat</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/吐槽/">吐槽</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/火影/">火影</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/生活/">生活</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/记录/">记录</a><span class="tag-list-count">1</span></li></ul>
         </div>
     </div>
 
@@ -316,7 +428,7 @@
     <div class="widget-wrap widget-float">
         <h3 class="widget-title">标签云</h3>
         <div class="widget tagcloud">
-            <a href="/tags/java/" style="font-size: 10px;">java</a> <a href="/tags/spring/" style="font-size: 10px;">spring</a> <a href="/tags/生活/" style="font-size: 10px;">生活</a> <a href="/tags/记录/" style="font-size: 10px;">记录</a>
+            <a href="/tags/JVM/" style="font-size: 10px;">JVM</a> <a href="/tags/Tomcat/" style="font-size: 10px;">Tomcat</a> <a href="/tags/algorithm/" style="font-size: 16.67px;">algorithm</a> <a href="/tags/java/" style="font-size: 20px;">java</a> <a href="/tags/leetcode/" style="font-size: 10px;">leetcode</a> <a href="/tags/moon/" style="font-size: 10px;">moon</a> <a href="/tags/spring/" style="font-size: 10px;">spring</a> <a href="/tags/tomcat/" style="font-size: 10px;">tomcat</a> <a href="/tags/吐槽/" style="font-size: 10px;">吐槽</a> <a href="/tags/火影/" style="font-size: 10px;">火影</a> <a href="/tags/生活/" style="font-size: 13.33px;">生活</a> <a href="/tags/记录/" style="font-size: 10px;">记录</a>
         </div>
     </div>
 
@@ -364,11 +476,13 @@
     var disqus_shortname = 'hexo-theme-hueman';
     
     
+    var disqus_url = 'https://coderlongren.github.io/github/index.html';
+    
     (function() {
     var dsq = document.createElement('script');
     dsq.type = 'text/javascript';
     dsq.async = true;
-    dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
     (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
     })();
     </script>
