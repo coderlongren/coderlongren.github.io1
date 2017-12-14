@@ -15,10 +15,11 @@ http://coderlongren.cn/
 https://www.zhihu.com/people/coderlongren
 the website is powered by Hexo , theme by PPOffice
 ## share my books
+```
 if (you like reading && `you are a girl` :blush:){
 	please receive my kneel.
-	[click! to read more and more](https://pan.baidu.com/s/1hsozY7q)  
-	password: `icrz`
+	[click! to read more and more](https://pan.baidu.com/s/1boCG7QB)  
+	password: `l5ou`
 }
 else if (you are a boy){
 	That's no sweat at all. I like chatting with a hot man.
@@ -26,6 +27,7 @@ else if (you are a boy){
 else {
 	Please receive my kneel :yum:
 }
+```
 ## QQ & E-mail 
 862983319  
 coderlongren@gmail.com  
