@@ -3,26 +3,26 @@
 <head>
     <meta charset="utf-8">
     
-    <title>leetcode backtracking | coderlong的博客</title>
+    <title>least-2017 | coderlong的博客</title>
     
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
-        <meta name="keywords" content="algorithm,java,leetcode" />
+        <meta name="keywords" content="代码,个人感想" />
     
-    <meta name="description" content="摘要：回溯法">
-<meta name="keywords" content="algorithm,java,leetcode">
+    <meta name="description" content="摘要： 六级考试之前的坑">
+<meta name="keywords" content="代码,个人感想">
 <meta property="og:type" content="article">
-<meta property="og:title" content="leetcode backtracking">
-<meta property="og:url" content="https://coderlongren.github.io/2017/10/30/leetcode-backtracking/index.html">
+<meta property="og:title" content="least-2017">
+<meta property="og:url" content="https://coderlongren.github.io/2017/12/14/least-2017/index.html">
 <meta property="og:site_name" content="coderlong的博客">
-<meta property="og:description" content="摘要：回溯法">
+<meta property="og:description" content="摘要： 六级考试之前的坑">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://coderlongren.github.io/images/sahala1.jpg">
-<meta property="og:updated_time" content="2017-11-08T12:19:53.996Z">
+<meta property="og:image" content="https://coderlongren.github.io/images/leng.jpg">
+<meta property="og:updated_time" content="2017-12-14T05:17:08.686Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="leetcode backtracking">
-<meta name="twitter:description" content="摘要：回溯法">
-<meta name="twitter:image" content="https://coderlongren.github.io/images/sahala1.jpg">
+<meta name="twitter:title" content="least-2017">
+<meta name="twitter:description" content="摘要： 六级考试之前的坑">
+<meta name="twitter:image" content="https://coderlongren.github.io/images/leng.jpg">
     
 
     
@@ -139,18 +139,18 @@
                         <div class="main-body-header">
     <h1 class="header">
     
-    <a class="page-title-link" href="/categories/algorithm/">algorithm</a>
+    <a class="page-title-link" href="/categories/生活/">生活</a>
     </h1>
 </div>
                         <div class="main-body-content">
-                            <article id="post-leetcode-backtracking" class="article article-single article-type-post" itemscope itemprop="blogPost">
+                            <article id="post-least-2017" class="article article-single article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
             <header class="article-header">
                 
     
         <h1 class="article-title" itemprop="name">
-        leetcode backtracking
+        least-2017
         </h1>
     
 
@@ -160,51 +160,26 @@
             <div class="article-meta">
                 
     <div class="article-date">
-        <a href="/2017/10/30/leetcode-backtracking/" class="article-date">
-            <time datetime="2017-10-30T13:48:38.000Z" itemprop="datePublished">2017-10-30</time>
+        <a href="/2017/12/14/least-2017/" class="article-date">
+            <time datetime="2017-12-14T03:24:49.000Z" itemprop="datePublished">2017-12-14</time>
         </a>
     </div>
 
                 
     <div class="article-tag">
         <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/algorithm/">algorithm</a>, <a class="tag-link" href="/tags/java/">java</a>, <a class="tag-link" href="/tags/leetcode/">leetcode</a>
+        <a class="tag-link" href="/tags/个人感想/">个人感想</a>, <a class="tag-link" href="/tags/代码/">代码</a>
     </div>
 
             </div>
         
         
         <div class="article-entry" itemprop="articleBody">
-            <p>摘要：回溯法<br><a id="more"></a></p>
-<h1 id="回溯法"><a href="#回溯法" class="headerlink" title="回溯法"></a>回溯法</h1><hr>
-<p><img src="/images/sahala1.jpg" alt=""><br>记录一下这道题的解题思路，刚开始我也不会啊:cry: </p>
-<h2 id="在每种局面下，你都只有两种选择"><a href="#在每种局面下，你都只有两种选择" class="headerlink" title="在每种局面下，你都只有两种选择"></a>在每种局面下，你都只有两种选择</h2><ol>
-<li>加左括号</li>
-<li>加右括号<h2 id="同时又有很多限制。"><a href="#同时又有很多限制。" class="headerlink" title="同时又有很多限制。"></a>同时又有很多限制。</h2>1 如果左括号用完了，你不能再加入左括号了<br>2 如果已经出现的左括号和右括号一样多，则不能再加入右括号了<h2 id="结束条件是："><a href="#结束条件是：" class="headerlink" title="结束条件是："></a>结束条件是：</h2>左右括号都已经用完</li>
-</ol>
+            <p>摘要： 六级考试之前的坑</p>
+<a id="more"></a>
+<p>正文：</p>
+<h1 id="武汉的天气真是冷啊！"><a href="#武汉的天气真是冷啊！" class="headerlink" title="武汉的天气真是冷啊！"></a>武汉的天气真是冷啊！</h1><p><img src="/images/leng.jpg" alt=""></p>
 <hr>
-<pre><code>public static List&lt;String&gt; generateParenthesis(int n) {
-    List&lt;String&gt; res = new ArrayList&lt;String&gt;();
-    backtracking(&quot;&quot;, res, n, n);
-
-    return res;
-}
-public static void backtracking(String subString, List&lt;String&gt; res, int left,int right){
-    //左右括号 皆用完，则得到的是正解 加入正解集
-    if (left == 0 &amp;&amp; right == 0){
-        res.add(subString);
-        return;
-    }
-    if (left &gt; right || left &lt; 0 || right &lt; 0){
-        return;
-    }
-    backtracking(subString + &quot;(&quot;, res, left - 1, right);
-    backtracking(subString + &quot;)&quot;, res, left, right - 1);    
-}
-</code></pre><hr>
-<!-- UY BEGIN -->
-<p><div id="uyan_frame"></div></p>
-<p><script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=2147299"></script><br><!-- UY END --></p>
 
         </div>
         <footer class="article-footer">
@@ -212,7 +187,7 @@ public static void backtracking(String subString, List&lt;String&gt; res, int le
 
 
 
-    <a data-url="https://coderlongren.github.io/2017/10/30/leetcode-backtracking/" data-id="cjb63i5fs001c64nn0d711lcr" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
+    <a data-url="https://coderlongren.github.io/2017/12/14/least-2017/" data-id="cjb63i5fb000q64nnz3idr5zo" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
 <script>
     (function ($) {
         $('body').on('click', function() {
@@ -325,20 +300,10 @@ public static void backtracking(String subString, List&lt;String&gt; res, int le
         
 <nav id="article-nav">
     
-        <a href="/2017/11/01/寝室停电了啊，哈哈/" id="article-nav-newer" class="article-nav-link-wrap">
-        <strong class="article-nav-caption">下一篇</strong>
-        <p class="article-nav-title">
-        
-            寝室停电了啊，哈哈......
-        
-        </p>
-        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
-    </a>
     
-    
-        <a href="/2017/10/26/stringCompare/" id="article-nav-older" class="article-nav-link-wrap">
+        <a href="/2017/12/02/Fundaments-and-skills/" id="article-nav-older" class="article-nav-link-wrap">
         <strong class="article-nav-caption">上一篇</strong>
-        <p class="article-nav-title">stringComplare</p>
+        <p class="article-nav-title">Fundaments and skills</p>
         <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
         </a>
     
@@ -553,7 +518,7 @@ public static void backtracking(String subString, List&lt;String&gt; res, int le
     var disqus_shortname = 'hexo-theme-hueman';
     
     
-    var disqus_url = 'https://coderlongren.github.io/2017/10/30/leetcode-backtracking/';
+    var disqus_url = 'https://coderlongren.github.io/2017/12/14/least-2017/';
     
     (function() {
     var dsq = document.createElement('script');
