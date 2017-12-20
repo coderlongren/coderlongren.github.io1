@@ -11,6 +11,8 @@ of course l know how much junk l've written .
 	}
 ##  My personal blog
 http://coderlongren.cn/ 
+##  My CSDN BLOG
+http://my.csdn.net/
 ## ZhiHu homepage
 https://www.zhihu.com/people/coderlongren
 the website is powered by Hexo , theme by PPOffice

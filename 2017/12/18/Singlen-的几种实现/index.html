@@ -17,10 +17,12 @@
 <meta property="og:site_name" content="coderlong的博客">
 <meta property="og:description" content="摘要：没有摘要">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2017-12-18T15:32:39.024Z">
+<meta property="og:image" content="https://coderlongren.github.io/images/huda2.jpeg">
+<meta property="og:updated_time" content="2017-12-20T05:33:13.375Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Singlen 的几种实现">
 <meta name="twitter:description" content="摘要：没有摘要">
+<meta name="twitter:image" content="https://coderlongren.github.io/images/huda2.jpeg">
     
 
     
@@ -173,9 +175,7 @@
         
         
         <div class="article-entry" itemprop="articleBody">
-            <p>摘要：没有摘要</p>
-<a id="more"></a>
-<p>正文：</p>
+            <p>摘要：没有摘要<br><img src="/images/huda2.jpeg" alt=""><br><a id="more"></a><br>正文：</p>
 <h1 id="java设计模式之单例模式，"><a href="#java设计模式之单例模式，" class="headerlink" title="java设计模式之单例模式，"></a>java设计模式之单例模式，</h1><p>这里主要介绍三种：懒汉式单例、饿汉式单例、登记式单例。  </p>
 <h2 id="懒汉式单例"><a href="#懒汉式单例" class="headerlink" title="懒汉式单例"></a>懒汉式单例</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">//懒汉式单例类.在第一次调用的时候实例化自己   </div><div class="line">public class Singleton &#123;  </div><div class="line">	private Singleton() &#123;&#125;  </div><div class="line">	private static Singleton single=null;  </div><div class="line">	//静态工厂方法   </div><div class="line">	public static Singleton getInstance() &#123;  </div><div class="line">		 if (single == null) &#123;    </div><div class="line">			 single = new Singleton();  </div><div class="line">		 &#125;    </div><div class="line">		return single;  </div><div class="line">	&#125;  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>很明显，以上懒汉式单例的实现没有考虑线程安全问题，它是线程不安全的，<br>并发环境下很可能出现多个Singleton实例，要实现线程安全，有以下三种方式，<br>都是对getInstance这个方法改造，保证了懒汉式单例的线程安全。</p>
@@ -304,6 +304,16 @@
         
 <nav id="article-nav">
     
+        <a href="/2017/12/18/hash/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">下一篇</strong>
+        <p class="article-nav-title">
+        
+            (no title)
+        
+        </p>
+        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
+    </a>
+    
     
         <a href="/2017/12/17/hashCode & equals/" id="article-nav-older" class="article-nav-link-wrap">
         <strong class="article-nav-caption">上一篇</strong>
@@ -326,10 +336,30 @@
                     <li>
                         
                         <div class="item-thumbnail">
+                            <a href="/2017/12/18/hash/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/images/huda1.jpeg)" alt="" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2017/12/18/hash/" class="title"></a></p>
+                            <p class="item-date"><time datetime="2017-12-18T15:42:39.952Z" itemprop="datePublished">2017-12-18</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
                             <a href="/2017/12/18/Singlen-的几种实现/" class="thumbnail">
     
     
-        <span class="thumbnail-image thumbnail-none"></span>
+        <span style="background-image:url(/images/huda2.jpeg)" alt="Singlen 的几种实现" class="thumbnail-image"></span>
     
     
 </a>
@@ -349,7 +379,7 @@
                             <a href="/2017/12/17/hashCode & equals/" class="thumbnail">
     
     
-        <span class="thumbnail-image thumbnail-none"></span>
+        <span style="background-image:url(/images/huda3.jpeg)" alt="" class="thumbnail-image"></span>
     
     
 </a>
@@ -403,26 +433,6 @@
                         </div>
                     </li>
                 
-                    <li>
-                        
-                        <div class="item-thumbnail">
-                            <a href="/2017/11/26/爱一个人是什么感觉/" class="thumbnail">
-    
-    
-        <span style="background-image:url(/images/xihu1.jpeg)" alt="English learning" class="thumbnail-image"></span>
-    
-    
-</a>
-
-                        </div>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/生活/">生活</a></p>
-                            <p class="item-title"><a href="/2017/11/26/爱一个人是什么感觉/" class="title">English learning</a></p>
-                            <p class="item-date"><time datetime="2017-11-26T11:46:35.000Z" itemprop="datePublished">2017-11-26</time></p>
-                        </div>
-                    </li>
-                
             </ul>
         </div>
     </div>
@@ -454,7 +464,7 @@
     <div class="widget-wrap widget-list">
         <h3 class="widget-title">归档</h3>
         <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">十一月 2017</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a><span class="archive-list-count">9</span></li></ul>
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">十一月 2017</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a><span class="archive-list-count">9</span></li></ul>
         </div>
     </div>
 

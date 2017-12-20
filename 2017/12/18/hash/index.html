@@ -3,17 +3,25 @@
 <head>
     <meta charset="utf-8">
     
-    <title>标签：: algorithm | coderlong的博客</title>
+    <title>coderlong的博客</title>
     
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
-    <meta property="og:type" content="website">
+        <meta name="keywords" content="" />
+    
+    <meta name="description" content="Java中hashCode()方法以及HashMap()中 hash()方法12345678public final native Class&amp;lt;?&amp;gt; getClass(); public native int hashCode(); public boolean equals(Object obj) &amp;#123;   return (this == obj); &amp;#125;  publ">
+<meta property="og:type" content="article">
 <meta property="og:title" content="coderlong的博客">
-<meta property="og:url" content="https://coderlongren.github.io/tags/algorithm/index.html">
+<meta property="og:url" content="https://coderlongren.github.io/2017/12/18/hash/index.html">
 <meta property="og:site_name" content="coderlong的博客">
+<meta property="og:description" content="Java中hashCode()方法以及HashMap()中 hash()方法12345678public final native Class&amp;lt;?&amp;gt; getClass(); public native int hashCode(); public boolean equals(Object obj) &amp;#123;   return (this == obj); &amp;#125;  publ">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://coderlongren.github.io/images/huda1.jpeg">
+<meta property="og:updated_time" content="2017-12-20T05:32:48.326Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="coderlong的博客">
+<meta name="twitter:description" content="Java中hashCode()方法以及HashMap()中 hash()方法12345678public final native Class&amp;lt;?&amp;gt; getClass(); public native int hashCode(); public boolean equals(Object obj) &amp;#123;   return (this == obj); &amp;#125;  publ">
+<meta name="twitter:image" content="https://coderlongren.github.io/images/huda1.jpeg">
     
 
     
@@ -130,265 +138,111 @@
                         <div class="main-body-header">
     <h1 class="header">
     
-    <i class="icon fa fa-tag"></i>标签：: <em>algorithm</em>
+    未分类
     </h1>
 </div>
                         <div class="main-body-content">
-                            
+                            <article id="post-hash" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <div class="article-meta">
+                
+    <div class="article-date">
+        <a href="/2017/12/18/hash/" class="article-date">
+            <time datetime="2017-12-18T15:42:39.952Z" itemprop="datePublished">2017-12-18</time>
+        </a>
+    </div>
 
-    
-    
-        
-        
-        <section class="archives-wrap">
-            <div class="archive-year-wrap">
-                <a href="/archives/2017" class="archive-year"><i class="icon fa fa-calendar-o"></i>2017</a>
+                
             </div>
-            <div class="archives">
-    
-    
-    
-        <div class="article-row">
-    
-        <article class="article article-summary">
-    <div class="article-summary-inner">
         
-        <a href="/2017/11/13/ZigZagTree/" class="thumbnail">
-    
-    
-        <span style="background-image:url(/images/beatme2.png)" alt="ZigZagTree" class="thumbnail-image"></span>
-    
-    
         
-<span class="comment-counter">
-    <i class="fa fa-comments-o"></i>
-    
-        <span class="disqus-comment-count" data-disqus-identifier="" data-disqus-url="https://coderlongren.github.io/2017/11/13/ZigZagTree/">0</span>
-    
-</span>
+        <div class="article-entry" itemprop="articleBody">
+            <h2 id="Java中hashCode-方法以及HashMap-中-hash-方法"><a href="#Java中hashCode-方法以及HashMap-中-hash-方法" class="headerlink" title="Java中hashCode()方法以及HashMap()中 hash()方法"></a>Java中hashCode()方法以及HashMap()中 hash()方法</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">public final native Class&lt;?&gt; getClass(); </div><div class="line">public native int hashCode(); </div><div class="line">public boolean equals(Object obj) &#123; </div><div class="line">  return (this == obj); </div><div class="line">&#125;  </div><div class="line">public String toString() &#123; </div><div class="line"> return getClass().getName() + &quot;@&quot; +  Integer.toHexString(hashCode()); </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>hashCode()是一个native方法，意味着方法的实现和硬件平台有关，默认实现和虚拟机是相关的，<br>对于有些JVM，hashcode()返回的就是对象的地址。<br>在Java中，hashCode()方法的主要作用是为了配合基于散列的集合（HashSet、HashMap）一起正常运行。<br>当向集合中插入对象时，调用equals()逐个进行比较，这个方法可行却效率低下。<br>因此，先比较hashCode再调用equals()会快很多。下面这段代码是java.util.HashMap的中put方法的具体实现：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">public V put(K key, V value) &#123;</div><div class="line">        if (key == null)</div><div class="line">            return putForNullKey(value);</div><div class="line">        int hash = hash(key.hashCode());</div><div class="line">        int i = indexFor(hash, table.length);</div><div class="line">        for (Entry&lt;K,V&gt; e = table[i]; e != null; e = e.next) &#123;</div><div class="line">            Object k;</div><div class="line">            if (e.hash == hash &amp;&amp; ((k = e.key) == key || key.equals(k))) &#123;</div><div class="line">                V oldValue = e.value;</div><div class="line">                e.value = value;</div><div class="line">                e.recordAccess(this);</div><div class="line">                return oldValue;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">  </div><div class="line">        modCount++;</div><div class="line">        addEntry(hash, key, value, i);</div><div class="line">        return null;</div></pre></td></tr></table></figure></p>
+<p><img src="/images/huda1.jpeg" alt=""></p>
+<h2 id="附上，native关键字的说明"><a href="#附上，native关键字的说明" class="headerlink" title="附上，native关键字的说明"></a>附上，native关键字的说明</h2><p>native关键字说明其修饰的方法是一个原生态方法，方法对应的实现不是在当前文件，<br>而是在用其他语言（如C和C++）实现的文件中。Java语言本身不能对操作系统底层进行访问和操作，<br>但是可以通过JNI接口调用其他语言来实现对底层的访问。<br>JNI是Java本机接口（Java Native Interface），是一个本机编程接口，它是Java软件开发工具箱（Java Software Development Kit，SDK）<br>的一部分。JNI允许Java代码使用以其他语言编写的代码和代码库。Invocation API（JNI的一部分）<br>可以用来将Java虚拟机（JVM）嵌入到本机应用程序中，从而允许程序员从本机代码内部调用Java代码。</p>
 
-
-    
-</a>
-
-        
-        <div class="article-meta">
-            <div class="category">
-            <a class="article-category-link" href="/categories/algorithm/">algorithm</a>
-            </div>
-            <div class="date"><time datetime="2017-11-13T11:33:49.000Z" itemprop="datePublished">2017-11-13</time></div>
         </div>
-        
-    
-        <h1 class="article-title" itemprop="name">
-        <a href="/2017/11/13/ZigZagTree/">ZigZagTree</a>
-        </h1>
-    
+        <footer class="article-footer">
+            
 
-        <p class="article-excerpt">
-            摘要: Binary Tree Level Order Traversal
-        </p>
+
+
+    <a data-url="https://coderlongren.github.io/2017/12/18/hash/" data-id="cjbematfu0000rknnys6c9acs" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
     </div>
 </article>
-    
 
-    
-    
-    
-    
-        <article class="article article-summary">
-    <div class="article-summary-inner">
-        
-        <a href="/2017/10/30/leetcode-backtracking/" class="thumbnail">
-    
-    
-        <span style="background-image:url(/images/sahala1.jpg)" alt="leetcode backtracking" class="thumbnail-image"></span>
-    
+    <section id="comments">
     
         
-<span class="comment-counter">
-    <i class="fa fa-comments-o"></i>
-    
-        <span class="disqus-comment-count" data-disqus-identifier="" data-disqus-url="https://coderlongren.github.io/2017/10/30/leetcode-backtracking/">0</span>
-    
-</span>
-
-
-    
-</a>
-
-        
-        <div class="article-meta">
-            <div class="category">
-            <a class="article-category-link" href="/categories/algorithm/">algorithm</a>
-            </div>
-            <div class="date"><time datetime="2017-10-30T13:48:38.000Z" itemprop="datePublished">2017-10-30</time></div>
-        </div>
-        
-    
-        <h1 class="article-title" itemprop="name">
-        <a href="/2017/10/30/leetcode-backtracking/">leetcode backtracking</a>
-        </h1>
-    
-
-        <p class="article-excerpt">
-            摘要：回溯法
-        </p>
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
     </div>
-</article>
-    
-        </div>
-    
 
     
-    
-    
-    
-        <div class="article-row">
-    
-        <article class="article article-summary">
-    <div class="article-summary-inner">
-        
-        <a href="/2017/10/26/Silent-moon/" class="thumbnail">
-    
-    
-        <span style="background-image:url(/images/moon.jpeg)" alt="Silent moon" class="thumbnail-image"></span>
-    
-    
-        
-<span class="comment-counter">
-    <i class="fa fa-comments-o"></i>
-    
-        <span class="disqus-comment-count" data-disqus-identifier="" data-disqus-url="https://coderlongren.github.io/2017/10/26/Silent-moon/">0</span>
-    
-</span>
-
-
-    
-</a>
-
-        
-        <div class="article-meta">
-            <div class="category">
-            <a class="article-category-link" href="/categories/生活/">生活</a>
-            </div>
-            <div class="date"><time datetime="2017-10-26T13:00:54.000Z" itemprop="datePublished">2017-10-26</time></div>
-        </div>
-        
-    
-        <h1 class="article-title" itemprop="name">
-        <a href="/2017/10/26/Silent-moon/">Silent moon</a>
-        </h1>
-    
-
-        <p class="article-excerpt">
-            摘要： 很久没见到月亮了
-        </p>
-    </div>
-</article>
-    
-
-    
-    
-    
-    
-        <article class="article article-summary">
-    <div class="article-summary-inner">
-        
-        <a href="/2017/10/24/Longest-Substring-Without-Repeating-Characters/" class="thumbnail">
-    
-    
-        <span style="background-image:url(/images/sahala.jpeg)" alt="Longest Substring Without Repeating Characters" class="thumbnail-image"></span>
-    
-    
-        
-<span class="comment-counter">
-    <i class="fa fa-comments-o"></i>
-    
-        <span class="disqus-comment-count" data-disqus-identifier="" data-disqus-url="https://coderlongren.github.io/2017/10/24/Longest-Substring-Without-Repeating-Characters/">0</span>
-    
-</span>
-
-
-    
-</a>
-
-        
-        <div class="article-meta">
-            <div class="category">
-            <a class="article-category-link" href="/categories/algorithm/">algorithm</a>
-            </div>
-            <div class="date"><time datetime="2017-10-24T14:58:49.000Z" itemprop="datePublished">2017-10-24</time></div>
-        </div>
-        
-    
-        <h1 class="article-title" itemprop="name">
-        <a href="/2017/10/24/Longest-Substring-Without-Repeating-Characters/">Longest Substring Without Repeating Characters</a>
-        </h1>
-    
-
-        <p class="article-excerpt">
-            摘要：Brute Force
-        </p>
-    </div>
-</article>
-    
-        </div>
-    
-
-    
-    
-    
-    
-        <div class="article-row">
-    
-        <article class="article article-summary">
-    <div class="article-summary-inner">
-        
-        <a href="/2017/10/22/LeetCode007/" class="thumbnail">
-    
-    
-        <span style="background-image:url(/images/suanfa.jpeg)" alt="LeetCode007" class="thumbnail-image"></span>
-    
-    
-        
-<span class="comment-counter">
-    <i class="fa fa-comments-o"></i>
-    
-        <span class="disqus-comment-count" data-disqus-identifier="" data-disqus-url="https://coderlongren.github.io/2017/10/22/LeetCode007/">0</span>
-    
-</span>
-
-
-    
-</a>
-
-        
-        <div class="article-meta">
-            <div class="category">
-            <a class="article-category-link" href="/categories/algorithm/">algorithm</a>
-            </div>
-            <div class="date"><time datetime="2017-10-22T12:01:47.000Z" itemprop="datePublished">2017-10-22</time></div>
-        </div>
-        
-    
-        <h1 class="article-title" itemprop="name">
-        <a href="/2017/10/22/LeetCode007/">LeetCode007</a>
-        </h1>
-    
-
-        <p class="article-excerpt">
-            摘要：溢出很扯淡啊
-        </p>
-    </div>
-</article>
-    
-        </div>
-    
-
-
-    </div></section>
-
+    </section>
 
 
                         </div>
@@ -425,6 +279,19 @@
             
         </ul>
     </div>
+    
+        
+<nav id="article-nav">
+    
+    
+        <a href="/2017/12/18/Singlen-的几种实现/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">上一篇</strong>
+        <p class="article-nav-title">Singlen 的几种实现</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
     
     <div class="widgets-container">
         
@@ -634,11 +501,13 @@
     var disqus_shortname = 'hexo-theme-hueman';
     
     
+    var disqus_url = 'https://coderlongren.github.io/2017/12/18/hash/';
+    
     (function() {
     var dsq = document.createElement('script');
     dsq.type = 'text/javascript';
     dsq.async = true;
-    dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
     (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
     })();
     </script>
