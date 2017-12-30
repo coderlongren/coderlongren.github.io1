@@ -3,25 +3,17 @@
 <head>
     <meta charset="utf-8">
     
-    <title>coderlong的博客</title>
+    <title>标签：: java | coderlong的博客</title>
     
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
-        <meta name="keywords" content="" />
-    
-    <meta name="description" content="Java中的equals()和hashCode() 以及 ‘==’的比较辨析： java中的==是比较两个对象在JVM中的地址123456789public class ComAddr&amp;#123;    public static void main(String[] args) throws Exception &amp;#123;        String s1 = &amp;quot;nihao&amp;quot">
-<meta property="og:type" content="article">
+    <meta property="og:type" content="website">
 <meta property="og:title" content="coderlong的博客">
-<meta property="og:url" content="https://coderlongren.github.io/2017/12/17/hashCode & equals/index.html">
+<meta property="og:url" content="https://coderlongren.github.io/tags/java/page/2/index.html">
 <meta property="og:site_name" content="coderlong的博客">
-<meta property="og:description" content="Java中的equals()和hashCode() 以及 ‘==’的比较辨析： java中的==是比较两个对象在JVM中的地址123456789public class ComAddr&amp;#123;    public static void main(String[] args) throws Exception &amp;#123;        String s1 = &amp;quot;nihao&amp;quot">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://coderlongren.github.io/images/huda3.jpeg">
-<meta property="og:updated_time" content="2017-12-20T05:33:19.906Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="coderlong的博客">
-<meta name="twitter:description" content="Java中的equals()和hashCode() 以及 ‘==’的比较辨析： java中的==是比较两个对象在JVM中的地址123456789public class ComAddr&amp;#123;    public static void main(String[] args) throws Exception &amp;#123;        String s1 = &amp;quot;nihao&amp;quot">
-<meta name="twitter:image" content="https://coderlongren.github.io/images/huda3.jpeg">
     
 
     
@@ -138,123 +130,78 @@
                         <div class="main-body-header">
     <h1 class="header">
     
-    未分类
+    <i class="icon fa fa-tag"></i>标签：: <em>java</em>
     </h1>
 </div>
                         <div class="main-body-content">
-                            <article id="post-hashCode &amp; equals" class="article article-single article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-            <div class="article-meta">
-                
-    <div class="article-date">
-        <a href="/2017/12/17/hashCode & equals/" class="article-date">
-            <time datetime="2017-12-17T14:33:20.650Z" itemprop="datePublished">2017-12-17</time>
-        </a>
-    </div>
+                            
 
-                
+    
+    
+        
+        
+        <section class="archives-wrap">
+            <div class="archive-year-wrap">
+                <a href="/archives/2017" class="archive-year"><i class="icon fa fa-calendar-o"></i>2017</a>
             </div>
+            <div class="archives">
+    
+    
+    
+        <div class="article-row">
+    
+        <article class="article article-summary">
+    <div class="article-summary-inner">
         
+        <a href="/2017/10/20/构建Spring-Web-应用程序/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/images/spring.jpeg)" alt="构建Spring Web 应用程序" class="thumbnail-image"></span>
+    
+    
         
-        <div class="article-entry" itemprop="articleBody">
-            <h1 id="Java中的equals-和hashCode-以及-‘-’的比较辨析："><a href="#Java中的equals-和hashCode-以及-‘-’的比较辨析：" class="headerlink" title="Java中的equals()和hashCode() 以及 ‘==’的比较辨析："></a>Java中的equals()和hashCode() 以及 ‘==’的比较辨析：</h1><ol>
-<li>java中的==是比较两个对象在JVM中的地址<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">public class ComAddr&#123;</div><div class="line">    public static void main(String[] args) throws Exception &#123;</div><div class="line">        String s1 = &quot;nihao&quot;;</div><div class="line">        String s2 = &quot;nihao&quot;;</div><div class="line">        String s3 = new String(&quot;nihao&quot;);</div><div class="line">        System.out.println(s1 == s2);    //    true</div><div class="line">        System.out.println(s1 == s3);    //    false</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>因为s1 == s2 为true，因为s1,s2都是字符串字面值”nihao”的引用，指向同一块地址，所以相等。<br>s1 == s3为false，是因为通过new产生的对象在堆中，s3是堆中变量的引用，而是s1是指向字符串字面值”nihao”的引用，地址不同所以不相等。</p>
-<ol>
-<li>equals() 是object根类中的方法，源代码如下：<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">public boolean equals(Object obj) &#123;</div><div class="line">    return (this == obj);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>==比较的是两个对象是否是同一个对象，这并不能满足很多需求。<br>有时候当两个对象不==的时候，我们仍然会认为两者是“相等”的，比如对于String对象，<br>当两个对象的字符串序列是一致的，我们就认为他们是“相等”的。对于这样的需求，需要equals()来实现。<br>对于有这种需求的对象的类，重写其equals()方法便可，具体的“相等”逻辑可以根据需要自己定义。<br>equals()和hashCode()都是从Object类中继承而来的，而Object中equals()默认实现的是比较两个对象是否==，<br>即默认的equals()和==的效果是一样的。<br>值得注意的是，当String 、Math、还有Integer、Double。。。。等这些封装类在使用equals()方法时，<br>已经覆盖了object类的equals（）方法<br>下面是string类中覆盖的equals()方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">public boolean equals(Object anObject) &#123;</div><div class="line">	if (this == anObject) &#123;</div><div class="line">	    return true;</div><div class="line">	&#125;</div><div class="line">	if (anObject instanceof String) &#123;</div><div class="line">	    String anotherString = (String)anObject;</div><div class="line">	    int n = count;</div><div class="line">	    if (n == anotherString.count) &#123;</div><div class="line">		char v1[] = value;</div><div class="line">		char v2[] = anotherString.value;</div><div class="line">		int i = offset;</div><div class="line">		int j = anotherString.offset;</div><div class="line">		while (n-- != 0) &#123;</div><div class="line">		    if (v1[i++] != v2[j++])</div><div class="line">			return false;</div><div class="line">		&#125;</div><div class="line">		return true;</div><div class="line">	    &#125;</div><div class="line">	&#125;</div><div class="line">	return false;</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
-<p>indexFor() 源码如下:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">static int indexFor(int h, int length) &#123; </div><div class="line">    return h &amp; (length-1); </div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>hash()方法在JDk1.7中如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">static int hash(int h) &#123;</div><div class="line">    // This function ensures that hashCodes that differ only by</div><div class="line">    // constant multiples at each bit position have a bounded</div><div class="line">    // number of collisions (approximately 8 at default load factor).</div><div class="line">    h ^= (h &gt;&gt;&gt; 20) ^ (h &gt;&gt;&gt; 12);</div><div class="line">    return h ^ (h &gt;&gt;&gt; 7) ^ (h &gt;&gt;&gt; 4);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>这样设计保证了对象的hashCode的32位值只要有一位发生改变，整个hash()返回值就会改变，高位的变化会反应到低位里。<br>String类中equals()方法很明显是仅仅进行了对象内容的比较，而没有比较对象存储地址的比较</p>
-<h2 id="关于HashCode-方法"><a href="#关于HashCode-方法" class="headerlink" title="关于HashCode()方法"></a>关于HashCode()方法</h2><p>先加上一段JDK中hashcCode() 方法的源代码[我在我的另一片文章里面已经分析了HashCode()方法得底层原理]<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">public final native Class&lt;?&gt; getClass(); </div><div class="line">public native int hashCode(); </div><div class="line">public boolean equals(Object obj) &#123; </div><div class="line">  return (this == obj); </div><div class="line">&#125;  </div><div class="line">public String toString() &#123; </div><div class="line"> return getClass().getName() + &quot;@&quot; +  Integer.toHexString(hashCode()); </div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>比如String、Integer、Double等等这些类都是覆盖了hashCode()方法,再来看一下String类中覆盖的HashCode()方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">public int hashCode() &#123; </div><div class="line">int h = hash; </div><div class="line">if (h == 0) &#123; </div><div class="line">    int off = offset; </div><div class="line">    char val[] = value; </div><div class="line">    int len = count; </div><div class="line"></div><div class="line">            for (int i = 0; i &lt; len; i++) &#123; </div><div class="line">                h = 31*h + val[off++]; </div><div class="line">            &#125; </div><div class="line">            hash = h; </div><div class="line">        &#125; </div><div class="line">        return h; </div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p><img src="/images/huda3.jpeg" alt=""><br>未完，待续。。。。。</p>
+<span class="comment-counter">
+    <i class="fa fa-comments-o"></i>
+    
+        <span class="disqus-comment-count" data-disqus-identifier="" data-disqus-url="https://coderlongren.github.io/2017/10/20/构建Spring-Web-应用程序/">0</span>
+    
+</span>
 
+
+    
+</a>
+
+        
+        <div class="article-meta">
+            <div class="category">
+            <a class="article-category-link" href="/categories/java/">java</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/java/spring/">spring</a>
+            </div>
+            <div class="date"><time datetime="2017-10-20T11:01:24.000Z" itemprop="datePublished">2017-10-20</time></div>
         </div>
-        <footer class="article-footer">
-            
+        
+    
+        <h1 class="article-title" itemprop="name">
+        <a href="/2017/10/20/构建Spring-Web-应用程序/">构建Spring Web 应用程序</a>
+        </h1>
+    
 
-
-
-    <a data-url="https://coderlongren.github.io/2017/12/17/hashCode & equals/" data-id="cjbtghasr0023c0nnw9w4kkhp" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
-<script>
-    (function ($) {
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-        </footer>
+        <p class="article-excerpt">
+            摘要： springmvc起步
+        </p>
     </div>
 </article>
-
-    <section id="comments">
     
-        
-    <div id="disqus_thread">
-        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-    </div>
-
+        </div>
     
-    </section>
+
+
+    </div></section>
+
+
+    <nav id="page-nav">
+        <span class="pages">第 2 页，共 2 页</span>
+        <a class="extend prev" rel="prev" href="/tags/java/">&laquo;</a><a class="page-number" href="/tags/java/">1</a><span class="page-number current">2</span>
+    </nav>
 
 
                         </div>
@@ -291,29 +238,6 @@
             
         </ul>
     </div>
-    
-        
-<nav id="article-nav">
-    
-        <a href="/2017/12/18/Singlen-的几种实现/" id="article-nav-newer" class="article-nav-link-wrap">
-        <strong class="article-nav-caption">下一篇</strong>
-        <p class="article-nav-title">
-        
-            Singlen 的几种实现
-        
-        </p>
-        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
-    </a>
-    
-    
-        <a href="/2017/12/14/least-2017/" id="article-nav-older" class="article-nav-link-wrap">
-        <strong class="article-nav-caption">上一篇</strong>
-        <p class="article-nav-title">least-2017</p>
-        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
-        </a>
-    
-</nav>
-
     
     <div class="widgets-container">
         
@@ -523,13 +447,11 @@
     var disqus_shortname = 'hexo-theme-hueman';
     
     
-    var disqus_url = 'https://coderlongren.github.io/2017/12/17/hashCode &amp; equals/';
-    
     (function() {
     var dsq = document.createElement('script');
     dsq.type = 'text/javascript';
     dsq.async = true;
-    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
     (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
     })();
     </script>
