@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    
+    <title>redis_first | coderlong的博客</title>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+        <meta name="keywords" content="C,cach,db,redis" />
+    
+    <meta name="description" content="摘要：redis摘要：没有摘要">
+<meta name="keywords" content="C,cach,db,redis">
+<meta property="og:type" content="article">
+<meta property="og:title" content="redis_first">
+<meta property="og:url" content="https://coderlongren.github.io/2017/12/31/redis-first/index.html">
+<meta property="og:site_name" content="coderlong的博客">
+<meta property="og:description" content="摘要：redis摘要：没有摘要">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://coderlongren.github.io/images/redis.jpg">
+<meta property="og:updated_time" content="2017-12-31T08:15:17.094Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="redis_first">
+<meta name="twitter:description" content="摘要：redis摘要：没有摘要">
+<meta name="twitter:image" content="https://coderlongren.github.io/images/redis.jpg">
+    
+
+    
+        <link rel="alternate" href="/" title="coderlong的博客" type="application/atom+xml" />
+    
+
+    
+
+    <link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/libs/titillium-web/styles.css">
+    <link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/libs/jquery/2.0.3/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+    
+
+
+</head>
+
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                    <h1 class="logo-wrap">
+                        <a href="/" class="logo"></a>
+                    </h1>
+                    
+                        <h2 class="subtitle-wrap">
+                            <p class="subtitle">正是江南好风景，落花时节又逢君</p>
+                        </h2>
+                    
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/">主页</a>
+                                </li>
+                            
+                                        <ul class="main-nav-list"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Redis/">Redis</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/algorithm/">algorithm</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/java/">java</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/java/spring/">spring</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/生活/">生活</a></li></ul>
+                                    
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/about">个人简介</a>
+                                </li>
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/github">Github</a>
+                                </li>
+                            
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="想要查找什么..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+        <div class="container">
+            <div class="main-body container-inner">
+                <div class="main-body-inner">
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    <a class="page-title-link" href="/categories/Redis/">Redis</a>
+    </h1>
+</div>
+                        <div class="main-body-content">
+                            <article id="post-redis-first" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        redis_first
+        </h1>
+    
+
+            </header>
+        
+        
+            <div class="article-meta">
+                
+    <div class="article-date">
+        <a href="/2017/12/31/redis-first/" class="article-date">
+            <time datetime="2017-12-31T08:11:59.000Z" itemprop="datePublished">2017-12-31</time>
+        </a>
+    </div>
+
+                
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/C/">C</a>, <a class="tag-link" href="/tags/cach/">cach</a>, <a class="tag-link" href="/tags/db/">db</a>, <a class="tag-link" href="/tags/redis/">redis</a>
+    </div>
+
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            <p>摘要：redis<br>摘要：没有摘要<br><img src="/images/redis.jpg" alt=""><br><a id="more"></a><br>正文：</p>
+<h1 id="Redis-使用命令总结"><a href="#Redis-使用命令总结" class="headerlink" title="Redis 使用命令总结"></a>Redis 使用命令总结</h1><h2 id="key"><a href="#key" class="headerlink" title="key"></a>key</h2><ol>
+<li>set key 该命令用于在key存在时删除该key</li>
+<li>DUMP key 序列化该key,并且返回key被序列化之后的值</li>
+<li>exists key 检查这个key 是否存在</li>
+<li>expire key seconds 为key设置过期时间。单位为妙。</li>
+<li>expireat key timestamp expireat和 expire 作用类似都是为key设置过期时间，不同于expireat接受Unix时间戳</li>
+<li>PEXPIRE key milliseconds  设置 key 过期时间的时间戳(unix timestamp) 以毫秒计</li>
+<li>keys pattern 查找所有符合给定模式key</li>
+<li>move key db 将当前数据库的key移动到数据库db中 </li>
+<li>persist key 移除该key的过期时间，key将保持持久化 </li>
+<li>ttl key 以秒为单位返回该key的剩余过期时间</li>
+<li>pttl key 以秒为单位返回给定key的剩余过期时间 </li>
+<li>randomkey 从当前数据库随机返回一个key</li>
+<li>rename key newkey 修改key的名称 </li>
+<li>type key 返回key所存储的值得类型 <h2 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h2></li>
+<li>set key value 设置指定key的值</li>
+<li>get key 获取指定key的值</li>
+<li>getrange key start end  返回key中字符串值得子字符串</li>
+<li>getset key value 将给定的key值设为value，并返回old key</li>
+<li>getbit key offset 对 key 所储存的字符串值，获取指定偏移量上的位(bit)<br>（用表格拉！！！）</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>String命令</th>
+<th style="text-align:center">作用解释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>mget key</td>
+<td style="text-align:center">获取一个或者多个给定key的值</td>
+</tr>
+<tr>
+<td>SETEX key seconds value</td>
+<td style="text-align:center">将值 value 关联到 key ，并将 key 的过期时间设为 seconds (</td>
+</tr>
+<tr>
+<td>setnx</td>
+<td style="text-align:center">只有在key不存在时设置key的值</td>
+</tr>
+<tr>
+<td>setlen</td>
+<td style="text-align:center">返回key所存储的字符串长度</td>
+</tr>
+<tr>
+<td>mset key value[key value……]</td>
+<td style="text-align:center">同时设置一个多个key-value对</td>
+</tr>
+<tr>
+<td>PSETEX key milliseconds value</td>
+<td style="text-align:center">和setex 差不多，只不过十一毫秒为单位的</td>
+</tr>
+<tr>
+<td>incr key</td>
+<td style="text-align:center">将key存储的值加一 </td>
+</tr>
+<tr>
+<td>incrby key value</td>
+<td style="text-align:center">将key存储的指定值增加定值</td>
+</tr>
+<tr>
+<td>incrbyfloat key value</td>
+<td style="text-align:center">将key存储的指定值增加浮点定值</td>
+</tr>
+<tr>
+<td>decr key</td>
+<td style="text-align:center">将key中存储的值减一</td>
+</tr>
+<tr>
+<td>decrby key value</td>
+<td style="text-align:center">key 所储存的值减去给定的减量值（value）</td>
+</tr>
+<tr>
+<td>append key value</td>
+<td style="text-align:center">将value追加到key的末尾</td>
+</tr>
+<tr>
+<td>！阅读官方文档个人体会</td>
+<td style="text-align:center">redis数据结构是不是抄袭Python的？</td>
+</tr>
+</tbody>
+</table>
+<h2 id="Hash"><a href="#Hash" class="headerlink" title="Hash"></a>Hash</h2><table>
+<thead>
+<tr>
+<th>Hash命令</th>
+<th style="text-align:center">作用解释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>hmset key value …..</td>
+<td style="text-align:center">设置 key 的值</td>
+</tr>
+<tr>
+<td>hgetall key</td>
+<td style="text-align:center">获取key的所有key-value</td>
+</tr>
+<tr>
+<td>hdel key field</td>
+<td style="text-align:center">删除一个或者多个哈希表字段</td>
+</tr>
+<tr>
+<td>hexists key field</td>
+<td style="text-align:center">查看哈希表中，指定的字段是否存在</td>
+</tr>
+<tr>
+<td>hincrby key field increment</td>
+<td style="text-align:center">为哈希表中指定key整数值增加increment</td>
+</tr>
+<tr>
+<td>hkeys key</td>
+<td style="text-align:center">获取所有哈希表的字段</td>
+</tr>
+<tr>
+<td>hincrbyfloat key field increment</td>
+<td style="text-align:center">为哈希表 key 中的指定字段的浮点数值加上增量 increment </td>
+</tr>
+<tr>
+<td>hlen key</td>
+<td style="text-align:center">获取哈希表中字段的数量</td>
+</tr>
+<tr>
+<td>hmset key field1,field2,,,</td>
+<td style="text-align:center">获取所有给定字段的值</td>
+</tr>
+<tr>
+<td>hmset key field1 value1 [field2 value2]…</td>
+<td style="text-align:center">同时将多个 field-value (域-值)对设置到哈希表 key 中</td>
+</tr>
+<tr>
+<td>hsetnx key field value</td>
+<td style="text-align:center">只有在fiel字段不存在时，设置哈希表字段的值</td>
+</tr>
+<tr>
+<td>hvals key</td>
+<td style="text-align:center">获取哈希表中所有值</td>
+</tr>
+<tr>
+<td>hscan key</td>
+</tr>
+</tbody>
+</table>
+<h2 id="List"><a href="#List" class="headerlink" title="List"></a>List</h2><table>
+<thead>
+<tr>
+<th>List命令</th>
+<th style="text-align:center">作用解释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>lpush key  value1,value1…</td>
+<td style="text-align:center"></td>
+<td>将一个或多个值插入到列表头部</td>
+</tr>
+<tr>
+<td>lrange key start end</td>
+<td style="text-align:center">获取列表范围内的元素</td>
+</tr>
+<tr>
+<td>rpop key</td>
+<td style="text-align:center">移除并获取列表最后一个元素</td>
+</tr>
+<tr>
+<td>lpushx key value</td>
+<td style="text-align:center">将一个值插入到已存在的列表头部</td>
+</tr>
+<tr>
+<td>llen key</td>
+<td style="text-align:center">获取列表头部</td>
+</tr>
+<tr>
+<td>lindex key index</td>
+<td style="text-align:center">通过索引获取列表中的元素</td>
+</tr>
+<tr>
+<td>lpop key</td>
+<td style="text-align:center">移除获取列表的第一个元素</td>
+</tr>
+<tr>
+<td>linsert key before/after privo value</td>
+<td style="text-align:center">在列表的元素前或者元素后，插入一个元素</td>
+</tr>
+<tr>
+<td>lpushx key value</td>
+<td style="text-align:center">将一个值value插入到已存在的列表头部</td>
+</tr>
+<tr>
+<td>lrem key count value</td>
+<td style="text-align:center">移除列表元素</td>
+</tr>
+<tr>
+<td>lset key index value</td>
+<td style="text-align:center">通过索引设置元素的value</td>
+</tr>
+<tr>
+<td>LTRIM key start stop</td>
+<td style="text-align:center">对一个列表进行修剪(trim)，就是说，让列表只保留指定区间内的元素，不在指定区间之内的元素都将被删除</td>
+</tr>
+<tr>
+<td>rpushx key value</td>
+<td style="text-align:center">为已存在的列表末尾添加值</td>
+</tr>
+<tr>
+<td>rpoplpush source destination</td>
+<td style="text-align:center">将source rpop一个 并将这个元素 lpush进destination</td>
+</tr>
+<tr>
+<td>lset key before//after value1 value2</td>
+<td style="text-align:center">在一个元素前面或者后面插入元素</td>
+</tr>
+</tbody>
+</table>
+<h2 id="Set"><a href="#Set" class="headerlink" title="Set"></a>Set</h2><table>
+<thead>
+<tr>
+<th>Set命令</th>
+<th style="text-align:center">作用解释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>sadd key value</td>
+<td style="text-align:center">向集合中set添加一个或多个成员</td>
+</tr>
+<tr>
+<td>scard key</td>
+<td style="text-align:center">获得集合的成员数</td>
+</tr>
+<tr>
+<td>sdiff key1 key2</td>
+<td style="text-align:center">返回给定所有集合的差集</td>
+</tr>
+<tr>
+<td>sinter key1 key2</td>
+<td style="text-align:center">返回给定集合的交集</td>
+</tr>
+<tr>
+<td>SINTERSTORE destination key1 [key2]</td>
+<td style="text-align:center">返回给定所有集合的交集并存储在 destination 中</td>
+</tr>
+<tr>
+<td>SISMEMBER key member</td>
+<td style="text-align:center">判断 member 元素是否是集合 key 的成员</td>
+</tr>
+<tr>
+<td>smembers key</td>
+<td style="text-align:center">返回集合中的所有元素 </td>
+</tr>
+<tr>
+<td>smove source destination member</td>
+<td style="text-align:center">把 member元素从source集合移动到destination集合</td>
+</tr>
+<tr>
+<td>spop key</td>
+<td style="text-align:center">随机返回集合中的一个元素</td>
+</tr>
+<tr>
+<td>srem key member1,member2 ….</td>
+<td style="text-align:center">移除集合中一个或多个随机数 </td>
+</tr>
+<tr>
+<td>sunion key1 key2 返回给定集合的并集</td>
+</tr>
+<tr>
+<td>SUNIONSTORE destination key1 [key2]</td>
+<td style="text-align:center">所有给定集合的并集存储在 destination 集合中</td>
+</tr>
+</tbody>
+</table>
+<h2 id="sorted-set"><a href="#sorted-set" class="headerlink" title="sorted set"></a>sorted set</h2><p>what is set :集合是通过哈希表实现的，所以添加，删除，查找的复杂度都是O(1)。<br>集合中最大的成员数为 232 - 1 (4294967295, 每个集合可存储40多亿个成员)。 </p>
+<h2 id="sorted-Set"><a href="#sorted-Set" class="headerlink" title="sorted Set"></a>sorted Set</h2><table>
+<thead>
+<tr>
+<th>sorted Set命令</th>
+<th style="text-align:center">作用解释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>zadd key score1 member1[score2 member2]</td>
+<td style="text-align:center">向有序集合中添加一个或者多个成员，或更新已存在的成员</td>
+</tr>
+<tr>
+<td>zcard key</td>
+<td style="text-align:center">获取有序集合soredset的成员数</td>
+</tr>
+<tr>
+<td>zcount key min max</td>
+<td style="text-align:center">计算有序集合中指定区间的成员数</td>
+</tr>
+<tr>
+<td>zrange key 0 -1</td>
+<td style="text-align:center">获取0~-1之间的 zset item</td>
+</tr>
+<tr>
+<td>zrem key member</td>
+<td style="text-align:center">去掉Zset里面的一个 score-member</td>
+</tr>
+<tr>
+<td>ZRANK key member</td>
+<td style="text-align:center">返回zset 指定成员的索引</td>
+</tr>
+<tr>
+<td>zrem key member1[member2]</td>
+<td style="text-align:center">移除zset中的一个或者多个成员</td>
+</tr>
+</tbody>
+</table>
+<p>未完待续。。。。。。<br>下一篇  解析Redis的配置文件</p>
+
+        </div>
+        <footer class="article-footer">
+            
+
+
+
+    <a data-url="https://coderlongren.github.io/2017/12/31/redis-first/" data-id="cjbui4783000tj0nneqzymrmi" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+</article>
+
+    <section id="comments">
+    
+        
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+    
+    </section>
+
+
+                        </div>
+                    </section>
+                    <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+    <div class="sidebar-top">
+        <p>关注我 :</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/coderlongren" target="_blank">
+                        <i class="icon fa fa-github"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="weibo" href="/" target="_blank">
+                        <i class="icon fa fa-weibo"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="rss" href="/" target="_blank">
+                        <i class="icon fa fa-rss"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2017/12/31/redis-two/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">下一篇</strong>
+        <p class="article-nav-title">
+        
+            redis_two
+        
+        </p>
+        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
+    </a>
+    
+    
+        <a href="/2017/12/27/ArrayList/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">上一篇</strong>
+        <p class="article-nav-title">ArrayList</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+            
+                
+    <div class="widget-wrap">
+        <h3 class="widget-title">最新文章</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2017/12/31/redis-two/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/images/redis1.jpg)" alt="redis_two" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Redis/">Redis</a></p>
+                            <p class="item-title"><a href="/2017/12/31/redis-two/" class="title">redis_two</a></p>
+                            <p class="item-date"><time datetime="2017-12-31T08:13:05.000Z" itemprop="datePublished">2017-12-31</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2017/12/31/redis-first/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/images/redis.jpg)" alt="redis_first" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Redis/">Redis</a></p>
+                            <p class="item-title"><a href="/2017/12/31/redis-first/" class="title">redis_first</a></p>
+                            <p class="item-date"><time datetime="2017-12-31T08:11:59.000Z" itemprop="datePublished">2017-12-31</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2017/12/27/ArrayList/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/images/collection.jpg)" alt="ArrayList" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/java/">java</a></p>
+                            <p class="item-title"><a href="/2017/12/27/ArrayList/" class="title">ArrayList</a></p>
+                            <p class="item-date"><time datetime="2017-12-27T04:50:17.000Z" itemprop="datePublished">2017-12-27</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2017/12/27/Collections/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/images/collection.jpg)" alt="Collections" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/java/">java</a></p>
+                            <p class="item-title"><a href="/2017/12/27/Collections/" class="title">Collections</a></p>
+                            <p class="item-date"><time datetime="2017-12-27T04:49:59.000Z" itemprop="datePublished">2017-12-27</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2017/12/23/receive-my-kneels/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/images/lufei1.jpeg)" alt="receive my kneels" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/生活/">生活</a></p>
+                            <p class="item-title"><a href="/2017/12/23/receive-my-kneels/" class="title">receive my kneels</a></p>
+                            <p class="item-date"><time datetime="2017-12-23T12:18:40.000Z" itemprop="datePublished">2017-12-23</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">联系我</h3>
+        <div class="widget">
+            <!--这里添加你要写的内容-->
+            Email: 862983319@qq.com </br>
+            QQ:862983319
+
+        </div>
+    </div>
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">分类</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Redis/">Redis</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/algorithm/">algorithm</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/java/">java</a><span class="category-list-count">8</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/java/spring/">spring</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/生活/">生活</a><span class="category-list-count">6</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">归档</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">十一月 2017</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a><span class="archive-list-count">9</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">标签</h3>
+        <div class="widget">
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/C/">C</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JDK/">JDK</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/">JVM</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Tomcat/">Tomcat</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/algorithm/">algorithm</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cach/">cach</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/db/">db</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java集合/">java集合</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/leetcode/">leetcode</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/moon/">moon</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis/">redis</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spring/">spring</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tomcat/">tomcat</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/个人/">个人</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/个人体会/">个人体会</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/个人感想/">个人感想</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/代码/">代码</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/吐槽/">吐槽</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/开发/">开发</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/火影/">火影</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/生活/">生活</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/编程/">编程</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/记录/">记录</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/设计模式/">设计模式</a><span class="tag-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-float">
+        <h3 class="widget-title">标签云</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/C/" style="font-size: 12.5px;">C</a> <a href="/tags/JDK/" style="font-size: 12.5px;">JDK</a> <a href="/tags/JVM/" style="font-size: 10px;">JVM</a> <a href="/tags/Tomcat/" style="font-size: 12.5px;">Tomcat</a> <a href="/tags/algorithm/" style="font-size: 17.5px;">algorithm</a> <a href="/tags/cach/" style="font-size: 12.5px;">cach</a> <a href="/tags/db/" style="font-size: 12.5px;">db</a> <a href="/tags/java/" style="font-size: 20px;">java</a> <a href="/tags/java集合/" style="font-size: 12.5px;">java集合</a> <a href="/tags/leetcode/" style="font-size: 10px;">leetcode</a> <a href="/tags/moon/" style="font-size: 10px;">moon</a> <a href="/tags/redis/" style="font-size: 10px;">redis</a> <a href="/tags/spring/" style="font-size: 10px;">spring</a> <a href="/tags/tomcat/" style="font-size: 10px;">tomcat</a> <a href="/tags/个人/" style="font-size: 10px;">个人</a> <a href="/tags/个人体会/" style="font-size: 10px;">个人体会</a> <a href="/tags/个人感想/" style="font-size: 10px;">个人感想</a> <a href="/tags/代码/" style="font-size: 12.5px;">代码</a> <a href="/tags/吐槽/" style="font-size: 10px;">吐槽</a> <a href="/tags/开发/" style="font-size: 10px;">开发</a> <a href="/tags/火影/" style="font-size: 10px;">火影</a> <a href="/tags/生活/" style="font-size: 15px;">生活</a> <a href="/tags/编程/" style="font-size: 10px;">编程</a> <a href="/tags/记录/" style="font-size: 10px;">记录</a> <a href="/tags/设计模式/" style="font-size: 10px;">设计模式</a>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">链接</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="http://hexo.io">Hexo</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+            
+        
+    </div>
+</aside>
+                </div>
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
+            <div class="credit">
+                <h1 class="logo-wrap">
+                    <a href="/" class="logo"></a>
+                </h1>
+                <p>&copy; 2017 Rensailong</p>
+                <p>Powered by <a href="//hexo.io/" target="_blank">Hexo</a>. Theme by <a href="//github.com/ppoffice" target="_blank">PPOffice</a></p>
+            </div>
+        </div>
+    </div>
+</footer>
+        
+    
+    <script>
+    var disqus_shortname = 'hexo-theme-hueman';
+    
+    
+    var disqus_url = 'https://coderlongren.github.io/2017/12/31/redis-first/';
+    
+    (function() {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+
+
+
+
+    
+        <script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+    
+
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>
