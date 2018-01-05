@@ -3,26 +3,23 @@
 <head>
     <meta charset="utf-8">
     
-    <title>Singlen 的几种实现 | coderlong的博客</title>
+    <title>coderlong的博客</title>
     
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
-        <meta name="keywords" content="java,设计模式" />
+        <meta name="keywords" content="" />
     
-    <meta name="description" content="摘要：没有摘要">
-<meta name="keywords" content="java,设计模式">
+    <meta name="description" content="求一棵树的最小深度我在这里给出了三种语言的解法。Java version1234567891011121314151617public int minDepth(TreeNode root) &amp;#123;    if (root == null) return 0;    int L = minDepth(root.left), R = minDepth(root.right);    retur">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Singlen 的几种实现">
-<meta property="og:url" content="https://coderlongren.github.io/2017/12/18/Singlen-的几种实现/index.html">
+<meta property="og:title" content="coderlong的博客">
+<meta property="og:url" content="https://coderlongren.github.io/2018/01/05/miniTree/index.html">
 <meta property="og:site_name" content="coderlong的博客">
-<meta property="og:description" content="摘要：没有摘要">
+<meta property="og:description" content="求一棵树的最小深度我在这里给出了三种语言的解法。Java version1234567891011121314151617public int minDepth(TreeNode root) &amp;#123;    if (root == null) return 0;    int L = minDepth(root.left), R = minDepth(root.right);    retur">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://coderlongren.github.io/images/huda2.jpeg">
-<meta property="og:updated_time" content="2017-12-20T05:33:13.375Z">
+<meta property="og:updated_time" content="2018-01-05T03:16:55.250Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Singlen 的几种实现">
-<meta name="twitter:description" content="摘要：没有摘要">
-<meta name="twitter:image" content="https://coderlongren.github.io/images/huda2.jpeg">
+<meta name="twitter:title" content="coderlong的博客">
+<meta name="twitter:description" content="求一棵树的最小深度我在这里给出了三种语言的解法。Java version1234567891011121314151617public int minDepth(TreeNode root) &amp;#123;    if (root == null) return 0;    int L = minDepth(root.left), R = minDepth(root.right);    retur">
     
 
     
@@ -139,51 +136,30 @@
                         <div class="main-body-header">
     <h1 class="header">
     
-    <a class="page-title-link" href="/categories/java/">java</a>
+    未分类
     </h1>
 </div>
                         <div class="main-body-content">
-                            <article id="post-Singlen-的几种实现" class="article article-single article-type-post" itemscope itemprop="blogPost">
+                            <article id="post-miniTree" class="article article-single article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
-        
-            <header class="article-header">
-                
-    
-        <h1 class="article-title" itemprop="name">
-        Singlen 的几种实现
-        </h1>
-    
-
-            </header>
         
         
             <div class="article-meta">
                 
     <div class="article-date">
-        <a href="/2017/12/18/Singlen-的几种实现/" class="article-date">
-            <time datetime="2017-12-18T15:30:58.000Z" itemprop="datePublished">2017-12-18</time>
+        <a href="/2018/01/05/miniTree/" class="article-date">
+            <time datetime="2018-01-05T03:21:59.901Z" itemprop="datePublished">2018-01-05</time>
         </a>
     </div>
 
                 
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/java/">java</a>, <a class="tag-link" href="/tags/设计模式/">设计模式</a>
-    </div>
-
             </div>
         
         
         <div class="article-entry" itemprop="articleBody">
-            <p>摘要：没有摘要<br><img src="/images/huda2.jpeg" alt=""><br><a id="more"></a><br>正文：</p>
-<h1 id="java设计模式之单例模式，"><a href="#java设计模式之单例模式，" class="headerlink" title="java设计模式之单例模式，"></a>java设计模式之单例模式，</h1><p>这里主要介绍三种：懒汉式单例、饿汉式单例、登记式单例。  </p>
-<h2 id="懒汉式单例"><a href="#懒汉式单例" class="headerlink" title="懒汉式单例"></a>懒汉式单例</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">//懒汉式单例类.在第一次调用的时候实例化自己   </div><div class="line">public class Singleton &#123;  </div><div class="line">	private Singleton() &#123;&#125;  </div><div class="line">	private static Singleton single=null;  </div><div class="line">	//静态工厂方法   </div><div class="line">	public static Singleton getInstance() &#123;  </div><div class="line">		 if (single == null) &#123;    </div><div class="line">			 single = new Singleton();  </div><div class="line">		 &#125;    </div><div class="line">		return single;  </div><div class="line">	&#125;  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>很明显，以上懒汉式单例的实现没有考虑线程安全问题，它是线程不安全的，<br>并发环境下很可能出现多个Singleton实例，要实现线程安全，有以下三种方式，<br>都是对getInstance这个方法改造，保证了懒汉式单例的线程安全。</p>
-<h3 id="在getInstance-方法上加上同步"><a href="#在getInstance-方法上加上同步" class="headerlink" title="在getInstance()方法上加上同步"></a>在getInstance()方法上加上同步</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">public static synchronized Singleton getInstance() &#123;  </div><div class="line">		 if (single == null) &#123;    </div><div class="line">			 single = new Singleton();  </div><div class="line">		 &#125;    </div><div class="line">		return single;  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="加双重锁锁定"><a href="#加双重锁锁定" class="headerlink" title="加双重锁锁定"></a>加双重锁锁定</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">public static Singleton getInstance() &#123;  </div><div class="line">		if (singleton == null) &#123;    </div><div class="line">			synchronized (Singleton.class) &#123;    </div><div class="line">			   if (singleton == null) &#123;    </div><div class="line">				  singleton = new Singleton();   </div><div class="line">			   &#125;    </div><div class="line">			&#125;    </div><div class="line">		&#125;    </div><div class="line">		return singleton;   </div><div class="line">	&#125;</div></pre></td></tr></table></figure>
-<h3 id="静态内部类实现-我更倾向这种方法的单例实现"><a href="#静态内部类实现-我更倾向这种方法的单例实现" class="headerlink" title="静态内部类实现  我更倾向这种方法的单例实现"></a>静态内部类实现  我更倾向这种方法的单例实现</h3><p>这种方式能达到双检锁方式一样的功效，但实现更简单。对静态域使用延迟初始化，应使用这种方式而不是双检锁方式。<br>这种方式只适用于静态域的情况，双检锁方式可在实例域需要延迟初始化时使用。<br>这种方式同样利用了 classloder 机制来保证初始化 instance 时只有一个线程，它跟饿汉方式不同的是：<br>饿汉方式只要 Singleton 类被装载了，那么 instance 就会被实例化（没有达到 lazy loading 效果），<br>而这种方式是 Singleton 类被装载了，instance 不一定被初始化。因为 SingletonHolder 类没有被主动使用，<br>只有显示通过调用 getInstance 方法时，才会显示装载 SingletonHolder 类，从而实例化 instance。想象一下，<br>如果实例化 instance 很消耗资源，所以想让它延迟加载，另外一方面，又不希望在 Singleton 类加载时就实例化，<br>因为不能确保 Singleton 类还可能在其他的地方被主动使用从而被加载，那么这个时候实例化 instance 显然是不合适的。<br>这个时候，这种方式相比饿汉方式就显得很合理。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">public class Singleton &#123;    </div><div class="line">	private static class LazyHolder &#123;    </div><div class="line">	   private static final Singleton INSTANCE = new Singleton();    </div><div class="line">	&#125;    </div><div class="line">	private Singleton ()&#123;&#125;    </div><div class="line">	public static final Singleton getInstance() &#123;    </div><div class="line">	   return LazyHolder.INSTANCE;    </div><div class="line">	&#125;    </div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<h2 id="饿汉式单例"><a href="#饿汉式单例" class="headerlink" title="饿汉式单例"></a>饿汉式单例</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">public class Singleton &#123;  </div><div class="line">    private static Singleton instance = new Singleton();  </div><div class="line">    private Singleton ()&#123;&#125;  </div><div class="line">    public static Singleton getInstance() &#123;  </div><div class="line">    return instance;  </div><div class="line">    &#125;  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>这种单例模式，并没有解决Lazy加载，所以使用的频率也不高</p>
+            <h1 id="求一棵树的最小深度"><a href="#求一棵树的最小深度" class="headerlink" title="求一棵树的最小深度"></a>求一棵树的最小深度</h1><p>我在这里给出了三种语言的解法。<br><code>Java version</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">public int minDepth(TreeNode root) &#123;</div><div class="line">    if (root == null) return 0;</div><div class="line">    int L = minDepth(root.left), R = minDepth(root.right);</div><div class="line">    return 1 + (Math.min(L, R) &gt; 0 ? Math.min(L, R) : Math.max(L, R));</div><div class="line">&#125;</div><div class="line"></div><div class="line">public int minDepth(TreeNode root) &#123;</div><div class="line">    if (root == null) return 0;</div><div class="line">    int L = minDepth(root.left), R = minDepth(root.right), m = Math.min(L, R);</div><div class="line">    return 1 + (m &gt; 0 ? m : Math.max(L, R));</div><div class="line">&#125;</div><div class="line"></div><div class="line">public int minDepth(TreeNode root) &#123;</div><div class="line">    if (root == null) return 0;</div><div class="line">    int L = minDepth(root.left), R = minDepth(root.right);</div><div class="line">    return L&lt;R &amp;&amp; L&gt;0 || R&lt;1 ? 1+L : 1+R;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><code>Python version</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">def minDepth(self, root):</div><div class="line">    if not root: return 0</div><div class="line">    d = map(self.minDepth, (root.left, root.right))</div><div class="line">    return 1 + (min(d) or max(d))</div><div class="line"></div><div class="line">def minDepth(self, root):</div><div class="line">    if not root: return 0</div><div class="line">    d, D = sorted(map(self.minDepth, (root.left, root.right)))</div><div class="line">    return 1 + (d or D)</div></pre></td></tr></table></figure></p>
+<p><code>c++ version</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">int minDepth(TreeNode* root) &#123;</div><div class="line">    if (!root) return 0;</div><div class="line">    int L = minDepth(root-&gt;left), R = minDepth(root-&gt;right);</div><div class="line">    return 1 + (min(L, R) ? min(L, R) : max(L, R));</div><div class="line">&#125;</div><div class="line"></div><div class="line">int minDepth(TreeNode* root) &#123;</div><div class="line">    if (!root) return 0;</div><div class="line">    int L = minDepth(root-&gt;left), R = minDepth(root-&gt;right);</div><div class="line">    return 1 + (L &amp;&amp; R ? min(L, R) : max(L, R));</div><div class="line">&#125;</div><div class="line"></div><div class="line">int minDepth(TreeNode* root) &#123;</div><div class="line">    if (!root) return 0;</div><div class="line">    int L = minDepth(root-&gt;left), R = minDepth(root-&gt;right);</div><div class="line">    return 1 + (!L-!R ? max(L, R) : min(L, R));</div><div class="line">&#125;</div><div class="line"></div><div class="line">int minDepth(TreeNode* root) &#123;</div><div class="line">    if (!root) return 0;</div><div class="line">    int L = minDepth(root-&gt;left), R = minDepth(root-&gt;right);</div><div class="line">    return L&lt;R &amp;&amp; L || !R ? 1+L : 1+R;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 
         </div>
         <footer class="article-footer">
@@ -191,7 +167,7 @@
 
 
 
-    <a data-url="https://coderlongren.github.io/2017/12/18/Singlen-的几种实现/" data-id="cjc0k7uz4000g58nn4m9l2sf8" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
+    <a data-url="https://coderlongren.github.io/2018/01/05/miniTree/" data-id="cjc1cugg60000nsnn4g7ngmak" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
 <script>
     (function ($) {
         $('body').on('click', function() {
@@ -304,20 +280,10 @@
         
 <nav id="article-nav">
     
-        <a href="/2017/12/18/hash/" id="article-nav-newer" class="article-nav-link-wrap">
-        <strong class="article-nav-caption">下一篇</strong>
-        <p class="article-nav-title">
-        
-            (no title)
-        
-        </p>
-        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
-    </a>
     
-    
-        <a href="/2017/12/17/hashCode & equals/" id="article-nav-older" class="article-nav-link-wrap">
+        <a href="/2018/01/04/HashMap/" id="article-nav-older" class="article-nav-link-wrap">
         <strong class="article-nav-caption">上一篇</strong>
-        <p class="article-nav-title"></p>
+        <p class="article-nav-title">HashMap</p>
         <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
         </a>
     
@@ -532,7 +498,7 @@
     var disqus_shortname = 'hexo-theme-hueman';
     
     
-    var disqus_url = 'https://coderlongren.github.io/2017/12/18/Singlen-的几种实现/';
+    var disqus_url = 'https://coderlongren.github.io/2018/01/05/miniTree/';
     
     (function() {
     var dsq = document.createElement('script');
