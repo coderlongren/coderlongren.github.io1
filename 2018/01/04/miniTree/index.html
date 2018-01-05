@@ -3,23 +3,23 @@
 <head>
     <meta charset="utf-8">
     
-    <title>coderlong的博客</title>
+    <title>minDepth | coderlong的博客</title>
     
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
-        <meta name="keywords" content="" />
+        <meta name="keywords" content="java,算法" />
     
-    <meta name="description" content="求一棵树的最小深度我在这里给出了三种语言的解法。Java version1234567891011121314151617public int minDepth(TreeNode root) &amp;#123;    if (root == null) return 0;    int L = minDepth(root.left), R = minDepth(root.right);    retur">
+    <meta name="keywords" content="java,算法">
 <meta property="og:type" content="article">
-<meta property="og:title" content="coderlong的博客">
-<meta property="og:url" content="https://coderlongren.github.io/2018/01/05/miniTree/index.html">
+<meta property="og:title" content="minDepth">
+<meta property="og:url" content="https://coderlongren.github.io/2018/01/04/miniTree/index.html">
 <meta property="og:site_name" content="coderlong的博客">
-<meta property="og:description" content="求一棵树的最小深度我在这里给出了三种语言的解法。Java version1234567891011121314151617public int minDepth(TreeNode root) &amp;#123;    if (root == null) return 0;    int L = minDepth(root.left), R = minDepth(root.right);    retur">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-01-05T03:16:55.250Z">
+<meta property="og:image" content="https://coderlongren.github.io/images/suanfa.jpg">
+<meta property="og:updated_time" content="2018-01-05T14:28:00.141Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="coderlong的博客">
-<meta name="twitter:description" content="求一棵树的最小深度我在这里给出了三种语言的解法。Java version1234567891011121314151617public int minDepth(TreeNode root) &amp;#123;    if (root == null) return 0;    int L = minDepth(root.left), R = minDepth(root.right);    retur">
+<meta name="twitter:title" content="minDepth">
+<meta name="twitter:image" content="https://coderlongren.github.io/images/suanfa.jpg">
     
 
     
@@ -136,28 +136,44 @@
                         <div class="main-body-header">
     <h1 class="header">
     
-    未分类
+    <a class="page-title-link" href="/categories/java/">java</a>
     </h1>
 </div>
                         <div class="main-body-content">
                             <article id="post-miniTree" class="article article-single article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        minDepth
+        </h1>
+    
+
+            </header>
+        
         
             <div class="article-meta">
                 
     <div class="article-date">
-        <a href="/2018/01/05/miniTree/" class="article-date">
-            <time datetime="2018-01-05T03:21:59.901Z" itemprop="datePublished">2018-01-05</time>
+        <a href="/2018/01/04/miniTree/" class="article-date">
+            <time datetime="2018-01-04T15:21:41.000Z" itemprop="datePublished">2018-01-04</time>
         </a>
     </div>
 
                 
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/java/">java</a>, <a class="tag-link" href="/tags/算法/">算法</a>
+    </div>
+
             </div>
         
         
         <div class="article-entry" itemprop="articleBody">
-            <h1 id="求一棵树的最小深度"><a href="#求一棵树的最小深度" class="headerlink" title="求一棵树的最小深度"></a>求一棵树的最小深度</h1><p>我在这里给出了三种语言的解法。<br><code>Java version</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">public int minDepth(TreeNode root) &#123;</div><div class="line">    if (root == null) return 0;</div><div class="line">    int L = minDepth(root.left), R = minDepth(root.right);</div><div class="line">    return 1 + (Math.min(L, R) &gt; 0 ? Math.min(L, R) : Math.max(L, R));</div><div class="line">&#125;</div><div class="line"></div><div class="line">public int minDepth(TreeNode root) &#123;</div><div class="line">    if (root == null) return 0;</div><div class="line">    int L = minDepth(root.left), R = minDepth(root.right), m = Math.min(L, R);</div><div class="line">    return 1 + (m &gt; 0 ? m : Math.max(L, R));</div><div class="line">&#125;</div><div class="line"></div><div class="line">public int minDepth(TreeNode root) &#123;</div><div class="line">    if (root == null) return 0;</div><div class="line">    int L = minDepth(root.left), R = minDepth(root.right);</div><div class="line">    return L&lt;R &amp;&amp; L&gt;0 || R&lt;1 ? 1+L : 1+R;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+            <p><img src="/images/suanfa.jpg" alt=""><br><a id="more"></a><br>正文：</p>
+<h1 id="求一棵树的最小深度"><a href="#求一棵树的最小深度" class="headerlink" title="求一棵树的最小深度"></a>求一棵树的最小深度</h1><h1 id="求一棵树的最小深度-1"><a href="#求一棵树的最小深度-1" class="headerlink" title="求一棵树的最小深度"></a>求一棵树的最小深度</h1><p>我在这里给出了三种语言的解法。<br><code>Java version</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">public int minDepth(TreeNode root) &#123;</div><div class="line">    if (root == null) return 0;</div><div class="line">    int L = minDepth(root.left), R = minDepth(root.right);</div><div class="line">    return 1 + (Math.min(L, R) &gt; 0 ? Math.min(L, R) : Math.max(L, R));</div><div class="line">&#125;</div><div class="line"></div><div class="line">public int minDepth(TreeNode root) &#123;</div><div class="line">    if (root == null) return 0;</div><div class="line">    int L = minDepth(root.left), R = minDepth(root.right), m = Math.min(L, R);</div><div class="line">    return 1 + (m &gt; 0 ? m : Math.max(L, R));</div><div class="line">&#125;</div><div class="line"></div><div class="line">public int minDepth(TreeNode root) &#123;</div><div class="line">    if (root == null) return 0;</div><div class="line">    int L = minDepth(root.left), R = minDepth(root.right);</div><div class="line">    return L&lt;R &amp;&amp; L&gt;0 || R&lt;1 ? 1+L : 1+R;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p><code>Python version</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">def minDepth(self, root):</div><div class="line">    if not root: return 0</div><div class="line">    d = map(self.minDepth, (root.left, root.right))</div><div class="line">    return 1 + (min(d) or max(d))</div><div class="line"></div><div class="line">def minDepth(self, root):</div><div class="line">    if not root: return 0</div><div class="line">    d, D = sorted(map(self.minDepth, (root.left, root.right)))</div><div class="line">    return 1 + (d or D)</div></pre></td></tr></table></figure></p>
 <p><code>c++ version</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">int minDepth(TreeNode* root) &#123;</div><div class="line">    if (!root) return 0;</div><div class="line">    int L = minDepth(root-&gt;left), R = minDepth(root-&gt;right);</div><div class="line">    return 1 + (min(L, R) ? min(L, R) : max(L, R));</div><div class="line">&#125;</div><div class="line"></div><div class="line">int minDepth(TreeNode* root) &#123;</div><div class="line">    if (!root) return 0;</div><div class="line">    int L = minDepth(root-&gt;left), R = minDepth(root-&gt;right);</div><div class="line">    return 1 + (L &amp;&amp; R ? min(L, R) : max(L, R));</div><div class="line">&#125;</div><div class="line"></div><div class="line">int minDepth(TreeNode* root) &#123;</div><div class="line">    if (!root) return 0;</div><div class="line">    int L = minDepth(root-&gt;left), R = minDepth(root-&gt;right);</div><div class="line">    return 1 + (!L-!R ? max(L, R) : min(L, R));</div><div class="line">&#125;</div><div class="line"></div><div class="line">int minDepth(TreeNode* root) &#123;</div><div class="line">    if (!root) return 0;</div><div class="line">    int L = minDepth(root-&gt;left), R = minDepth(root-&gt;right);</div><div class="line">    return L&lt;R &amp;&amp; L || !R ? 1+L : 1+R;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 
@@ -167,7 +183,7 @@
 
 
 
-    <a data-url="https://coderlongren.github.io/2018/01/05/miniTree/" data-id="cjc1cugg60000nsnn4g7ngmak" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
+    <a data-url="https://coderlongren.github.io/2018/01/04/miniTree/" data-id="cjc1cugg60000nsnn4g7ngmak" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
 <script>
     (function ($) {
         $('body').on('click', function() {
@@ -302,10 +318,10 @@
                     <li>
                         
                         <div class="item-thumbnail">
-                            <a href="/2018/01/05/miniTree/" class="thumbnail">
+                            <a href="/2018/01/04/miniTree/" class="thumbnail">
     
     
-        <span class="thumbnail-image thumbnail-none"></span>
+        <span style="background-image:url(/images/suanfa.jpg)" alt="minDepth" class="thumbnail-image"></span>
     
     
 </a>
@@ -313,9 +329,9 @@
                         </div>
                         
                         <div class="item-inner">
-                            <p class="item-category"></p>
-                            <p class="item-title"><a href="/2018/01/05/miniTree/" class="title"></a></p>
-                            <p class="item-date"><time datetime="2018-01-05T03:21:59.901Z" itemprop="datePublished">2018-01-05</time></p>
+                            <p class="item-category"><a class="article-category-link" href="/categories/java/">java</a></p>
+                            <p class="item-title"><a href="/2018/01/04/miniTree/" class="title">minDepth</a></p>
+                            <p class="item-date"><time datetime="2018-01-04T15:21:41.000Z" itemprop="datePublished">2018-01-04</time></p>
                         </div>
                     </li>
                 
@@ -420,7 +436,7 @@
     <div class="widget-wrap widget-list">
         <h3 class="widget-title">分类</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Redis/">Redis</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/algorithm/">algorithm</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/java/">java</a><span class="category-list-count">11</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/java/spring/">spring</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/生活/">生活</a><span class="category-list-count">6</span></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Redis/">Redis</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/algorithm/">algorithm</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/java/">java</a><span class="category-list-count">12</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/java/spring/">spring</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/生活/">生活</a><span class="category-list-count">6</span></li></ul>
         </div>
     </div>
 
@@ -440,7 +456,7 @@
     <div class="widget-wrap widget-list">
         <h3 class="widget-title">标签</h3>
         <div class="widget">
-            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/C/">C</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JDK/">JDK</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/">JVM</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Tomcat/">Tomcat</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/algorithm/">algorithm</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cach/">cach</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/db/">db</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a><span class="tag-list-count">14</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java集合/">java集合</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/leetcode/">leetcode</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/moon/">moon</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis/">redis</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spring/">spring</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tomcat/">tomcat</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/个人/">个人</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/个人体会/">个人体会</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/个人感想/">个人感想</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/代码/">代码</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/吐槽/">吐槽</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/开发/">开发</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/火影/">火影</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/生活/">生活</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/编程/">编程</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/记录/">记录</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/设计模式/">设计模式</a><span class="tag-list-count">2</span></li></ul>
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/C/">C</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JDK/">JDK</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/">JVM</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Tomcat/">Tomcat</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/algorithm/">algorithm</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cach/">cach</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/db/">db</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java集合/">java集合</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/leetcode/">leetcode</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/moon/">moon</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis/">redis</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spring/">spring</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tomcat/">tomcat</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/个人/">个人</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/个人体会/">个人体会</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/个人感想/">个人感想</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/代码/">代码</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/吐槽/">吐槽</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/开发/">开发</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/火影/">火影</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/生活/">生活</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/编程/">编程</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/记录/">记录</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/设计模式/">设计模式</a><span class="tag-list-count">2</span></li></ul>
         </div>
     </div>
 
@@ -450,7 +466,7 @@
     <div class="widget-wrap widget-float">
         <h3 class="widget-title">标签云</h3>
         <div class="widget tagcloud">
-            <a href="/tags/C/" style="font-size: 12px;">C</a> <a href="/tags/JDK/" style="font-size: 14px;">JDK</a> <a href="/tags/JVM/" style="font-size: 10px;">JVM</a> <a href="/tags/Tomcat/" style="font-size: 12px;">Tomcat</a> <a href="/tags/algorithm/" style="font-size: 18px;">algorithm</a> <a href="/tags/cach/" style="font-size: 12px;">cach</a> <a href="/tags/db/" style="font-size: 12px;">db</a> <a href="/tags/java/" style="font-size: 20px;">java</a> <a href="/tags/java集合/" style="font-size: 12px;">java集合</a> <a href="/tags/leetcode/" style="font-size: 10px;">leetcode</a> <a href="/tags/moon/" style="font-size: 10px;">moon</a> <a href="/tags/redis/" style="font-size: 10px;">redis</a> <a href="/tags/spring/" style="font-size: 10px;">spring</a> <a href="/tags/tomcat/" style="font-size: 10px;">tomcat</a> <a href="/tags/个人/" style="font-size: 10px;">个人</a> <a href="/tags/个人体会/" style="font-size: 10px;">个人体会</a> <a href="/tags/个人感想/" style="font-size: 10px;">个人感想</a> <a href="/tags/代码/" style="font-size: 12px;">代码</a> <a href="/tags/吐槽/" style="font-size: 10px;">吐槽</a> <a href="/tags/开发/" style="font-size: 10px;">开发</a> <a href="/tags/火影/" style="font-size: 10px;">火影</a> <a href="/tags/生活/" style="font-size: 16px;">生活</a> <a href="/tags/编程/" style="font-size: 10px;">编程</a> <a href="/tags/记录/" style="font-size: 10px;">记录</a> <a href="/tags/设计模式/" style="font-size: 12px;">设计模式</a>
+            <a href="/tags/C/" style="font-size: 12px;">C</a> <a href="/tags/JDK/" style="font-size: 14px;">JDK</a> <a href="/tags/JVM/" style="font-size: 10px;">JVM</a> <a href="/tags/Tomcat/" style="font-size: 12px;">Tomcat</a> <a href="/tags/algorithm/" style="font-size: 18px;">algorithm</a> <a href="/tags/cach/" style="font-size: 12px;">cach</a> <a href="/tags/db/" style="font-size: 12px;">db</a> <a href="/tags/java/" style="font-size: 20px;">java</a> <a href="/tags/java集合/" style="font-size: 12px;">java集合</a> <a href="/tags/leetcode/" style="font-size: 10px;">leetcode</a> <a href="/tags/moon/" style="font-size: 10px;">moon</a> <a href="/tags/redis/" style="font-size: 10px;">redis</a> <a href="/tags/spring/" style="font-size: 10px;">spring</a> <a href="/tags/tomcat/" style="font-size: 10px;">tomcat</a> <a href="/tags/个人/" style="font-size: 10px;">个人</a> <a href="/tags/个人体会/" style="font-size: 10px;">个人体会</a> <a href="/tags/个人感想/" style="font-size: 10px;">个人感想</a> <a href="/tags/代码/" style="font-size: 12px;">代码</a> <a href="/tags/吐槽/" style="font-size: 10px;">吐槽</a> <a href="/tags/开发/" style="font-size: 10px;">开发</a> <a href="/tags/火影/" style="font-size: 10px;">火影</a> <a href="/tags/生活/" style="font-size: 16px;">生活</a> <a href="/tags/算法/" style="font-size: 10px;">算法</a> <a href="/tags/编程/" style="font-size: 10px;">编程</a> <a href="/tags/记录/" style="font-size: 10px;">记录</a> <a href="/tags/设计模式/" style="font-size: 12px;">设计模式</a>
         </div>
     </div>
 
@@ -498,7 +514,7 @@
     var disqus_shortname = 'hexo-theme-hueman';
     
     
-    var disqus_url = 'https://coderlongren.github.io/2018/01/05/miniTree/';
+    var disqus_url = 'https://coderlongren.github.io/2018/01/04/miniTree/';
     
     (function() {
     var dsq = document.createElement('script');
