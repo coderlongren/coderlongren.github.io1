@@ -3,26 +3,22 @@
 <head>
     <meta charset="utf-8">
     
-    <title>Collections | coderlong的博客</title>
+    <title>coderlong的博客</title>
     
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
-        <meta name="keywords" content="java,java集合,JDK" />
+        <meta name="keywords" content="" />
     
-    <meta name="description" content="摘要：没有摘要">
-<meta name="keywords" content="java,java集合,JDK">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Collections">
-<meta property="og:url" content="https://coderlongren.github.io/2017/12/27/Collections/index.html">
+    <meta property="og:type" content="article">
+<meta property="og:title" content="coderlong的博客">
+<meta property="og:url" content="https://coderlongren.github.io/2018/01/05/ConvertBSTtoGreaterTree/index.html">
 <meta property="og:site_name" content="coderlong的博客">
-<meta property="og:description" content="摘要：没有摘要">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://coderlongren.github.io/images/collection.jpg">
-<meta property="og:updated_time" content="2017-12-27T04:53:21.502Z">
+<meta property="og:image" content="https://coderlongren.github.io/images/tree1.jpg">
+<meta property="og:updated_time" content="2018-01-05T14:30:58.491Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Collections">
-<meta name="twitter:description" content="摘要：没有摘要">
-<meta name="twitter:image" content="https://coderlongren.github.io/images/collection.jpg">
+<meta name="twitter:title" content="coderlong的博客">
+<meta name="twitter:image" content="https://coderlongren.github.io/images/tree1.jpg">
     
 
     
@@ -139,43 +135,30 @@
                         <div class="main-body-header">
     <h1 class="header">
     
-    <a class="page-title-link" href="/categories/java/">java</a>
+    未分类
     </h1>
 </div>
                         <div class="main-body-content">
-                            <article id="post-Collections" class="article article-single article-type-post" itemscope itemprop="blogPost">
+                            <article id="post-ConvertBSTtoGreaterTree" class="article article-single article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
-        
-            <header class="article-header">
-                
-    
-        <h1 class="article-title" itemprop="name">
-        Collections
-        </h1>
-    
-
-            </header>
         
         
             <div class="article-meta">
                 
     <div class="article-date">
-        <a href="/2017/12/27/Collections/" class="article-date">
-            <time datetime="2017-12-27T04:49:59.000Z" itemprop="datePublished">2017-12-27</time>
+        <a href="/2018/01/05/ConvertBSTtoGreaterTree/" class="article-date">
+            <time datetime="2018-01-05T14:23:53.730Z" itemprop="datePublished">2018-01-05</time>
         </a>
     </div>
 
                 
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/JDK/">JDK</a>, <a class="tag-link" href="/tags/java/">java</a>, <a class="tag-link" href="/tags/java集合/">java集合</a>
-    </div>
-
             </div>
         
         
         <div class="article-entry" itemprop="articleBody">
-            <p>摘要：没有摘要<br><img src="/images/collection.jpg" alt=""><br><a id="more"></a><br>正文：</p>
+            <p><img src="/images/tree1.jpg" alt=""><br><a id="more"></a><br>正文：</p>
+<h1 id="Convert-BST-to-Greater-Tree"><a href="#Convert-BST-to-Greater-Tree" class="headerlink" title="Convert BST to Greater Tree"></a>Convert BST to Greater Tree</h1><p><code>题目</code><br>Given a Binary Search Tree (BST), convert it to a Greater Tree such that every key of the original BST is changed to the original key plus sum of all keys greater than the original key in BST.<br><strong>Example</strong> :<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">Input: The root of a Binary Search Tree like this:</div><div class="line">              5</div><div class="line">            /   \</div><div class="line">           2     13</div><div class="line"></div><div class="line">Output: The root of a Greater Tree like this:</div><div class="line">             18</div><div class="line">            /   \</div><div class="line">          20     13</div></pre></td></tr></table></figure></p>
+<p><em>解析</em> 这道题利用二叉树的后序遍历是最巧妙地，第一次commit, 传值没有通过，最后利用传递A对象的Val，AC<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line"> * Definition for a binary tree node.</div><div class="line"> * public class TreeNode &#123;</div><div class="line"> *     int val;</div><div class="line"> *     TreeNode left;</div><div class="line"> *     TreeNode right;</div><div class="line"> *     TreeNode(int x) &#123; val = x; &#125;</div><div class="line"> * &#125;</div><div class="line"> */</div><div class="line">class Solution &#123;</div><div class="line">   </div><div class="line">    public TreeNode convertBST(TreeNode root) &#123;</div><div class="line">        A a = new A();</div><div class="line">		a.val = Integer.MIN_VALUE;</div><div class="line">        search(root,a);</div><div class="line">        return root;</div><div class="line">    &#125;</div><div class="line">  public int search(TreeNode root,A a)&#123;</div><div class="line">		if (root == null)&#123;</div><div class="line">			return 0;</div><div class="line">		&#125;</div><div class="line">		search(root.right, a);</div><div class="line">		if (a.val != Integer.MIN_VALUE)&#123;</div><div class="line">			root.val = root.val + a.val;</div><div class="line">		&#125;</div><div class="line">		a.val = root.val;</div><div class="line">		search(root.left, a);</div><div class="line">		return a.val;</div><div class="line">	&#125;</div><div class="line">	class A&#123;</div><div class="line">		int val;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 
         </div>
         <footer class="article-footer">
@@ -183,7 +166,7 @@
 
 
 
-    <a data-url="https://coderlongren.github.io/2017/12/27/Collections/" data-id="cjc0k7uyn000158nnadn2sesg" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
+    <a data-url="https://coderlongren.github.io/2018/01/05/ConvertBSTtoGreaterTree/" data-id="cjc20q9jj00009knn3gmr6fdz" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
 <script>
     (function ($) {
         $('body').on('click', function() {
@@ -296,20 +279,10 @@
         
 <nav id="article-nav">
     
-        <a href="/2017/12/27/ArrayList/" id="article-nav-newer" class="article-nav-link-wrap">
-        <strong class="article-nav-caption">下一篇</strong>
-        <p class="article-nav-title">
-        
-            ArrayList
-        
-        </p>
-        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
-    </a>
     
-    
-        <a href="/2017/12/23/receive-my-kneels/" id="article-nav-older" class="article-nav-link-wrap">
+        <a href="/2018/01/05/miniTree/" id="article-nav-older" class="article-nav-link-wrap">
         <strong class="article-nav-caption">上一篇</strong>
-        <p class="article-nav-title">receive my kneels</p>
+        <p class="article-nav-title"></p>
         <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
         </a>
     
@@ -524,7 +497,7 @@
     var disqus_shortname = 'hexo-theme-hueman';
     
     
-    var disqus_url = 'https://coderlongren.github.io/2017/12/27/Collections/';
+    var disqus_url = 'https://coderlongren.github.io/2018/01/05/ConvertBSTtoGreaterTree/';
     
     (function() {
     var dsq = document.createElement('script');
