@@ -387,35 +387,8 @@
         
           
             <h2 id="Partition-Labels"><a href="#Partition-Labels" class="headerlink" title="Partition Labels"></a>Partition Labels</h2><p>A string S of lowercase letters is given. We want to partition this string into as many parts as possible so that each letter appears in at most one part, and return a list of<br>integers representing the size of these parts.<br><em>Example 1:</em>  </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">Input: S = &quot;ababcbacadefegdehijhklij&quot;</div><div class="line">Output: [9,7,8]</div><div class="line">Explanation:</div><div class="line">The partition is &quot;ababcbaca&quot;, &quot;defegde&quot;, &quot;hijhklij&quot;.</div><div class="line">This is a partition so that each letter appears in at most one part.</div><div class="line">A partition like &quot;ababcbacadefegde&quot;, &quot;hijhklij&quot; is incorrect, because it splits S into less parts.</div><div class="line">``` </div><div class="line"></div><div class="line">*Note:*  </div><div class="line">	S will have length in range [1, 500].  </div><div class="line">    S will consist of lowercase letters (&apos;a&apos; to &apos;z&apos;) only.</div><div class="line"></div><div class="line"></div><div class="line">把一个字符串分割成，几部分，要求：分割的个数尽可能多，每部分都是独立的  </div><div class="line">`独立的`:</div><div class="line">除了这个部分外，字符串其他部分不包含这个窗口里面的字符。</div></pre></td></tr></table></figure>
-<p>public static void main(String[] args) {<br>        // TODO Auto-generated method stub<br>        String S = “ababcbacadefegdehijhklij”;<br>        System.out.println(partitionLabels(S));<br>    }<br>     public static List<integer> partitionLabels(String S) {<br>            List<integer> res = new ArrayList&lt;&gt;();</integer></integer></p>
-<pre><code>    int[] table = new int[26];
-    char[] stc = S.toCharArray();
-    for(char c:stc)// 记录C 在整个String里面出现的次数
-        table[c-&apos;a&apos;]++;
-
-    int i = 0, j = 0, l = S.length(), counter = 0;
-    HashSet&lt;Character&gt; hs = new HashSet&lt;&gt;();
-    while(j &lt; l){
-        char c = stc[j];
-        if(!hs.contains(c)){//  count记录，   除了窗口里面的字符，外面都不包含这个窗口里面的字符，也就是说这个窗口是独立于整个字符串的
-            hs.add(c);
-            counter++;
-        }
-        table[c-&apos;a&apos;]--; // 
-        j++;
-        if(table[c-&apos;a&apos;] == 0){ // table[c - &apos;a&apos;] == 0 也就意味着窗口已经包含字符串里面所有的这个字符 c
-            counter--;
-            hs.remove(c);
-        }
-        if(counter == 0){// 如果count，说明整个窗口是独立于整个字符串的 
-            res.add(j - i);// 把这个窗口的长度记录到res
-            i = j;// 重新选择一个窗口，也就是重置起点   i坐标
-        }            
-    } 
-    return res;
-}
-</code></pre><p>```</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">Input: S = &quot;ababcbacadefegdehijhklij&quot;</div><div class="line">Output: [9,7,8]</div><div class="line">Explanation:</div><div class="line">The partition is &quot;ababcbaca&quot;, &quot;defegde&quot;, &quot;hijhklij&quot;.</div><div class="line">This is a partition so that each letter appears in at most one part.</div><div class="line">A partition like &quot;ababcbacadefegde&quot;, &quot;hijhklij&quot; is incorrect, because it splits S into less parts.</div></pre></td></tr></table></figure>
+<p><em>Note:</em><br>    S will have length in range [1, 500].<br>    S will consist of lowercase letters (‘a’ to ‘z’) only.<br>把一个字符串分割成，几部分，要求：分割的个数尽可能多，每部分都是独立的<br><code>独立的</code>:<br>除了这个部分外，字符串其他部分不包含这个窗口里面的字符。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line">public static void main(String[] args) &#123;</div><div class="line">		// TODO Auto-generated method stub</div><div class="line">		String S = &quot;ababcbacadefegdehijhklij&quot;;</div><div class="line">		System.out.println(partitionLabels(S));</div><div class="line">	&#125;</div><div class="line">	 public static List&lt;Integer&gt; partitionLabels(String S) &#123;</div><div class="line">	        List&lt;Integer&gt; res = new ArrayList&lt;&gt;();</div><div class="line">	        </div><div class="line">	        int[] table = new int[26];</div><div class="line">	        char[] stc = S.toCharArray();</div><div class="line">	        for(char c:stc)// 记录C 在整个String里面出现的次数</div><div class="line">	            table[c-&apos;a&apos;]++;</div><div class="line">	        </div><div class="line">	        int i = 0, j = 0, l = S.length(), counter = 0;</div><div class="line">	        HashSet&lt;Character&gt; hs = new HashSet&lt;&gt;();</div><div class="line">	        while(j &lt; l)&#123;</div><div class="line">	            char c = stc[j];</div><div class="line">	            if(!hs.contains(c))&#123;//  count记录，   除了窗口里面的字符，外面都不包含这个窗口里面的字符，也就是说这个窗口是独立于整个字符串的</div><div class="line">	                hs.add(c);</div><div class="line">	                counter++;</div><div class="line">	            &#125;</div><div class="line">	            table[c-&apos;a&apos;]--; // </div><div class="line">	            j++;</div><div class="line">	            if(table[c-&apos;a&apos;] == 0)&#123; // table[c - &apos;a&apos;] == 0 也就意味着窗口已经包含字符串里面所有的这个字符 c</div><div class="line">	                counter--;</div><div class="line">	                hs.remove(c);</div><div class="line">	            &#125;</div><div class="line">	            if(counter == 0)&#123;// 如果count，说明整个窗口是独立于整个字符串的 </div><div class="line">	                res.add(j - i);// 把这个窗口的长度记录到res</div><div class="line">	                i = j;// 重新选择一个窗口，也就是重置起点   i坐标</div><div class="line">	            &#125;            </div><div class="line">	        &#125; </div><div class="line">	        return res;</div><div class="line">	    &#125;</div></pre></td></tr></table></figure></p>
 
           
         
