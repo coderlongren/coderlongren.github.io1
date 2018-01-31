@@ -97,15 +97,15 @@
 <meta name="description" content="摘要：没有摘要">
 <meta name="keywords" content="java,java集合,JDK">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Collections">
+<meta property="og:title" content="Collections工具类使用">
 <meta property="og:url" content="https://coderlongren.github.io/2017/12/27/Collections/index.html">
 <meta property="og:site_name" content="coderlong的博客">
 <meta property="og:description" content="摘要：没有摘要">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://coderlongren.github.io/images/collection.jpg">
-<meta property="og:updated_time" content="2017-12-27T04:53:21.502Z">
+<meta property="og:updated_time" content="2018-01-29T15:38:41.608Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Collections">
+<meta name="twitter:title" content="Collections工具类使用">
 <meta name="twitter:description" content="摘要：没有摘要">
 <meta name="twitter:image" content="https://coderlongren.github.io/images/collection.jpg">
 
@@ -142,7 +142,7 @@
 
 
 
-  <title>Collections | coderlong的博客</title>
+  <title>Collections工具类使用 | coderlong的博客</title>
   
 
 
@@ -315,7 +315,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Collections</h1>
+          <h1 class="post-title" itemprop="name headline">Collections工具类使用</h1>
         
 
         <div class="post-meta">
@@ -388,6 +388,33 @@
 
       
         <p>摘要：没有摘要<br><img src="/images/collection.jpg" alt=""><br><a id="more"></a><br>正文：</p>
+<h1 id="排序操作"><a href="#排序操作" class="headerlink" title="排序操作"></a>排序操作</h1><p>void reverse(List list)：反转  </p>
+<p>void shuffle(List list),随机排序  </p>
+<p>void sort(List list),按自然排序的升序排序  </p>
+<p>void sort(List list, Comparator c);定制排序，由Comparator控制排序逻辑  </p>
+<p>void swap(List list, int i , int j),交换两个索引位置的元素  </p>
+<p>void rotate(List list, int distance),  旋转。当distance为正数时，将list后distance个元素整体移到前面。当distance为负数时，将 list的前distance个元素整体移到后面。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line">package collection;</div><div class="line"></div><div class="line">import java.util.ArrayList;</div><div class="line">import java.util.Collections;</div><div class="line">import java.util.Comparator;</div><div class="line"></div><div class="line">public class CollectionsTest &#123;</div><div class="line">    public static void main(String[] args) &#123;</div><div class="line">        ArrayList nums =  new ArrayList();</div><div class="line">        nums.add(8);</div><div class="line">        nums.add(-3);</div><div class="line">        nums.add(2);</div><div class="line">        nums.add(9);</div><div class="line">        nums.add(-2);</div><div class="line">        System.out.println(nums);</div><div class="line">        Collections.reverse(nums);</div><div class="line">        System.out.println(nums);</div><div class="line">        Collections.sort(nums);</div><div class="line">        System.out.println(nums);</div><div class="line">        Collections.shuffle(nums);</div><div class="line">        System.out.println(nums);</div><div class="line">        //下面只是为了演示定制排序的用法，将int类型转成string进行比较</div><div class="line">        Collections.sort(nums, new Comparator() &#123;</div><div class="line">            </div><div class="line">            @Override</div><div class="line">            public int compare(Object o1, Object o2) &#123;</div><div class="line">                // TODO Auto-generated method stub</div><div class="line">                String s1 = String.valueOf(o1);</div><div class="line">                String s2 = String.valueOf(o2);</div><div class="line">                return s1.compareTo(s2);</div><div class="line">            &#125;</div><div class="line">            </div><div class="line">        &#125;);</div><div class="line">        System.out.println(nums);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h1 id="查找，替换操作"><a href="#查找，替换操作" class="headerlink" title="查找，替换操作"></a>查找，替换操作</h1><p>int binarySearch(List list, Object key), 对List进行二分查找，返回索引，注意List必须是有序的</p>
+<p>int max(Collection coll),根据元素的自然顺序，返回最大的元素。 类比int min(Collection coll)</p>
+<p>int max(Collection coll, Comparator c)，根据定制排序，返回最大元素，排序规则由Comparatator类控制。类比int min(Collection coll, Comparator c)</p>
+<p>void fill(List list, Object obj),用元素obj填充list中所有元素</p>
+<p>int frequency(Collection c, Object o)，统计元素出现次数</p>
+<p>int indexOfSubList(List list, List target), 统计targe在list中第一次出现的索引，找不到则返回-1，类比int lastIndexOfSubList(List source, list target).</p>
+<p>boolean replaceAll(List list, Object oldVal, Object newVal), 用新元素替换旧元素。</p>
+<h1 id="同步控制"><a href="#同步控制" class="headerlink" title="同步控制"></a>同步控制</h1><p>Collections中几乎对每个集合都定义了同步控制方法，例如 SynchronizedList(), SynchronizedSet()等方法，来将集合包装成线程安全的集合。下面是Collections将普通集合包装成线程安全集合的用法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">package collection.collections;</div><div class="line"></div><div class="line">import java.util.ArrayList;</div><div class="line">import java.util.Collection;</div><div class="line">import java.util.Collections;</div><div class="line">import java.util.HashMap;</div><div class="line">import java.util.HashSet;</div><div class="line">import java.util.List;</div><div class="line">import java.util.Map;</div><div class="line">import java.util.Set;</div><div class="line"></div><div class="line">public class SynchronizedTest &#123;</div><div class="line">    public static void main(String[] args) &#123;</div><div class="line">        Collection c = Collections.synchronizedCollection(new ArrayList());</div><div class="line">        List list = Collections.synchronizedList(new ArrayList());</div><div class="line">        Set s = Collections.synchronizedSet(new HashSet());</div><div class="line">        Map m = Collections.synchronizedMap(new HashMap());</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>设置不可变（只读）集合</p>
+<p>Collections提供了三类方法返回一个不可变集合，</p>
+<p>emptyXXX(),返回一个空的只读集合（这不知用意何在？）</p>
+<p>singleXXX()，返回一个只包含指定对象，只有一个元素，只读的集合。</p>
+<p>unmodifiablleXXX()，返回指定集合对象的只读视图。</p>
+<h2 id="我顺便看了一下，java-util-concueent包的源码结构"><a href="#我顺便看了一下，java-util-concueent包的源码结构" class="headerlink" title="我顺便看了一下，java.util.concueent包的源码结构"></a>我顺便看了一下，java.util.concueent包的源码结构</h2><p>大概就是五部分</p>
+<ol>
+<li>Aomic数据类型<br>这部分都被放在java.util.concurrent.atomic这个包里面，实现了原子化操作的数据类型，包括 Boolean, Integer, Long, 和Referrence这四种类型以及这四种类型的数组类型。</li>
+<li>锁机制<br>在java.util.concurrent.lock这个包里面，实现了并发操作中的几种类型的锁</li>
+<li>对现有Java集合的并发实现<br>有List, Queue和Map。</li>
+<li>多线程部分<br>Callable     被执行的任务<br>Executor  执行任务<br>Future      异步提交任务的返回数据</li>
+<li>线程管理<br>对线程集合的管理的实现，有CyclicBarrier, CountDownLatch,Exchanger等一些类</li>
+</ol>
 
       
     </div>
@@ -515,8 +542,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.gif"
@@ -531,7 +567,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">40</span>
+                <span class="site-state-item-count">41</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -624,6 +660,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#排序操作"><span class="nav-number">1.</span> <span class="nav-text">排序操作</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#查找，替换操作"><span class="nav-number">2.</span> <span class="nav-text">查找，替换操作</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#同步控制"><span class="nav-number">3.</span> <span class="nav-text">同步控制</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#我顺便看了一下，java-util-concueent包的源码结构"><span class="nav-number">3.1.</span> <span class="nav-text">我顺便看了一下，java.util.concueent包的源码结构</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
