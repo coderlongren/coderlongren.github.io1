@@ -293,6 +293,165 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/02/07/Max Sum of Rectangle No Larger Than K/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rensailong">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="coderlong的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/02/07/Max Sum of Rectangle No Larger Than K/" itemprop="url">363.Max Sum of Rectangle No Larger Than K</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-07T21:48:38+08:00">
+                2018-02-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/algorithm/" itemprop="url" rel="index">
+                    <span itemprop="name">algorithm</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>Given a non-empty 2D matrix matrix and an integer k, find the max sum of a rectangle in the matrix such that its sum is no larger than k.</p>
+<p><em>Example:</em><br>    Given matrix = [<br>      [1,  0, 1],<br>      [0, -2, 3]<br>    ]<br>    k = 2</p>
+<p>The answer is <strong>2</strong>. Because the sum of rectangle <strong>[[0, 1], [-2, 3]]</strong> is 2 and 2 is the max number no larger than k (k = 2).  </p>
+<p>Note:<br>    The rectangle inside the matrix must have an area &gt; 0.<br>    What if the number of rows is much larger than the number of columns?</p>
+<p>按照<code>[LeetCode] Range Sum Query 2D - Immutable 二维区域和检索 - 不可变</code> 一样的方法，使用O(n^4)复杂度得出答案。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">maxSumSubmatrix</span><span class="params">(<span class="keyword">int</span>[][] matrix, <span class="keyword">int</span> k)</span> </span>&#123;</div><div class="line">			<span class="keyword">if</span> (matrix == <span class="keyword">null</span> || matrix.length == <span class="number">0</span> || matrix[<span class="number">0</span>].length == <span class="number">0</span>) &#123;</div><div class="line">				<span class="keyword">return</span> -<span class="number">1</span>;</div><div class="line">			&#125;</div><div class="line">			<span class="comment">// DP数组保存的是右下角和左上角之间区域的和</span></div><div class="line">	        <span class="keyword">int</span>[][] dp = <span class="keyword">new</span> <span class="keyword">int</span>[matrix.length + <span class="number">1</span>][matrix[<span class="number">0</span>].length + <span class="number">1</span>];</div><div class="line"><span class="comment">//	        dp[0][0] = matrix[0][0];</span></div><div class="line">	        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= matrix.length; i++) &#123;</div><div class="line">	        	<span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">1</span>; j &lt;= matrix[<span class="number">0</span>].length; j++) &#123;</div><div class="line">	        		dp[i][j] = dp[i - <span class="number">1</span>][j] + dp[i][j - <span class="number">1</span>] - dp[i - <span class="number">1</span>][j - <span class="number">1</span>] + matrix[i - <span class="number">1</span>][j - <span class="number">1</span>];</div><div class="line">	        	&#125;</div><div class="line">	        &#125;</div><div class="line">	        <span class="keyword">int</span> res = Integer.MIN_VALUE;</div><div class="line">	        <span class="comment">// 这里O(n^4)应该是可以改善的，，，，，，，,暂时还没注意。</span></div><div class="line">	        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= matrix.length; i++) &#123;</div><div class="line">	        	<span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">1</span>; j &lt;= matrix[<span class="number">0</span>].length; j++) &#123;</div><div class="line">	        		<span class="keyword">for</span> (<span class="keyword">int</span> h = i; h &lt;= matrix.length; h++) &#123;</div><div class="line">	        			<span class="keyword">for</span> (<span class="keyword">int</span> s = j; s &lt;= matrix[<span class="number">0</span>].length; s++) &#123;</div><div class="line">	        				<span class="keyword">if</span> (sumRegion(i, j, h, s, dp) == k) &#123;</div><div class="line">	        					<span class="keyword">return</span> k;</div><div class="line">	        				&#125;</div><div class="line">	        				<span class="keyword">if</span> (sumRegion(i, j, h, s, dp) &lt; k) &#123;</div><div class="line">	        					res = Math.max(res, sumRegion(i, j, h, s, dp));</div><div class="line">	        				&#125;</div><div class="line">	        			&#125;</div><div class="line">	        		&#125;</div><div class="line">	        	&#125;</div><div class="line">	        &#125;</div><div class="line">	        <span class="comment">// 没有得到小于k的res</span></div><div class="line">	        <span class="keyword">if</span> (res == Integer.MIN_VALUE) &#123;</div><div class="line">	        	<span class="keyword">return</span> -<span class="number">1</span>;</div><div class="line">	        &#125;</div><div class="line">	        <span class="keyword">return</span> res;</div><div class="line">	 &#125;</div><div class="line">	 <span class="comment">// 求区域和的函数</span></div><div class="line">	 <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">sumRegion</span><span class="params">(<span class="keyword">int</span> row1, <span class="keyword">int</span> col1, <span class="keyword">int</span> row2, <span class="keyword">int</span> col2, <span class="keyword">int</span>[][] dp)</span> </span>&#123;</div><div class="line">	    	</div><div class="line">			<span class="keyword">return</span> dp[row2][col2] - dp[row2][col1 - <span class="number">1</span>] - dp[row1 - <span class="number">1</span>][col2] + dp[row1 - <span class="number">1</span>][col1 - <span class="number">1</span>];</div><div class="line">	        </div><div class="line">	 &#125;</div></pre></td></tr></table></figure>
+<hr>
+<p> Range Sum Query 2D - Immutable 和上面那个题目是相同的思想 </p>
+<p>Given a 2D matrix matrix, find the sum of the elements inside the rectangle defined by its upper left corner (row1, col1) and lower right corner (row2, col2).</p>
+<p>Range Sum Query 2D<br>The above rectangle (with the red border) is defined by (row1, col1) = (2, 1) and (row2, col2) = (4, 3), which contains sum = 8.</p>
+<p>Example:</p>
+<p>Given matrix = [<br>  [3, 0, 1, 4, 2],<br>  [5, 6, 3, 2, 1],<br>  [1, 2, 0, 1, 5],<br>  [4, 1, 0, 1, 7],<br>  [1, 0, 3, 0, 5]<br>]</p>
+<p>sumRegion(2, 1, 4, 3) -&gt; 8<br>sumRegion(1, 1, 2, 2) -&gt; 11<br>sumRegion(1, 2, 2, 4) -&gt; 12</p>
+<p>Note:</p>
+<pre><code>You may assume that the matrix does not change.
+There are many calls to sumRegion function.
+You may assume that row1 ≤ row2 and col1 ≤ col2.
+</code></pre><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">NumMatrix</span> </span>&#123;</div><div class="line">	<span class="keyword">private</span> <span class="keyword">int</span>[][] dp;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="title">NumMatrix</span><span class="params">(<span class="keyword">int</span>[][] matrix)</span> </span>&#123;</div><div class="line">		<span class="keyword">if</span> (matrix == <span class="keyword">null</span> || matrix.length == <span class="number">0</span> || matrix[<span class="number">0</span>].length == <span class="number">0</span>) &#123;</div><div class="line">			<span class="keyword">return</span> ;</div><div class="line">		&#125;</div><div class="line">        <span class="keyword">int</span> rows = matrix.length;</div><div class="line">        <span class="keyword">int</span> cols = matrix[<span class="number">0</span>].length;</div><div class="line">        dp = <span class="keyword">new</span> <span class="keyword">int</span>[rows + <span class="number">1</span>][cols + <span class="number">1</span>];</div><div class="line">        dp[<span class="number">0</span>][<span class="number">0</span>] = matrix[<span class="number">0</span>][<span class="number">0</span>];</div><div class="line"><span class="comment">//        for (int i = 1; i &lt; rows; i++) &#123;</span></div><div class="line"><span class="comment">//        	dp[i][0] = matrix[i][0] + dp[i - 1][0];</span></div><div class="line"><span class="comment">//        &#125;</span></div><div class="line"><span class="comment">//        for (int i = 1; i &lt; cols; i++) &#123;</span></div><div class="line"><span class="comment">//        	dp[0][i] = matrix[0][i] + dp[0][i - 1];</span></div><div class="line"><span class="comment">//        &#125;</span></div><div class="line">        </div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= rows; i++) &#123;</div><div class="line">        	<span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">1</span>; j &lt;= cols; j++) &#123;</div><div class="line">        		dp[i][j] = dp[i - <span class="number">1</span>][j] + dp[i][j - <span class="number">1</span>] - dp[i - <span class="number">1</span>][j - <span class="number">1</span>] + matrix[i - <span class="number">1</span>][j - <span class="number">1</span>];</div><div class="line">        	&#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">sumRegion</span><span class="params">(<span class="keyword">int</span> row1, <span class="keyword">int</span> col1, <span class="keyword">int</span> row2, <span class="keyword">int</span> col2)</span> </span>&#123;</div><div class="line">    	</div><div class="line">		<span class="keyword">return</span> dp[row2 + <span class="number">1</span>][col2 + <span class="number">1</span>] - dp[row2 + <span class="number">1</span>][col1] - dp[row1][col2 + <span class="number">1</span>] + dp[row1][col1];</div><div class="line">        </div><div class="line">    &#125;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		<span class="comment">// TODO Auto-generated method stub</span></div><div class="line">		<span class="keyword">int</span>[][] matrix = &#123;</div><div class="line">		                &#123;<span class="number">3</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">4</span>, <span class="number">2</span>&#125;,</div><div class="line">		                &#123;<span class="number">5</span>, <span class="number">6</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">1</span>&#125;,</div><div class="line">		                &#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">5</span>&#125;,</div><div class="line">		                &#123;<span class="number">4</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">7</span>&#125;,</div><div class="line">		                &#123;<span class="number">1</span>, <span class="number">0</span>, <span class="number">3</span>, <span class="number">0</span>, <span class="number">5</span>&#125;</div><div class="line">		&#125;;</div><div class="line">		NumMatrix matrix2 = <span class="keyword">new</span> NumMatrix(matrix);</div><div class="line">		System.out.println(matrix2.sumRegion(<span class="number">1</span>,<span class="number">2</span>,<span class="number">2</span>,<span class="number">4</span>));</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/02/05/再谈回溯法/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -442,6 +601,310 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/02/05/JUC之lock机制/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rensailong">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="coderlong的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/02/05/JUC之lock机制/" itemprop="url">java.util.concurrent之锁机制</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-05T21:18:40+08:00">
+                2018-02-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JUC/" itemprop="url" rel="index">
+                    <span itemprop="name">JUC</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="Condition借口"><a href="#Condition借口" class="headerlink" title="Condition借口"></a>Condition借口</h3><p>一个线程因为某个condition不满足被挂起，直到该Condition被满足了。<br>类似与Object的wait/<br>notify，因此Condition对象应该是被多线程共享的，需要使用锁保护其状态的一致性</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">BoundedBuffer</span> </span>&#123;</div><div class="line">     <span class="keyword">final</span> Lock lock = <span class="keyword">new</span> ReentrantLock();</div><div class="line">     <span class="keyword">final</span> Condition notFull     = lock.newCondition();</div><div class="line">     <span class="keyword">final</span> Condition notEmpty = lock.newCondition();</div><div class="line"></div><div class="line">     <span class="keyword">final</span> Object[] items = <span class="keyword">new</span> Object[<span class="number">100</span>];</div><div class="line">     <span class="keyword">int</span> putptr, takeptr, count;</div><div class="line"></div><div class="line">     <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">put</span><span class="params">(Object x)</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</div><div class="line">          lock.lock();</div><div class="line">          <span class="keyword">try</span> &#123;</div><div class="line">               <span class="keyword">while</span> (count == items.length)</div><div class="line">                    notFull.await();</div><div class="line">               items[putptr] = x;</div><div class="line">               <span class="keyword">if</span> (++putptr == items.length) putptr = <span class="number">0</span>;</div><div class="line">               ++count;</div><div class="line">               notEmpty.signal();</div><div class="line">          &#125; <span class="keyword">finally</span> &#123;</div><div class="line">               lock.unlock();</div><div class="line">          &#125;</div><div class="line">     &#125;         </div><div class="line"></div><div class="line">     <span class="function"><span class="keyword">public</span> Object <span class="title">take</span><span class="params">()</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</div><div class="line">          lock.lock();</div><div class="line">          <span class="keyword">try</span> &#123;</div><div class="line">               <span class="keyword">while</span> (count == <span class="number">0</span>)</div><div class="line">                    notEmpty.await();</div><div class="line">               Object x = items[takeptr];</div><div class="line">               <span class="keyword">if</span> (++takeptr == items.length) takeptr = <span class="number">0</span>;</div><div class="line">               --count;</div><div class="line">               notFull.signal();</div><div class="line">               <span class="keyword">return</span> x;</div><div class="line">          &#125; <span class="keyword">finally</span> &#123;</div><div class="line">               lock.unlock();</div><div class="line">          &#125;</div><div class="line">     &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="Lock和ReadWriteLock"><a href="#Lock和ReadWriteLock" class="headerlink" title="Lock和ReadWriteLock"></a>Lock和ReadWriteLock</h2><p>两个接口，后者不是前者的子接口，通过以下ReadWriteLock的代码就可以看出两者的联系了：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">ReadWriteLock</span> </span>&#123;</div><div class="line">    <span class="comment">/**</span></div><div class="line"><span class="comment">     * Returns the lock used for reading.</span></div><div class="line"><span class="comment">     *</span></div><div class="line"><span class="comment">     * <span class="doctag">@return</span> the lock used for reading.</span></div><div class="line"><span class="comment">     读锁</span></div><div class="line"><span class="comment">     */</span></div><div class="line">    <span class="function">Lock <span class="title">readLock</span><span class="params">()</span></span>;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line"><span class="comment">     * Returns the lock used for writing.</span></div><div class="line"><span class="comment">     *写锁</span></div><div class="line"><span class="comment">     * <span class="doctag">@return</span> the lock used for writing.</span></div><div class="line"><span class="comment">     */</span></div><div class="line">    <span class="function">Lock <span class="title">writeLock</span><span class="params">()</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>两个接口都有一个可重入(ReentrantLock, ReentrantReadWriteLock)的实现</p>
+<h2 id="LockSupport工具类"><a href="#LockSupport工具类" class="headerlink" title="LockSupport工具类"></a>LockSupport工具类</h2><p>这这个类，我也不还很明白，是一个工具类，操作对象是线程，基于Unsafe类实现<br>基本操作park和unpark。park会把使得当前线程失效（没有提供操作其他线程的，其实是可以实现的），暂时挂起</p>
+<h2 id="AbstractOwnableSynchronizer-AbstractQueuedSynchronizer"><a href="#AbstractOwnableSynchronizer-AbstractQueuedSynchronizer" class="headerlink" title="AbstractOwnableSynchronizer, AbstractQueuedSynchronizer,"></a>AbstractOwnableSynchronizer, AbstractQueuedSynchronizer,</h2><p>AbstractQueuedLongSynchronizer<br>并发包的JDK源码充满了大量的 包装类，和设计模式用到的类，所以就算看着中文的注释还是很难读懂，这三个类，就是典型的代表。<br>AbstractQueuedSynchronizer, AbstractQueuedLongSynchronizer是AbstractOwnableSynchronizer的子类，<br>AbstractOwnableSynchronizer只是实现了被线程独占这些功能的Synchronizer，并不包含如何管理实现多个线程的同步。包含了一个exclusiveOwnerThread，set/get方法。</p>
+<p>AbstractQueuedSynchronizer利用Queue的方式来管理线程关于锁的使用和同步，相当于一个锁的管理者。<br>首先关注四个最核心的方法：<br>protected boolean tryAcquire(int arg)<br>protected boolean tryRelease(int arg)<br>protected int tryAcquireShared(int arg)<br>protected boolean tryReleaseShared(int arg)</p>
+<p>前两个用于独占锁，后两者用于共享锁，这四个方法是由子类来实现的，即如何获取和释放锁AbstractQueuedSynchronizer是不参与的，默认实现是不支持，即抛出UnsupportedOperationException。<br>AbstractQueuedSynchronizer做什么呢？</p>
+<p>当 前线程尝试获取锁的时候，AbstractQueuedSynchronizer会先调用tryAcquire或者tryAcquireShared来尝 试获取，如果得到false，那么把当前线程放到等待队列中去，然后再做进一步操作。我们来分析以下6种情况，前三种用于独占锁，后三者用于共享，独占锁 或者共享锁按照等待方式又分为三种：不可中断线程等待，可中断线程等待，尝试限时等待超时放弃。<br>这6种的方法都含有一个int类型的参数，这个是给上面的tryAcquire这种方法使用的，也就是说它一个自定义的参数，一般用来表示某个自定义的状态。</p>
+<ol>
+<li>独占锁，放入队列之后，直到成功获取，会忽略线程的中断<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">public final void acquire(int arg) &#123;</div><div class="line">        if (!tryAcquire(arg) &amp;&amp;</div><div class="line">            acquireQueued(addWaiter(Node.EXCLUSIVE), arg))</div><div class="line">            selfInterrupt();</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="ReentrantReadWriteLock"><a href="#ReentrantReadWriteLock" class="headerlink" title="ReentrantReadWriteLock"></a>ReentrantReadWriteLock</h2>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/02/05/JUC之atomic类/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rensailong">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="coderlong的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/02/05/JUC之atomic类/" itemprop="url">java.util.concurrent.atomic</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-05T20:18:40+08:00">
+                2018-02-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JUC/" itemprop="url" rel="index">
+                    <span itemprop="name">JUC</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>Aomic数据类型有四种类型：AomicBoolean, AomicInteger, AomicLong, 和AomicReferrence(针对Object的)以及它们的数组类型，<br>还有一个特殊的AomicStampedReferrence,它不是AomicReferrence的子类，而是利用AomicReferrence实现的一个储存引用和Integer组的扩展类<br>所有原子操作都是依赖于sun.misc.Unsafe这个类，这个类底层是由C++实现的，利用指针来实现数据操作</p>
+<h2 id="关于CAS"><a href="#关于CAS" class="headerlink" title="关于CAS"></a>关于CAS</h2><p>一种无锁机制，比较并交换, 操作包含三个操作数 —— 内存位置（V）、预期原值（A）和新值(B)。如果内存位置的值与预期原值相匹配，那么处理器会自动将该位置值更新为新值。否则，处理器不做任何操作。无 论哪种情况，它都会在 CAS 指令之前返回该位置的值。CAS 有效地说明了“我认为位置 V 应该包含值 A；如果包含该值，则将 B 放到这个位置；否则，不要更改该位置，只告诉我这个位置现在的值即可”<br>好处：操作系统级别的支持，效率更高，无锁机制，降低线程的等待，实际上是把这个任务丢给了操作系统来做。</p>
+<p>这个理论是整个java.util.concurrent包的基础。</p>
+<h3 id="ATtomicXX的四个数值类型"><a href="#ATtomicXX的四个数值类型" class="headerlink" title="ATtomicXX的四个数值类型"></a>ATtomicXX的四个数值类型</h3><ol>
+<li>value成员都是volatile</li>
+<li>基本方法get/set</li>
+<li>compareAndSet<br> weakCompareAndSet,<br> lazySet: 使用Unsafe按照顺序更新参考Unsafe的C++实现）<br> getAndSet：取当前值，使用当前值和准备更新的值做CAS</li>
+<li>对于Long和Integer<br>getAndIncrement/incrementAndGet<br>getAndDecrement/decrementAndGet<br>getAndAdd/addAndGet<br>三组方法都和getAndSet，取当前值，加减之得到准备更新的值，再做CAS，/左右的区别在于返回的是当前值还是更新值。</li>
+</ol>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/02/05/HashMap源码剖析/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -544,147 +1007,6 @@
 <h2 id="HashMap的定义"><a href="#HashMap的定义" class="headerlink" title="HashMap的定义"></a>HashMap的定义</h2><p>在看HashMap定义前，我们首先需要了解hash是什么意思，hash通常被翻译成“散列”，简单解析下（不对的话还请指出^_^），<em> hash就是通过散列算法，将一个任意长度关键字转换为一个固定长度的散列值 </em>，但是有一点要指出的是，不同的关键字可能会散列出相同的散列值。什么意思呢？也就是关键字和散列值不是一一对应的，散列值会出现冲突。但是为什么会出现这种情况呢，原因是hash是一种压缩映射，举个例子就是将一个8个字节（二进制64位）的long值转换为一个4个字节（二进制32位）的int值，也就是说需要砍掉4个字节（32位），坑位有限，人太多，所以只能两个人一个坑喽。<br>     ok、了解了hash的概念和特点后，来看下HashMap的定义：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HashMap</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt;</span></div><div class="line"><span class="class">     <span class="keyword">extends</span> <span class="title">AbstractMap</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt;</span></div><div class="line"><span class="class">     <span class="keyword">implements</span> <span class="title">Map</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt;, <span class="title">Cloneable</span>, <span class="title">Serializable</span></span></div></pre></td></tr></table></figure>
 
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/02/05/JUC之lock机制/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Rensailong">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="coderlong的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/02/05/JUC之lock机制/" itemprop="url">java.util.concurrent之锁机制</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-05T14:18:40+08:00">
-                2018-02-05
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/JUC/" itemprop="url" rel="index">
-                    <span itemprop="name">JUC</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            
           
         
       
@@ -1563,337 +1885,6 @@ CGlib动态代理是通过继承业务类，生成的动态代理类是业务类
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/01/21/JavaScript严格模式/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Rensailong">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="coderlong的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/01/21/JavaScript严格模式/" itemprop="url">Javascript use strict</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-21T14:18:40+08:00">
-                2018-01-21
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/javascript/" itemprop="url" rel="index">
-                    <span itemprop="name">javascript</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>转载<a href="https://www.cnblogs.com/jiqing9006/p/5091491.html" target="_blank" rel="external">博客园</a></p>
-<h2 id="1-概述"><a href="#1-概述" class="headerlink" title="1 概述"></a>1 概述</h2><p>除了正常运行模式，ECMAscript 5添加了第二种运行模式：”严格模式”（strict mode）。顾名思义，这种模式使得Javascript在更严格的条件下运行。</p>
-<h2 id="2-为何使用严格模式"><a href="#2-为何使用严格模式" class="headerlink" title="2 为何使用严格模式"></a>2 为何使用严格模式</h2><ul>
-<li><p>消除Javascript语法的一些不合理、不严谨之处，减少一些怪异行为;</p>
-</li>
-<li><p>消除代码运行的一些不安全之处，保证代码运行的安全；</p>
-</li>
-<li><p>提高编译器效率，增加运行速度；</p>
-</li>
-<li><p>为未来新版本的Javascript做好铺垫。</p>
-</li>
-</ul>
-<p>“严格模式”体现了Javascript更合理、更安全、更严谨的发展方向，包括IE 10在内的主流浏览器，都已经支持它，许多大项目已经开始全面拥抱它。</p>
-<p>另一方面，同样的代码，在”严格模式”中，可能会有不一样的运行结果；一些在”正常模式”下可以运行的语句，在”严格模式”下将不能运行。掌握这些内容，有助于更细致深入地理解Javascript，让你变成一个更好的程序员。</p>
-<h2 id="3-进入标志"><a href="#3-进入标志" class="headerlink" title="3 进入标志"></a>3 进入标志</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="meta">"use strict"</span></div></pre></td></tr></table></figure>
-<h2 id="4-如何调用"><a href="#4-如何调用" class="headerlink" title="4 如何调用"></a>4 如何调用</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="number">1</span></div><div class="line">&lt;script&gt;</div><div class="line"><span class="meta">　 "use strict"</span>;</div><div class="line">　 <span class="built_in">console</span>.log(<span class="string">"这是严格模式。"</span>);</div><div class="line">&lt;<span class="regexp">/script&gt;</span></div><div class="line"><span class="regexp"></span></div><div class="line"><span class="regexp">2 </span></div><div class="line"><span class="regexp">function strict()&#123;</span></div><div class="line"><span class="regexp">　　　　"use strict";</span></div><div class="line"><span class="regexp">　　　　return "这是严格模式。";</span></div><div class="line"><span class="regexp">　　&#125;</span></div><div class="line"><span class="regexp">　　function notStrict() &#123;</span></div><div class="line"><span class="regexp">　　　　return "这是正常模式。";</span></div><div class="line"><span class="regexp">　　&#125;</span></div></pre></td></tr></table></figure>
-<h2 id="5-语法行为改变"><a href="#5-语法行为改变" class="headerlink" title="5 语法行为改变"></a>5 语法行为改变</h2><p>5.1 在正常模式中，如果一个变量没有声明就赋值，默认是全局变量。严格模式禁止这种用法，全局变量必须显式声明。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="meta">"use strict"</span>;</div><div class="line">　　v = <span class="number">1</span>; <span class="comment">// 报错，v未声明</span></div><div class="line">　　<span class="keyword">for</span>(i = <span class="number">0</span>; i &lt; <span class="number">2</span>; i++) &#123; <span class="comment">// 报错，i未声明</span></div><div class="line">　　&#125;</div></pre></td></tr></table></figure></p>
-<p>5.2 禁止this关键字指向全局对象<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">f</span>(<span class="params"></span>)</span>&#123;</div><div class="line">　　　　<span class="keyword">return</span> !<span class="keyword">this</span>;</div><div class="line">　　&#125; </div><div class="line">　　<span class="comment">// 返回false，因为"this"指向全局对象，"!this"就是false</span></div><div class="line">　　<span class="function"><span class="keyword">function</span> <span class="title">f</span>(<span class="params"></span>)</span>&#123; </div><div class="line"><span class="meta">　　　　"use strict"</span>;</div><div class="line">　　　　<span class="keyword">return</span> !<span class="keyword">this</span>;</div><div class="line">　　&#125; </div><div class="line">　　<span class="comment">// 返回true，因为严格模式下，this的值为undefined，所以"!this"为true。</span></div></pre></td></tr></table></figure></p>
-<p>5.3 禁止删除变量<br>5.4 对象不能有重名的属性</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/01/18/Iterator设计模式&Collection源码剖析/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Rensailong">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="coderlong的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/01/18/Iterator设计模式&Collection源码剖析/" itemprop="url">Iterator&Collection源码剖析</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-18T14:18:40+08:00">
-                2018-01-18
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/JDK/" itemprop="url" rel="index">
-                    <span itemprop="name">JDK</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <ol>
-<li><p>统一接口，<br>ArrayList的定义</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ArrayList</span>&lt;<span class="title">E</span>&gt; <span class="keyword">extends</span> <span class="title">AbstractList</span>&lt;<span class="title">E</span>&gt;</span></div><div class="line"><span class="class">       <span class="keyword">implements</span> <span class="title">List</span>&lt;<span class="title">E</span>&gt;, <span class="title">RandomAccess</span>, <span class="title">Cloneable</span>, <span class="title">java</span>.<span class="title">io</span>.<span class="title">Serializable</span></span></div></pre></td></tr></table></figure>
-</li>
-<li><p>LinkedList的定义</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LinkedList</span>&lt;<span class="title">E</span>&gt;</span></div><div class="line"><span class="class">          <span class="keyword">extends</span> <span class="title">AbstractSequentialList</span>&lt;<span class="title">E</span>&gt;</span></div><div class="line"><span class="class">          <span class="keyword">implements</span> <span class="title">List</span>&lt;<span class="title">E</span>&gt;, <span class="title">Deque</span>&lt;<span class="title">E</span>&gt;, <span class="title">Cloneable</span>, <span class="title">java</span>.<span class="title">io</span>.<span class="title">Serializable</span></span></div></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>从定义上可以看到ArrayList和LinkedList都实现了List接口，ok看下List接口的定义<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">List</span>&lt;<span class="title">E</span>&gt; <span class="keyword">extends</span> <span class="title">Collection</span>&lt;<span class="title">E</span>&gt; </span>&#123;</div><div class="line">         <span class="function"><span class="keyword">int</span> <span class="title">size</span><span class="params">()</span></span>;</div><div class="line">         <span class="function"><span class="keyword">boolean</span> <span class="title">isEmpty</span><span class="params">()</span></span>;</div><div class="line">         <span class="function"><span class="keyword">boolean</span> <span class="title">contains</span><span class="params">(Object o)</span></span>;</div><div class="line">         <span class="function">Iterator&lt;E&gt; <span class="title">iterator</span><span class="params">()</span></span>;</div><div class="line">         Object[] toArray();</div><div class="line">         &lt;T&gt; T[] toArray(T[] a);</div><div class="line">         <span class="function"><span class="keyword">boolean</span> <span class="title">add</span><span class="params">(E e)</span></span>;</div><div class="line">         <span class="function"><span class="keyword">boolean</span> <span class="title">remove</span><span class="params">(Object o)</span></span>;</div><div class="line">         <span class="function"><span class="keyword">boolean</span> <span class="title">containsAll</span><span class="params">(Collection&lt;?&gt; c)</span></span>;</div><div class="line">         <span class="function"><span class="keyword">boolean</span> <span class="title">addAll</span><span class="params">(Collection&lt;? extends E&gt; c)</span></span>;</div><div class="line">         <span class="function"><span class="keyword">boolean</span> <span class="title">addAll</span><span class="params">( <span class="keyword">int</span> index, Collection&lt;? extends E&gt; c)</span></span>;</div><div class="line">         <span class="function"><span class="keyword">boolean</span> <span class="title">removeAll</span><span class="params">(Collection&lt;?&gt; c)</span></span>;</div><div class="line">         <span class="function"><span class="keyword">boolean</span> <span class="title">retainAll</span><span class="params">(Collection&lt;?&gt; c)</span></span>;</div><div class="line">         <span class="function"><span class="keyword">void</span> <span class="title">clear</span><span class="params">()</span></span>;</div><div class="line">         <span class="function"><span class="keyword">boolean</span> <span class="title">equals</span><span class="params">(Object o)</span></span>;</div><div class="line">         <span class="function"><span class="keyword">int</span> <span class="title">hashCode</span><span class="params">()</span></span>;</div><div class="line">         <span class="function">E <span class="title">get</span><span class="params">( <span class="keyword">int</span> index)</span></span>;</div><div class="line">         <span class="function">E <span class="title">set</span><span class="params">( <span class="keyword">int</span> index, E element)</span></span>;</div><div class="line">         <span class="function"><span class="keyword">void</span> <span class="title">add</span><span class="params">( <span class="keyword">int</span> index, E element)</span></span>;</div><div class="line">         <span class="function">E <span class="title">remove</span><span class="params">( <span class="keyword">int</span> index)</span></span>;</div><div class="line">         <span class="function"><span class="keyword">int</span> <span class="title">indexOf</span><span class="params">(Object o)</span></span>;</div><div class="line">         <span class="function"><span class="keyword">int</span> <span class="title">lastIndexOf</span><span class="params">(Object o)</span></span>;</div><div class="line">         <span class="function">ListIterator&lt;E&gt; <span class="title">listIterator</span><span class="params">()</span></span>;</div><div class="line">         <span class="function">ListIterator&lt;E&gt; <span class="title">listIterator</span><span class="params">( <span class="keyword">int</span> index)</span></span>;</div><div class="line">         <span class="function">List&lt;E&gt; <span class="title">subList</span><span class="params">( <span class="keyword">int</span> fromIndex, <span class="keyword">int</span> toIndex)</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>可以看到List中对容器的各种操作add、remove、set、get、size等进行了统一定义，同时List实现了Collection接口，继续看下Collection接口的定义（先不关心Iterator）：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Collection</span>&lt;<span class="title">E</span>&gt; <span class="keyword">extends</span> <span class="title">Iterable</span>&lt;<span class="title">E</span>&gt; </span>&#123;</div><div class="line">          <span class="function"><span class="keyword">int</span> <span class="title">size</span><span class="params">()</span></span>;</div><div class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">isEmpty</span><span class="params">()</span></span>;</div><div class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">contains</span><span class="params">(Object o)</span></span>;</div><div class="line">    <span class="function">Iterator&lt;E&gt; <span class="title">iterator</span><span class="params">()</span></span>;</div><div class="line">    Object[] toArray();</div><div class="line">    &lt;T&gt; T[] toArray(T[] a);</div><div class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">add</span><span class="params">(E e)</span></span>;</div><div class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">remove</span><span class="params">(Object o)</span></span>;</div><div class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">containsAll</span><span class="params">(Collection&lt;?&gt; c)</span></span>;</div><div class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">addAll</span><span class="params">(Collection&lt;? extends E&gt; c)</span></span>;</div><div class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">removeAll</span><span class="params">(Collection&lt;?&gt; c)</span></span>;</div><div class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">retainAll</span><span class="params">(Collection&lt;?&gt; c)</span></span>;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">clear</span><span class="params">()</span></span>;</div><div class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">equals</span><span class="params">(Object o)</span></span>;</div><div class="line">    <span class="function"><span class="keyword">int</span> <span class="title">hashCode</span><span class="params">()</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>有了这两个接口，对于ArrayList和LinkeList的操作是不是就可以这么写了呢？<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="number">1</span> Collection&lt;String&gt; collection = <span class="keyword">new</span> ArrayList&lt;String&gt;();</div><div class="line"><span class="number">2</span> collection.add(<span class="string">"hello"</span>);</div><div class="line"><span class="number">3</span> collection.add(<span class="string">"java"</span>);</div><div class="line"><span class="number">4</span> collection.remove(<span class="string">"hello"</span>);</div><div class="line"></div><div class="line"><span class="comment">// 对于ArrayList的实现不满意，ok换成LinkedList实现，</span></div><div class="line"><span class="number">1</span> Collection&lt;String&gt; collection = <span class="keyword">new</span> LinkedList&lt;String&gt;();</div><div class="line"><span class="number">2</span> collection.add(<span class="string">"hello"</span>);</div><div class="line"><span class="number">3</span> collection.add(<span class="string">"java"</span>);</div><div class="line"><span class="number">4</span> collection.remove(<span class="string">"hello"</span>);</div></pre></td></tr></table></figure></p>
-<h2 id="Iterator设计思想"><a href="#Iterator设计思想" class="headerlink" title="Iterator设计思想"></a>Iterator设计思想</h2><p>需要统一一种遍历方式，提供一个统计遍历接口，而具体实现需要具体的容器自己根据自身数据结构特点来完成，而对于用户就只有一个接口而已，万年不变。于是就有了Iterator，接下来看下Iterator的实现吧。。。<br>     先回过头去看Collection的定义，发现Collection 实现了一个Iterable 接口（早就发现了好嘛？），来看下的Iterable的定义，</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/** Implementing this interface allows an object to be the target of</span></div><div class="line"><span class="comment"> *  the "foreach" statement.</span></div><div class="line"><span class="comment"> * <span class="doctag">@since</span> 1.5</span></div><div class="line"><span class="comment"> */</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Iterable</span>&lt;<span class="title">T</span>&gt; </span>&#123;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line"><span class="comment">     * Returns an iterator over a set of elements of type T.</span></div><div class="line"><span class="comment">     *</span></div><div class="line"><span class="comment">     * <span class="doctag">@return</span> an Iterator.</span></div><div class="line"><span class="comment">     */</span></div><div class="line">    <span class="function">Iterator&lt;T&gt; <span class="title">iterator</span><span class="params">()</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>英文注释说，实现iterable接口的类可以使用“foreach”操作，然后并要求实现Iterator<t> iterator()方法，该方法返回一个Iterator接口对象，来看下Iterator接口，<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Iterator</span>&lt;<span class="title">E</span>&gt; </span>&#123;</div><div class="line">    <span class="comment">// 是否还有元素</span></div><div class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">hasNext</span><span class="params">()</span></span>;</div><div class="line">    <span class="comment">// 下一个元素</span></div><div class="line">    <span class="function">E <span class="title">next</span><span class="params">()</span></span>; </div><div class="line">    <span class="comment">// 将迭代器返回的元素删除</span></div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">remove</span><span class="params">()</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></t></p>
-<p>Iterator接口一共有三个方法，通过这三个方法就可以实现通用遍历了，ok<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">Collection&lt;String&gt; collection = <span class="keyword">new</span> ArrayList&lt;String&gt;();</div><div class="line">collection.add(<span class="string">"hello"</span>);</div><div class="line">collection.add(<span class="string">"java"</span>);</div><div class="line"></div><div class="line">Iterator&lt;String&gt; iterator = collection.iterator();</div><div class="line"><span class="keyword">while</span> (iterator.hasNext()) &#123;</div><div class="line">     System. out.println(iterator.next());</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>用户再也不用关心容器的底层实现了，不管你是数组还是链表还是其他什么，只需要用Iterator就可以进行遍历了。</p>
-<p>到这里Iterator的设计原则和思路实际上已经讲完了，我们来整理下Iterator模式的几个角色：</p>
-<ol>
-<li>迭代器Iterator接口。</li>
-<li>迭代器Iterator的实现类，要求重写hasNext()，next()，remove()三个方法 。</li>
-<li>容器统一接口，要求有一个返回Iterator接口的方法。</li>
-<li>容器实现类，实现一个返回Iterator接口的方法。</li>
-</ol>
-<hr>
-<h2 id="其实到了这，我们完全可以自己实现一个iteretor模型，既然有现成的JDK，那就算了"><a href="#其实到了这，我们完全可以自己实现一个iteretor模型，既然有现成的JDK，那就算了" class="headerlink" title="其实到了这，我们完全可以自己实现一个iteretor模型，既然有现成的JDK，那就算了"></a>其实到了这，我们完全可以自己实现一个iteretor模型，既然有现成的JDK，那就算了</h2><p>ArrayList的Iterator实现<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">public Iterator&lt;E&gt; iterator() &#123;</div><div class="line">    return new Itr();</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>和自己实现的一样，采用 <em>内部类</em> 实现 Iterator接口。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">Itr</span> <span class="keyword">implements</span> <span class="title">Iterator</span>&lt;<span class="title">E</span>&gt; </span>&#123;</div><div class="line">       <span class="comment">// 将要next返回元素的索引</span></div><div class="line">        <span class="keyword">int</span> cursor = <span class="number">0</span>;</div><div class="line">       <span class="comment">// 当前返回的元素的索引，初始值-1</span></div><div class="line">        <span class="keyword">int</span> lastRet = -<span class="number">1</span>;</div><div class="line"></div><div class="line">        <span class="comment">/**</span></div><div class="line"><span class="comment">        * The modCount value that the iterator believes that the backing</span></div><div class="line"><span class="comment">        * List should have.  If this expectation is violated, the iterator</span></div><div class="line"><span class="comment">        * has detected concurrent modification.</span></div><div class="line"><span class="comment">        */</span></div><div class="line">        <span class="keyword">int</span> expectedModCount = modCount;</div><div class="line"></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">hasNext</span><span class="params">()</span> </span>&#123;</div><div class="line">            <span class="comment">// 由于cursor是将要返回元素的索引，也就是下一个元素的索引，和size比较是否相等，也就是判断是否已经next到最后一个元素</span></div><div class="line">            <span class="keyword">return</span> cursor != size();</div><div class="line">       &#125;</div><div class="line"></div><div class="line">        <span class="function"><span class="keyword">public</span> E <span class="title">next</span><span class="params">()</span> </span>&#123;</div><div class="line">            checkForComodification();</div><div class="line">           <span class="keyword">try</span> &#123;</div><div class="line">              <span class="comment">// 根据下一个元素索引取出对应元素</span></div><div class="line">              E next = get( cursor);</div><div class="line">              <span class="comment">// 更新lastRet为当前元素的索引，cursor加1</span></div><div class="line">               lastRet = cursor ++;</div><div class="line">              <span class="comment">// 返回元素</span></div><div class="line">               <span class="keyword">return</span> next;</div><div class="line">           &#125; <span class="keyword">catch</span> (IndexOutOfBoundsException e) &#123;</div><div class="line">              checkForComodification();</div><div class="line">               <span class="keyword">throw</span> <span class="keyword">new</span> NoSuchElementException();</div><div class="line">           &#125;</div><div class="line">       &#125;</div><div class="line"></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">remove</span><span class="params">()</span> </span>&#123;</div><div class="line">           <span class="comment">// remove前必须先next一下，先取得当前元素</span></div><div class="line">           <span class="keyword">if</span> (lastRet == -<span class="number">1</span>)</div><div class="line">               <span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException();</div><div class="line">            checkForComodification();</div><div class="line"></div><div class="line">           <span class="keyword">try</span> &#123;</div><div class="line">              AbstractList. <span class="keyword">this</span>.remove(lastRet );</div><div class="line">               <span class="comment">// 确保lastRet比cursor小、理论上永远lastRet比cursor小1</span></div><div class="line">               <span class="keyword">if</span> (lastRet &lt; cursor)</div><div class="line">                  <span class="comment">// 由于删除了一个元素cursor回退1</span></div><div class="line">                  cursor--;</div><div class="line">               <span class="comment">// 重置为-1</span></div><div class="line">               lastRet = -<span class="number">1</span>;</div><div class="line">               expectedModCount = modCount ;</div><div class="line">           &#125; <span class="keyword">catch</span> (IndexOutOfBoundsException e) &#123;</div><div class="line">               <span class="keyword">throw</span> <span class="keyword">new</span> ConcurrentModificationException();</div><div class="line">           &#125;</div><div class="line">       &#125;</div><div class="line"></div><div class="line">        <span class="function"><span class="keyword">final</span> <span class="keyword">void</span> <span class="title">checkForComodification</span><span class="params">()</span> </span>&#123;</div><div class="line">           <span class="keyword">if</span> (modCount != expectedModCount)</div><div class="line">               <span class="keyword">throw</span> <span class="keyword">new</span> ConcurrentModificationException();</div><div class="line">       &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>ArrayList的Iterator实现起来和我们自己实现的大同小异，很好理解。<br>有一点需要指出的是这里的checkForComodification 检查，之前ArrayList中留了个悬念，modCount这个变量到底是做什么的，这里简单解释一下：迭代器Iterator允许在容器遍历的时候对元素进行删除，但是有一点问题那就是当多线程操作容器的时候，在用Iterator对容器遍历的同时，其他线程可能已经改变了该容器的内容（add、remove等操作），所以每次对容器内容的更改操作（add、remove等）都会对modCount+1，这样相当于乐观锁的版本号+1，当在Iterator遍历中remove时，检查到modCount发生了变化，则马上抛出异常ConcurrentModificationException，这就是Java容器中的“fail-fast”机制。            </p>
-<h2 id="LinkedList的Iterator实现"><a href="#LinkedList的Iterator实现" class="headerlink" title=".LinkedList的Iterator实现"></a>.LinkedList的Iterator实现</h2><p> LinkedList的Iterator实现定义在AbstracSequentialtList中，实现在AbstractList中，看一下：<br>     AbstracSequentialtList的定义：<br> <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">public Iterator&lt;E&gt; iterator() &#123;</div><div class="line">       return listIterator();</div><div class="line">   &#125;</div></pre></td></tr></table></figure></p>
-<p> AbstractList的实现：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> ListIterator&lt;E&gt; <span class="title">listIterator</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> listIterator(<span class="number">0</span>);</div><div class="line">    &#125;</div><div class="line">   <span class="function"><span class="keyword">public</span> ListIterator&lt;E&gt; <span class="title">listIterator</span><span class="params">(<span class="keyword">final</span> <span class="keyword">int</span> index)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (index&lt;<span class="number">0</span> || index&gt;size())</div><div class="line">         <span class="keyword">throw</span> <span class="keyword">new</span> IndexOutOfBoundsException( <span class="string">"Index: "</span>+index);</div><div class="line"></div><div class="line">        <span class="keyword">return</span> <span class="keyword">new</span> ListItr(index);</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
-<p>ListItr的实现<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">ListItr</span> <span class="keyword">implements</span> <span class="title">ListIterator</span>&lt;<span class="title">E</span>&gt; </span>&#123;</div><div class="line">        <span class="comment">// 最后一次返回的节点，默认位header节点</span></div><div class="line">        <span class="keyword">private</span> Entry&lt;E&gt; lastReturned = header;</div><div class="line">        <span class="comment">// 将要返回的节点</span></div><div class="line">        <span class="keyword">private</span> Entry&lt;E&gt; next ;</div><div class="line">        <span class="comment">// 将要返回的节点index索引</span></div><div class="line">        <span class="keyword">private</span> <span class="keyword">int</span> nextIndex;</div><div class="line">        <span class="keyword">private</span> <span class="keyword">int</span> expectedModCount = modCount;</div><div class="line"></div><div class="line">       ListItr( <span class="keyword">int</span> index) &#123;</div><div class="line">           <span class="comment">// 索引越界检查</span></div><div class="line">           <span class="keyword">if</span> (index &lt; <span class="number">0</span> || index &gt; size)</div><div class="line">               <span class="keyword">throw</span> <span class="keyword">new</span> IndexOutOfBoundsException( <span class="string">"Index: "</span>+index+</div><div class="line">                                             <span class="string">", Size: "</span>+size );</div><div class="line">           <span class="comment">// 简单二分，判断遍历的方向</span></div><div class="line">           <span class="keyword">if</span> (index &lt; (size &gt;&gt; <span class="number">1</span>)) &#123;</div><div class="line">               <span class="comment">// 取得index位置对应的节点</span></div><div class="line">               next = header .next;</div><div class="line">               <span class="keyword">for</span> (nextIndex =<span class="number">0</span>; nextIndex&lt;index; nextIndex++)</div><div class="line">                  next = next .next;</div><div class="line">           &#125; <span class="keyword">else</span> &#123;</div><div class="line">               next = header ;</div><div class="line">               <span class="keyword">for</span> (nextIndex =size; nextIndex&gt;index; nextIndex --)</div><div class="line">                  next = next .previous;</div><div class="line">           &#125;</div><div class="line">       &#125;</div><div class="line"></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">hasNext</span><span class="params">()</span> </span>&#123;</div><div class="line">           <span class="comment">// 根据下一个节点index是否等于size，判断是否有下一个节点</span></div><div class="line">           <span class="keyword">return</span> nextIndex != size;</div><div class="line">       &#125;</div><div class="line"></div><div class="line">        <span class="function"><span class="keyword">public</span> E <span class="title">next</span><span class="params">()</span> </span>&#123;</div><div class="line">           checkForComodification();</div><div class="line">           <span class="comment">// 遍历完成</span></div><div class="line">           <span class="keyword">if</span> (nextIndex == size)</div><div class="line">               <span class="keyword">throw</span> <span class="keyword">new</span> NoSuchElementException();</div><div class="line"></div><div class="line">           <span class="comment">// 赋值最近一次返回的节点</span></div><div class="line">           lastReturned = next ;</div><div class="line">           <span class="comment">// 赋值下一次要返回的节点（next后移）</span></div><div class="line">           next = next .next;</div><div class="line">           <span class="comment">// 将要返回的节点index索引+1</span></div><div class="line">           nextIndex++;</div><div class="line">           <span class="keyword">return</span> lastReturned .element;</div><div class="line">       &#125;</div><div class="line"></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">hasPrevious</span><span class="params">()</span> </span>&#123;</div><div class="line">           <span class="keyword">return</span> nextIndex != <span class="number">0</span>;</div><div class="line">       &#125;</div><div class="line"></div><div class="line">       <span class="comment">//  返回上一个节点（双向循环链表嘛、可以两个方向遍历）</span></div><div class="line">        <span class="function"><span class="keyword">public</span> E <span class="title">previous</span><span class="params">()</span> </span>&#123;</div><div class="line">           <span class="keyword">if</span> (nextIndex == <span class="number">0</span>)</div><div class="line">               <span class="keyword">throw</span> <span class="keyword">new</span> NoSuchElementException();</div><div class="line"></div><div class="line">           lastReturned = next = next. previous;</div><div class="line">           nextIndex--;</div><div class="line">           checkForComodification();</div><div class="line">           <span class="keyword">return</span> lastReturned .element;</div><div class="line">       &#125;</div><div class="line"></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">nextIndex</span><span class="params">()</span> </span>&#123;</div><div class="line">           <span class="keyword">return</span> nextIndex ;</div><div class="line">       &#125;</div><div class="line"></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">previousIndex</span><span class="params">()</span> </span>&#123;</div><div class="line">           <span class="keyword">return</span> nextIndex -<span class="number">1</span>;</div><div class="line">       &#125;</div><div class="line"></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">remove</span><span class="params">()</span> </span>&#123;</div><div class="line">            checkForComodification();</div><div class="line">            <span class="comment">// 取出当前返回节点的下一个节点</span></div><div class="line">            Entry&lt;E&gt; lastNext = lastReturned.next ;</div><div class="line">            <span class="keyword">try</span> &#123;</div><div class="line">                LinkedList. <span class="keyword">this</span>.remove(lastReturned );</div><div class="line">            &#125; <span class="keyword">catch</span> (NoSuchElementException e) &#123;</div><div class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException();</div><div class="line">            &#125;</div><div class="line">           <span class="comment">// 确认下次要返回的节点不是当前节点，如果是则修正</span></div><div class="line">           <span class="keyword">if</span> (next ==lastReturned)</div><div class="line">                next = lastNext;</div><div class="line">            <span class="keyword">else</span></div><div class="line">             <span class="comment">// 由于删除了一个节点，下次要返回的节点索引-1</span></div><div class="line">               nextIndex--;</div><div class="line">           <span class="comment">// 重置lastReturned为header节点</span></div><div class="line">           lastReturned = header ;</div><div class="line">           expectedModCount++;</div><div class="line">       &#125;</div><div class="line"></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">set</span><span class="params">(E e)</span> </span>&#123;</div><div class="line">           <span class="keyword">if</span> (lastReturned == header)</div><div class="line">               <span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException();</div><div class="line">           checkForComodification();</div><div class="line">           lastReturned.element = e;</div><div class="line">       &#125;</div><div class="line"></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">add</span><span class="params">(E e)</span> </span>&#123;</div><div class="line">           checkForComodification();</div><div class="line">           lastReturned = header ;</div><div class="line">           addBefore(e, next);</div><div class="line">           nextIndex++;</div><div class="line">           expectedModCount++;</div><div class="line">       &#125;</div><div class="line"></div><div class="line">        <span class="function"><span class="keyword">final</span> <span class="keyword">void</span> <span class="title">checkForComodification</span><span class="params">()</span> </span>&#123;</div><div class="line">           <span class="keyword">if</span> (modCount != expectedModCount)</div><div class="line">               <span class="keyword">throw</span> <span class="keyword">new</span> ConcurrentModificationException();</div><div class="line">       &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1944,7 +1935,7 @@ CGlib动态代理是通过继承业务类，生成的动态代理类是业务类
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">47</span>
+                <span class="site-state-item-count">49</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
