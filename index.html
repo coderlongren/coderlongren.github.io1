@@ -293,6 +293,925 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/03/07/AVL平衡树详解/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rensailong">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="coderlong的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/03/07/AVL平衡树详解/" itemprop="url">AVL平衡树删除增加操作</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-07T23:59:17+08:00">
+                2018-03-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>在看MySQL索引结构的时候，就对什么B树，B+树，BST有点混淆了。<br>等到在遇到AVL树，JDK的HashMap实现红黑树的时候，就更加搞不明白了，<br>所以。。。。。。。。</p>
+<h2 id="纸上得来终觉浅，绝知此事要躬行。"><a href="#纸上得来终觉浅，绝知此事要躬行。" class="headerlink" title="纸上得来终觉浅，绝知此事要躬行。"></a>纸上得来终觉浅，绝知此事要躬行。</h2><p>AVL树定义：<br>AVL树又称为<code>高度平衡</code>的二叉搜索树。它能保持二叉树的高度平衡，尽量降低二叉树的高度，减少树的平均搜索长度。<br>AVL树的性质：  </p>
+<ol>
+<li>左子树和右子树的高度之差的绝对值不超过1</li>
+<li>树中的每个左子树和右子树都是AVL树</li>
+<li>每个节点都有一个平衡因子(balance factor–bf),任一节点的平衡因子是-1,  0,1。(每个节点的平衡因子等于右子树的高度减去左子树的高度 )  </li>
+</ol>
+<p>一棵AVL树有N个节点，其高度可以保持在lgN，插入/删除/查找的时间复杂度也是lgN。</p>
+<p><strong> 基本上重要的也很困难的就是 LLRRLRRL旋转， 和插入，删除操作之后的旋转了 </strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div><div class="line">168</div><div class="line">169</div><div class="line">170</div><div class="line">171</div><div class="line">172</div><div class="line">173</div><div class="line">174</div><div class="line">175</div><div class="line">176</div><div class="line">177</div><div class="line">178</div><div class="line">179</div><div class="line">180</div><div class="line">181</div><div class="line">182</div><div class="line">183</div><div class="line">184</div><div class="line">185</div><div class="line">186</div><div class="line">187</div><div class="line">188</div><div class="line">189</div><div class="line">190</div><div class="line">191</div><div class="line">192</div><div class="line">193</div><div class="line">194</div><div class="line">195</div><div class="line">196</div><div class="line">197</div><div class="line">198</div><div class="line">199</div><div class="line">200</div><div class="line">201</div><div class="line">202</div><div class="line">203</div><div class="line">204</div><div class="line">205</div><div class="line">206</div><div class="line">207</div><div class="line">208</div><div class="line">209</div><div class="line">210</div><div class="line">211</div><div class="line">212</div><div class="line">213</div><div class="line">214</div><div class="line">215</div><div class="line">216</div><div class="line">217</div><div class="line">218</div><div class="line">219</div><div class="line">220</div><div class="line">221</div><div class="line">222</div><div class="line">223</div><div class="line">224</div><div class="line">225</div><div class="line">226</div><div class="line">227</div><div class="line">228</div><div class="line">229</div><div class="line">230</div><div class="line">231</div><div class="line">232</div><div class="line">233</div><div class="line">234</div><div class="line">235</div><div class="line">236</div><div class="line">237</div><div class="line">238</div><div class="line">239</div><div class="line">240</div><div class="line">241</div><div class="line">242</div><div class="line">243</div><div class="line">244</div><div class="line">245</div><div class="line">246</div><div class="line">247</div><div class="line">248</div><div class="line">249</div><div class="line">250</div><div class="line">251</div><div class="line">252</div><div class="line">253</div><div class="line">254</div><div class="line">255</div><div class="line">256</div><div class="line">257</div><div class="line">258</div><div class="line">259</div><div class="line">260</div><div class="line">261</div><div class="line">262</div><div class="line">263</div><div class="line">264</div><div class="line">265</div><div class="line">266</div><div class="line">267</div><div class="line">268</div><div class="line">269</div><div class="line">270</div><div class="line">271</div><div class="line">272</div><div class="line">273</div><div class="line">274</div><div class="line">275</div><div class="line">276</div><div class="line">277</div><div class="line">278</div><div class="line">279</div><div class="line">280</div><div class="line">281</div><div class="line">282</div><div class="line">283</div><div class="line">284</div><div class="line">285</div><div class="line">286</div><div class="line">287</div><div class="line">288</div><div class="line">289</div><div class="line">290</div><div class="line">291</div><div class="line">292</div><div class="line">293</div><div class="line">294</div><div class="line">295</div><div class="line">296</div><div class="line">297</div><div class="line">298</div><div class="line">299</div><div class="line">300</div><div class="line">301</div><div class="line">302</div><div class="line">303</div><div class="line">304</div><div class="line">305</div><div class="line">306</div><div class="line">307</div><div class="line">308</div><div class="line">309</div><div class="line">310</div><div class="line">311</div><div class="line">312</div><div class="line">313</div><div class="line">314</div><div class="line">315</div><div class="line">316</div><div class="line">317</div><div class="line">318</div><div class="line">319</div><div class="line">320</div><div class="line">321</div><div class="line">322</div><div class="line">323</div><div class="line">324</div><div class="line">325</div><div class="line">326</div><div class="line">327</div><div class="line">328</div><div class="line">329</div><div class="line">330</div><div class="line">331</div><div class="line">332</div><div class="line">333</div><div class="line">334</div><div class="line">335</div><div class="line">336</div><div class="line">337</div><div class="line">338</div><div class="line">339</div><div class="line">340</div><div class="line">341</div><div class="line">342</div><div class="line">343</div><div class="line">344</div><div class="line">345</div><div class="line">346</div><div class="line">347</div><div class="line">348</div><div class="line">349</div><div class="line">350</div><div class="line">351</div><div class="line">352</div><div class="line">353</div><div class="line">354</div><div class="line">355</div><div class="line">356</div><div class="line">357</div><div class="line">358</div><div class="line">359</div><div class="line">360</div><div class="line">361</div><div class="line">362</div><div class="line">363</div><div class="line">364</div><div class="line">365</div><div class="line">366</div><div class="line">367</div><div class="line">368</div><div class="line">369</div><div class="line">370</div><div class="line">371</div><div class="line">372</div><div class="line">373</div><div class="line">374</div><div class="line">375</div><div class="line">376</div><div class="line">377</div><div class="line">378</div><div class="line">379</div><div class="line">380</div><div class="line">381</div><div class="line">382</div><div class="line">383</div><div class="line">384</div><div class="line">385</div><div class="line">386</div><div class="line">387</div><div class="line">388</div><div class="line">389</div><div class="line">390</div><div class="line">391</div><div class="line">392</div><div class="line">393</div><div class="line">394</div><div class="line">395</div><div class="line">396</div><div class="line">397</div><div class="line">398</div><div class="line">399</div><div class="line">400</div><div class="line">401</div><div class="line">402</div><div class="line">403</div><div class="line">404</div><div class="line">405</div><div class="line">406</div><div class="line">407</div><div class="line">408</div><div class="line">409</div><div class="line">410</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> AVL;</div><div class="line"><span class="comment">/**</span></div><div class="line"><span class="comment"> * AVL树</span></div><div class="line"><span class="comment"> *</span></div><div class="line"><span class="comment"> * <span class="doctag">@author</span> coderlong</span></div><div class="line"><span class="comment"> */</span></div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AVLTree</span>&lt;<span class="title">T</span> <span class="keyword">extends</span> <span class="title">Comparable</span>&lt;<span class="title">T</span>&gt;&gt; </span>&#123;</div><div class="line">    <span class="keyword">private</span> AVLTreeNode&lt;T&gt; mRoot;    <span class="comment">// 根结点</span></div><div class="line"></div><div class="line">    <span class="comment">// AVL树的节点(内部类)</span></div><div class="line">    <span class="class"><span class="keyword">class</span> <span class="title">AVLTreeNode</span>&lt;<span class="title">T</span> <span class="keyword">extends</span> <span class="title">Comparable</span>&lt;<span class="title">T</span>&gt;&gt; </span>&#123;</div><div class="line">        T key;                <span class="comment">// 关键字(键值)</span></div><div class="line">        <span class="keyword">int</span> height;         <span class="comment">// 高度</span></div><div class="line">        AVLTreeNode&lt;T&gt; left;    <span class="comment">// 左孩子</span></div><div class="line">        AVLTreeNode&lt;T&gt; right;    <span class="comment">// 右孩子</span></div><div class="line"></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="title">AVLTreeNode</span><span class="params">(T key, AVLTreeNode&lt;T&gt; left, AVLTreeNode&lt;T&gt; right)</span> </span>&#123;</div><div class="line">            <span class="keyword">this</span>.key = key;</div><div class="line">            <span class="keyword">this</span>.left = left;</div><div class="line">            <span class="keyword">this</span>.right = right;</div><div class="line">            <span class="keyword">this</span>.height = <span class="number">0</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">// 构造函数</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">AVLTree</span><span class="params">()</span> </span>&#123;</div><div class="line">        mRoot = <span class="keyword">null</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/*</span></div><div class="line"><span class="comment">     * 获取树的高度</span></div><div class="line"><span class="comment">     */</span></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">height</span><span class="params">(AVLTreeNode&lt;T&gt; tree)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (tree != <span class="keyword">null</span>)</div><div class="line">            <span class="keyword">return</span> tree.height;</div><div class="line"></div><div class="line">        <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">height</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> height(mRoot);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/*</span></div><div class="line"><span class="comment">     * 比较两个值的大小</span></div><div class="line"><span class="comment">     */</span></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">max</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> a&gt;b ? a : b;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/*</span></div><div class="line"><span class="comment">     * 前序遍历"AVL树"</span></div><div class="line"><span class="comment">     */</span></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">preOrder</span><span class="params">(AVLTreeNode&lt;T&gt; tree)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span>(tree != <span class="keyword">null</span>) &#123;</div><div class="line">            System.out.print(tree.key+<span class="string">" "</span>);</div><div class="line">            preOrder(tree.left);</div><div class="line">            preOrder(tree.right);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">preOrder</span><span class="params">()</span> </span>&#123;</div><div class="line">        preOrder(mRoot);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/*</span></div><div class="line"><span class="comment">     * 中序遍历"AVL树"</span></div><div class="line"><span class="comment">     */</span></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">inOrder</span><span class="params">(AVLTreeNode&lt;T&gt; tree)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span>(tree != <span class="keyword">null</span>)</div><div class="line">        &#123;</div><div class="line">            inOrder(tree.left);</div><div class="line">            System.out.print(tree.key+<span class="string">" "</span>);</div><div class="line">            inOrder(tree.right);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">inOrder</span><span class="params">()</span> </span>&#123;</div><div class="line">        inOrder(mRoot);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/*</span></div><div class="line"><span class="comment">     * 后序遍历"AVL树"</span></div><div class="line"><span class="comment">     */</span></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">postOrder</span><span class="params">(AVLTreeNode&lt;T&gt; tree)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span>(tree != <span class="keyword">null</span>) &#123;</div><div class="line">            postOrder(tree.left);</div><div class="line">            postOrder(tree.right);</div><div class="line">            System.out.print(tree.key+<span class="string">" "</span>);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">postOrder</span><span class="params">()</span> </span>&#123;</div><div class="line">        postOrder(mRoot);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/*</span></div><div class="line"><span class="comment">     * (递归实现)查找"AVL树x"中键值为key的节点</span></div><div class="line"><span class="comment">     */</span></div><div class="line">    <span class="function"><span class="keyword">private</span> AVLTreeNode&lt;T&gt; <span class="title">search</span><span class="params">(AVLTreeNode&lt;T&gt; x, T key)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (x==<span class="keyword">null</span>)</div><div class="line">            <span class="keyword">return</span> x;</div><div class="line"></div><div class="line">        <span class="keyword">int</span> cmp = key.compareTo(x.key);</div><div class="line">        <span class="keyword">if</span> (cmp &lt; <span class="number">0</span>)</div><div class="line">            <span class="keyword">return</span> search(x.left, key);</div><div class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (cmp &gt; <span class="number">0</span>)</div><div class="line">            <span class="keyword">return</span> search(x.right, key);</div><div class="line">        <span class="keyword">else</span></div><div class="line">            <span class="keyword">return</span> x;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> AVLTreeNode&lt;T&gt; <span class="title">search</span><span class="params">(T key)</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> search(mRoot, key);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/*</span></div><div class="line"><span class="comment">     * (非递归实现)查找"AVL树x"中键值为key的节点</span></div><div class="line"><span class="comment">     */</span></div><div class="line">    <span class="function"><span class="keyword">private</span> AVLTreeNode&lt;T&gt; <span class="title">iterativeSearch</span><span class="params">(AVLTreeNode&lt;T&gt; x, T key)</span> </span>&#123;</div><div class="line">        <span class="keyword">while</span> (x!=<span class="keyword">null</span>) &#123;</div><div class="line">            <span class="keyword">int</span> cmp = key.compareTo(x.key);</div><div class="line"></div><div class="line">            <span class="keyword">if</span> (cmp &lt; <span class="number">0</span>)</div><div class="line">                x = x.left;</div><div class="line">            <span class="keyword">else</span> <span class="keyword">if</span> (cmp &gt; <span class="number">0</span>)</div><div class="line">                x = x.right;</div><div class="line">            <span class="keyword">else</span></div><div class="line">                <span class="keyword">return</span> x;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">return</span> x;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> AVLTreeNode&lt;T&gt; <span class="title">iterativeSearch</span><span class="params">(T key)</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> iterativeSearch(mRoot, key);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/* </span></div><div class="line"><span class="comment">     * 查找最小结点：返回tree为根结点的AVL树的最小结点。</span></div><div class="line"><span class="comment">     */</span></div><div class="line">    <span class="function"><span class="keyword">private</span> AVLTreeNode&lt;T&gt; <span class="title">minimum</span><span class="params">(AVLTreeNode&lt;T&gt; tree)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (tree == <span class="keyword">null</span>)</div><div class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line"></div><div class="line">        <span class="keyword">while</span>(tree.left != <span class="keyword">null</span>)</div><div class="line">            tree = tree.left;</div><div class="line">        <span class="keyword">return</span> tree;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> T <span class="title">minimum</span><span class="params">()</span> </span>&#123;</div><div class="line">        AVLTreeNode&lt;T&gt; p = minimum(mRoot);</div><div class="line">        <span class="keyword">if</span> (p != <span class="keyword">null</span>)</div><div class="line">            <span class="keyword">return</span> p.key;</div><div class="line"></div><div class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">    &#125;</div><div class="line">     </div><div class="line">    <span class="comment">/* </span></div><div class="line"><span class="comment">     * 查找最大结点：返回tree为根结点的AVL树的最大结点。</span></div><div class="line"><span class="comment">     */</span></div><div class="line">    <span class="function"><span class="keyword">private</span> AVLTreeNode&lt;T&gt; <span class="title">maximum</span><span class="params">(AVLTreeNode&lt;T&gt; tree)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (tree == <span class="keyword">null</span>)</div><div class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line"></div><div class="line">        <span class="keyword">while</span>(tree.right != <span class="keyword">null</span>)</div><div class="line">            tree = tree.right;</div><div class="line">        <span class="keyword">return</span> tree;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> T <span class="title">maximum</span><span class="params">()</span> </span>&#123;</div><div class="line">        AVLTreeNode&lt;T&gt; p = maximum(mRoot);</div><div class="line">        <span class="keyword">if</span> (p != <span class="keyword">null</span>)</div><div class="line">            <span class="keyword">return</span> p.key;</div><div class="line"></div><div class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/*</span></div><div class="line"><span class="comment">     * LL：左左对应的情况(左单旋转)。</span></div><div class="line"><span class="comment">     *</span></div><div class="line"><span class="comment">     * 返回值：旋转后的根节点</span></div><div class="line"><span class="comment">     */</span></div><div class="line">    <span class="function"><span class="keyword">private</span> AVLTreeNode&lt;T&gt; <span class="title">leftLeftRotation</span><span class="params">(AVLTreeNode&lt;T&gt; k2)</span> </span>&#123;</div><div class="line">        AVLTreeNode&lt;T&gt; k1;</div><div class="line"></div><div class="line">        k1 = k2.left;</div><div class="line">        k2.left = k1.right;</div><div class="line">        k1.right = k2;</div><div class="line"></div><div class="line">        k2.height = max( height(k2.left), height(k2.right)) + <span class="number">1</span>;</div><div class="line">        k1.height = max( height(k1.left), k2.height) + <span class="number">1</span>;</div><div class="line"></div><div class="line">        <span class="keyword">return</span> k1;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/*</span></div><div class="line"><span class="comment">     * RR：右右对应的情况(右单旋转)。</span></div><div class="line"><span class="comment">     *</span></div><div class="line"><span class="comment">     * 返回值：旋转后的根节点</span></div><div class="line"><span class="comment">     */</span></div><div class="line">    <span class="function"><span class="keyword">private</span> AVLTreeNode&lt;T&gt; <span class="title">rightRightRotation</span><span class="params">(AVLTreeNode&lt;T&gt; k1)</span> </span>&#123;</div><div class="line">        AVLTreeNode&lt;T&gt; k2;</div><div class="line"></div><div class="line">        k2 = k1.right;</div><div class="line">        k1.right = k2.left;</div><div class="line">        k2.left = k1;</div><div class="line"></div><div class="line">        k1.height = max( height(k1.left), height(k1.right)) + <span class="number">1</span>;</div><div class="line">        k2.height = max( height(k2.right), k1.height) + <span class="number">1</span>;</div><div class="line"></div><div class="line">        <span class="keyword">return</span> k2;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/*</span></div><div class="line"><span class="comment">     * LR：左右对应的情况(左双旋转)。</span></div><div class="line"><span class="comment">     *</span></div><div class="line"><span class="comment">     * 返回值：旋转后的根节点</span></div><div class="line"><span class="comment">     */</span></div><div class="line">    <span class="function"><span class="keyword">private</span> AVLTreeNode&lt;T&gt; <span class="title">leftRightRotation</span><span class="params">(AVLTreeNode&lt;T&gt; k3)</span> </span>&#123;</div><div class="line">        k3.left = rightRightRotation(k3.left);</div><div class="line"></div><div class="line">        <span class="keyword">return</span> leftLeftRotation(k3);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/*</span></div><div class="line"><span class="comment">     * RL：右左对应的情况(右双旋转)。</span></div><div class="line"><span class="comment">     *</span></div><div class="line"><span class="comment">     * 返回值：旋转后的根节点</span></div><div class="line"><span class="comment">     */</span></div><div class="line">    <span class="function"><span class="keyword">private</span> AVLTreeNode&lt;T&gt; <span class="title">rightLeftRotation</span><span class="params">(AVLTreeNode&lt;T&gt; k1)</span> </span>&#123;</div><div class="line">        k1.right = leftLeftRotation(k1.right);</div><div class="line"></div><div class="line">        <span class="keyword">return</span> rightRightRotation(k1);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/* </span></div><div class="line"><span class="comment">     * 将结点插入到AVL树中，并返回根节点</span></div><div class="line"><span class="comment">     *</span></div><div class="line"><span class="comment">     * 参数说明：</span></div><div class="line"><span class="comment">     *     tree AVL树的根结点</span></div><div class="line"><span class="comment">     *     key 插入的结点的键值</span></div><div class="line"><span class="comment">     * 返回值：</span></div><div class="line"><span class="comment">     *     根节点</span></div><div class="line"><span class="comment">     */</span></div><div class="line">    <span class="function"><span class="keyword">private</span> AVLTreeNode&lt;T&gt; <span class="title">insert</span><span class="params">(AVLTreeNode&lt;T&gt; tree, T key)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (tree == <span class="keyword">null</span>) &#123;</div><div class="line">            <span class="comment">// 新建节点</span></div><div class="line">            tree = <span class="keyword">new</span> AVLTreeNode&lt;T&gt;(key, <span class="keyword">null</span>, <span class="keyword">null</span>);</div><div class="line">            <span class="keyword">if</span> (tree==<span class="keyword">null</span>) &#123;</div><div class="line">                System.out.println(<span class="string">"ERROR: create avltree node failed!"</span>);</div><div class="line">                <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">            &#125;</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            <span class="keyword">int</span> cmp = key.compareTo(tree.key);</div><div class="line"></div><div class="line">               <span class="keyword">if</span> (cmp &lt; <span class="number">0</span>) &#123;    <span class="comment">// 应该将key插入到"tree的左子树"的情况</span></div><div class="line">                tree.left = insert(tree.left, key);</div><div class="line">                <span class="comment">// 插入节点后，若AVL树失去平衡，则进行相应的调节。</span></div><div class="line">                <span class="keyword">if</span> (height(tree.left) - height(tree.right) == <span class="number">2</span>) &#123;</div><div class="line">                    <span class="keyword">if</span> (key.compareTo(tree.left.key) &lt; <span class="number">0</span>)</div><div class="line">                        tree = leftLeftRotation(tree);</div><div class="line">                    <span class="keyword">else</span></div><div class="line">                        tree = leftRightRotation(tree);</div><div class="line">                &#125;</div><div class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (cmp &gt; <span class="number">0</span>) &#123;    <span class="comment">// 应该将key插入到"tree的右子树"的情况</span></div><div class="line">                tree.right = insert(tree.right, key);</div><div class="line">                <span class="comment">// 插入节点后，若AVL树失去平衡，则进行相应的调节。</span></div><div class="line">                <span class="keyword">if</span> (height(tree.right) - height(tree.left) == <span class="number">2</span>) &#123;</div><div class="line">                    <span class="keyword">if</span> (key.compareTo(tree.right.key) &gt; <span class="number">0</span>)</div><div class="line">                        tree = rightRightRotation(tree);</div><div class="line">                    <span class="keyword">else</span></div><div class="line">                        tree = rightLeftRotation(tree);</div><div class="line">                &#125;</div><div class="line">            &#125; <span class="keyword">else</span> &#123;    <span class="comment">// cmp==0</span></div><div class="line">                System.out.println(<span class="string">"添加失败：不允许添加相同的节点！"</span>);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        tree.height = max( height(tree.left), height(tree.right)) + <span class="number">1</span>;</div><div class="line"></div><div class="line">        <span class="keyword">return</span> tree;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">insert</span><span class="params">(T key)</span> </span>&#123;</div><div class="line">    	<span class="comment">// mRoot 代表根节点</span></div><div class="line">        mRoot = insert(mRoot, key);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/* </span></div><div class="line"><span class="comment">     * 删除结点(z)，返回根节点</span></div><div class="line"><span class="comment">     *</span></div><div class="line"><span class="comment">     * 参数说明：</span></div><div class="line"><span class="comment">     *     tree AVL树的根结点</span></div><div class="line"><span class="comment">     *     z 待删除的结点</span></div><div class="line"><span class="comment">     * 返回值：</span></div><div class="line"><span class="comment">     *     根节点</span></div><div class="line"><span class="comment">     */</span></div><div class="line">    <span class="function"><span class="keyword">private</span> AVLTreeNode&lt;T&gt; <span class="title">remove</span><span class="params">(AVLTreeNode&lt;T&gt; tree, AVLTreeNode&lt;T&gt; z)</span> </span>&#123;</div><div class="line">        <span class="comment">// 根为空 或者 没有要删除的节点，直接返回null。</span></div><div class="line">        <span class="keyword">if</span> (tree==<span class="keyword">null</span> || z==<span class="keyword">null</span>)</div><div class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line"></div><div class="line">        <span class="keyword">int</span> cmp = z.key.compareTo(tree.key);</div><div class="line">        <span class="keyword">if</span> (cmp &lt; <span class="number">0</span>) &#123;        <span class="comment">// 待删除的节点在"tree的左子树"中</span></div><div class="line">            tree.left = remove(tree.left, z);</div><div class="line">            <span class="comment">// 删除节点后，若AVL树失去平衡，则进行相应的调节。</span></div><div class="line">            <span class="keyword">if</span> (height(tree.right) - height(tree.left) == <span class="number">2</span>) &#123;</div><div class="line">                AVLTreeNode&lt;T&gt; r =  tree.right;</div><div class="line">                <span class="keyword">if</span> (height(r.left) &gt; height(r.right))</div><div class="line">                    tree = rightLeftRotation(tree);</div><div class="line">                <span class="keyword">else</span></div><div class="line">                    tree = rightRightRotation(tree);</div><div class="line">            &#125;</div><div class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (cmp &gt; <span class="number">0</span>) &#123;    <span class="comment">// 待删除的节点在"tree的右子树"中</span></div><div class="line">            tree.right = remove(tree.right, z);</div><div class="line">            <span class="comment">// 删除节点后，若AVL树失去平衡，则进行相应的调节。</span></div><div class="line">            <span class="keyword">if</span> (height(tree.left) - height(tree.right) == <span class="number">2</span>) &#123;</div><div class="line">                AVLTreeNode&lt;T&gt; l =  tree.left;</div><div class="line">                <span class="keyword">if</span> (height(l.right) &gt; height(l.left))</div><div class="line">                    tree = leftRightRotation(tree);</div><div class="line">                <span class="keyword">else</span></div><div class="line">                    tree = leftLeftRotation(tree);</div><div class="line">            &#125;</div><div class="line">        &#125; <span class="keyword">else</span> &#123;    <span class="comment">// tree是对应要删除的节点。</span></div><div class="line">            <span class="comment">// tree的左右孩子都非空</span></div><div class="line">            <span class="keyword">if</span> ((tree.left!=<span class="keyword">null</span>) &amp;&amp; (tree.right!=<span class="keyword">null</span>)) &#123;</div><div class="line">                <span class="keyword">if</span> (height(tree.left) &gt; height(tree.right)) &#123;</div><div class="line">                    <span class="comment">// 如果tree的左子树比右子树高；</span></div><div class="line">                    <span class="comment">// 则(01)找出tree的左子树中的最大节点</span></div><div class="line">                    <span class="comment">//   (02)将该最大节点的值赋值给tree。</span></div><div class="line">                    <span class="comment">//   (03)删除该最大节点。</span></div><div class="line">                    <span class="comment">// 这类似于用"tree的左子树中最大节点"做"tree"的替身；</span></div><div class="line">                    <span class="comment">// 采用这种方式的好处是：删除"tree的左子树中最大节点"之后，AVL树仍然是平衡的。</span></div><div class="line">                    AVLTreeNode&lt;T&gt; max = maximum(tree.left);</div><div class="line">                    tree.key = max.key;</div><div class="line">                    tree.left = remove(tree.left, max);</div><div class="line">                &#125; <span class="keyword">else</span> &#123;</div><div class="line">                    <span class="comment">// 如果tree的左子树不比右子树高(即它们相等，或右子树比左子树高1)</span></div><div class="line">                    <span class="comment">// 则(01)找出tree的右子树中的最小节点</span></div><div class="line">                    <span class="comment">//   (02)将该最小节点的值赋值给tree。</span></div><div class="line">                    <span class="comment">//   (03)删除该最小节点。</span></div><div class="line">                    <span class="comment">// 这类似于用"tree的右子树中最小节点"做"tree"的替身；</span></div><div class="line">                    <span class="comment">// 采用这种方式的好处是：删除"tree的右子树中最小节点"之后，AVL树仍然是平衡的。</span></div><div class="line">                    AVLTreeNode&lt;T&gt; min = maximum(tree.right);</div><div class="line">                    tree.key = min.key;</div><div class="line">                    tree.right = remove(tree.right, min);</div><div class="line">                &#125;</div><div class="line">            &#125; <span class="keyword">else</span> &#123;</div><div class="line">                AVLTreeNode&lt;T&gt; tmp = tree;</div><div class="line">                tree = (tree.left!=<span class="keyword">null</span>) ? tree.left : tree.right;</div><div class="line">                tmp = <span class="keyword">null</span>;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">return</span> tree;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">remove</span><span class="params">(T key)</span> </span>&#123;</div><div class="line">        AVLTreeNode&lt;T&gt; z; </div><div class="line"></div><div class="line">        <span class="keyword">if</span> ((z = search(mRoot, key)) != <span class="keyword">null</span>)</div><div class="line">            mRoot = remove(mRoot, z);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/* </span></div><div class="line"><span class="comment">     * 销毁AVL树</span></div><div class="line"><span class="comment">     */</span></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">destroy</span><span class="params">(AVLTreeNode&lt;T&gt; tree)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (tree==<span class="keyword">null</span>)</div><div class="line">            <span class="keyword">return</span> ;</div><div class="line"></div><div class="line">        <span class="keyword">if</span> (tree.left != <span class="keyword">null</span>)</div><div class="line">            destroy(tree.left);</div><div class="line">        <span class="keyword">if</span> (tree.right != <span class="keyword">null</span>)</div><div class="line">            destroy(tree.right);</div><div class="line"></div><div class="line">        tree = <span class="keyword">null</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">destroy</span><span class="params">()</span> </span>&#123;</div><div class="line">        destroy(mRoot);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/*</span></div><div class="line"><span class="comment">     * 打印"二叉查找树"</span></div><div class="line"><span class="comment">     *</span></div><div class="line"><span class="comment">     * key        -- 节点的键值 </span></div><div class="line"><span class="comment">     * direction  --  0，表示该节点是根节点;</span></div><div class="line"><span class="comment">     *               -1，表示该节点是它的父结点的左孩子;</span></div><div class="line"><span class="comment">     *                1，表示该节点是它的父结点的右孩子。</span></div><div class="line"><span class="comment">     */</span></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">print</span><span class="params">(AVLTreeNode&lt;T&gt; tree, T key, <span class="keyword">int</span> direction)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span>(tree != <span class="keyword">null</span>) &#123;</div><div class="line">            <span class="keyword">if</span>(direction==<span class="number">0</span>)    <span class="comment">// tree是根节点</span></div><div class="line">                System.out.printf(<span class="string">"%2d is root\n"</span>, tree.key, key);</div><div class="line">            <span class="keyword">else</span>                <span class="comment">// tree是分支节点</span></div><div class="line">                System.out.printf(<span class="string">"%2d is %2d's %6s child\n"</span>, tree.key, key, direction==<span class="number">1</span>?<span class="string">"right"</span> : <span class="string">"left"</span>);</div><div class="line"></div><div class="line">            print(tree.left, tree.key, -<span class="number">1</span>);</div><div class="line">            print(tree.right,tree.key,  <span class="number">1</span>);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">print</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (mRoot != <span class="keyword">null</span>)</div><div class="line">            print(mRoot, mRoot.key, <span class="number">0</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/03/06/滑动窗口最大值/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rensailong">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="coderlong的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/03/06/滑动窗口最大值/" itemprop="url">滑动窗口最大值</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-06T14:18:40+08:00">
+                2018-03-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/剑指offer/" itemprop="url" rel="index">
+                    <span itemprop="name">剑指offer</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>给定一个数组和滑动窗口的大小，请找出所有滑动窗口里的最大值。</p>
+<h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> 滑动窗口的最大值 </span>&#123;</div><div class="line">	<span class="function"><span class="keyword">public</span> ArrayList&lt;Integer&gt; <span class="title">maxInWindows</span><span class="params">(<span class="keyword">int</span> [] num, <span class="keyword">int</span> size)</span> </span>&#123;</div><div class="line">		ArrayList&lt;Integer&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line">		<span class="keyword">if</span> (num == <span class="keyword">null</span>) &#123;</div><div class="line">			<span class="keyword">return</span> list;</div><div class="line">		&#125;</div><div class="line">		</div><div class="line">		<span class="keyword">if</span> (num.length &lt; size || size &lt; <span class="number">1</span>) &#123;</div><div class="line">			<span class="keyword">return</span> list;</div><div class="line">		&#125;</div><div class="line">		</div><div class="line">		<span class="comment">// 用来保存可能是滑动窗口最大值的数字的下标</span></div><div class="line">		LinkedList&lt;Integer&gt; indexDeque = <span class="keyword">new</span> LinkedList&lt;&gt;();</div><div class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; size - <span class="number">1</span>; i++) &#123;</div><div class="line">			<span class="comment">// 如果已有数字小于代存入的数据</span></div><div class="line">		&#125;</div><div class="line">		<span class="keyword">return</span> list;</div><div class="line">	&#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> ArrayList&lt;Integer&gt; <span class="title">maxInWindows2</span><span class="params">(<span class="keyword">int</span> [] num, <span class="keyword">int</span> size)</span> </span>&#123;</div><div class="line">		ArrayList&lt;Integer&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line">		ArrayList&lt;Integer&gt; data = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i : num) &#123;</div><div class="line">			data.add(i);</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">if</span> (num == <span class="keyword">null</span>) &#123;</div><div class="line">			<span class="keyword">return</span> list;</div><div class="line">		&#125;</div><div class="line">		</div><div class="line">		<span class="keyword">if</span> (num.length &lt; size || size &lt; <span class="number">1</span>) &#123;</div><div class="line">			<span class="keyword">return</span> list;</div><div class="line">		&#125;</div><div class="line">		Deque&lt;Integer&gt; idx = <span class="keyword">new</span> LinkedList&lt;&gt;();</div><div class="line">		<span class="comment">// 窗口还没有填满的时候，找最大的索引</span></div><div class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; size &amp;&amp; i &lt; num.length; i++) &#123;</div><div class="line">			<span class="keyword">while</span> (!idx.isEmpty() &amp;&amp; data.get(i) &gt; idx.getLast()) &#123;</div><div class="line">				idx.removeLast(); <span class="comment">// 移除队尾保存的索引</span></div><div class="line">			&#125;</div><div class="line">			<span class="comment">// 添加索引</span></div><div class="line">			idx.addLast(i); <span class="comment">// 在队尾添加索引</span></div><div class="line">		&#125;</div><div class="line">		</div><div class="line">		<span class="comment">// 当窗口被填满了时候</span></div><div class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = size; i &lt; data.size(); i++) &#123;</div><div class="line">			<span class="comment">// 第一个窗口用来保存最大值</span></div><div class="line">			list.add(idx.getFirst()); <span class="comment">// 队首元素 永远是最大的</span></div><div class="line">			</div><div class="line">			<span class="comment">// 如果索引对应的 值 比之前的索引值对应的值大或者相等，就删除之前存储的值</span></div><div class="line">			<span class="keyword">while</span> (!idx.isEmpty() &amp;&amp; data.get(i) &gt; data.get(idx.getLast())) &#123;</div><div class="line">				idx.removeLast();</div><div class="line">			&#125;</div><div class="line">			<span class="comment">// 删除已经滑出 窗口的数据对应的下标</span></div><div class="line">			<span class="keyword">while</span> (!idx.isEmpty() &amp;&amp; idx.getFirst() &lt;= (i - size)) &#123;</div><div class="line">				idx.removeFirst();</div><div class="line">			&#125;</div><div class="line">			</div><div class="line">			idx.addLast(i);</div><div class="line">		&#125;</div><div class="line">		</div><div class="line">		<span class="keyword">return</span> list;</div><div class="line">		</div><div class="line">	&#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		<span class="keyword">int</span>[] nums = &#123;<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">2</span>,<span class="number">6</span>,<span class="number">2</span>,<span class="number">5</span>,<span class="number">1</span>&#125;;</div><div class="line">		System.out.println(maxInWindows2(nums, <span class="number">3</span>));</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/03/05/深入理解Java内存模型笔记/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rensailong">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="coderlong的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/03/05/深入理解Java内存模型笔记/" itemprop="url">深入理解Java内存模型</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-05T14:18:40+08:00">
+                2018-03-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JMM/" itemprop="url" rel="index">
+                    <span itemprop="name">JMM</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>本文是我整理的程晓明《深入理解Java内存模型》读书笔记<br>主要包括了三部分的知识。 </p>
+<ol>
+<li>基本概念<br> 包括“并发、同步、主内存、本地内存、重排序、内存屏障、happens before规则、as-if-serial规则、数据依赖性、顺序一致性模型、JMM的含义和意义”。</li>
+<li>同步机制</li>
+</ol>
+<p>该部分中就介绍了“同步”的3种方式：volatile、锁、final。对于每一种方式，从该方式的“特性”、“建立的happens before关系”、“对应的内存语义”、“实现方式”等几个方面进行了分析说明。实际上，JMM保证“如果程序正确同步，则执行结果与顺序一致性内存模型的结果相同”的机制；而这部分这是确保程序正确同步的机制。</p>
+<ol>
+<li>JMM 总结</li>
+</ol>
+<h2 id="1-基本概念"><a href="#1-基本概念" class="headerlink" title="1. 基本概念"></a>1. 基本概念</h2>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/03/04/Lettter_Case_Permutation/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rensailong">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="coderlong的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/03/04/Lettter_Case_Permutation/" itemprop="url">784. Letter Case Permutation</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-04T21:18:40+08:00">
+                2018-03-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Algorithm/" itemprop="url" rel="index">
+                    <span itemprop="name">Algorithm</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>Given a string S, we can transform every letter individually to be lowercase or uppercase to create another string.  Return a list of all possible strings we could create.<br>`<br>Examples:<br>Input: S = “a1b2”<br>Output: [“a1b2”, “a1B2”, “A1b2”, “A1B2”]</p>
+<p>Input: S = “3z4”<br>Output: [“3z4”, “3Z4”]</p>
+<p>Input: S = “12345”<br>Output: [“12345”]<br>`<br>abc<br>abc Abc 0<br>abc aBc Abc ABc 1  </p>
+<h2 id="abc-abC-aBc-aBC-Abc-AbC-ABc-ABC-2"><a href="#abc-abC-aBc-aBC-Abc-AbC-ABc-ABC-2" class="headerlink" title="abc abC aBc aBC Abc AbC ABc ABC 2  "></a>abc abC aBc aBC Abc AbC ABc ABC 2  </h2><p>Let’s go!<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// BFS solution</span></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> List&lt;String&gt; <span class="title">letterCasePermutation</span><span class="params">(String S)</span> </span>&#123;</div><div class="line"><span class="comment">//		Set&lt;String&gt; set = new HashSet&lt;&gt;();</span></div><div class="line">		LinkedList&lt;String&gt; list = <span class="keyword">new</span> LinkedList&lt;&gt;();</div><div class="line">		<span class="keyword">char</span>[] chars = S.toCharArray();</div><div class="line">		list.add(S);</div><div class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; S.length(); i++) &#123;</div><div class="line">			<span class="keyword">if</span> (Character.isDigit(S.charAt(i))) &#123;</div><div class="line">				<span class="keyword">continue</span>;</div><div class="line">			&#125;</div><div class="line">			<span class="keyword">int</span> size = list.size();</div><div class="line">			<span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; size; j++) &#123;</div><div class="line">				String cur = list.get(j);</div><div class="line">				<span class="keyword">char</span>[] temp = cur.toCharArray();</div><div class="line">				temp[i] = Character.toLowerCase(temp[i]);</div><div class="line">				list.addLast(String.valueOf(temp));</div><div class="line">				temp[i] = Character.toUpperCase(temp[i]);</div><div class="line">				list.addLast(String.valueOf(temp));</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">		Set&lt;String&gt; set = <span class="keyword">new</span> HashSet&lt;&gt;(list);</div><div class="line">		<span class="keyword">return</span> <span class="keyword">new</span> LinkedList&lt;&gt;(set);</div><div class="line">	&#125;</div></pre></td></tr></table></figure></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// DFS solution</span></div><div class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> List&lt;String&gt; <span class="title">letterCasePermutation2</span><span class="params">(String S)</span> </span>&#123;</div><div class="line">	  <span class="keyword">if</span> (S == <span class="keyword">null</span>) &#123;</div><div class="line">		  <span class="keyword">return</span> <span class="keyword">new</span> LinkedList&lt;&gt;();</div><div class="line">	  &#125;</div><div class="line">	  List&lt;String&gt; res = <span class="keyword">new</span> LinkedList&lt;&gt;();</div><div class="line">	  helper(S,res,<span class="number">0</span>);</div><div class="line">	  <span class="keyword">return</span> res;</div><div class="line">  &#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">helper</span><span class="params">(String s, List&lt;String&gt; res, <span class="keyword">int</span> pos)</span> </span>&#123;</div><div class="line">	<span class="keyword">if</span> (pos == s.length()) &#123;</div><div class="line">		res.add(s);</div><div class="line">		<span class="keyword">return</span>;</div><div class="line">	&#125;</div><div class="line">	<span class="comment">// 是数字</span></div><div class="line">	<span class="keyword">if</span> (s.charAt(pos) &gt;= <span class="string">'0'</span> &amp;&amp; s.charAt(pos) &lt;= <span class="string">'9'</span>) &#123;</div><div class="line">		helper(s, res, pos + <span class="number">1</span>);</div><div class="line">		<span class="keyword">return</span>;</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">char</span>[] chs = s.toCharArray();</div><div class="line">       chs[pos] = Character.toLowerCase(chs[pos]);</div><div class="line">       helper(String.valueOf(chs), res, pos + <span class="number">1</span>);</div><div class="line">       </div><div class="line">       chs[pos] = Character.toUpperCase(chs[pos]);</div><div class="line">       helper(String.valueOf(chs), res, pos + <span class="number">1</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/03/03/java反射机制深入理解剖析/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rensailong">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="coderlong的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/03/03/java反射机制深入理解剖析/" itemprop="url">java反射机制深入理解分析</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-03T14:18:40+08:00">
+                2018-03-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JDK/" itemprop="url" rel="index">
+                    <span itemprop="name">JDK</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="反射的简单介绍"><a href="#反射的简单介绍" class="headerlink" title="反射的简单介绍"></a>反射的简单介绍</h2><p>主要是指程序可以访问，检测和修改它本身状态或行为的一种能力，并能根据自身行为的状态和结果，调整或修改应用所描述行为的状态和相关的语义。</p>
+<p>一个类有多个组成部分，例如：成员变量、方法、构造方法等，反射就是加载类,并解剖出类的各个组成部分。<br>主要功能:  </p>
+<ol>
+<li>在运行时判断一个对象所属于的类</li>
+<li>运行时构造任意一个类的对象</li>
+<li>在运行时判断任意一个类所具有的成员变量和方法；</li>
+<li>在运行时调用任意一个对象的方法；</li>
+<li>生成动态代理</li>
+</ol>
+<h2 id="反射以及作用"><a href="#反射以及作用" class="headerlink" title="反射以及作用"></a>反射以及作用</h2><p><img src="https://img.w3cschool.cn/attachments/day_161205/201612051945255425.png" alt=""><br>java反射机制中有哪些类：主要有五个主要的类<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">java.lang.Class;                </div><div class="line">java.lang.reflect.Constructor;</div><div class="line">java.lang.reflect.Field;        </div><div class="line">java.lang.reflect.Method;</div><div class="line">java.lang.reflect.Modifier;</div></pre></td></tr></table></figure></p>
+<p><em>通过一个对象获得完整的包名和类名</em><br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestReflect</span> </span>&#123;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		TestReflect testReflect = <span class="keyword">new</span> TestReflect();</div><div class="line">        System.out.println(testReflect.getClass().getName());</div><div class="line">        <span class="comment">// 反射.TestReflect</span></div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>实例化Class类对象<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> ClassNotFoundException </span>&#123;</div><div class="line">		<span class="comment">// TODO Auto-generated method stub</span></div><div class="line">		Class&lt;?&gt; class1 = <span class="keyword">null</span>;</div><div class="line">        Class&lt;?&gt; class2 = <span class="keyword">null</span>;</div><div class="line">        Class&lt;?&gt; class3 = <span class="keyword">null</span>;</div><div class="line">        <span class="comment">// 一般采用这种形式</span></div><div class="line">        class1 = Class.forName(<span class="string">"反射.TestReflect"</span>);</div><div class="line">        class2 = <span class="keyword">new</span> TestReflect().getClass();</div><div class="line">        class3 = TestReflect.class;</div><div class="line">        System.out.println(<span class="string">"类名称   "</span> + class1.getName());</div><div class="line">        System.out.println(<span class="string">"类名称   "</span> + class2.getName());</div><div class="line">        System.out.println(<span class="string">"类名称   "</span> + class3.getName());</div><div class="line">        <span class="comment">/**</span></div><div class="line"><span class="comment">         *  类名称   反射.TestReflect</span></div><div class="line"><span class="comment">			类名称   反射.TestReflect</span></div><div class="line"><span class="comment">			类名称   反射.TestReflect</span></div><div class="line"><span class="comment">         */</span></div><div class="line">	&#125;</div></pre></td></tr></table></figure></p>
+<p>获取一个对象的父类与实现的接口<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestReflect1</span> <span class="keyword">implements</span> <span class="title">Cloneable</span>, <span class="title">Serializable</span></span>&#123;</div><div class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">long</span> seriaVersionUID = -<span class="number">2862585049955236662L</span>;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> ClassNotFoundException </span>&#123;</div><div class="line">		<span class="comment">// TODO Auto-generated method stub</span></div><div class="line">		Class&lt;?&gt; clazz = Class.forName(<span class="string">"反射.TestReflect1"</span>);</div><div class="line">		</div><div class="line">		<span class="comment">// 获取父类</span></div><div class="line">		Class&lt;?&gt; parentClass = clazz.getSuperclass();</div><div class="line">		</div><div class="line">		System.out.println(<span class="string">"class对象的父类是:"</span> + parentClass.getName());</div><div class="line">		<span class="comment">// clazz的父类为： java.lang.Object</span></div><div class="line">        <span class="comment">// 获取所有的接口</span></div><div class="line">		</div><div class="line">		Class&lt;?&gt; intes[] = clazz.getInterfaces();</div><div class="line">		System.out.println(<span class="string">"clazz实现的接口有"</span>);</div><div class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt;intes.length; i++) &#123;</div><div class="line">			System.out.println(i++ + <span class="string">":"</span> + intes[i].getName());</div><div class="line">		&#125;</div><div class="line">		<span class="comment">/**</span></div><div class="line"><span class="comment">		 * class对象的父类是:java.lang.Object</span></div><div class="line"><span class="comment">			clazz实现的接口有 0:java.io.Serializable</span></div><div class="line"><span class="comment">		 */</span></div><div class="line"></div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>通过反射机制实例化一个类的对象<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> 反射;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.lang.reflect.Constructor;</div><div class="line"><span class="keyword">import</span> java.lang.reflect.InvocationTargetException;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"><span class="comment">* <span class="doctag">@author</span> 作者 : coderlong</span></div><div class="line"><span class="comment">* <span class="doctag">@version</span> 创建时间：2018年3月3日 下午9:27:11</span></div><div class="line"><span class="comment">* 类说明: </span></div><div class="line"><span class="comment">*/</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestReflect</span> </span>&#123;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException </span>&#123;</div><div class="line">		<span class="comment">// TODO Auto-generated method stub</span></div><div class="line">		Class&lt;?&gt; clazz1 = <span class="keyword">null</span>;</div><div class="line">		clazz1 = Class.forName(<span class="string">"反射.User"</span>);</div><div class="line">		User user = (User)clazz1.newInstance();</div><div class="line">		user.setAge(<span class="number">20</span>);</div><div class="line">        user.setName(<span class="string">"林黛玉"</span>);</div><div class="line">        System.out.println(user);</div><div class="line">        <span class="comment">// result :  User [age=20, name=林黛玉]</span></div><div class="line">        </div><div class="line">        <span class="comment">// 第二种方法 获取构造方法</span></div><div class="line">        Constructor&lt;?&gt; cons[] = clazz1.getConstructors();</div><div class="line">        <span class="comment">// 看一下 每个构造方法需要的方法</span></div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; cons.length; i++) &#123;</div><div class="line">        	Class&lt;?&gt; clazzs[] = cons[i].getParameterTypes();</div><div class="line">        	System.out.print(<span class="string">"cons["</span> + i + <span class="string">"] ("</span>);</div><div class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; clazzs.length; j++) &#123;</div><div class="line">                <span class="keyword">if</span> (j == clazzs.length - <span class="number">1</span>)</div><div class="line">                    System.out.print(clazzs[j].getName());</div><div class="line">                <span class="keyword">else</span></div><div class="line">                    System.out.print(clazzs[j].getName() + <span class="string">","</span>);</div><div class="line">            &#125;</div><div class="line">            System.out.println(<span class="string">")"</span>);</div><div class="line">        &#125;</div><div class="line">        <span class="comment">// 结果</span></div><div class="line">        <span class="comment">//cons[0] (int,java.lang.String)</span></div><div class="line"><span class="comment">//        cons[1] (java.lang.String)</span></div><div class="line"><span class="comment">//        cons[2] ()</span></div><div class="line">        </div><div class="line">        User user2 = (User)cons[<span class="number">0</span>].newInstance(<span class="number">20</span>,<span class="string">"林黛玉"</span>);</div><div class="line">        </div><div class="line">        System.out.println(user2);</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="获取某个类的全部属性-可以使用clazz-getgetDeclaredFields"><a href="#获取某个类的全部属性-可以使用clazz-getgetDeclaredFields" class="headerlink" title="获取某个类的全部属性 可以使用clazz.getgetDeclaredFields()"></a><em>获取某个类的全部属性</em> 可以使用clazz.getgetDeclaredFields()</h2><h2 id="获得一个类的所有public属性，和父类所有方法-clazz-getFields"><a href="#获得一个类的所有public属性，和父类所有方法-clazz-getFields" class="headerlink" title="获得一个类的所有public属性，和父类所有方法  clazz.getFields()"></a><em>获得一个类的所有public属性，和父类所有方法 </em> clazz.getFields()</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestReflect2</span> <span class="keyword">extends</span> <span class="title">TestReflect</span> <span class="keyword">implements</span> <span class="title">Serializable</span>,<span class="title">Cloneable</span></span>&#123;</div><div class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">long</span> serialVersionUID = -<span class="number">2862585049955236662L</span>;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> ClassNotFoundException</span>&#123;</div><div class="line">		<span class="comment">// TODO Auto-generated method stub</span></div><div class="line">		Class&lt;?&gt; clazz = Class.forName(<span class="string">"反射.TestReflect2"</span>);</div><div class="line">		System.out.println(<span class="string">"本类属性"</span>);</div><div class="line">		<span class="comment">// 取得自己累得全部属性</span></div><div class="line">		Field[] fields = clazz.getDeclaredFields();</div><div class="line">		</div><div class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; fields.length; i++) &#123;</div><div class="line">			<span class="comment">// 获得属性的修饰符</span></div><div class="line">			<span class="keyword">int</span> mo = fields[i].getModifiers();</div><div class="line">			String priv = Modifier.toString(mo);</div><div class="line">			System.out.println(priv);</div><div class="line">			<span class="comment">// 获得属性的类型</span></div><div class="line">			Class&lt;?&gt; type = fields[i].getType();</div><div class="line">			System.out.println(priv + <span class="string">" "</span> + type.getName() + <span class="string">" "</span> + fields[i].getName());</div><div class="line">		&#125;</div><div class="line">		</div><div class="line">		<span class="comment">// 取得接口的实现 或者父类的属性</span></div><div class="line">		System.out.println(<span class="string">"接口的实现 或者父类的属性"</span>);</div><div class="line">		Field[] fields2 = clazz.getFields();</div><div class="line">		</div><div class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; fields2.length; i++) &#123;</div><div class="line">			<span class="comment">// 权限修饰符</span></div><div class="line">			<span class="keyword">int</span> mo = fields2[i].getModifiers();</div><div class="line">			String priv = Modifier.toString(mo);</div><div class="line">			<span class="comment">// 属性的类型</span></div><div class="line">			Class&lt;?&gt; type = fields2[i].getType();</div><div class="line">			System.out.println(priv + <span class="string">" "</span> + type.getName() + <span class="string">" "</span> + fields2[i].getName());</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>获取某个类的全部方法 *</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">testReflect3</span> </span>&#123;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">		<span class="comment">// TODO Auto-generated method stub</span></div><div class="line">		Class&lt;?&gt; clazz = Class.forName(<span class="string">"反射.testReflect3"</span>);</div><div class="line">		</div><div class="line">		Field[] fields = clazz.getDeclaredFields();</div><div class="line">		Method[] methods = clazz.getDeclaredMethods();</div><div class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; methods.length; i++) &#123;</div><div class="line">			<span class="comment">// 返回值</span></div><div class="line">			Class&lt;?&gt; returnType = methods[i].getReturnType();</div><div class="line">			<span class="comment">// 获得方法参数</span></div><div class="line">			Class&lt;?&gt;[] para = methods[i].getParameterTypes();</div><div class="line">			<span class="keyword">int</span> mo = methods[i].getModifiers();</div><div class="line">			<span class="comment">// 修饰符</span></div><div class="line">			String priv = Modifier.toString(mo);</div><div class="line">			System.out.print(priv + <span class="string">" "</span>);</div><div class="line">			System.out.print(returnType.getName() + <span class="string">" "</span>);</div><div class="line">			System.out.print(methods[i].getName() + <span class="string">" "</span>);</div><div class="line">			System.out.print(<span class="string">"("</span>);</div><div class="line">			<span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; para.length; j++) &#123;</div><div class="line">				System.out.print(para[i].getName() + <span class="string">" arg "</span> + j);</div><div class="line">				<span class="keyword">if</span> (j &lt; methods.length - <span class="number">1</span>) &#123;</div><div class="line">					System.out.print(<span class="string">","</span>);</div><div class="line">				&#125;</div><div class="line">			&#125;</div><div class="line">			Class&lt;?&gt;[] excel = methods[i].getExceptionTypes();</div><div class="line">			<span class="keyword">if</span> (excel.length &gt; <span class="number">0</span>) &#123;</div><div class="line">				<span class="keyword">for</span> (<span class="keyword">int</span> k = <span class="number">0</span>; k &lt; excel.length; k++) &#123;</div><div class="line">					System.out.print(excel[k].getName() + <span class="string">" "</span>);</div><div class="line">					<span class="keyword">if</span> (k &lt; excel.length - <span class="number">1</span>) &#123;</div><div class="line">						System.out.print(<span class="string">","</span>);</div><div class="line">					&#125;</div><div class="line">				&#125;</div><div class="line">				</div><div class="line">			&#125;</div><div class="line">			<span class="keyword">else</span> &#123;</div><div class="line">				System.out.print(<span class="string">")"</span>);</div><div class="line">			&#125;</div><div class="line">			System.out.print(<span class="string">")"</span>);</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="comment">// result:</span></div><div class="line">	<span class="comment">// public static void main ([Ljava.lang.String; arg 0java.lang.Exception )</span></div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li><p>通过反射机制调用某个类的方法 *</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestReflect4</span> </span>&#123;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">		Class&lt;?&gt; clazz = Class.forName(<span class="string">"反射.TestReflect4"</span>);</div><div class="line">		Method method = clazz.getMethod(<span class="string">"reflect1"</span>);</div><div class="line">		method.invoke(clazz.newInstance());</div><div class="line">		</div><div class="line">		<span class="comment">// 带参数的方法如何调用</span></div><div class="line">		method = clazz.getMethod(<span class="string">"reflect2"</span>, <span class="keyword">int</span>.class, String.class);</div><div class="line">		method.invoke(clazz. newInstance(),<span class="number">20</span>,<span class="string">"wangyake"</span>);</div><div class="line">		</div><div class="line">	&#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">reflect1</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"Java 反射机制 - 调用某个类的方法shibushi1."</span>);</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">reflect2</span><span class="params">(<span class="keyword">int</span> age, String name)</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"Java 反射机制 - 调用某个类的方法2."</span>);</div><div class="line">        System.out.println(<span class="string">"age -&gt; "</span> + age + <span class="string">". name -&gt; "</span> + name);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>通过反射机制操作某个类的属性 *</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestReflect5</span> </span>&#123;</div><div class="line">	<span class="keyword">private</span> String name  = <span class="string">"coderlong"</span>;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">		<span class="comment">// TODO Auto-generated method stub</span></div><div class="line">		Class&lt;?&gt; clazz = Class.forName(<span class="string">"反射.TestReflect5"</span>);</div><div class="line">		<span class="comment">// 反射对对象属性赋值</span></div><div class="line">		Field field = clazz.getDeclaredField(<span class="string">"name"</span>);</div><div class="line">		Object object = clazz.newInstance();</div><div class="line">		System.out.println(field.get(object));</div><div class="line">		field.setAccessible(<span class="keyword">true</span>);</div><div class="line">		field.set(object,<span class="string">"yake"</span>);</div><div class="line">		System.out.println(field.get(object));</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>反射机制的动态代理 *</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">// 获取类加载器的方法</div><div class="line">TestReflect testReflect = new TestReflect();</div><div class="line">        System.out.println(&quot;类加载器  &quot; + testReflect.getClass().getClassLoader().getClass().getName());</div></pre></td></tr></table></figure>
+<p>在java中有三种类类加载器。</p>
+<p><em>. Bootstrap ClassLoader 此加载器采用c++编写，一般开发中很少见。
+</em>. Extension ClassLoaderyong来进行扩展类的加载，一般对应的是jrelibext目录中的类</p>
+<p>*. AppClassLoader 加载classpath指定的类，是最常用的加载器。同时也是java中默认的加载器。</p>
+<p>如果想要完成动态代理，首先需要定义一个InvocationHandler接口的子类，已完成代理的具体操作</p>
+<h2 id="反射的应用"><a href="#反射的应用" class="headerlink" title="反射的应用"></a>反射的应用</h2><p>在泛型为Integer的ArrayList中存放一个String类型的对象</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">ArrayList&lt;Integer&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line">		Method method = list.getClass().getMethod(<span class="string">"add"</span>, Object.class);</div><div class="line">		method.invoke(list, <span class="string">"可以添加String？"</span>);</div><div class="line">		System.out.println(!list.isEmpty());</div></pre></td></tr></table></figure>
+<p>反射修改数组元素<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException </span>&#123;</div><div class="line">		<span class="comment">// TODO Auto-generated method stub</span></div><div class="line">		ArrayList&lt;Integer&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line">		Method method = list.getClass().getMethod(<span class="string">"add"</span>, Object.class);</div><div class="line">		method.invoke(list, <span class="string">"可以添加String？"</span>);</div><div class="line">		System.out.println(!list.isEmpty());</div><div class="line">		</div><div class="line">		<span class="keyword">int</span>[] temp = &#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>&#125;;</div><div class="line">		Class&lt;?&gt; clazz = temp.getClass().getComponentType();</div><div class="line">		System.out.println(<span class="string">"数组类型"</span> + clazz.getName());</div><div class="line">		System.out.println(<span class="string">"长度"</span>  + Array.getLength(temp));</div><div class="line">		System.out.println(<span class="string">"数组第一个元素"</span> + Array.get(temp,<span class="number">0</span>));</div><div class="line">		Array.set(temp, <span class="number">0</span>, <span class="number">100</span>);</div><div class="line">		System.out.println(<span class="string">"修改后第一个元素"</span> + Array.get(temp, <span class="number">0</span>));</div><div class="line">	&#125;</div></pre></td></tr></table></figure></p>
+<p>优点： </p>
+<ol>
+<li>能够运行时动态获取类的实例，大大提高系统的灵活性和扩展性。 </li>
+<li>与Java动态编译相结合，可以实现无比强大的功能 </li>
+</ol>
+<p>缺点： </p>
+<ol>
+<li>使用反射的性能较低 </li>
+<li>使用反射相对来说不安全 </li>
+<li>破坏了类的封装性，可以通过反射获取这个类的私有方法和属性 </li>
+</ol>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/03/01/LinkedHashMap源码剖析/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rensailong">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="coderlong的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/03/01/LinkedHashMap源码剖析/" itemprop="url">LinkedHashMap源码剖析</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-01T23:18:40+08:00">
+                2018-03-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JDK/" itemprop="url" rel="index">
+                    <span itemprop="name">JDK</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/03/01/JDK注解的理解/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -933,917 +1852,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/02/07/Max Sum of Rectangle No Larger Than K/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Rensailong">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="coderlong的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/02/07/Max Sum of Rectangle No Larger Than K/" itemprop="url">363.Max Sum of Rectangle No Larger Than K</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-07T21:48:38+08:00">
-                2018-02-07
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/algorithm/" itemprop="url" rel="index">
-                    <span itemprop="name">algorithm</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>Given a non-empty 2D matrix matrix and an integer k, find the max sum of a rectangle in the matrix such that its sum is no larger than k.</p>
-<p><em>Example:</em><br>    Given matrix = [<br>      [1,  0, 1],<br>      [0, -2, 3]<br>    ]<br>    k = 2</p>
-<p>The answer is <strong>2</strong>. Because the sum of rectangle <strong>[[0, 1], [-2, 3]]</strong> is 2 and 2 is the max number no larger than k (k = 2).  </p>
-<p>Note:<br>    The rectangle inside the matrix must have an area &gt; 0.<br>    What if the number of rows is much larger than the number of columns?</p>
-<p>按照<code>[LeetCode] Range Sum Query 2D - Immutable 二维区域和检索 - 不可变</code> 一样的方法，使用O(n^4)复杂度得出答案。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">maxSumSubmatrix</span><span class="params">(<span class="keyword">int</span>[][] matrix, <span class="keyword">int</span> k)</span> </span>&#123;</div><div class="line">			<span class="keyword">if</span> (matrix == <span class="keyword">null</span> || matrix.length == <span class="number">0</span> || matrix[<span class="number">0</span>].length == <span class="number">0</span>) &#123;</div><div class="line">				<span class="keyword">return</span> -<span class="number">1</span>;</div><div class="line">			&#125;</div><div class="line">			<span class="comment">// DP数组保存的是右下角和左上角之间区域的和</span></div><div class="line">	        <span class="keyword">int</span>[][] dp = <span class="keyword">new</span> <span class="keyword">int</span>[matrix.length + <span class="number">1</span>][matrix[<span class="number">0</span>].length + <span class="number">1</span>];</div><div class="line"><span class="comment">//	        dp[0][0] = matrix[0][0];</span></div><div class="line">	        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= matrix.length; i++) &#123;</div><div class="line">	        	<span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">1</span>; j &lt;= matrix[<span class="number">0</span>].length; j++) &#123;</div><div class="line">	        		dp[i][j] = dp[i - <span class="number">1</span>][j] + dp[i][j - <span class="number">1</span>] - dp[i - <span class="number">1</span>][j - <span class="number">1</span>] + matrix[i - <span class="number">1</span>][j - <span class="number">1</span>];</div><div class="line">	        	&#125;</div><div class="line">	        &#125;</div><div class="line">	        <span class="keyword">int</span> res = Integer.MIN_VALUE;</div><div class="line">	        <span class="comment">// 这里O(n^4)应该是可以改善的，，，，，，，,暂时还没注意。</span></div><div class="line">	        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= matrix.length; i++) &#123;</div><div class="line">	        	<span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">1</span>; j &lt;= matrix[<span class="number">0</span>].length; j++) &#123;</div><div class="line">	        		<span class="keyword">for</span> (<span class="keyword">int</span> h = i; h &lt;= matrix.length; h++) &#123;</div><div class="line">	        			<span class="keyword">for</span> (<span class="keyword">int</span> s = j; s &lt;= matrix[<span class="number">0</span>].length; s++) &#123;</div><div class="line">	        				<span class="keyword">if</span> (sumRegion(i, j, h, s, dp) == k) &#123;</div><div class="line">	        					<span class="keyword">return</span> k;</div><div class="line">	        				&#125;</div><div class="line">	        				<span class="keyword">if</span> (sumRegion(i, j, h, s, dp) &lt; k) &#123;</div><div class="line">	        					res = Math.max(res, sumRegion(i, j, h, s, dp));</div><div class="line">	        				&#125;</div><div class="line">	        			&#125;</div><div class="line">	        		&#125;</div><div class="line">	        	&#125;</div><div class="line">	        &#125;</div><div class="line">	        <span class="comment">// 没有得到小于k的res</span></div><div class="line">	        <span class="keyword">if</span> (res == Integer.MIN_VALUE) &#123;</div><div class="line">	        	<span class="keyword">return</span> -<span class="number">1</span>;</div><div class="line">	        &#125;</div><div class="line">	        <span class="keyword">return</span> res;</div><div class="line">	 &#125;</div><div class="line">	 <span class="comment">// 求区域和的函数</span></div><div class="line">	 <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">sumRegion</span><span class="params">(<span class="keyword">int</span> row1, <span class="keyword">int</span> col1, <span class="keyword">int</span> row2, <span class="keyword">int</span> col2, <span class="keyword">int</span>[][] dp)</span> </span>&#123;</div><div class="line">	    	</div><div class="line">			<span class="keyword">return</span> dp[row2][col2] - dp[row2][col1 - <span class="number">1</span>] - dp[row1 - <span class="number">1</span>][col2] + dp[row1 - <span class="number">1</span>][col1 - <span class="number">1</span>];</div><div class="line">	        </div><div class="line">	 &#125;</div></pre></td></tr></table></figure>
-<hr>
-<p> Range Sum Query 2D - Immutable 和上面那个题目是相同的思想 </p>
-<p>Given a 2D matrix matrix, find the sum of the elements inside the rectangle defined by its upper left corner (row1, col1) and lower right corner (row2, col2).</p>
-<p>Range Sum Query 2D<br>The above rectangle (with the red border) is defined by (row1, col1) = (2, 1) and (row2, col2) = (4, 3), which contains sum = 8.</p>
-<p>Example:</p>
-<p>Given matrix = [<br>  [3, 0, 1, 4, 2],<br>  [5, 6, 3, 2, 1],<br>  [1, 2, 0, 1, 5],<br>  [4, 1, 0, 1, 7],<br>  [1, 0, 3, 0, 5]<br>]</p>
-<p>sumRegion(2, 1, 4, 3) -&gt; 8<br>sumRegion(1, 1, 2, 2) -&gt; 11<br>sumRegion(1, 2, 2, 4) -&gt; 12</p>
-<p>Note:</p>
-<pre><code>You may assume that the matrix does not change.
-There are many calls to sumRegion function.
-You may assume that row1 ≤ row2 and col1 ≤ col2.
-</code></pre><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">NumMatrix</span> </span>&#123;</div><div class="line">	<span class="keyword">private</span> <span class="keyword">int</span>[][] dp;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="title">NumMatrix</span><span class="params">(<span class="keyword">int</span>[][] matrix)</span> </span>&#123;</div><div class="line">		<span class="keyword">if</span> (matrix == <span class="keyword">null</span> || matrix.length == <span class="number">0</span> || matrix[<span class="number">0</span>].length == <span class="number">0</span>) &#123;</div><div class="line">			<span class="keyword">return</span> ;</div><div class="line">		&#125;</div><div class="line">        <span class="keyword">int</span> rows = matrix.length;</div><div class="line">        <span class="keyword">int</span> cols = matrix[<span class="number">0</span>].length;</div><div class="line">        dp = <span class="keyword">new</span> <span class="keyword">int</span>[rows + <span class="number">1</span>][cols + <span class="number">1</span>];</div><div class="line">        dp[<span class="number">0</span>][<span class="number">0</span>] = matrix[<span class="number">0</span>][<span class="number">0</span>];</div><div class="line"><span class="comment">//        for (int i = 1; i &lt; rows; i++) &#123;</span></div><div class="line"><span class="comment">//        	dp[i][0] = matrix[i][0] + dp[i - 1][0];</span></div><div class="line"><span class="comment">//        &#125;</span></div><div class="line"><span class="comment">//        for (int i = 1; i &lt; cols; i++) &#123;</span></div><div class="line"><span class="comment">//        	dp[0][i] = matrix[0][i] + dp[0][i - 1];</span></div><div class="line"><span class="comment">//        &#125;</span></div><div class="line">        </div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= rows; i++) &#123;</div><div class="line">        	<span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">1</span>; j &lt;= cols; j++) &#123;</div><div class="line">        		dp[i][j] = dp[i - <span class="number">1</span>][j] + dp[i][j - <span class="number">1</span>] - dp[i - <span class="number">1</span>][j - <span class="number">1</span>] + matrix[i - <span class="number">1</span>][j - <span class="number">1</span>];</div><div class="line">        	&#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">sumRegion</span><span class="params">(<span class="keyword">int</span> row1, <span class="keyword">int</span> col1, <span class="keyword">int</span> row2, <span class="keyword">int</span> col2)</span> </span>&#123;</div><div class="line">    	</div><div class="line">		<span class="keyword">return</span> dp[row2 + <span class="number">1</span>][col2 + <span class="number">1</span>] - dp[row2 + <span class="number">1</span>][col1] - dp[row1][col2 + <span class="number">1</span>] + dp[row1][col1];</div><div class="line">        </div><div class="line">    &#125;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		<span class="comment">// TODO Auto-generated method stub</span></div><div class="line">		<span class="keyword">int</span>[][] matrix = &#123;</div><div class="line">		                &#123;<span class="number">3</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">4</span>, <span class="number">2</span>&#125;,</div><div class="line">		                &#123;<span class="number">5</span>, <span class="number">6</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">1</span>&#125;,</div><div class="line">		                &#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">5</span>&#125;,</div><div class="line">		                &#123;<span class="number">4</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">7</span>&#125;,</div><div class="line">		                &#123;<span class="number">1</span>, <span class="number">0</span>, <span class="number">3</span>, <span class="number">0</span>, <span class="number">5</span>&#125;</div><div class="line">		&#125;;</div><div class="line">		NumMatrix matrix2 = <span class="keyword">new</span> NumMatrix(matrix);</div><div class="line">		System.out.println(matrix2.sumRegion(<span class="number">1</span>,<span class="number">2</span>,<span class="number">2</span>,<span class="number">4</span>));</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/02/05/再谈回溯法/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Rensailong">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="coderlong的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/02/05/再谈回溯法/" itemprop="url">backtrack解决问题一点总结</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-05T21:18:40+08:00">
-                2018-02-05
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Algorithm/" itemprop="url" rel="index">
-                    <span itemprop="name">Algorithm</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>算法设计与分析中就学过回溯法(递归，迭代)，可是一<br>遇到问题，还是没有建立起使用回溯的思想。在子集包含，字符串重建，序列，等问题中都非常好用。</p>
-<h2 id="Permutations1"><a href="#Permutations1" class="headerlink" title="Permutations1"></a>Permutations1</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">leetcode046_Permutations</span> </span>&#123;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		<span class="comment">// TODO Auto-generated method stub</span></div><div class="line">		<span class="keyword">int</span>[] nums = &#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>&#125;;</div><div class="line">		System.out.println(permute(nums));</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">public</span> <span class="keyword">static</span> List&lt;List&lt;Integer&gt;&gt; permute(<span class="keyword">int</span>[] nums) &#123;</div><div class="line">		List&lt;List&lt;Integer&gt;&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line">		backtrack(list, <span class="keyword">new</span> ArrayList&lt;&gt;(), nums);</div><div class="line">		<span class="keyword">return</span> list;</div><div class="line">    &#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">backtrack</span><span class="params">(List&lt;List&lt;Integer&gt;&gt; list, List&lt;Integer&gt; templist, <span class="keyword">int</span>[] nums)</span></span>&#123;</div><div class="line">		<span class="keyword">if</span> (templist.size() == nums.length) &#123;</div><div class="line">			list.add(<span class="keyword">new</span> ArrayList&lt;&gt;(templist));<span class="comment">// 符合条件的加入进去</span></div><div class="line">		&#125;</div><div class="line">		<span class="keyword">else</span> &#123;</div><div class="line">			<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; nums.length; i++) &#123;</div><div class="line">				<span class="keyword">if</span> (templist.contains(nums[i]))&#123; <span class="comment">// 这个判断是否包含重复 也是及其精妙啊</span></div><div class="line">					<span class="keyword">continue</span>;</div><div class="line">				&#125;</div><div class="line">				templist.add(nums[i]);</div><div class="line">				backtrack(list, templist, nums);</div><div class="line">				templist.remove(templist.size() - <span class="number">1</span>);</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<hr>
-<h2 id="Permutations2"><a href="#Permutations2" class="headerlink" title="Permutations2"></a>Permutations2</h2><p>需要考虑重复问题<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">leetcode047_Permutations2</span> </span>&#123;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		<span class="comment">// TODO Auto-generated method stub</span></div><div class="line">		<span class="keyword">int</span>[] nums = &#123;<span class="number">3</span>,<span class="number">3</span>,<span class="number">0</span>,<span class="number">3</span>&#125;;</div><div class="line">		System.out.println(permuteUnique(nums));</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="keyword">public</span> <span class="keyword">static</span> List&lt;List&lt;Integer&gt;&gt; permuteUnique(<span class="keyword">int</span>[] nums) &#123;</div><div class="line">		List&lt;List&lt;Integer&gt;&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line">		Arrays.sort(nums);</div><div class="line">		<span class="keyword">boolean</span>[] flags = <span class="keyword">new</span> <span class="keyword">boolean</span>[nums.length]; <span class="comment">// 默认都是 false</span></div><div class="line">		backtrack(list, <span class="keyword">new</span> ArrayList&lt;&gt;(), nums, flags);</div><div class="line">		<span class="keyword">return</span> list;</div><div class="line">    &#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">backtrack</span><span class="params">(List&lt;List&lt;Integer&gt;&gt; list, List&lt;Integer&gt; templist, <span class="keyword">int</span>[] nums, <span class="keyword">boolean</span>[] flags)</span> </span>&#123;</div><div class="line">		<span class="keyword">if</span> (templist.size() == nums.length) &#123;</div><div class="line">			list.add(<span class="keyword">new</span> ArrayList&lt;&gt;(templist));</div><div class="line">		&#125;</div><div class="line">		</div><div class="line">		<span class="keyword">else</span> &#123;</div><div class="line">			<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; nums.length; i++) &#123;</div><div class="line">				<span class="keyword">if</span> (flags[i]) &#123;</div><div class="line">					<span class="keyword">continue</span>; <span class="comment">// 如果这个元素使用过了，就不再加入进去</span></div><div class="line">				&#125;</div><div class="line">				<span class="keyword">if</span> (i &gt; <span class="number">0</span> &amp;&amp; nums[i] == nums[i - <span class="number">1</span>] &amp;&amp; !flags[i - <span class="number">1</span>])&#123;</div><div class="line">					<span class="keyword">continue</span>; <span class="comment">//</span></div><div class="line">				&#125;</div><div class="line">				flags[i] = <span class="keyword">true</span>;</div><div class="line">				templist.add(nums[i]);</div><div class="line">				backtrack(list, templist, nums, flags);</div><div class="line">				templist.remove(templist.size() - <span class="number">1</span>);</div><div class="line">				flags[i] = <span class="keyword">false</span>;</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">		</div><div class="line">		</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">---</div><div class="line"></div><div class="line">## SubSet1</div><div class="line">```java</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">leetcode078_SubSet</span> </span>&#123;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		<span class="comment">// TODO Auto-generated method stub</span></div><div class="line">		<span class="keyword">int</span>[] nums = &#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>&#125;;</div><div class="line">		System.out.println(subsets(nums));</div><div class="line">	&#125;</div><div class="line">	 <span class="keyword">public</span> <span class="keyword">static</span> List&lt;List&lt;Integer&gt;&gt; subsets(<span class="keyword">int</span>[] nums) &#123;</div><div class="line">	     <span class="comment">// 排序之后循环 题目关键之处在于 distinct integers 意味着 数字不会重复，降低了难度</span></div><div class="line">		 List&lt;List&lt;Integer&gt;&gt; answer = <span class="keyword">new</span> ArrayList&lt;List&lt;Integer&gt;&gt;();</div><div class="line">		 </div><div class="line">		 answer.add(<span class="keyword">new</span> ArrayList&lt;Integer&gt;());</div><div class="line">		 <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>;i &lt; nums.length;i++)&#123;</div><div class="line">			 List&lt;List&lt;Integer&gt;&gt; temp = <span class="keyword">new</span> ArrayList&lt;List&lt;Integer&gt;&gt;();</div><div class="line">			 <span class="keyword">for</span> (List&lt;Integer&gt; x:answer)&#123;</div><div class="line">				 List&lt;Integer&gt; y = <span class="keyword">new</span> ArrayList&lt;Integer&gt;(x);</div><div class="line">				 y.add(nums[i]);</div><div class="line">				 temp.add(y);</div><div class="line">			 &#125;</div><div class="line">			 answer.addAll(temp);</div><div class="line">		 &#125;</div><div class="line">		 <span class="keyword">return</span> answer;</div><div class="line">		 </div><div class="line">	  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<hr>
-<h2 id="Subset2"><a href="#Subset2" class="headerlink" title="Subset2"></a>Subset2</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">leetcode090_Subsets2</span> </span>&#123;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		<span class="comment">// TODO Auto-generated method stub</span></div><div class="line">		<span class="keyword">int</span>[] nums = &#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">2</span>&#125;;</div><div class="line">		System.out.println(subsetsWithDup(nums));</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">public</span> <span class="keyword">static</span> List&lt;List&lt;Integer&gt;&gt; subsetsWithDup(<span class="keyword">int</span>[] nums) &#123;</div><div class="line">        List&lt;List&lt;Integer&gt;&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line">        Arrays.sort(nums);</div><div class="line">        backtrack(list, <span class="keyword">new</span> ArrayList&lt;&gt;(), nums, <span class="number">0</span>);</div><div class="line">        <span class="keyword">return</span> list;</div><div class="line">        </div><div class="line">    &#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">backtrack</span><span class="params">(List&lt;List&lt;Integer&gt;&gt; list, List&lt;Integer&gt; tempList, <span class="keyword">int</span>[] nums,<span class="keyword">int</span> start)</span> </span>&#123;</div><div class="line">		list.add(<span class="keyword">new</span> ArrayList&lt;&gt;(tempList));</div><div class="line">		</div><div class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = start; i &lt; nums.length; i++) &#123;</div><div class="line">			<span class="keyword">if</span> (i &gt; start &amp;&amp; nums[i] == nums[i - <span class="number">1</span>]) &#123;</div><div class="line">				<span class="keyword">continue</span>;</div><div class="line">			&#125;</div><div class="line">			tempList.add(nums[i]);</div><div class="line">			backtrack(list, tempList, nums, i + <span class="number">1</span>);</div><div class="line">			tempList.remove(tempList.size() - <span class="number">1</span>);</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<hr>
-<h2 id="Combination-Sum"><a href="#Combination-Sum" class="headerlink" title="Combination Sum"></a>Combination Sum</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">leetcode077_Combinations</span> </span>&#123;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		System.out.println(combine(<span class="number">4</span>,<span class="number">2</span>));</div><div class="line">		</div><div class="line">	&#125;</div><div class="line">	<span class="comment">// 排列组合问题  使用回溯法</span></div><div class="line">	<span class="comment">// Backtracking Solution Java</span></div><div class="line">	<span class="keyword">public</span> <span class="keyword">static</span> List&lt;List&lt;Integer&gt;&gt; combine(<span class="keyword">int</span> n, <span class="keyword">int</span> k) &#123;</div><div class="line">		List&lt;List&lt;Integer&gt;&gt; res = <span class="keyword">new</span> ArrayList&lt;List&lt;Integer&gt;&gt;();</div><div class="line">		List&lt;Integer&gt; test = <span class="keyword">new</span> ArrayList&lt;Integer&gt;();</div><div class="line">		combine1(res,test,<span class="number">1</span>,n,k);</div><div class="line">		<span class="keyword">return</span> res;</div><div class="line">    &#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">combine1</span><span class="params">(List&lt;List&lt;Integer&gt;&gt; res,List&lt;Integer&gt; temp,<span class="keyword">int</span> start,<span class="keyword">int</span> n,<span class="keyword">int</span> k)</span></span>&#123;</div><div class="line">		<span class="keyword">if</span> (k == <span class="number">0</span>)&#123;</div><div class="line">			res.add(<span class="keyword">new</span> ArrayList&lt;Integer&gt;(temp));</div><div class="line">			<span class="keyword">return</span> ;</div><div class="line">		&#125;</div><div class="line">		</div><div class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = start;i &lt;= n; i++)&#123;</div><div class="line">			temp.add(i);</div><div class="line">			combine1(res,temp, i + <span class="number">1</span>,n,k - <span class="number">1</span>);</div><div class="line">			temp.remove(temp.size() - <span class="number">1</span>);</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">---</div><div class="line"></div><div class="line">## Combination Sum II</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"><span class="comment">* <span class="doctag">@author</span> 作者 : coderlong</span></div><div class="line"><span class="comment">* <span class="doctag">@version</span> 创建时间：2018年2月5日 下午4:29:33</span></div><div class="line"><span class="comment">* 类说明: 其实这道题，和之前的那道combinationSum是一样的，只不过现在需要考虑重复的问题</span></div><div class="line"><span class="comment">*/</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">leetcode040_CombinationSum2</span> </span>&#123;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		<span class="comment">// TODO Auto-generated method stub</span></div><div class="line">		<span class="keyword">int</span>[] candidates = &#123;<span class="number">10</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">7</span>, <span class="number">6</span>, <span class="number">1</span>, <span class="number">5</span>&#125;;</div><div class="line">		System.out.println(combinationSum2(candidates, <span class="number">8</span>));</div><div class="line">	&#125;</div><div class="line">	 <span class="keyword">public</span> <span class="keyword">static</span> List&lt;List&lt;Integer&gt;&gt; combinationSum2(<span class="keyword">int</span>[] candidates, <span class="keyword">int</span> target) &#123;</div><div class="line">	     List&lt;List&lt;Integer&gt;&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line">	     Arrays.sort(candidates);</div><div class="line">	     backtrack(list, <span class="keyword">new</span> ArrayList&lt;&gt;(), candidates, target, <span class="number">0</span>);   </div><div class="line">	     <span class="keyword">return</span> list;</div><div class="line">	 &#125;</div><div class="line">	 <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">backtrack</span><span class="params">(List&lt;List&lt;Integer&gt;&gt; list, List&lt;Integer&gt; templist, <span class="keyword">int</span>[] candidates, <span class="keyword">int</span> remain,<span class="keyword">int</span> start)</span> </span>&#123;</div><div class="line">		 <span class="keyword">if</span> (remain &lt; <span class="number">0</span>) &#123;</div><div class="line">			 <span class="keyword">return</span> ;</div><div class="line">		 &#125;</div><div class="line">		 <span class="keyword">if</span> (remain == <span class="number">0</span>) &#123;</div><div class="line">			 list.add(<span class="keyword">new</span> ArrayList&lt;&gt;(templist));</div><div class="line">			 <span class="keyword">return</span>;</div><div class="line">		 &#125;</div><div class="line">		 <span class="keyword">for</span> (<span class="keyword">int</span> i = start; i &lt; candidates.length; i++) &#123;</div><div class="line">			 <span class="keyword">if</span> (i &gt; start &amp;&amp; candidates[i] == candidates[i - <span class="number">1</span>]) &#123;</div><div class="line">					<span class="keyword">continue</span>; <span class="comment">// 忽略重复的元素</span></div><div class="line">				&#125;</div><div class="line">			 templist.add(candidates[i]);</div><div class="line">			 backtrack(list, templist, candidates, remain - candidates[i], i + <span class="number">1</span>);</div><div class="line">			 templist.remove(templist.size() - <span class="number">1</span>);</div><div class="line">		 &#125;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/02/05/JUC之lock机制/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Rensailong">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="coderlong的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/02/05/JUC之lock机制/" itemprop="url">java.util.concurrent之锁机制</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-05T21:18:40+08:00">
-                2018-02-05
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/JUC/" itemprop="url" rel="index">
-                    <span itemprop="name">JUC</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="Condition借口"><a href="#Condition借口" class="headerlink" title="Condition借口"></a>Condition借口</h3><p>一个线程因为某个condition不满足被挂起，直到该Condition被满足了。<br>类似与Object的wait/<br>notify，因此Condition对象应该是被多线程共享的，需要使用锁保护其状态的一致性</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">BoundedBuffer</span> </span>&#123;</div><div class="line">     <span class="keyword">final</span> Lock lock = <span class="keyword">new</span> ReentrantLock();</div><div class="line">     <span class="keyword">final</span> Condition notFull     = lock.newCondition();</div><div class="line">     <span class="keyword">final</span> Condition notEmpty = lock.newCondition();</div><div class="line"></div><div class="line">     <span class="keyword">final</span> Object[] items = <span class="keyword">new</span> Object[<span class="number">100</span>];</div><div class="line">     <span class="keyword">int</span> putptr, takeptr, count;</div><div class="line"></div><div class="line">     <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">put</span><span class="params">(Object x)</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</div><div class="line">          lock.lock();</div><div class="line">          <span class="keyword">try</span> &#123;</div><div class="line">               <span class="keyword">while</span> (count == items.length)</div><div class="line">                    notFull.await();</div><div class="line">               items[putptr] = x;</div><div class="line">               <span class="keyword">if</span> (++putptr == items.length) putptr = <span class="number">0</span>;</div><div class="line">               ++count;</div><div class="line">               notEmpty.signal();</div><div class="line">          &#125; <span class="keyword">finally</span> &#123;</div><div class="line">               lock.unlock();</div><div class="line">          &#125;</div><div class="line">     &#125;         </div><div class="line"></div><div class="line">     <span class="function"><span class="keyword">public</span> Object <span class="title">take</span><span class="params">()</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</div><div class="line">          lock.lock();</div><div class="line">          <span class="keyword">try</span> &#123;</div><div class="line">               <span class="keyword">while</span> (count == <span class="number">0</span>)</div><div class="line">                    notEmpty.await();</div><div class="line">               Object x = items[takeptr];</div><div class="line">               <span class="keyword">if</span> (++takeptr == items.length) takeptr = <span class="number">0</span>;</div><div class="line">               --count;</div><div class="line">               notFull.signal();</div><div class="line">               <span class="keyword">return</span> x;</div><div class="line">          &#125; <span class="keyword">finally</span> &#123;</div><div class="line">               lock.unlock();</div><div class="line">          &#125;</div><div class="line">     &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h2 id="Lock和ReadWriteLock"><a href="#Lock和ReadWriteLock" class="headerlink" title="Lock和ReadWriteLock"></a>Lock和ReadWriteLock</h2><p>两个接口，后者不是前者的子接口，通过以下ReadWriteLock的代码就可以看出两者的联系了：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">ReadWriteLock</span> </span>&#123;</div><div class="line">    <span class="comment">/**</span></div><div class="line"><span class="comment">     * Returns the lock used for reading.</span></div><div class="line"><span class="comment">     *</span></div><div class="line"><span class="comment">     * <span class="doctag">@return</span> the lock used for reading.</span></div><div class="line"><span class="comment">     读锁</span></div><div class="line"><span class="comment">     */</span></div><div class="line">    <span class="function">Lock <span class="title">readLock</span><span class="params">()</span></span>;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line"><span class="comment">     * Returns the lock used for writing.</span></div><div class="line"><span class="comment">     *写锁</span></div><div class="line"><span class="comment">     * <span class="doctag">@return</span> the lock used for writing.</span></div><div class="line"><span class="comment">     */</span></div><div class="line">    <span class="function">Lock <span class="title">writeLock</span><span class="params">()</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>两个接口都有一个可重入(ReentrantLock, ReentrantReadWriteLock)的实现</p>
-<h2 id="LockSupport工具类"><a href="#LockSupport工具类" class="headerlink" title="LockSupport工具类"></a>LockSupport工具类</h2><p>这这个类，我也不还很明白，是一个工具类，操作对象是线程，基于Unsafe类实现<br>基本操作park和unpark。park会把使得当前线程失效（没有提供操作其他线程的，其实是可以实现的），暂时挂起</p>
-<h2 id="AbstractOwnableSynchronizer-AbstractQueuedSynchronizer"><a href="#AbstractOwnableSynchronizer-AbstractQueuedSynchronizer" class="headerlink" title="AbstractOwnableSynchronizer, AbstractQueuedSynchronizer,"></a>AbstractOwnableSynchronizer, AbstractQueuedSynchronizer,</h2><p>AbstractQueuedLongSynchronizer<br>并发包的JDK源码充满了大量的 包装类，和设计模式用到的类，所以就算看着中文的注释还是很难读懂，这三个类，就是典型的代表。<br>AbstractQueuedSynchronizer, AbstractQueuedLongSynchronizer是AbstractOwnableSynchronizer的子类，<br>AbstractOwnableSynchronizer只是实现了被线程独占这些功能的Synchronizer，并不包含如何管理实现多个线程的同步。包含了一个exclusiveOwnerThread，set/get方法。</p>
-<p>AbstractQueuedSynchronizer利用Queue的方式来管理线程关于锁的使用和同步，相当于一个锁的管理者。<br>首先关注四个最核心的方法：<br>protected boolean tryAcquire(int arg)<br>protected boolean tryRelease(int arg)<br>protected int tryAcquireShared(int arg)<br>protected boolean tryReleaseShared(int arg)</p>
-<p>前两个用于独占锁，后两者用于共享锁，这四个方法是由子类来实现的，即如何获取和释放锁AbstractQueuedSynchronizer是不参与的，默认实现是不支持，即抛出UnsupportedOperationException。<br>AbstractQueuedSynchronizer做什么呢？</p>
-<p>当 前线程尝试获取锁的时候，AbstractQueuedSynchronizer会先调用tryAcquire或者tryAcquireShared来尝 试获取，如果得到false，那么把当前线程放到等待队列中去，然后再做进一步操作。我们来分析以下6种情况，前三种用于独占锁，后三者用于共享，独占锁 或者共享锁按照等待方式又分为三种：不可中断线程等待，可中断线程等待，尝试限时等待超时放弃。<br>这6种的方法都含有一个int类型的参数，这个是给上面的tryAcquire这种方法使用的，也就是说它一个自定义的参数，一般用来表示某个自定义的状态。</p>
-<ol>
-<li>独占锁，放入队列之后，直到成功获取，会忽略线程的中断<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">public final void acquire(int arg) &#123;</div><div class="line">        if (!tryAcquire(arg) &amp;&amp;</div><div class="line">            acquireQueued(addWaiter(Node.EXCLUSIVE), arg))</div><div class="line">            selfInterrupt();</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
-</li>
-</ol>
-<h2 id="ReentrantReadWriteLock"><a href="#ReentrantReadWriteLock" class="headerlink" title="ReentrantReadWriteLock"></a>ReentrantReadWriteLock</h2>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/02/05/JUC之atomic类/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Rensailong">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="coderlong的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/02/05/JUC之atomic类/" itemprop="url">java.util.concurrent.atomic</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-05T20:18:40+08:00">
-                2018-02-05
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/JUC/" itemprop="url" rel="index">
-                    <span itemprop="name">JUC</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>Aomic数据类型有四种类型：AomicBoolean, AomicInteger, AomicLong, 和AomicReferrence(针对Object的)以及它们的数组类型，<br>还有一个特殊的AomicStampedReferrence,它不是AomicReferrence的子类，而是利用AomicReferrence实现的一个储存引用和Integer组的扩展类<br>所有原子操作都是依赖于sun.misc.Unsafe这个类，这个类底层是由C++实现的，利用指针来实现数据操作</p>
-<h2 id="关于CAS"><a href="#关于CAS" class="headerlink" title="关于CAS"></a>关于CAS</h2><p>一种无锁机制，比较并交换, 操作包含三个操作数 —— 内存位置（V）、预期原值（A）和新值(B)。如果内存位置的值与预期原值相匹配，那么处理器会自动将该位置值更新为新值。否则，处理器不做任何操作。无 论哪种情况，它都会在 CAS 指令之前返回该位置的值。CAS 有效地说明了“我认为位置 V 应该包含值 A；如果包含该值，则将 B 放到这个位置；否则，不要更改该位置，只告诉我这个位置现在的值即可”<br>好处：操作系统级别的支持，效率更高，无锁机制，降低线程的等待，实际上是把这个任务丢给了操作系统来做。</p>
-<p>这个理论是整个java.util.concurrent包的基础。</p>
-<h3 id="ATtomicXX的四个数值类型"><a href="#ATtomicXX的四个数值类型" class="headerlink" title="ATtomicXX的四个数值类型"></a>ATtomicXX的四个数值类型</h3><ol>
-<li>value成员都是volatile</li>
-<li>基本方法get/set</li>
-<li>compareAndSet<br> weakCompareAndSet,<br> lazySet: 使用Unsafe按照顺序更新参考Unsafe的C++实现）<br> getAndSet：取当前值，使用当前值和准备更新的值做CAS</li>
-<li>对于Long和Integer<br>getAndIncrement/incrementAndGet<br>getAndDecrement/decrementAndGet<br>getAndAdd/addAndGet<br>三组方法都和getAndSet，取当前值，加减之得到准备更新的值，再做CAS，/左右的区别在于返回的是当前值还是更新值。</li>
-</ol>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/02/05/HashMap源码剖析/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Rensailong">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="coderlong的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/02/05/HashMap源码剖析/" itemprop="url">HashMap源码剖析</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-05T14:18:40+08:00">
-                2018-02-05
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/JDK/" itemprop="url" rel="index">
-                    <span itemprop="name">JDK</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="HashMap源码剖析"><a href="#HashMap源码剖析" class="headerlink" title="HashMap源码剖析"></a>HashMap源码剖析</h2><p>前面了解了jdk容器中的两种List，回忆一下怎么从list中取值（也就是做查询），是通过index索引位置对不对，由于存入list的元素时安装插入顺序存储的，所以index索引也就是插入的次序。<br>　　Map呢是这样一种容器，它可以存储两个元素键和值，根据键这个关键字可以明确且唯一的查出一个值，这个过程很像查字典，考虑一下使用什么样的数据结构才能实现这种效果呢？</p>
-<h3 id="1-自己实现一个map"><a href="#1-自己实现一个map" class="headerlink" title="1 自己实现一个map"></a>1 自己实现一个map</h3><p>jdk中map的定义<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Map</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt; </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">int</span> <span class="title">size</span><span class="params">()</span></span>;</div><div class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">isEmpty</span><span class="params">()</span></span>;</div><div class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">containsKey</span><span class="params">(Object key)</span></span>;</div><div class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">containsValue</span><span class="params">(Object value)</span></span>;</div><div class="line">    <span class="function">V <span class="title">get</span><span class="params">(Object key)</span></span>;</div><div class="line">    <span class="function">V <span class="title">put</span><span class="params">(K key, V value)</span></span>;</div><div class="line">    <span class="function">V <span class="title">remove</span><span class="params">(Object key)</span></span>;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">putAll</span><span class="params">(Map&lt;? extends K, ? extends V&gt; m)</span></span>;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">clear</span><span class="params">()</span></span>;</div><div class="line">    <span class="function">Set&lt;K&gt; <span class="title">keySet</span><span class="params">()</span></span>;</div><div class="line">    <span class="function">Collection&lt;V&gt; <span class="title">values</span><span class="params">()</span></span>;</div><div class="line">    Set&lt;Map.Entry&lt;K, V&gt;&gt; entrySet();</div><div class="line">    <span class="class"><span class="keyword">interface</span> <span class="title">Entry</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt; </span>&#123;</div><div class="line">       <span class="function">V <span class="title">getValue</span><span class="params">()</span></span>;</div><div class="line">       <span class="function">V <span class="title">setValue</span><span class="params">(V value)</span></span>;</div><div class="line">        <span class="function"><span class="keyword">boolean</span> <span class="title">equals</span><span class="params">(Object o)</span></span>;</div><div class="line">        <span class="function"><span class="keyword">int</span> <span class="title">hashCode</span><span class="params">()</span></span>;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">equals</span><span class="params">(Object o)</span></span>;</div><div class="line">    <span class="function"><span class="keyword">int</span> <span class="title">hashCode</span><span class="params">()</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>可以看到Map并没有实现Collection接口，也没有实现List接口，因为它可以保存两个属性key-value，和List容器一样还是包含增删改查等基本操作，同时可以看到Map中还定义了一个用来表示键值K-V的接口Entry。 </p>
-<p>在了解了map的概念和定义后，首先我们自己先来简单写一个Map的实现，看看会遇到什么样的问题。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyMap</span> </span>&#123;</div><div class="line"></div><div class="line">        <span class="keyword">private</span> Entry[] data = <span class="keyword">new</span> Entry[<span class="number">100</span>];</div><div class="line">        <span class="keyword">private</span> <span class="keyword">int</span> size;</div><div class="line"></div><div class="line">        <span class="function"><span class="keyword">public</span> Object <span class="title">put</span><span class="params">(Object key, Object value)</span> </span>&#123;</div><div class="line">               <span class="comment">// 检查key是否存在，存在则覆盖</span></div><div class="line">               <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; size; i++) &#123;</div><div class="line">                      <span class="keyword">if</span> (key.equals(data [i].key)) &#123;</div><div class="line">                           Object oldValue = data[i].value ;</div><div class="line">                            data[i].value = value;</div><div class="line">                            <span class="keyword">return</span> oldValue;</div><div class="line">                     &#125;</div><div class="line">              &#125;</div><div class="line">              </div><div class="line">              Entry e = <span class="keyword">new</span> Entry(key, value);</div><div class="line">               data[size ] = e;</div><div class="line">               size++;</div><div class="line">              </div><div class="line">               <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">       &#125;</div><div class="line"></div><div class="line">        <span class="function"><span class="keyword">public</span> Object <span class="title">get</span><span class="params">(Object key)</span> </span>&#123;</div><div class="line">               <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; size; i++) &#123;</div><div class="line">                      <span class="keyword">if</span> (key.equals(data [i].key)) &#123;</div><div class="line">                            <span class="keyword">return</span> data [i].value;</div><div class="line">                     &#125;</div><div class="line">              &#125;</div><div class="line"></div><div class="line">               <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">       &#125;</div><div class="line">       </div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">size</span><span class="params">()</span> </span>&#123;</div><div class="line">               <span class="keyword">return</span> size ;</div><div class="line">       &#125;</div><div class="line">       </div><div class="line">        <span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">Entry</span> </span>&#123;</div><div class="line">              Object key;</div><div class="line">              Object value;</div><div class="line"></div><div class="line">               <span class="function"><span class="keyword">public</span> <span class="title">Entry</span><span class="params">(Object key, Object value)</span> </span>&#123;</div><div class="line">                      <span class="keyword">this</span>.key = key;</div><div class="line">                      <span class="keyword">this</span>.value = value;</div><div class="line">              &#125;</div><div class="line"></div><div class="line">       &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>上面我们简单实现了一下map的put、get、size等方法，从代码可以看到底层是使用数组来存储数据的。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</div><div class="line"></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">              MyMap map = <span class="keyword">new</span> MyMap();</div><div class="line">              map.put( <span class="string">"tstd"</span>, <span class="string">"angelababy"</span> );</div><div class="line">              map.put( <span class="string">"张三"</span> , <span class="string">"郭靖"</span>);</div><div class="line">              map.put( <span class="string">"tstd"</span>, <span class="string">"黄蓉"</span> );</div><div class="line">              </div><div class="line">              System. out.println(map.size());</div><div class="line">              System. out.println(map.get(<span class="string">"tstd"</span> ));</div><div class="line">              System. out.println(map.get(<span class="string">"张三"</span> ));</div><div class="line">       &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p><em>致命缺陷</em> ：get方法中，通过key获取value的方式是通过遍历数组实现，这样显然是非常低效的，同样在put方法中由于要检查key是否已经存在也是通过遍历数组实现</p>
-<h2 id="HashMap的定义"><a href="#HashMap的定义" class="headerlink" title="HashMap的定义"></a>HashMap的定义</h2><p>在看HashMap定义前，我们首先需要了解hash是什么意思，hash通常被翻译成“散列”，简单解析下（不对的话还请指出^_^），<em> hash就是通过散列算法，将一个任意长度关键字转换为一个固定长度的散列值 </em>，但是有一点要指出的是，不同的关键字可能会散列出相同的散列值。什么意思呢？也就是关键字和散列值不是一一对应的，散列值会出现冲突。但是为什么会出现这种情况呢，原因是hash是一种压缩映射，举个例子就是将一个8个字节（二进制64位）的long值转换为一个4个字节（二进制32位）的int值，也就是说需要砍掉4个字节（32位），坑位有限，人太多，所以只能两个人一个坑喽。<br>     ok、了解了hash的概念和特点后，来看下HashMap的定义：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HashMap</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt;</span></div><div class="line"><span class="class">     <span class="keyword">extends</span> <span class="title">AbstractMap</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt;</span></div><div class="line"><span class="class">     <span class="keyword">implements</span> <span class="title">Map</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt;, <span class="title">Cloneable</span>, <span class="title">Serializable</span></span></div></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/02/01/Arrays.copyof()&&System.arraycopy()/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Rensailong">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="coderlong的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/02/01/Arrays.copyof()&&System.arraycopy()/" itemprop="url">Arrays.copyof()&&System.arraycopy()</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-01T16:18:40+08:00">
-                2018-02-01
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/有趣的API/" itemprop="url" rel="index">
-                    <span itemprop="name">有趣的API</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>System.arraycopy()的声明<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">native</span> <span class="keyword">void</span> <span class="title">arraycopy</span><span class="params">(Object src,<span class="keyword">int</span> srcPos, Object dest, <span class="keyword">int</span> destPos,<span class="keyword">int</span> length)</span></span>;</div></pre></td></tr></table></figure></p>
-<p>一个native方法 ，说明是调用的其他语言的底层函数<br>src - 源数组。<br>srcPos - 源数组中的起始位置。<br>dest - 目标数组。<br>destPos - 目标数据中的起始位置。<br>length - 要复制的数组元素的数量。  </p>
-<hr>
-<p>Arrays.copyof()的声明呢？</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> &lt;T,U&gt; T[] copyOf(U[] original, <span class="keyword">int</span> newLength, Class&lt;? extends T[]&gt; newType) &#123;</div><div class="line">        <span class="meta">@SuppressWarnings</span>(<span class="string">"unchecked"</span>)</div><div class="line">        T[] copy = ((Object)newType == (Object)Object[].class)</div><div class="line">            ? (T[]) <span class="keyword">new</span> Object[newLength]</div><div class="line">            : (T[]) Array.newInstance(newType.getComponentType(), newLength);</div><div class="line">        System.arraycopy(original, <span class="number">0</span>, copy, <span class="number">0</span>,</div><div class="line">                         Math.min(original.length, newLength));</div><div class="line">        <span class="keyword">return</span> copy;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
-<p>original - 要复制的数组<br>newLength - 要返回的副本的长度<br>newType - 要返回的副本的类型  </p>
-<hr>
-<p>copyof内部调用了system.arraycopy()方法<br>arraycopy()需要目标数组，将原数组拷贝到你自己定义的数组里，而且可以选择拷贝的起点和长度以及放入新数组中的位置   </p>
-<p>copyOf()是系统自动在内部新建一个数组，调用arraycopy()<br>将original内容复制到copy中去，并且长度为newLength。返回copy;<br>即将原数组拷贝到一个长度为newLength的新数组中，并返回该数组。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1894,7 +1902,7 @@ You may assume that row1 ≤ row2 and col1 ≤ col2.
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">53</span>
+                <span class="site-state-item-count">59</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1905,7 +1913,7 @@ You may assume that row1 ≤ row2 and col1 ≤ col2.
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-count">15</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -1916,7 +1924,7 @@ You may assume that row1 ≤ row2 and col1 ≤ col2.
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">41</span>
+                <span class="site-state-item-count">44</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
