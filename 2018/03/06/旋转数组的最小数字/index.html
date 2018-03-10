@@ -78,7 +78,7 @@
 <link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="JDK,代码重构,源码学习," />
+  <meta name="keywords" content="Algorithm,剑指offer," />
 
 
 
@@ -94,15 +94,18 @@
 
 
 
-<meta name="keywords" content="JDK,代码重构,源码学习">
+<meta name="description" content="旋转数组的最小数字题目描述 把一个数组最开始的若干个元素搬到数组的末尾，我们称之为数组的旋转。 输入一个递增排序的数组的一个旋转，输出旋转数组的最小元素。 例如数组{3,4,5,1,2}为{1,2,3,4,5}的一个旋转，该数组的最小值为1。 NOTE：给出的所有元素都大于0，若数组大小为0，请返回0。 12345678910111213141516171819202122232425262728">
+<meta name="keywords" content="Algorithm,剑指offer">
 <meta property="og:type" content="article">
-<meta property="og:title" content="LinkedHashMap源码剖析">
-<meta property="og:url" content="https://coderlongren.github.io/2018/03/01/LinkedHashMap源码剖析/index.html">
+<meta property="og:title" content="旋转数组的最小数字">
+<meta property="og:url" content="https://coderlongren.github.io/2018/03/06/旋转数组的最小数字/index.html">
 <meta property="og:site_name" content="coderlong的博客">
+<meta property="og:description" content="旋转数组的最小数字题目描述 把一个数组最开始的若干个元素搬到数组的末尾，我们称之为数组的旋转。 输入一个递增排序的数组的一个旋转，输出旋转数组的最小元素。 例如数组{3,4,5,1,2}为{1,2,3,4,5}的一个旋转，该数组的最小值为1。 NOTE：给出的所有元素都大于0，若数组大小为0，请返回0。 12345678910111213141516171819202122232425262728">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-03-07T15:09:55.218Z">
+<meta property="og:updated_time" content="2018-03-08T11:06:08.966Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="LinkedHashMap源码剖析">
+<meta name="twitter:title" content="旋转数组的最小数字">
+<meta name="twitter:description" content="旋转数组的最小数字题目描述 把一个数组最开始的若干个元素搬到数组的末尾，我们称之为数组的旋转。 输入一个递增排序的数组的一个旋转，输出旋转数组的最小元素。 例如数组{3,4,5,1,2}为{1,2,3,4,5}的一个旋转，该数组的最小值为1。 NOTE：给出的所有元素都大于0，若数组大小为0，请返回0。 12345678910111213141516171819202122232425262728">
 
 
 
@@ -131,13 +134,13 @@
 
 
 
-  <link rel="canonical" href="https://coderlongren.github.io/2018/03/01/LinkedHashMap源码剖析/"/>
+  <link rel="canonical" href="https://coderlongren.github.io/2018/03/06/旋转数组的最小数字/"/>
 
 
 
 
 
-  <title>LinkedHashMap源码剖析 | coderlong的博客</title>
+  <title>旋转数组的最小数字 | coderlong的博客</title>
   
 
 
@@ -293,7 +296,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/03/01/LinkedHashMap源码剖析/">
+    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/03/06/旋转数组的最小数字/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Rensailong">
@@ -310,7 +313,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">LinkedHashMap源码剖析</h1>
+          <h1 class="post-title" itemprop="name headline">旋转数组的最小数字</h1>
         
 
         <div class="post-meta">
@@ -322,8 +325,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-01T23:18:40+08:00">
-                2018-03-01
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-06T14:18:40+08:00">
+                2018-03-06
               </time>
             
 
@@ -345,8 +348,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/JDK/" itemprop="url" rel="index">
-                    <span itemprop="name">JDK</span>
+                  <a href="/categories/剑指offer/" itemprop="url" rel="index">
+                    <span itemprop="name">剑指offer</span>
                   </a>
                 </span>
 
@@ -382,7 +385,12 @@
       
 
       
-        
+        <h2 id="旋转数组的最小数字"><a href="#旋转数组的最小数字" class="headerlink" title="旋转数组的最小数字"></a>旋转数组的最小数字</h2><p><code>题目描述
+把一个数组最开始的若干个元素搬到数组的末尾，我们称之为数组的旋转。
+输入一个递增排序的数组的一个旋转，输出旋转数组的最小元素。
+例如数组{3,4,5,1,2}为{1,2,3,4,5}的一个旋转，该数组的最小值为1。
+NOTE：给出的所有元素都大于0，若数组大小为0，请返回0。</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> 旋转数组的最小数字 </span>&#123;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		<span class="comment">// TODO Auto-generated method stub</span></div><div class="line">		<span class="keyword">int</span>[] array = &#123;<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>&#125;;</div><div class="line">		System.out.println(minNumberInRotateArray(array));</div><div class="line">	&#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">minNumberInRotateArray</span><span class="params">(<span class="keyword">int</span>[] array)</span> </span>&#123;</div><div class="line">		<span class="keyword">if</span> (array.length == <span class="number">0</span>) &#123;</div><div class="line">			<span class="keyword">return</span> <span class="number">0</span>;<span class="comment">// 数组长度为0 不合法</span></div><div class="line">		&#125;</div><div class="line">		</div><div class="line">		<span class="keyword">int</span> left = <span class="number">0</span>;<span class="comment">// 处理的第一个元素</span></div><div class="line">		<span class="keyword">int</span> right = array.length - <span class="number">1</span>;</div><div class="line">		<span class="keyword">int</span> mid = left;</div><div class="line">		</div><div class="line">		<span class="keyword">while</span> (array[left] &gt;= array[right]) &#123;</div><div class="line">			<span class="comment">// 当right - left = 1 后一个是结果</span></div><div class="line">			<span class="keyword">if</span> (right - left == <span class="number">1</span>) &#123;</div><div class="line">				<span class="keyword">return</span> array[right];</div><div class="line">			&#125;</div><div class="line">			mid = (left + right)/<span class="number">2</span>;</div><div class="line">			</div><div class="line">			<span class="keyword">if</span> (array[mid] == array[left] &amp;&amp; array[left] == array[right]) &#123;</div><div class="line">				<span class="keyword">return</span> minNum(array, left, right);</div><div class="line">			&#125;</div><div class="line">			<span class="comment">// 最小值 在后半部分</span></div><div class="line">			<span class="keyword">else</span> <span class="keyword">if</span> (array[left] &gt;= array[mid]) &#123;</div><div class="line">				right = mid;</div><div class="line">			&#125;</div><div class="line">			<span class="keyword">else</span> &#123;</div><div class="line">				left = mid;</div><div class="line">			&#125;</div><div class="line">			</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">return</span> array[mid];</div><div class="line">		</div><div class="line">	&#125;</div><div class="line">	<span class="comment">// 顺序查找最小元素</span></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">minNum</span><span class="params">(<span class="keyword">int</span>[] array, <span class="keyword">int</span> left, <span class="keyword">int</span> right)</span> </span>&#123;</div><div class="line">		<span class="keyword">int</span> min = array[left];</div><div class="line">		<span class="keyword">while</span> (left &lt;= right) &#123;</div><div class="line">			min = Math.min(min, array[left++]);</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">return</span> min;</div><div class="line">	&#125;</div><div class="line">	 </div><div class="line">&#125;</div></pre></td></tr></table></figure>
       
     </div>
     
@@ -428,11 +436,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/JDK/" rel="tag"># JDK</a>
+            <a href="/tags/Algorithm/" rel="tag"># Algorithm</a>
           
-            <a href="/tags/代码重构/" rel="tag"># 代码重构</a>
-          
-            <a href="/tags/源码学习/" rel="tag"># 源码学习</a>
+            <a href="/tags/剑指offer/" rel="tag"># 剑指offer</a>
           
         </div>
       
@@ -445,8 +451,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/03/01/JDK注解的理解/" rel="next" title="JDK注解的理解与使用">
-                <i class="fa fa-chevron-left"></i> JDK注解的理解与使用
+              <a href="/2018/03/06/滑动窗口最大值/" rel="next" title="滑动窗口最大值">
+                <i class="fa fa-chevron-left"></i> 滑动窗口最大值
               </a>
             
           </div>
@@ -455,8 +461,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/03/03/java反射机制深入理解剖析/" rel="prev" title="java反射机制深入理解分析">
-                java反射机制深入理解分析 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/03/06/替换空格/" rel="prev" title="替换空格">
+                替换空格 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -509,8 +515,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.gif"
@@ -525,7 +540,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">59</span>
+                <span class="site-state-item-count">75</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -547,7 +562,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">44</span>
+                <span class="site-state-item-count">46</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -618,6 +633,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#旋转数组的最小数字"><span class="nav-number">1.</span> <span class="nav-text">旋转数组的最小数字</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       

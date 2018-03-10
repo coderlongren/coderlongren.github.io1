@@ -293,7 +293,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2017/12/18/hash/">
+    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/01/16/ArrayList源码解析/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Rensailong">
@@ -312,7 +312,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/12/18/hash/" itemprop="url">未命名</a></h1>
+                <a class="post-title-link" href="/2018/01/16/ArrayList源码解析/" itemprop="url">ArrayList源码剖析</a></h1>
         
 
         <div class="post-meta">
@@ -324,131 +324,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-18T23:42:39+08:00">
-                2017-12-18
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="Java中hashCode-方法以及HashMap-中-hash-方法"><a href="#Java中hashCode-方法以及HashMap-中-hash-方法" class="headerlink" title="Java中hashCode()方法以及HashMap()中 hash()方法"></a>Java中hashCode()方法以及HashMap()中 hash()方法</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">public final native Class&lt;?&gt; getClass(); </div><div class="line">public native int hashCode(); </div><div class="line">public boolean equals(Object obj) &#123; </div><div class="line">  return (this == obj); </div><div class="line">&#125;  </div><div class="line">public String toString() &#123; </div><div class="line"> return getClass().getName() + &quot;@&quot; +  Integer.toHexString(hashCode()); </div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>hashCode()是一个native方法，意味着方法的实现和硬件平台有关，默认实现和虚拟机是相关的，<br>对于有些JVM，hashcode()返回的就是对象的地址。<br>在Java中，hashCode()方法的主要作用是为了配合基于散列的集合（HashSet、HashMap）一起正常运行。<br>当向集合中插入对象时，调用equals()逐个进行比较，这个方法可行却效率低下。<br>因此，先比较hashCode再调用equals()会快很多。下面这段代码是java.util.HashMap的中put方法的具体实现：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">public V put(K key, V value) &#123;</div><div class="line">        if (key == null)</div><div class="line">            return putForNullKey(value);</div><div class="line">        int hash = hash(key.hashCode());</div><div class="line">        int i = indexFor(hash, table.length);</div><div class="line">        for (Entry&lt;K,V&gt; e = table[i]; e != null; e = e.next) &#123;</div><div class="line">            Object k;</div><div class="line">            if (e.hash == hash &amp;&amp; ((k = e.key) == key || key.equals(k))) &#123;</div><div class="line">                V oldValue = e.value;</div><div class="line">                e.value = value;</div><div class="line">                e.recordAccess(this);</div><div class="line">                return oldValue;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">  </div><div class="line">        modCount++;</div><div class="line">        addEntry(hash, key, value, i);</div><div class="line">        return null;</div></pre></td></tr></table></figure></p>
-<p><img src="/images/huda1.jpeg" alt=""></p>
-<h2 id="附上，native关键字的说明"><a href="#附上，native关键字的说明" class="headerlink" title="附上，native关键字的说明"></a>附上，native关键字的说明</h2><p>native关键字说明其修饰的方法是一个原生态方法，方法对应的实现不是在当前文件，<br>而是在用其他语言（如C和C++）实现的文件中。Java语言本身不能对操作系统底层进行访问和操作，<br>但是可以通过JNI接口调用其他语言来实现对底层的访问。<br>JNI是Java本机接口（Java Native Interface），是一个本机编程接口，它是Java软件开发工具箱（Java Software Development Kit，SDK）<br>的一部分。JNI允许Java代码使用以其他语言编写的代码和代码库。Invocation API（JNI的一部分）<br>可以用来将Java虚拟机（JVM）嵌入到本机应用程序中，从而允许程序员从本机代码内部调用Java代码。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2017/12/18/Singlen-的几种实现/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Rensailong">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="coderlong的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/12/18/Singlen-的几种实现/" itemprop="url">Singlen 的几种实现</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-18T23:30:58+08:00">
-                2017-12-18
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-16T14:18:40+08:00">
+                2018-01-16
               </time>
             
 
@@ -470,8 +347,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index">
-                    <span itemprop="name">java</span>
+                  <a href="/categories/JDK/" itemprop="url" rel="index">
+                    <span itemprop="name">JDK</span>
                   </a>
                 </span>
 
@@ -508,147 +385,66 @@
 
       
         
-          <p>摘要：没有摘要<br><img src="/images/huda2.jpeg" alt=""><br>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/12/18/Singlen-的几种实现/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2017/12/17/hashCode & equals/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Rensailong">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="coderlong的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/12/17/hashCode & equals/" itemprop="url">未命名</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-17T22:33:20+08:00">
-                2017-12-17
-              </time>
-            
-
-            
-
-            
-          </span>
-
           
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="Java中的equals-和hashCode-以及-‘-’的比较辨析："><a href="#Java中的equals-和hashCode-以及-‘-’的比较辨析：" class="headerlink" title="Java中的equals()和hashCode() 以及 ‘==’的比较辨析："></a>Java中的equals()和hashCode() 以及 ‘==’的比较辨析：</h1><ol>
-<li>java中的==是比较两个对象在JVM中的地址<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">public class ComAddr&#123;</div><div class="line">    public static void main(String[] args) throws Exception &#123;</div><div class="line">        String s1 = &quot;nihao&quot;;</div><div class="line">        String s2 = &quot;nihao&quot;;</div><div class="line">        String s3 = new String(&quot;nihao&quot;);</div><div class="line">        System.out.println(s1 == s2);    //    true</div><div class="line">        System.out.println(s1 == s3);    //    false</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>因为s1 == s2 为true，因为s1,s2都是字符串字面值”nihao”的引用，指向同一块地址，所以相等。<br>s1 == s3为false，是因为通过new产生的对象在堆中，s3是堆中变量的引用，而是s1是指向字符串字面值”nihao”的引用，地址不同所以不相等。</p>
+            <h2 id="ArrayList源码解析"><a href="#ArrayList源码解析" class="headerlink" title="ArrayList源码解析"></a>ArrayList源码解析</h2><p>我们经常会听到别人讲”容器”各种各样的容器，话说到底什么是容器，通俗的讲“容器就是用来装东西的器皿，比如：水桶就是用来盛水的，水桶就是一个容器。”<br>ok，在我们写程序的时候常常要对大量的对象进行管理，比如查询，遍历，修改等。jdk为我们提供的容器位于java.util包，也是我们平时用的最多的包之一。<br>但是为什么不用数组（其实也不是不用，只是不直接用）呢，因为数组的长度需要提前确定，而且不能改变大小，用起来手脚受限嘛。</p>
 <ol>
-<li>equals() 是object根类中的方法，源代码如下：<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">public boolean equals(Object obj) &#123;</div><div class="line">    return (this == obj);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<li>定义<br>首先先来看下顶级接口Collection的定义，</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Collection</span>&lt;<span class="title">E</span>&gt; <span class="keyword">extends</span> <span class="title">Iterable</span>&lt;<span class="title">E</span>&gt; </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">int</span> <span class="title">size</span><span class="params">()</span></span>;</div><div class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">isEmpty</span><span class="params">()</span></span>;</div><div class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">contains</span><span class="params">(Object o)</span></span>;</div><div class="line">    <span class="function">Iterator&lt;E&gt; <span class="title">iterator</span><span class="params">()</span></span>;</div><div class="line">    Object[] toArray();</div><div class="line">    &lt;T&gt; T[] toArray(T[] a);</div><div class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">add</span><span class="params">(E e)</span></span>;</div><div class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">remove</span><span class="params">(Object o)</span></span>;</div><div class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">containsAll</span><span class="params">(Collection&lt;?&gt; c)</span></span>;</div><div class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">addAll</span><span class="params">(Collection&lt;? extends E&gt; c)</span></span>;</div><div class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">removeAll</span><span class="params">(Collection&lt;?&gt; c)</span></span>;</div><div class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">retainAll</span><span class="params">(Collection&lt;?&gt; c)</span></span>;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">clear</span><span class="params">()</span></span>;</div><div class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">equals</span><span class="params">(Object o)</span></span>;</div><div class="line">    <span class="function"><span class="keyword">int</span> <span class="title">hashCode</span><span class="params">()</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>然后是List接口的定义</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">List</span>&lt;<span class="title">E</span>&gt; <span class="keyword">extends</span> <span class="title">Collection</span>&lt;<span class="title">E</span>&gt; </span>&#123;</div><div class="line">         <span class="function"><span class="keyword">int</span> <span class="title">size</span><span class="params">()</span></span>;</div><div class="line">         <span class="function"><span class="keyword">boolean</span> <span class="title">isEmpty</span><span class="params">()</span></span>;</div><div class="line">         <span class="function"><span class="keyword">boolean</span> <span class="title">contains</span><span class="params">(Object o)</span></span>;</div><div class="line">         <span class="function">Iterator&lt;E&gt; <span class="title">iterator</span><span class="params">()</span></span>;</div><div class="line">         Object[] toArray();</div><div class="line">         &lt;T&gt; T[] toArray(T[] a);</div><div class="line">         <span class="function"><span class="keyword">boolean</span> <span class="title">add</span><span class="params">(E e)</span></span>;</div><div class="line">         <span class="function"><span class="keyword">boolean</span> <span class="title">remove</span><span class="params">(Object o)</span></span>;</div><div class="line">         <span class="function"><span class="keyword">boolean</span> <span class="title">containsAll</span><span class="params">(Collection&lt;?&gt; c)</span></span>;</div><div class="line">         <span class="function"><span class="keyword">boolean</span> <span class="title">addAll</span><span class="params">(Collection&lt;? extends E&gt; c)</span></span>;</div><div class="line">         <span class="function"><span class="keyword">boolean</span> <span class="title">addAll</span><span class="params">( <span class="keyword">int</span> index, Collection&lt;? extends E&gt; c)</span></span>;</div><div class="line">         <span class="function"><span class="keyword">boolean</span> <span class="title">removeAll</span><span class="params">(Collection&lt;?&gt; c)</span></span>;</div><div class="line">         <span class="function"><span class="keyword">boolean</span> <span class="title">retainAll</span><span class="params">(Collection&lt;?&gt; c)</span></span>;</div><div class="line">         <span class="function"><span class="keyword">void</span> <span class="title">clear</span><span class="params">()</span></span>;</div><div class="line">         <span class="function"><span class="keyword">boolean</span> <span class="title">equals</span><span class="params">(Object o)</span></span>;</div><div class="line">         <span class="function"><span class="keyword">int</span> <span class="title">hashCode</span><span class="params">()</span></span>;</div><div class="line">         <span class="function">E <span class="title">get</span><span class="params">( <span class="keyword">int</span> index)</span></span>;</div><div class="line">         <span class="function">E <span class="title">set</span><span class="params">( <span class="keyword">int</span> index, E element)</span></span>;</div><div class="line">         <span class="function"><span class="keyword">void</span> <span class="title">add</span><span class="params">( <span class="keyword">int</span> index, E element)</span></span>;</div><div class="line">         <span class="function">E <span class="title">remove</span><span class="params">( <span class="keyword">int</span> index)</span></span>;</div><div class="line">         <span class="function"><span class="keyword">int</span> <span class="title">indexOf</span><span class="params">(Object o)</span></span>;</div><div class="line">         <span class="function"><span class="keyword">int</span> <span class="title">lastIndexOf</span><span class="params">(Object o)</span></span>;</div><div class="line">         <span class="function">ListIterator&lt;E&gt; <span class="title">listIterator</span><span class="params">()</span></span>;</div><div class="line">         <span class="function">ListIterator&lt;E&gt; <span class="title">listIterator</span><span class="params">( <span class="keyword">int</span> index)</span></span>;</div><div class="line">         <span class="function">List&lt;E&gt; <span class="title">subList</span><span class="params">( <span class="keyword">int</span> fromIndex, <span class="keyword">int</span> toIndex)</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>看ArrayList的 定义<br><code>public class ArrayList&lt;E&gt; extends AbstractList&lt;E&gt; implements List&lt;E&gt;, RandomAccess, Cloneable, java.io.Serializable</code><br>可以看出ArrayList继承AbstractList（这是一个抽象类，对一些基础的list操作进行封装），实现List，RandomAccess，Cloneable，Serializable几个接口，RandomAccess是一个标记接口，用来表明其支持快速随机访问。</p>
+<ol>
+<li>底层存储<br>ArrayList就是用数组实现的List容器，既然是用数组实现，当然底层用数组来保存数据啦<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">1 private transient Object[] elementData;</div><div class="line">2 private int size;</div></pre></td></tr></table></figure>
 </li>
 </ol>
-<p>==比较的是两个对象是否是同一个对象，这并不能满足很多需求。<br>有时候当两个对象不==的时候，我们仍然会认为两者是“相等”的，比如对于String对象，<br>当两个对象的字符串序列是一致的，我们就认为他们是“相等”的。对于这样的需求，需要equals()来实现。<br>对于有这种需求的对象的类，重写其equals()方法便可，具体的“相等”逻辑可以根据需要自己定义。<br>equals()和hashCode()都是从Object类中继承而来的，而Object中equals()默认实现的是比较两个对象是否==，<br>即默认的equals()和==的效果是一样的。<br>值得注意的是，当String 、Math、还有Integer、Double。。。。等这些封装类在使用equals()方法时，<br>已经覆盖了object类的equals（）方法<br>下面是string类中覆盖的equals()方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">public boolean equals(Object anObject) &#123;</div><div class="line">	if (this == anObject) &#123;</div><div class="line">	    return true;</div><div class="line">	&#125;</div><div class="line">	if (anObject instanceof String) &#123;</div><div class="line">	    String anotherString = (String)anObject;</div><div class="line">	    int n = count;</div><div class="line">	    if (n == anotherString.count) &#123;</div><div class="line">		char v1[] = value;</div><div class="line">		char v2[] = anotherString.value;</div><div class="line">		int i = offset;</div><div class="line">		int j = anotherString.offset;</div><div class="line">		while (n-- != 0) &#123;</div><div class="line">		    if (v1[i++] != v2[j++])</div><div class="line">			return false;</div><div class="line">		&#125;</div><div class="line">		return true;</div><div class="line">	    &#125;</div><div class="line">	&#125;</div><div class="line">	return false;</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
-<p>indexFor() 源码如下:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">static int indexFor(int h, int length) &#123; </div><div class="line">    return h &amp; (length-1); </div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>hash()方法在JDk1.7中如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">static int hash(int h) &#123;</div><div class="line">    // This function ensures that hashCodes that differ only by</div><div class="line">    // constant multiples at each bit position have a bounded</div><div class="line">    // number of collisions (approximately 8 at default load factor).</div><div class="line">    h ^= (h &gt;&gt;&gt; 20) ^ (h &gt;&gt;&gt; 12);</div><div class="line">    return h ^ (h &gt;&gt;&gt; 7) ^ (h &gt;&gt;&gt; 4);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>这样设计保证了对象的hashCode的32位值只要有一位发生改变，整个hash()返回值就会改变，高位的变化会反应到低位里。<br>String类中equals()方法很明显是仅仅进行了对象内容的比较，而没有比较对象存储地址的比较</p>
-<h2 id="关于HashCode-方法"><a href="#关于HashCode-方法" class="headerlink" title="关于HashCode()方法"></a>关于HashCode()方法</h2><p>先加上一段JDK中hashcCode() 方法的源代码[我在我的另一片文章里面已经分析了HashCode()方法得底层原理]<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">public final native Class&lt;?&gt; getClass(); </div><div class="line">public native int hashCode(); </div><div class="line">public boolean equals(Object obj) &#123; </div><div class="line">  return (this == obj); </div><div class="line">&#125;  </div><div class="line">public String toString() &#123; </div><div class="line"> return getClass().getName() + &quot;@&quot; +  Integer.toHexString(hashCode()); </div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>比如String、Integer、Double等等这些类都是覆盖了hashCode()方法,再来看一下String类中覆盖的HashCode()方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">public int hashCode() &#123; </div><div class="line">int h = hash; </div><div class="line">if (h == 0) &#123; </div><div class="line">    int off = offset; </div><div class="line">    char val[] = value; </div><div class="line">    int len = count; </div><div class="line"></div><div class="line">            for (int i = 0; i &lt; len; i++) &#123; </div><div class="line">                h = 31*h + val[off++]; </div><div class="line">            &#125; </div><div class="line">            hash = h; </div><div class="line">        &#125; </div><div class="line">        return h; </div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p><img src="/images/huda3.jpeg" alt=""><br>未完，待续。。。。。</p>
+<p>可以看到用一个Object数组来存储数据，用一个int值来计数，记录当前容器的数据大小。</p>
+<p>另外，细心的人会发现elementData数组是使用transient修饰的，关于transient关键字的作用简单说就是java自带默认机制进行序列化的时候，被其修饰的属性不需要维持。会不会产生一点疑问？elementData不需要维持，那么怎么进行反序列化，又怎么保证序列化和反序列化数据的正确性？难道不需要存储？用大腿想一下那当然是不可以的嘛，既然需要存储，它是怎么实现的呢？注意上面红色加粗的地方，默认序列化机制，嗯哼想明白了ArrayList一定是使用了自定义的序列化方式，到底是不是这样的呢？看下面两个方法：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"><span class="comment">     * Save the state of the &lt;tt&gt;ArrayList&lt;/tt&gt; instance to a stream (that</span></div><div class="line"><span class="comment">     * is, serialize it).</span></div><div class="line"><span class="comment">     *</span></div><div class="line"><span class="comment">     * <span class="doctag">@serialData</span> The length of the array backing the &lt;tt&gt;ArrayList &lt;/tt&gt;</span></div><div class="line"><span class="comment">     *             instance is emitted (int), followed by all of its elements</span></div><div class="line"><span class="comment">     *             (each an &lt;tt&gt;Object&lt;/tt&gt; ) in the proper order.</span></div><div class="line"><span class="comment">     */</span></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">writeObject</span><span class="params">(java.io.ObjectOutputStream s)</span></span></div><div class="line"><span class="function">        <span class="keyword">throws</span> java.io.IOException</span>&#123;</div><div class="line">        <span class="comment">// Write out element count, and any hidden stuff</span></div><div class="line">        <span class="keyword">int</span> expectedModCount = modCount ;</div><div class="line">       s.defaultWriteObject();</div><div class="line"></div><div class="line">        <span class="comment">// Write out array length</span></div><div class="line">        s.writeInt( elementData.length );</div><div class="line"></div><div class="line">        <span class="comment">// Write out all elements in the proper order.</span></div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;size; i++)</div><div class="line">            s.writeObject( elementData[i]);</div><div class="line"></div><div class="line">        <span class="keyword">if</span> (modCount != expectedModCount) &#123;</div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> ConcurrentModificationException();</div><div class="line">        &#125;</div><div class="line"></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line"><span class="comment">     * Reconstitute the &lt;tt&gt;ArrayList&lt;/tt&gt; instance from a stream (that is,</span></div><div class="line"><span class="comment">     * deserialize it).</span></div><div class="line"><span class="comment">     */</span></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">readObject</span><span class="params">(java.io.ObjectInputStream s)</span></span></div><div class="line"><span class="function">        <span class="keyword">throws</span> java.io.IOException, ClassNotFoundException </span>&#123;</div><div class="line">        <span class="comment">// Read in size, and any hidden stuff</span></div><div class="line">       s.defaultReadObject();</div><div class="line"></div><div class="line">        <span class="comment">// Read in array length and allocate array</span></div><div class="line">        <span class="keyword">int</span> arrayLength = s.readInt();</div><div class="line">        Object[] a = elementData = <span class="keyword">new</span> Object[arrayLength];</div><div class="line"></div><div class="line">        <span class="comment">// Read in all elements in the proper order.</span></div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;size; i++)</div><div class="line">            a[i] = s.readObject();</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
+<p>为什么这样设计呢？<br>elementData 是一个数据存储数组，而数组是定长的，它会初始化一个容量，等容量不足时再扩充容量（扩容方式为数据拷贝，后面会详细解释），再通俗一点说就是比如elementData 的长度是10，而里面只保存了3个对象，那么数组中其余的7个元素（null）是没有意义的，所以也就不需要保存，以节省序列化后的内存容量，好了到这里就明白了这样设计的初衷和好处，顺便好像也明白了长度单独用一个int变量保存，而不是直接使用elementData.length的原因。</p>
+<ol>
+<li>构造方法<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line">     * 构造一个具有指定容量的list</div><div class="line">     */</div><div class="line">    public ArrayList( int initialCapacity) &#123;</div><div class="line">        super();</div><div class="line">        if (initialCapacity &lt; 0)</div><div class="line">            throw new IllegalArgumentException( &quot;Illegal Capacity: &quot; +</div><div class="line">                                               initialCapacity);</div><div class="line">        this.elementData = new Object[initialCapacity];</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 构造一个初始容量为10的list</div><div class="line">     */</div><div class="line">    public ArrayList() &#123;</div><div class="line">        this(10);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 构造一个包含指定元素的list，这些元素的是按照Collection的迭代器返回的顺序排列的</div><div class="line">     */</div><div class="line">    public ArrayList(Collection&lt;? extends E&gt; c) &#123;</div><div class="line">        elementData = c.toArray();</div><div class="line">        size = elementData .length;</div><div class="line">        // c.toArray might (incorrectly) not return Object[] (see 6260652)</div><div class="line">        if (elementData .getClass() != Object[].class)</div><div class="line">           elementData = Arrays.copyOf( elementData, size , Object[].class);</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>构造方法看完了，想一下指定容量的构造方法的意义，既然默认为10就可以那么为什么还要提供一个可以指定容量大小的构造方法呢？在这里说好像有点太早，那就卖个关子，下面再说。。。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div></pre></td><td class="code"><pre><div class="line">4. 增加</div><div class="line"></div><div class="line">/**</div><div class="line">     * 添加一个元素</div><div class="line">     */</div><div class="line">    public boolean add(E e) &#123;</div><div class="line">       // 进行扩容检查</div><div class="line">       ensureCapacity( size + 1);  // Increments modCount</div><div class="line">       // 将e增加至list的数据尾部，容量+1</div><div class="line">        elementData[size ++] = e;</div><div class="line">        return true;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 在指定位置添加一个元素</div><div class="line">     */</div><div class="line">    public void add(int index, E element) &#123;</div><div class="line">        // 判断索引是否越界，这里会抛出多么熟悉的异常。。。</div><div class="line">        if (index &gt; size || index &lt; 0)</div><div class="line">           throw new IndexOutOfBoundsException(</div><div class="line">               &quot;Index: &quot;+index+&quot;, Size: &quot; +size);</div><div class="line"></div><div class="line">       // 进行扩容检查</div><div class="line">       ensureCapacity( size+1);  // Increments modCount  </div><div class="line">       // 对数组进行复制处理，目的就是空出index的位置插入element，并将index后的元素位移一个位置</div><div class="line">       System. arraycopy(elementData, index, elementData, index + 1,</div><div class="line">                      size - index);</div><div class="line">       // 将指定的index位置赋值为element</div><div class="line">        elementData[index] = element;</div><div class="line">       // list容量+1</div><div class="line">        size++;</div><div class="line">    &#125;</div><div class="line">    /**</div><div class="line">     * 增加一个集合元素</div><div class="line">     */</div><div class="line">    public boolean addAll(Collection&lt;? extends E&gt; c) &#123;</div><div class="line">       //将c转换为数组</div><div class="line">       Object[] a = c.toArray();</div><div class="line">        int numNew = a.length ;</div><div class="line">       //扩容检查</div><div class="line">       ensureCapacity( size + numNew);  // Increments modCount</div><div class="line">       //将c添加至list的数据尾部</div><div class="line">        System. arraycopy(a, 0, elementData, size, numNew);</div><div class="line">       //更新当前容器大小</div><div class="line">        size += numNew;</div><div class="line">        return numNew != 0;</div><div class="line">    &#125;</div><div class="line">    /**</div><div class="line">     * 在指定位置，增加一个集合元素</div><div class="line">     */</div><div class="line">    public boolean addAll(int index, Collection&lt;? extends E&gt; c) &#123;</div><div class="line">        if (index &gt; size || index &lt; 0)</div><div class="line">           throw new IndexOutOfBoundsException(</div><div class="line">               &quot;Index: &quot; + index + &quot;, Size: &quot; + size);</div><div class="line"></div><div class="line">       Object[] a = c.toArray();</div><div class="line">        int numNew = a.length ;</div><div class="line">       ensureCapacity( size + numNew);  // Increments modCount</div><div class="line"></div><div class="line">       // 计算需要移动的长度（index之后的元素个数）</div><div class="line">        int numMoved = size - index;</div><div class="line">       // 数组复制，空出第index到index+numNum的位置，即将数组index后的元素向右移动numNum个位置</div><div class="line">        if (numMoved &gt; 0)</div><div class="line">           System. arraycopy(elementData, index, elementData, index + numNew,</div><div class="line">                          numMoved);</div><div class="line"></div><div class="line">       // 将要插入的集合元素复制到数组空出的位置中</div><div class="line">        System. arraycopy(a, 0, elementData, index, numNew);</div><div class="line">        size += numNew;</div><div class="line">        return numNew != 0;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 数组容量检查，不够时则进行扩容</div><div class="line">     */</div><div class="line">   public void ensureCapacity( int minCapacity) &#123;</div><div class="line">        modCount++;</div><div class="line">       // 当前数组的长度</div><div class="line">        int oldCapacity = elementData .length;</div><div class="line">       // 最小需要的容量大于当前数组的长度则进行扩容</div><div class="line">        if (minCapacity &gt; oldCapacity) &#123;</div><div class="line">           Object oldData[] = elementData;</div><div class="line">          // 新扩容的数组长度为旧容量的1.5倍+1</div><div class="line">           int newCapacity = (oldCapacity * 3)/2 + 1;</div><div class="line">          // 如果新扩容的数组长度还是比最小需要的容量小，则以最小需要的容量为长度进行扩容</div><div class="line">           if (newCapacity &lt; minCapacity)</div><div class="line">              newCapacity = minCapacity;</div><div class="line">            // minCapacity is usually close to size, so this is a win:</div><div class="line">            // 进行数据拷贝，Arrays.copyOf底层实现是System.arrayCopy()</div><div class="line">            elementData = Arrays.copyOf( elementData, newCapacity);</div><div class="line">       &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<ol>
+<li>删除<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line">     * 根据索引位置删除元素</div><div class="line">     */</div><div class="line">    public E remove( int index) &#123;</div><div class="line">      // 数组越界检查</div><div class="line">       RangeCheck(index);</div><div class="line"></div><div class="line">        modCount++;</div><div class="line">      // 取出要删除位置的元素，供返回使用</div><div class="line">       E oldValue = (E) elementData[index];</div><div class="line">       // 计算数组要复制的数量</div><div class="line">        int numMoved = size - index - 1;</div><div class="line">       // 数组复制，就是将index之后的元素往前移动一个位置</div><div class="line">        if (numMoved &gt; 0)</div><div class="line">           System. arraycopy(elementData, index+1, elementData, index,</div><div class="line">                          numMoved);</div><div class="line">       // 将数组最后一个元素置空（因为删除了一个元素，然后index后面的元素都向前移动了，所以最后一个就没用了），好让gc尽快回收</div><div class="line">       // 不要忘了size减一</div><div class="line">        elementData[--size ] = null; // Let gc do its work</div><div class="line"></div><div class="line">        return oldValue;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 根据元素内容删除，只删除匹配的第一个</div><div class="line">     */</div><div class="line">    public boolean remove(Object o) &#123;</div><div class="line">       // 对要删除的元素进行null判断</div><div class="line">       // 对数据元素进行遍历查找，知道找到第一个要删除的元素，删除后进行返回，如果要删除的元素正好是最后一个那就惨了，时间复杂度可达O(n) 。。。</div><div class="line">        if (o == null) &#123;</div><div class="line">            for (int index = 0; index &lt; size; index++)</div><div class="line">              // null值要用==比较</div><div class="line">               if (elementData [index] == null) &#123;</div><div class="line">                  fastRemove(index);</div><div class="line">                  return true;</div><div class="line">              &#125;</div><div class="line">       &#125; else &#123;</div><div class="line">           for (int index = 0; index &lt; size; index++)</div><div class="line">              // 非null当然是用equals比较了</div><div class="line">               if (o.equals(elementData [index])) &#123;</div><div class="line">                  fastRemove(index);</div><div class="line">                  return true;</div><div class="line">              &#125;</div><div class="line">        &#125;</div><div class="line">        return false;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    /*</div><div class="line">     * Private remove method that skips bounds checking and does not</div><div class="line">     * return the value removed.</div><div class="line">     */</div><div class="line">    private void fastRemove(int index) &#123;</div><div class="line">        modCount++;</div><div class="line">       // 原理和之前的add一样，还是进行数组复制，将index后的元素向前移动一个位置，不细解释了，</div><div class="line">        int numMoved = size - index - 1;</div><div class="line">        if (numMoved &gt; 0)</div><div class="line">            System. arraycopy(elementData, index+1, elementData, index,</div><div class="line">                             numMoved);</div><div class="line">        elementData[--size ] = null; // Let gc do its work</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 数组越界检查</div><div class="line">     */</div><div class="line">    private void RangeCheck(int index) &#123;</div><div class="line">        if (index &gt;= size )</div><div class="line">           throw new IndexOutOfBoundsException(</div><div class="line">               &quot;Index: &quot;+index+&quot;, Size: &quot; +size);</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>上面讲增加元素可能会进行扩容，而删除元素却不会进行缩容，如果在已删除为主的场景下使用list，一直不停的删除而很少进行增加，那么会出现什么情况？再或者数组进行一次大扩容后，我们后续只使用了几个空间，会出现上面情况？当然是空间浪费啦啦啦，怎么办呢？  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">那就缩减容量呗。</div><div class="line">/**</div><div class="line">     * 将底层数组的容量调整为当前实际元素的大小，来释放空间。</div><div class="line">     */</div><div class="line">    public void trimToSize() &#123;</div><div class="line">        modCount++;</div><div class="line">       // 当前数组的容量</div><div class="line">        int oldCapacity = elementData .length;</div><div class="line">       // 如果当前实际元素大小 小于 当前数组的容量，则进行缩容</div><div class="line">        if (size &lt; oldCapacity) &#123;</div><div class="line">            elementData = Arrays.copyOf( elementData, size );</div><div class="line">       &#125;</div></pre></td></tr></table></figure>
+<ol>
+<li><p>更新 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line">     * 将指定位置的元素更新为新元素</div><div class="line">     */</div><div class="line">    public E set( int index, E element) &#123;</div><div class="line">       // 数组越界检查</div><div class="line">       RangeCheck(index);</div><div class="line"> </div><div class="line">       // 取出要更新位置的元素，供返回使用</div><div class="line">       E oldValue = (E) elementData[index];</div><div class="line">       // 将该位置赋值为行的元素</div><div class="line">        elementData[index] = element;</div><div class="line">       // 返回旧元素</div><div class="line">        return oldValue;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>查找</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line">     * 查找指定位置上的元素</div><div class="line">     */</div><div class="line">    public E get( int index) &#123;</div><div class="line">       RangeCheck(index);</div><div class="line"> </div><div class="line">        return (E) elementData [index];</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>由于ArrayList使用数组实现，更新和查找直接基于下标操作，变得十分简单。</p>
+<ol>
+<li><p>是否包含？</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line">     * Returns &lt;tt&gt;true&lt;/tt&gt; if this list contains the specified element.</div><div class="line">     * More formally, returns &lt;tt&gt;true&lt;/tt&gt; if and only if this list contains</div><div class="line">     * at least one element &lt;tt&gt;e&lt;/tt&gt; such that</div><div class="line">     * &lt;tt&gt;(o==null&amp;nbsp;?&amp;nbsp;e==null&amp;nbsp;:&amp;nbsp;o.equals(e))&lt;/tt&gt;.</div><div class="line">     *</div><div class="line">     * @param o element whose presence in this list is to be tested</div><div class="line">     * @return &lt;tt&gt; true&lt;/tt&gt; if this list contains the specified element</div><div class="line">     */</div><div class="line">    public boolean contains(Object o) &#123;</div><div class="line">        return indexOf(o) &gt;= 0;</div><div class="line">    &#125;</div><div class="line"> </div><div class="line">    /**</div><div class="line">     * Returns the index of the first occurrence of the specified element</div><div class="line">     * in this list, or -1 if this list does not contain the element.</div><div class="line">     * More formally, returns the lowest index &lt;tt&gt;i&lt;/tt&gt; such that</div><div class="line">     * &lt;tt&gt;(o==null&amp;nbsp;?&amp;nbsp;get(i)==null&amp;nbsp;:&amp;nbsp;o.equals(get(i)))&lt;/tt&gt;,</div><div class="line">     * or -1 if there is no such index.</div><div class="line">     */</div><div class="line">    public int indexOf(Object o) &#123;</div><div class="line">        if (o == null) &#123;</div><div class="line">           for (int i = 0; i &lt; size; i++)</div><div class="line">               if (elementData [i]==null)</div><div class="line">                  return i;</div><div class="line">       &#125; else &#123;</div><div class="line">           for (int i = 0; i &lt; size; i++)</div><div class="line">               if (o.equals(elementData [i]))</div><div class="line">                  return i;</div><div class="line">       &#125;</div><div class="line">        return -1;</div><div class="line">    &#125;</div><div class="line"> </div><div class="line">    /**</div><div class="line">     * Returns the index of the last occurrence of the specified element</div><div class="line">     * in this list, or -1 if this list does not contain the element.</div><div class="line">     * More formally, returns the highest index &lt;tt&gt;i&lt;/tt&gt; such that</div><div class="line">     * &lt;tt&gt;(o==null&amp;nbsp;?&amp;nbsp;get(i)==null&amp;nbsp;:&amp;nbsp;o.equals(get(i)))&lt;/tt&gt;,</div><div class="line">     * or -1 if there is no such index.</div><div class="line">     */</div><div class="line">    public int lastIndexOf(Object o) &#123;</div><div class="line">        if (o == null) &#123;</div><div class="line">           for (int i = size-1; i &gt;= 0; i--)</div><div class="line">               if (elementData [i]==null)</div><div class="line">                  return i;</div><div class="line">       &#125; else &#123;</div><div class="line">           for (int i = size-1; i &gt;= 0; i--)</div><div class="line">               if (o.equals(elementData [i]))</div><div class="line">                  return i;</div><div class="line">       &#125;</div><div class="line">        return -1;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>容量判断</p>
+</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line">     * Returns the number of elements in this list.</div><div class="line">     *</div><div class="line">     * @return the number of elements in this list</div><div class="line">     */</div><div class="line">    public int size() &#123;</div><div class="line">        return size ;</div><div class="line">    &#125;</div><div class="line"> </div><div class="line">    /**</div><div class="line">     * Returns &lt;tt&gt;true&lt;/tt&gt; if this list contains no elements.</div><div class="line">     *</div><div class="line">     * @return &lt;tt&gt; true&lt;/tt&gt; if this list contains no elements</div><div class="line">     */</div><div class="line">    public boolean isEmpty() &#123;</div><div class="line">        return size == 0;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>最后附上一点 Markdown的快捷键</p>
+<h2 id="快捷键"><a href="#快捷键" class="headerlink" title="快捷键"></a>快捷键</h2><ul>
+<li>加粗    <code>Ctrl + B</code> </li>
+<li>斜体    <code>Ctrl + I</code> </li>
+<li>引用    <code>Ctrl + Q</code></li>
+<li>插入链接    <code>Ctrl + L</code></li>
+<li>插入代码    <code>Ctrl + K</code></li>
+<li>插入图片    <code>Ctrl + G</code></li>
+<li>提升标题    <code>Ctrl + H</code></li>
+<li>有序列表    <code>Ctrl + O</code></li>
+<li>无序列表    <code>Ctrl + U</code></li>
+<li>横线    <code>Ctrl + R</code></li>
+<li>撤销    <code>Ctrl + Z</code></li>
+<li>重做    <code>Ctrl + Y</code></li>
+</ul>
 
           
         
@@ -697,7 +493,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2017/12/14/least-2017/">
+    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/01/14/SlidingWindow/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Rensailong">
@@ -716,7 +512,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/12/14/least-2017/" itemprop="url">least-2017</a></h1>
+                <a class="post-title-link" href="/2018/01/14/SlidingWindow/" itemprop="url">Sliding Window Algorithm</a></h1>
         
 
         <div class="post-meta">
@@ -728,592 +524,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-14T11:24:49+08:00">
-                2017-12-14
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/生活/" itemprop="url" rel="index">
-                    <span itemprop="name">生活</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>摘要： 六级考试之前的坑？ 不，是java反射</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/12/14/least-2017/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2017/12/02/Fundaments-and-skills/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Rensailong">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="coderlong的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/12/02/Fundaments-and-skills/" itemprop="url">Fundaments and skills</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-02T21:18:45+08:00">
-                2017-12-02
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index">
-                    <span itemprop="name">java</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>摘要： 基础与技能<br>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/12/02/Fundaments-and-skills/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2017/11/26/爱一个人是什么感觉/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Rensailong">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="coderlong的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/11/26/爱一个人是什么感觉/" itemprop="url">English learning</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-26T19:46:35+08:00">
-                2017-11-26
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/生活/" itemprop="url" rel="index">
-                    <span itemprop="name">生活</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>摘要： 没有摘要<br>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/11/26/爱一个人是什么感觉/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2017/11/23/Tomcat-Optimize/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Rensailong">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="coderlong的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/11/23/Tomcat-Optimize/" itemprop="url">Tomcat Optimize</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-23T17:30:32+08:00">
-                2017-11-23
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index">
-                    <span itemprop="name">java</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>摘要：Tomcat的几种优化方法<br>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/11/23/Tomcat-Optimize/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2017/11/13/ZigZagTree/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Rensailong">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="coderlong的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/11/13/ZigZagTree/" itemprop="url">ZigZagTree</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-13T19:33:49+08:00">
-                2017-11-13
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-14T15:18:40+08:00">
+                2018-01-14
               </time>
             
 
@@ -1373,14 +585,12 @@
 
       
         
-          <p>摘要: Binary Tree Level Order Traversal<br>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/11/13/ZigZagTree/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+          
+            <h2 id="Partition-Labels"><a href="#Partition-Labels" class="headerlink" title="Partition Labels"></a>Partition Labels</h2><p>A string S of lowercase letters is given. We want to partition this string into as many parts as possible so that each letter appears in at most one part, and return a list of<br>integers representing the size of these parts.<br><em>Example 1:</em>  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">Input: S = &quot;ababcbacadefegdehijhklij&quot;</div><div class="line">Output: [9,7,8]</div><div class="line">Explanation:</div><div class="line">The partition is &quot;ababcbaca&quot;, &quot;defegde&quot;, &quot;hijhklij&quot;.</div><div class="line">This is a partition so that each letter appears in at most one part.</div><div class="line">A partition like &quot;ababcbacadefegde&quot;, &quot;hijhklij&quot; is incorrect, because it splits S into less parts.</div></pre></td></tr></table></figure>
+<p><em>Note:</em><br>    S will have length in range [1, 500].<br>    S will consist of lowercase letters (‘a’ to ‘z’) only.<br>把一个字符串分割成，几部分，要求：分割的个数尽可能多，每部分都是独立的<br><code>独立的</code>:<br>除了这个部分外，字符串其他部分不包含这个窗口里面的字符。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line">public static void main(String[] args) &#123;</div><div class="line">		// TODO Auto-generated method stub</div><div class="line">		String S = &quot;ababcbacadefegdehijhklij&quot;;</div><div class="line">		System.out.println(partitionLabels(S));</div><div class="line">	&#125;</div><div class="line">	 public static List&lt;Integer&gt; partitionLabels(String S) &#123;</div><div class="line">	        List&lt;Integer&gt; res = new ArrayList&lt;&gt;();</div><div class="line">	        </div><div class="line">	        int[] table = new int[26];</div><div class="line">	        char[] stc = S.toCharArray();</div><div class="line">	        for(char c:stc)// 记录C 在整个String里面出现的次数</div><div class="line">	            table[c-&apos;a&apos;]++;</div><div class="line">	        </div><div class="line">	        int i = 0, j = 0, l = S.length(), counter = 0;</div><div class="line">	        HashSet&lt;Character&gt; hs = new HashSet&lt;&gt;();</div><div class="line">	        while(j &lt; l)&#123;</div><div class="line">	            char c = stc[j];</div><div class="line">	            if(!hs.contains(c))&#123;//  count记录，   除了窗口里面的字符，外面都不包含这个窗口里面的字符，也就是说这个窗口是独立于整个字符串的</div><div class="line">	                hs.add(c);</div><div class="line">	                counter++;</div><div class="line">	            &#125;</div><div class="line">	            table[c-&apos;a&apos;]--; // </div><div class="line">	            j++;</div><div class="line">	            if(table[c-&apos;a&apos;] == 0)&#123; // table[c - &apos;a&apos;] == 0 也就意味着窗口已经包含字符串里面所有的这个字符 c</div><div class="line">	                counter--;</div><div class="line">	                hs.remove(c);</div><div class="line">	            &#125;</div><div class="line">	            if(counter == 0)&#123;// 如果count，说明整个窗口是独立于整个字符串的 </div><div class="line">	                res.add(j - i);// 把这个窗口的长度记录到res</div><div class="line">	                i = j;// 重新选择一个窗口，也就是重置起点   i坐标</div><div class="line">	            &#125;            </div><div class="line">	        &#125; </div><div class="line">	        return res;</div><div class="line">	    &#125;</div></pre></td></tr></table></figure></p>
+
+          
         
       
     </div>
@@ -1427,7 +637,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2017/11/08/String类的indexOf用法举例/">
+    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/01/13/责任链模式/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Rensailong">
@@ -1446,7 +656,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/11/08/String类的indexOf用法举例/" itemprop="url">String类的indexOf用法举例</a></h1>
+                <a class="post-title-link" href="/2018/01/13/责任链模式/" itemprop="url">责任链模式</a></h1>
         
 
         <div class="post-meta">
@@ -1458,8 +668,159 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-08T20:16:10+08:00">
-                2017-11-08
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-13T22:18:40+08:00">
+                2018-01-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/设计模式/" itemprop="url" rel="index">
+                    <span itemprop="name">设计模式</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="责任链模式"><a href="#责任链模式" class="headerlink" title="责任链模式"></a>责任链模式</h1><h2 id="定义："><a href="#定义：" class="headerlink" title="定义："></a>定义：</h2><p>使多个对象都有机会处理请求，从而避免了请求的发送者和接收者之间的耦合关系。将这些对象连成一条链，并沿着这条链传递该请求，直到有对象处理它为止。</p>
+<h2 id="类型："><a href="#类型：" class="headerlink" title="类型："></a>类型：</h2><p>行为类模型<br>如果不用责任链模式的话，代码应该是这样的写的<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">public void test(int i, Request request)&#123;  </div><div class="line">   if(i==1)&#123;  </div><div class="line">       Handler1.response(request);  </div><div class="line">   &#125;else if(i == 2)&#123;  </div><div class="line">       Handler2.response(request);  </div><div class="line">   &#125;else if(i == 3)&#123;  </div><div class="line">       Handler3.response(request);  </div><div class="line">   &#125;else if(i == 4)&#123;  </div><div class="line">       Handler4.response(request);  </div><div class="line">   &#125;else&#123;  </div><div class="line">       Handler5.response(request);  </div><div class="line">   &#125;  </div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><em>代码臃肿</em><br><em>耦合度高</em><br><em>责任链模式的结构</em>  </p>
+<p>责任链模式的类图非常简单，它由一个抽象地处理类和它的一组实现类组成：<br>抽象处理类：抽象处理类中主要包含一个指向下一处理类的成员变量nextHandler和一个处理请求的方法handRequest，handRequest方法的主要主要思想是，如果满足处理的条件，则有本处理类来进行处理，否则由nextHandler来处理。<br>具体处理类：具体处理类主要是对具体的处理逻辑和处理的适用条件进行实现。</p>
+<p>以下代码转载自： <a href="https://mp.weixin.qq.com/s/uaVQjUu2CgVo-yL3r3RPcw" target="_blank" rel="external">https://mp.weixin.qq.com/s/uaVQjUu2CgVo-yL3r3RPcw</a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div></pre></td><td class="code"><pre><div class="line">class Level &#123;  </div><div class="line">       private int level = 0;  </div><div class="line">       public Level(int level)&#123;  </div><div class="line">           this.level = level;  </div><div class="line">       &#125;;  </div><div class="line">         </div><div class="line">       public boolean above(Level level)&#123;  </div><div class="line">           if(this.level &gt;= level.level)&#123;  </div><div class="line">               return true;  </div><div class="line">           &#125;  </div><div class="line">           return false;  </div><div class="line">       &#125;  </div><div class="line">   &#125;  </div><div class="line">     </div><div class="line">   class Request &#123;  </div><div class="line">       Level level;  </div><div class="line">       public Request(Level level)&#123;  </div><div class="line">           this.level = level;  </div><div class="line">       &#125;  </div><div class="line">         </div><div class="line">       public Level getLevel()&#123;  </div><div class="line">           return level;  </div><div class="line">       &#125;  </div><div class="line">   &#125;  </div><div class="line">     </div><div class="line">   class Response &#123;  </div><div class="line">     </div><div class="line">   &#125;  </div><div class="line">    // 抽象类Handler</div><div class="line">   abstract class Handler &#123;  </div><div class="line">       private Handler nextHandler;      </div><div class="line">       public final Response handleRequest(Request request)&#123;  </div><div class="line">           Response response = null;  </div><div class="line">             </div><div class="line">           if(this.getHandlerLevel().above(request.getLevel()))&#123;  </div><div class="line">               response = this.response(request);  </div><div class="line">           &#125;else&#123;  </div><div class="line">               if(this.nextHandler != null)&#123;  </div><div class="line">                   this.nextHandler.handleRequest(request);  </div><div class="line">               &#125;else&#123;  </div><div class="line">                   System.out.println(&quot;-----没有合适的处理器-----&quot;);  </div><div class="line">               &#125;  </div><div class="line">           &#125;  </div><div class="line">           return response;  </div><div class="line">       &#125;  </div><div class="line">       public void setNextHandler(Handler handler)&#123;  </div><div class="line">           this.nextHandler = handler;  </div><div class="line">       &#125;  </div><div class="line">       protected abstract Level getHandlerLevel();  </div><div class="line">       public abstract Response response(Request request);  </div><div class="line">   &#125;  </div><div class="line">     </div><div class="line">   class ConcreteHandler1 extends Handler &#123;  </div><div class="line">       protected Level getHandlerLevel() &#123;  </div><div class="line">           return new Level(1);  </div><div class="line">       &#125;  </div><div class="line">       public Response response(Request request) &#123;  </div><div class="line">           System.out.println(&quot;-----请求由处理器1进行处理-----&quot;);  </div><div class="line">           return null;  </div><div class="line">       &#125;  </div><div class="line">   &#125;  </div><div class="line">     </div><div class="line">   class ConcreteHandler2 extends Handler &#123;  </div><div class="line">       protected Level getHandlerLevel() &#123;  </div><div class="line">           return new Level(3);  </div><div class="line">       &#125;  </div><div class="line">       public Response response(Request request) &#123;  </div><div class="line">           System.out.println(&quot;-----请求由处理器2进行处理-----&quot;);  </div><div class="line">           return null;  </div><div class="line">       &#125;  </div><div class="line">   &#125;  </div><div class="line">     </div><div class="line">   class ConcreteHandler3 extends Handler &#123;  </div><div class="line">       protected Level getHandlerLevel() &#123;  </div><div class="line">           return new Level(5);  </div><div class="line">       &#125;  </div><div class="line">       public Response response(Request request) &#123;  </div><div class="line">           System.out.println(&quot;-----请求由处理器3进行处理-----&quot;);  </div><div class="line">           return null;  </div><div class="line">       &#125;  </div><div class="line">   &#125;  </div><div class="line">     </div><div class="line">   public class Client &#123;  </div><div class="line">       public static void main(String[] args)&#123;  </div><div class="line">           Handler handler1 = new ConcreteHandler1();  </div><div class="line">           Handler handler2 = new ConcreteHandler2();  </div><div class="line">           Handler handler3 = new ConcreteHandler3();  </div><div class="line">     </div><div class="line">           handler1.setNextHandler(handler2);  </div><div class="line">           handler2.setNextHandler(handler3);  </div><div class="line">             </div><div class="line">           Response response = handler1.handleRequest(new Request(new Level(4)));  </div><div class="line">       &#125;  </div><div class="line">   &#125;</div></pre></td></tr></table></figure></p>
+<p>代码中Level类是模拟判定条件；Request，Response分别对应请求和响应；抽象类Handler中主要进行条件的判断，这里模拟一个处理等级，只有处理类的处理等级高于Request的等级才能处理，否则交给下一个处理者处理。  </p>
+<p>在Client类中设置好链的前后执行关系，执行时将请求交给第一个处理类，这就是责任链模式，它完成的功能与前文中的if…else…语句是一样的。  </p>
+<h3 id="责任链模式的优缺点"><a href="#责任链模式的优缺点" class="headerlink" title="责任链模式的优缺点"></a>责任链模式的优缺点</h3><p>责任链模式与if…else…相比，他的耦合性要低一些，因为它把条件判定都分散到了各个处理类中，并且这些处理类的优先处理顺序可以随意设定。责任链模式也有缺点，这与if…else…语句的缺点是一样的，那就是在找到正确的处理类之前，所有的判定条件都要被执行一遍，当责任链比较长时，性能问题比较严重。</p>
+<h3 id="责任链模式的使用场景"><a href="#责任链模式的使用场景" class="headerlink" title="责任链模式的使用场景"></a>责任链模式的使用场景</h3><p> 就像开始的例子那样，假如使用if…else…语句来组织一个责任链时感到力不从心，代码看上去很糟糕时，就可以使用责任链模式来进行重构。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>  责任链模式其实就是一个灵活版的if…else…语句，它就是将这些判定条件的语句放到了各个处理类中，这样做的优点是比较灵活了，但同样也带来了风险，比如设置处理类前后关系时，一定要特别仔细，搞对处理类前后逻辑的条件判断关系，并且注意不要在链中出现循环引用的问题。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/01/12/transient/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rensailong">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="coderlong的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/01/12/transient/" itemprop="url">Transient</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-12T20:18:40+08:00">
+                2018-01-12
               </time>
             
 
@@ -1519,10 +880,331 @@
 
       
         
-          <p>摘要: String类的indexof方法<br>
+          
+            <h2 id="1-transient的作用以及用法"><a href="#1-transient的作用以及用法" class="headerlink" title="1.transient的作用以及用法"></a>1.transient的作用以及用法</h2><p>我们都知道一个对象只要实现了Serilizable接口，这个对象就可以被序列化，java的这种序列化模式为开发者提供了很多便利，我们可以不必关系具体序列化的过程，只要这个类实现了Serilizable接口，这个类的所有属性和方法都会自动序列化。</p>
+<p>然而在实际开发过程中，我们常常会遇到这样的问题，这个类的有些属性需要序列化，而其他属性不需要被序列化，打个比方，如果一个用户有一些敏感信息（如密码，银行卡号等），为了安全起见，不希望在网络操作（主要涉及到序列化操作，本地序列化缓存也适用）中被传输，这些信息对应的变量就可以加上transient关键字。换句话说，这个字段的生命周期仅存于调用者的内存中而不会写到磁盘里持久化。</p>
+<p>总之，java 的transient关键字为我们提供了便利，你只需要实现Serilizable接口，将不需要序列化的属性前添加关键字transient，序列化对象的时候，这个属性就不会序列化到指定的目的地中。</p>
+<p>示例code如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div></pre></td><td class="code"><pre><div class="line">package 序列化;</div><div class="line"></div><div class="line">import java.io.FileInputStream;</div><div class="line">import java.io.FileNotFoundException;</div><div class="line">import java.io.FileOutputStream;</div><div class="line">import java.io.IOException;</div><div class="line">import java.io.ObjectInputStream;</div><div class="line">import java.io.ObjectOutputStream;</div><div class="line"></div><div class="line">/**</div><div class="line">* @author 作者 : coderlong</div><div class="line">* @version 创建时间：2018年1月12日 上午11:51:21</div><div class="line">* 类说明: </div><div class="line">*/</div><div class="line">public class TestTransient &#123;</div><div class="line"></div><div class="line">	public static void main(String[] args) throws FileNotFoundException, IOException &#123;</div><div class="line">		// TODO Auto-generated method stub</div><div class="line">		User user = new User();</div><div class="line">        user.setUsername(&quot;王雅珂&quot;);</div><div class="line">        user.setPasswd(&quot;123456&quot;);</div><div class="line"> </div><div class="line">        System.out.println(&quot;read before Serializable: &quot;);</div><div class="line">        System.out.println(&quot;username: &quot; + user.getUsername());</div><div class="line">        System.err.println(&quot;password: &quot; + user.getPasswd());</div><div class="line">        </div><div class="line">        ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(&quot;E:/Ehcache/user.txt&quot;));</div><div class="line">        os.writeObject(user); // 把user对象 序列化</div><div class="line">        os.flush();</div><div class="line">        os.close();</div><div class="line">        System.out.println(&quot;user对象已经序列化了&quot;);</div><div class="line">        ObjectInputStream in = new ObjectInputStream(new FileInputStream(&quot;E:/Ehcache/user.txt&quot;));</div><div class="line">        try &#123;</div><div class="line">			user = (User) in.readObject();</div><div class="line">		&#125; catch (ClassNotFoundException e) &#123;</div><div class="line">			// TODO Auto-generated catch block</div><div class="line">			e.printStackTrace();</div><div class="line">		&#125; // 从流中读取User的数据</div><div class="line">        </div><div class="line">        in.close();</div><div class="line"></div><div class="line">        System.out.println(&quot;\nread after Serializable: &quot;);</div><div class="line">        System.out.println(&quot;username: &quot; + user.getUsername());</div><div class="line">        System.err.println(&quot;password: &quot; + user.getPasswd());</div><div class="line">   </div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">read before Serializable: </div><div class="line">password: `123456`</div><div class="line">username: 王雅珂</div><div class="line">user对象已经序列化了</div><div class="line"></div><div class="line">read after Serializable: </div><div class="line">username: 王雅珂</div><div class="line">password: `null`</div></pre></td></tr></table></figure></p>
+<h2 id="2-transient使用小结"><a href="#2-transient使用小结" class="headerlink" title="2. transient使用小结"></a>2. transient使用小结</h2><p>1）一旦变量被transient修饰，变量将不再是对象持久化的一部分，该变量内容在序列化后无法获得访问。</p>
+<p>2）transient关键字只能修饰变量，而不能修饰方法和类。注意，本地变量是不能被transient关键字修饰的。变量如果是用户自定义类变量，则该类需要实现Serializable接口。</p>
+<p>3）被transient关键字修饰的变量不再能被序列化，一个静态变量不管是否被transient修饰，均不能被序列化。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div></pre></td><td class="code"><pre><div class="line">package 序列化;</div><div class="line"></div><div class="line">import java.io.FileInputStream;</div><div class="line">import java.io.FileNotFoundException;</div><div class="line">import java.io.FileOutputStream;</div><div class="line">import java.io.IOException;</div><div class="line">import java.io.ObjectInputStream;</div><div class="line">import java.io.ObjectOutputStream;</div><div class="line"></div><div class="line">/**</div><div class="line">* @author 作者 : coderlong</div><div class="line">* @version 创建时间：2018年1月12日 下午1:08:49</div><div class="line">* 类说明: </div><div class="line">*/</div><div class="line">public class TestTransient2 &#123;</div><div class="line"></div><div class="line">	public static void main(String[] args) throws FileNotFoundException, IOException &#123;</div><div class="line">		// TODO Auto-generated method stub</div><div class="line">		// TODO Auto-generated method stub</div><div class="line">				User user = new User();</div><div class="line">		        user.setUsername(&quot;王雅珂&quot;);</div><div class="line">		        user.setPasswd(&quot;123456&quot;);</div><div class="line">		 </div><div class="line">		        System.out.println(&quot;read before Serializable: &quot;);</div><div class="line">		        System.out.println(&quot;username: &quot; + user.getUsername());</div><div class="line">		        System.err.println(&quot;password: &quot; + user.getPasswd());</div><div class="line">		        </div><div class="line">		        ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(&quot;E:/Ehcache/user.txt&quot;));</div><div class="line">		        os.writeObject(user); // 把user对象 序列化</div><div class="line">		        os.flush();</div><div class="line">		        os.close();</div><div class="line">		        System.out.println(&quot;user对象已经序列化了&quot;);</div><div class="line">		        user.setUsername(&quot;wangyake&quot;);</div><div class="line">		        ObjectInputStream in = new ObjectInputStream(new FileInputStream(&quot;E:/Ehcache/user.txt&quot;));</div><div class="line">		        try &#123;</div><div class="line">					user = (User) in.readObject();</div><div class="line">				&#125; catch (ClassNotFoundException e) &#123;</div><div class="line">					// TODO Auto-generated catch block</div><div class="line">					e.printStackTrace();</div><div class="line">				&#125; // 从流中读取User的数据</div><div class="line">		        </div><div class="line">		        in.close();</div><div class="line"></div><div class="line">		        System.out.println(&quot;\nread after Serializable: &quot;);</div><div class="line">		        System.out.println(&quot;username: &quot; + user.getUsername());</div><div class="line">		        System.err.println(&quot;password: &quot; + user.getPasswd());</div><div class="line"></div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div><div class="line">//  运行结果</div><div class="line">password: `123456`</div><div class="line">read before Serializable: </div><div class="line">username: 王雅珂</div><div class="line">user对象已经序列化了</div><div class="line"></div><div class="line">read after Serializable: </div><div class="line">username: wangyake</div><div class="line">password: `null`</div></pre></td></tr></table></figure>
+<h2 id="3-transient使用细节——被transient关键字修饰的变量真的不能被序列化吗？"><a href="#3-transient使用细节——被transient关键字修饰的变量真的不能被序列化吗？" class="headerlink" title="3. transient使用细节——被transient关键字修饰的变量真的不能被序列化吗？"></a>3. transient使用细节——被transient关键字修饰的变量真的不能被序列化吗？</h2><p>在上一段代码 ：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div></pre></td><td class="code"><pre><div class="line">package 序列化;</div><div class="line"></div><div class="line">import java.io.Externalizable;</div><div class="line">import java.io.FileInputStream;</div><div class="line">import java.io.FileOutputStream;</div><div class="line">import java.io.IOException;</div><div class="line">import java.io.ObjectInput;</div><div class="line">import java.io.ObjectInputStream;</div><div class="line">import java.io.ObjectOutput;</div><div class="line">import java.io.ObjectOutputStream;</div><div class="line">import java.io.ObjectStreamException;</div><div class="line">import java.util.jar.Attributes.Name;</div><div class="line"></div><div class="line">import org.junit.experimental.theories.Theories;</div><div class="line"></div><div class="line">/**</div><div class="line">* @author 作者 : coderlong</div><div class="line">* @version 创建时间：2018年1月12日 下午1:26:25</div><div class="line">* 类说明: </div><div class="line">*/</div><div class="line">public class ExternalizableTest implements Externalizable &#123;</div><div class="line">	private transient String Name = &quot;是的，我也将会被序列化&quot;;</div><div class="line">	@Override</div><div class="line">	public void writeExternal(ObjectOutput out) throws IOException &#123;</div><div class="line">		// TODO Auto-generated method stub</div><div class="line">		out.writeObject(Name);</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	@Override</div><div class="line">	public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException &#123;</div><div class="line">		// TODO Auto-generated method stub</div><div class="line">		Name = (String)in.readObject();</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	</div><div class="line">	 public static void main(String[] args) throws Exception &#123;</div><div class="line">		 ExternalizableTest ex = new ExternalizableTest();</div><div class="line">		 ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(&quot;E:/Ehcache/user.txt&quot;));</div><div class="line">		 out.writeObject(ex);</div><div class="line">		 out.flush();</div><div class="line">		 out.close();</div><div class="line">		 </div><div class="line">		 ObjectInputStream in = new ObjectInputStream(new FileInputStream(&quot;E:/Ehcache/user.txt&quot;));</div><div class="line">		 ex = (ExternalizableTest) in.readObject();</div><div class="line">	     System.out.println(ex.Name);</div><div class="line">	     in.close();</div><div class="line">		 </div><div class="line">		 </div><div class="line">	 &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>输出结果是 <code>是的，我也将会被序列化</code><br>为什么呢？不是说类的变量被transient关键字修饰以后将不能序列化了吗？<br>在Java中，对象的序列化可以通过实现两种接口来实现，若实现的是Serializable接口，则所有的序列化将会自动进行，若实现的是Externalizable接口，则没有任何东西可以自动序列化，需要在writeExternal方法中进行手工指定所要序列化的变量，这与是否被transient修饰无关。<br>所以 Name依旧被序列化之后反序列化了。:blush:</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/01/11/常用的Git操作/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rensailong">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="coderlong的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/01/11/常用的Git操作/" itemprop="url">Git</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-11T00:18:40+08:00">
+                2018-01-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/版本控制/" itemprop="url" rel="index">
+                    <span itemprop="name">版本控制</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="Git-操作"><a href="#Git-操作" class="headerlink" title="Git 操作"></a>Git 操作</h1><ul>
+<li>创建本地仓库</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git init</div></pre></td></tr></table></figure>
+<ul>
+<li>获取远程仓库</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">git clone [url]</div><div class="line">例：git clone https://github.com/you/yourpro.git</div></pre></td></tr></table></figure>
+<ul>
+<li>创建远程仓库</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">// 添加一个新的 remote 远程仓库</div><div class="line">git remote add [remote-name] [url]</div><div class="line">例：git remote add origin https://github.com/you/yourpro.git</div><div class="line">origin：相当于该远程仓库的别名</div><div class="line"></div><div class="line">// 列出所有 remote 的别名</div><div class="line">git remote</div><div class="line"></div><div class="line">// 列出所有 remote 的 url</div><div class="line">git remote -v</div><div class="line"></div><div class="line">// 删除一个 renote</div><div class="line">git remote rm [name]</div><div class="line"></div><div class="line">// 重命名 remote</div><div class="line">git remote rename [old-name] [new-name]</div></pre></td></tr></table></figure>
+<ul>
+<li>从本地仓库中删除</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">git rm file.txt         // 从版本库中移除，删除文件</div><div class="line">git rm file.txt -cached // 从版本库中移除，不删除原始文件</div><div class="line">git rm -r xxx           // 从版本库中删除指定文件夹</div></pre></td></tr></table></figure>
+<ul>
+<li>从本地仓库中添加新的文件</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">git add .               // 添加所有文件</div><div class="line">git add file.txt        // 添加指定文件</div></pre></td></tr></table></figure>
+<ul>
+<li>提交，把缓存内容提交到 HEAD 里</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git commit -m &quot;注释&quot;</div></pre></td></tr></table></figure>
+<ul>
+<li>比较 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">是工作区(work dict)和暂存区(stage)的比较</div><div class="line">git diff </div><div class="line"></div><div class="line">是暂存区(stage)和分支(master)的比较</div><div class="line">git diff --cached </div><div class="line"></div><div class="line">可以丢弃工作区的修改：</div><div class="line">git checkout -- filename</div><div class="line"></div><div class="line">把暂存区的修改撤销掉（unstage），重新放回工作区：</div><div class="line">git reset HEAD file</div><div class="line">``` </div><div class="line"></div><div class="line">rm test.txt</div><div class="line"></div><div class="line">####rm是只删除工作区，未“提交”，即没有删除暂存区的文件。</div><div class="line">git rm test.txt</div><div class="line"></div><div class="line">###git rm相当于执行了两步。</div><div class="line"></div><div class="line">####1.rm test.txt</div><div class="line"></div><div class="line">####2.git add test.txt</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>准备合并dev分支，请注意–no-ff参数，表示禁用Fast forward：<br>$ git merge –no-ff -m “merge with no-ff” dev<br>Merge made by the ‘recursive’ strategy.<br> readme.txt |    1 +<br> 1 file changed, 1 insertion(+)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">* 撤销</div></pre></td></tr></table></figure></p>
+<p>// 撤销最近的一个提交.<br>git revert HEAD</p>
+<p>// 取消 commit + add<br>git reset –mixed</p>
+<p>// 取消 commit<br>git reset –soft</p>
+<p>// 取消 commit + add + local working<br>git reset –hard<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">* 把本地提交 push 到远程服务器</div></pre></td></tr></table></figure></p>
+<p>git push [remote-name] [loca-branch]:[remote-branch]<br>例：git push origin master:master<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">* 查看状态</div></pre></td></tr></table></figure></p>
+<p>git status<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">* 从远程库中下载新的改动</div></pre></td></tr></table></figure></p>
+<p>git fetch [remote-name]/[branch]<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">* 合并下载的改动到分支</div></pre></td></tr></table></figure></p>
+<p>git merge [remote-name]/[branch]<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">* 从远程库中下载新的改动</div></pre></td></tr></table></figure></p>
+<p>pull = fetch + merge</p>
+<p>git pull [remote-name] [branch]<br>例：git pull origin master<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">* 分支</div></pre></td></tr></table></figure></p>
+<p>// 列出分支<br>git branch</p>
+<p>// 创建一个新的分支<br>git branch (branch-name)</p>
+<p>// 删除一个分支<br>git branch -d (branch-nam)</p>
+<p>// 删除 remote 的分支<br>git push (remote-name) :(remote-branch)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">* 切换分支</div></pre></td></tr></table></figure></p>
+<p>// 切换到一个分支<br>git checkout [branch-name]</p>
+<p>// 创建并切换到该分支<br>git checkout -b [branch-name]<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">## 标签</div></pre></td></tr></table></figure></p>
+<p>命令git push origin <tagname>可以推送一个本地标签；</tagname></p>
+<p>命令git push origin –tags可以推送全部未推送过的本地标签；</p>
+<p>命令git tag -d <tagname>可以删除一个本地标签；</tagname></p>
+<p>命令git push origin :refs/tags/<tagname>可以删除一个远程标签。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"></div><div class="line">##与github建立ssh通信，让Git操作免去输入密码的繁琐。</div><div class="line">*   首先呢，我们先建立ssh密匙。</div><div class="line">&gt; ssh key must begin with &apos;ssh-ed25519&apos;, &apos;ssh-rsa&apos;, &apos;ssh-dss&apos;, &apos;ecdsa-sha2-nistp256&apos;, &apos;ecdsa-sha2-nistp384&apos;, or &apos;ecdsa-sha2-nistp521&apos;.  -- from github</div><div class="line"></div><div class="line">    根据以上文段我们可以知道github所支持的ssh密匙类型，这里我们创建ssh-rsa密匙。</div><div class="line">    在command line 中输入以下指令:``ssh-keygen -t rsa``去创建一个ssh-rsa密匙。如果你并不需要为你的密匙创建密码和修改名字，那么就一路回车就OK，如果你需要，请您自行Google翻译，因为只是英文问题。</div><div class="line">&gt;$ ssh-keygen -t rsa</div><div class="line">Generating public/private rsa key pair.</div><div class="line">//您可以根据括号中的路径来判断你的.ssh文件放在了什么地方</div><div class="line">Enter file in which to save the key (/c/Users/Liang Guan Quan/.ssh/id_rsa):</div><div class="line"></div><div class="line">* 到 https://github.com/settings/keys 这个地址中去添加一个新的SSH key，然后把你的xx.pub文件下的内容文本都复制到Key文本域中，然后就可以提交了。</div><div class="line">* 添加完成之后 我们用``ssh git@github.com`` 命令来连通一下github，如果你在response里面看到了你github账号名，那么就说明配置成功了。  *let&apos;s enjoy github ;)*</div><div class="line"></div><div class="line"></div><div class="line">## gitignore</div><div class="line">---</div><div class="line"></div><div class="line">在本地仓库根目录创建 .gitignore 文件。Win7 下不能直接创建，可以创建 &quot;.gitignore.&quot; 文件，后面的标点自动被忽略；</div></pre></td></tr></table></figure></tagname></p>
+<p>/.idea          // 过滤指定文件夹<br>/fd/<em>           // 忽略根目录下的 /fd/ 目录的全部内容；
+</em>.iml           // 过滤指定的所有文件<br>!.gitignore     // 不忽略该文件<br>```</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/01/05/convert-tree-to-greater/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rensailong">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="coderlong的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/01/05/convert-tree-to-greater/" itemprop="url">convert tree to greater</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-05T22:33:11+08:00">
+                2018-01-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p><img src="/images/tree1.png" alt=""><br>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/11/08/String类的indexOf用法举例/#more" rel="contents">
+            <a class="btn" href="/2018/01/05/convert-tree-to-greater/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1573,7 +1255,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2017/11/01/寝室停电了啊，哈哈/">
+    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/01/05/miniTree-1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Rensailong">
@@ -1592,7 +1274,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/11/01/寝室停电了啊，哈哈/" itemprop="url">寝室停电了啊，哈哈......</a></h1>
+                <a class="post-title-link" href="/2018/01/05/miniTree-1/" itemprop="url">miniTree</a></h1>
         
 
         <div class="post-meta">
@@ -1604,8 +1286,132 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-01T20:43:00+08:00">
-                2017-11-01
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-05T22:32:55+08:00">
+                2018-01-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p><img src="/images/suanfa1.jpg" alt=""><br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/01/05/miniTree-1/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/01/04/HashMap/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rensailong">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="coderlong的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/01/04/HashMap/" itemprop="url">HashMap</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-04T21:44:09+08:00">
+                2018-01-04
               </time>
             
 
@@ -1627,8 +1433,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/生活/" itemprop="url" rel="index">
-                    <span itemprop="name">生活</span>
+                  <a href="/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
                   </a>
                 </span>
 
@@ -1665,15 +1471,306 @@
 
       
         
-          
-            <p>摘要:才发现大家都那么讨厌春野樱，而喜欢小雏田<br><!-- mroe --></p>
-<p>正文：<br>先上一幅图以供观赏 :smile:<br><img src="/images/cartoon-huoying.jpg" alt=""><br>疾风传之后的火影没怎么看，当然一部动漫作品肯定会有终结，作者果然也给来个大圆满，<br>小樱+佐助，小雏田+小鸣人<br>有人会有疑问，为什么鸣人嫁给了雏田？  在回答这个问题之前<br>我们可以先来看看木叶的几个主角姑娘分别喜欢的人吧。<br>小樱无疑痴迷佐助已久，井野，也是小小的花痴佐助，天天呢==&gt;小宁次，小雏田，喜欢鸣人<br>佐助，宁次是什么样的人呢？<br>前者 智商碾压 家世显赫，更是血统光环<br>后者 更是智商碾压，才华高人一等，标准的富二代了，<br>由于此二人各具魅力，所以喜欢他们的姑娘们也都从一而终，虽然到了最后，多多少少都有些伤感。可是<br>不可否认的是，在现实中，抛却容貌，家世成绩这些外在的东西，我们不可能会在不满足这些条件下，先去了解一个人的内在。<br>因为，我们总是先被他人的外在所影响，进而再去慢慢关注一个人的内在，这是不可否认的事情。<br>而雏田大小姐，就是给我们来了一个大大的反例。身为日向家的大小姐，也算是很优秀的了，资质可能算不上好，但放在木叶的一群调皮女生里面就不算差，这样的雏田，竟然在小时候，就喜欢上了鸣人，多少令人诧异。  </p>
-<p>因为大家都知道，鸣人小时候绝对的是捣蛋鬼一个，没人管的孤儿，长相一般，成绩吊车尾，缺家教，没才华，血统没有，智商感人，各种捣蛋。<br>除非你知道了火影的结局，否则傻子才会去喜欢那时候的鸣人。<br>单单雏田就是这样看上了我们的小鸣人，这一喜欢么就持续了N年，为此也改变了自己。这小姑娘，生生的透过了种种外在的因素，一眼就看到了鸣人的内在：阳光，乐观，有梦想，努力不服输。<br>这是多么强大的主见啊，不理会别人的看法，义无反顾的看好鸣人，让我辈汗颜。<br>所以说，为啥小雏田最后能嫁给了小鸣人，<br>因为无论鸣人成功与否，他都喜欢鸣人，而且不畏惧他人的眼光，勇敢追求自己的喜欢的人和物。<br>他喜欢的显然不是那种每个人都能看到的外在的表现，不管鸣人有没有血统啊，才华啊，智商，她还是一如既往地喜欢。<br>所以她成功了，感动了一群火影粉丝。希望我们也能拥有小雏田这样的坚持。  </p>
-<h2 id="（我也是胡乱评论，这剧情都是作者想好的，不服的去找岸本大爷，遁。。。。。。）markdown-语法估计又是一大堆错，来电了。"><a href="#（我也是胡乱评论，这剧情都是作者想好的，不服的去找岸本大爷，遁。。。。。。）markdown-语法估计又是一大堆错，来电了。" class="headerlink" title="（我也是胡乱评论，这剧情都是作者想好的，不服的去找岸本大爷，遁。。。。。。）markdown 语法估计又是一大堆错，来电了。"></a>（我也是胡乱评论，这剧情都是作者想好的，不服的去找岸本大爷，遁。。。。。。）markdown 语法估计又是一大堆错，来电了。</h2><!-- UY BEGIN -->
-<p><div id="uyan_frame"></div></p>
-<p><script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=2147299"></script><br><!-- UY END --></p>
+          <p>摘要：HashMap<br><img src="/images/huakai.jpeg" alt=""><br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/01/04/HashMap/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/01/03/copyClass/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rensailong">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="coderlong的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/01/03/copyClass/" itemprop="url">copyClass</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-03T23:26:52+08:00">
+                2018-01-03
+              </time>
+            
+
+            
+
+            
+          </span>
 
           
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>摘要：深浅拷贝<br><img src="/images/love1.jpg" alt=""><br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/01/03/copyClass/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/01/03/protoType/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rensailong">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="coderlong的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/01/03/protoType/" itemprop="url">protoType</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-03T23:21:41+08:00">
+                2018-01-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>摘要：原型模式<br><img src="/images/protoType.jpeg" alt=""><br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/01/03/protoType/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1711,7 +1808,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/4/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/6/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/4/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/6/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1757,7 +1854,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">59</span>
+                <span class="site-state-item-count">75</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1779,7 +1876,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">44</span>
+                <span class="site-state-item-count">46</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
