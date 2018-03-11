@@ -102,7 +102,7 @@
 <meta property="og:site_name" content="coderlong的博客">
 <meta property="og:description" content="B树B树是一种多路搜索树一棵m阶B树(balanced tree of order m)是一棵平衡的m路搜索树。它或者是空树，或者是满足下列性质的树：  根节点至少有两个子女 每个非根节点所包含的关键字个数j满足 [m/2] - 1 &amp;lt;= j &amp;lt;= m - 1 除根结点以外的所有结点（不包括叶子结点）的度数正好是关键字总数加1，故内部子树个数 k 满足：[m/2] &amp;lt;= k &amp;l">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-03-10T07:47:03.811Z">
+<meta property="og:updated_time" content="2018-03-11T03:22:41.037Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="红黑树，B树， B+树，B*树">
 <meta name="twitter:description" content="B树B树是一种多路搜索树一棵m阶B树(balanced tree of order m)是一棵平衡的m路搜索树。它或者是空树，或者是满足下列性质的树：  根节点至少有两个子女 每个非根节点所包含的关键字个数j满足 [m/2] - 1 &amp;lt;= j &amp;lt;= m - 1 除根结点以外的所有结点（不包括叶子结点）的度数正好是关键字总数加1，故内部子树个数 k 满足：[m/2] &amp;lt;= k &amp;l">
@@ -146,6 +146,16 @@
 
 
 
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?b36fb048041f31d8aab6a5184644789e";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
 
 
 
@@ -299,9 +309,9 @@
     <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/03/01/红黑树详解/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Rensailong">
+      <meta itemprop="name" content="Sailong Ren">
       <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="image" content="/images/avatar.png">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -417,7 +427,12 @@
 <li>节点都有颜色；</li>
 <li>在插入和删除的过程中，要遵循保持这些颜色的不同排列的规则。</li>
 </ol>
-<h2 id="红黑树主要规则呢-？"><a href="#红黑树主要规则呢-？" class="headerlink" title="红黑树主要规则呢 ？"></a>红黑树主要规则呢 ？</h2>
+<h2 id="红黑树主要规则呢-？"><a href="#红黑树主要规则呢-？" class="headerlink" title="红黑树主要规则呢 ？"></a>红黑树主要规则呢 ？</h2><ol>
+<li>每个节点不是红色就是黑色的</li>
+<li>根节点总是黑色的</li>
+<li>如果一个节点是红色的，那么他的子节点一定是黑色的<br>从根节点到叶子节点的每条路径，含有相同数目的黑色节点</li>
+</ol>
+
       
     </div>
     
@@ -437,14 +452,14 @@
 
     
       <div id="wechat" style="display: inline-block">
-        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="Rensailong WeChat Pay"/>
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="Sailong Ren WeChat Pay"/>
         <p>WeChat Pay</p>
       </div>
     
 
     
       <div id="alipay" style="display: inline-block">
-        <img id="alipay_qr" src="/images/alipay.jpg" alt="Rensailong Alipay"/>
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="Sailong Ren Alipay"/>
         <p>Alipay</p>
       </div>
     
@@ -482,8 +497,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/03/01/从尾到头打印链表/" rel="next" title="从尾到头打印链表">
-                <i class="fa fa-chevron-left"></i> 从尾到头打印链表
+              <a href="/2018/03/01/在O(1)时间删除链表结点/" rel="next" title="在O(1)时间删除链表结点">
+                <i class="fa fa-chevron-left"></i> 在O(1)时间删除链表结点
               </a>
             
           </div>
@@ -559,9 +574,9 @@
       <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
-               src="/images/avatar.gif"
-               alt="Rensailong" />
-          <p class="site-author-name" itemprop="name">Rensailong</p>
+               src="/images/avatar.png"
+               alt="Sailong Ren" />
+          <p class="site-author-name" itemprop="name">Sailong Ren</p>
            
               <p class="site-description motion-element" itemprop="description"></p>
           
@@ -701,7 +716,7 @@
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder">Rensailong</span>
+  <span class="author" itemprop="copyrightHolder">Sailong Ren</span>
 </div>
 
 
