@@ -94,18 +94,18 @@
 
 
 
-<meta name="description" content="MySQL索引BTree性质    索引字段要尽量的小    索引的最左匹配特性">
+<meta name="description" content="MySQL索引主要有BTree索引、Hash索引、full-text全文索引、R-Tree索引。   BTree性质    索引字段要尽量的小    索引的最左匹配特性BTree是Innodb默认的索引B+树是一个平衡的多叉树，从根节点到每个叶子节点的高度差值不超过1，而且同层级的节点间有指针相互链接。 B+树是一个平衡的多叉树，从根节点到每个叶子节点的高度差值不超过1，而且同层级的节点间有指针相">
 <meta name="keywords" content="MySQL">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Mysql索引">
+<meta property="og:title" content="Mysql索引以及优化笔记">
 <meta property="og:url" content="https://coderlongren.github.io/2018/03/15/Mysql索引/index.html">
 <meta property="og:site_name" content="coderlong的博客">
-<meta property="og:description" content="MySQL索引BTree性质    索引字段要尽量的小    索引的最左匹配特性">
+<meta property="og:description" content="MySQL索引主要有BTree索引、Hash索引、full-text全文索引、R-Tree索引。   BTree性质    索引字段要尽量的小    索引的最左匹配特性BTree是Innodb默认的索引B+树是一个平衡的多叉树，从根节点到每个叶子节点的高度差值不超过1，而且同层级的节点间有指针相互链接。 B+树是一个平衡的多叉树，从根节点到每个叶子节点的高度差值不超过1，而且同层级的节点间有指针相">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-03-15T13:11:57.636Z">
+<meta property="og:updated_time" content="2018-03-16T15:09:48.265Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Mysql索引">
-<meta name="twitter:description" content="MySQL索引BTree性质    索引字段要尽量的小    索引的最左匹配特性">
+<meta name="twitter:title" content="Mysql索引以及优化笔记">
+<meta name="twitter:description" content="MySQL索引主要有BTree索引、Hash索引、full-text全文索引、R-Tree索引。   BTree性质    索引字段要尽量的小    索引的最左匹配特性BTree是Innodb默认的索引B+树是一个平衡的多叉树，从根节点到每个叶子节点的高度差值不超过1，而且同层级的节点间有指针相互链接。 B+树是一个平衡的多叉树，从根节点到每个叶子节点的高度差值不超过1，而且同层级的节点间有指针相">
 
 
 
@@ -140,7 +140,7 @@
 
 
 
-  <title>Mysql索引 | coderlong的博客</title>
+  <title>Mysql索引以及优化笔记 | coderlong的博客</title>
   
 
 
@@ -323,7 +323,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Mysql索引</h1>
+          <h1 class="post-title" itemprop="name headline">Mysql索引以及优化笔记</h1>
         
 
         <div class="post-meta">
@@ -395,8 +395,18 @@
       
 
       
-        <h2 id="MySQL索引"><a href="#MySQL索引" class="headerlink" title="MySQL索引"></a>MySQL索引</h2><p>BTree性质<br>    索引字段要尽量的小<br>    索引的最左匹配特性</p>
-
+        <h2 id="MySQL索引"><a href="#MySQL索引" class="headerlink" title="MySQL索引"></a>MySQL索引</h2><p>主要有BTree索引、Hash索引、full-text全文索引、R-Tree索引。  </p>
+<p>BTree性质<br>    索引字段要尽量的小<br>    索引的最左匹配特性<br>BTree是Innodb默认的索引<br>B+树是一个平衡的多叉树，从根节点到每个叶子节点的高度差值不超过1，而且同层级的节点间有指针相互链接。</p>
+<p>B+树是一个平衡的多叉树，从根节点到每个叶子节点的高度差值不超过1，而且同层级的节点间有指针相互链接。<br>　　在B+树上的常规检索，从根节点到叶子节点的搜索效率基本相当，不会出现大幅波动，而且基于索引的顺序扫描时，也可以利用双向指针快速左右移动，效率非常高。</p>
+<h2 id="hash索引"><a href="#hash索引" class="headerlink" title="hash索引"></a>hash索引</h2><p>hash就是一种（key=&gt;value）形式的键值对,允许多个key对应相同的value，但不允许一个key对应多个value,为某一列或几列建立hash索引，就会利用这一列或几列的值通过一定的算法计算出一个hash值，对应一行或几行数据. hash索引可以一次定位，不需要像树形索引那样逐层查找,因此具有极高的效率.<br>HASH与BTREE比较:<br>    hash类型的索引：查找单条快，查询范围慢<br>    bree类型的索引：范围查询和随机查询快（innodb默认索引类型）</p>
+<h2 id="butong的索引引擎区别"><a href="#butong的索引引擎区别" class="headerlink" title="butong的索引引擎区别"></a>butong的索引引擎区别</h2><ul>
+<li>InnoDB 支持事务，支持行级别锁定，支持 Btree、Hash 等索引，不支持Full-text 索引；</li>
+<li>MyISAM 不支持事务，支持表级别锁定，支持 Btree、Full-text 等索引，不支持 Hash 索引；</li>
+<li>Memory 不支持事务，支持表级别锁定，支持 Btree、Hash 等索引，不支持 Full-text 索引</li>
+<li>NDB 支持事务，支持行级别锁定，支持 Hash 索引，不支持 Btree、Full-text 等索引；</li>
+</ul>
+<h2 id="聚促索引"><a href="#聚促索引" class="headerlink" title="聚促索引"></a>聚促索引</h2><p>InnoDB存储引擎表示索引组织表，即表中数据按照主键顺序存放。而聚集索引（clustered index）就是按照每张表的主键构造一棵B+树，同时叶子结点存放的即为整张表的行记录数据，也将聚集索引的叶子结点称为数据页。聚集索引的这个特性决定了索引组织表中数据也是索引的一部分。同B+树数据结构一样，每个数据页都通过一个双向链表来进行链接。<br>如果未定义主键，MySQL取第一个唯一索引（unique）而且只含非空列（NOT NULL）作为主键，InnoDB使用它作为聚簇索引。<br>如果没有这样的列，InnoDB就自己产生一个这样的ID值，它有六个字节，而且是隐藏的，使其作为聚簇索引。</p>
+<h1 id="由于实际的数据页只能按照一棵B-树进行排序，因此每张表只能拥有一个聚集索引。在多少情况下，查询优化器倾向于采用聚集索引。因为聚集索引能够在B-树索引的叶子节点上直接找到数据。此外由于定义了数据的逻辑顺序，聚集索引能够特别快地访问针对范围值得查询。"><a href="#由于实际的数据页只能按照一棵B-树进行排序，因此每张表只能拥有一个聚集索引。在多少情况下，查询优化器倾向于采用聚集索引。因为聚集索引能够在B-树索引的叶子节点上直接找到数据。此外由于定义了数据的逻辑顺序，聚集索引能够特别快地访问针对范围值得查询。" class="headerlink" title="由于实际的数据页只能按照一棵B+树进行排序，因此每张表只能拥有一个聚集索引。在多少情况下，查询优化器倾向于采用聚集索引。因为聚集索引能够在B+树索引的叶子节点上直接找到数据。此外由于定义了数据的逻辑顺序，聚集索引能够特别快地访问针对范围值得查询。"></a>由于实际的数据页只能按照一棵B+树进行排序，因此每张表只能拥有一个聚集索引。在多少情况下，查询优化器倾向于采用聚集索引。因为聚集索引能够在B+树索引的叶子节点上直接找到数据。此外由于定义了数据的逻辑顺序，聚集索引能够特别快地访问针对范围值得查询。</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">public void say(String paramString) &#123;</div><div class="line">        String str = paramString;</div><div class="line">        int i = -1;</div><div class="line">        switch (str.hashCode()) &#123;</div><div class="line">        case 3254818:</div><div class="line">            if (str.equals(&quot;java&quot;))</div><div class="line">                i = 0;</div><div class="line">            break;</div><div class="line">        case 109250886:</div><div class="line">            if (str.equals(&quot;scala&quot;))</div><div class="line">                i = 1;</div><div class="line">        &#125;</div><div class="line">        switch (i) &#123;</div><div class="line">        case 0:</div><div class="line">            System.out.println(&quot;hello java!&quot;);</div><div class="line">            break;</div><div class="line">        case 1:</div><div class="line">            System.out.println(&quot;hello scala!&quot;);</div><div class="line">            break;</div><div class="line">        default:</div><div class="line">            System.out.println(&quot;no match!&quot;);</div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
       
     </div>
     
@@ -464,6 +474,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/03/16/JVM笔记/" rel="prev" title="JVM笔记">
+                JVM笔记 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -540,7 +554,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">84</span>
+                <span class="site-state-item-count">85</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -643,7 +657,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#MySQL索引"><span class="nav-number">1.</span> <span class="nav-text">MySQL索引</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#MySQL索引"><span class="nav-number">1.</span> <span class="nav-text">MySQL索引</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#hash索引"><span class="nav-number">2.</span> <span class="nav-text">hash索引</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#butong的索引引擎区别"><span class="nav-number">3.</span> <span class="nav-text">butong的索引引擎区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#聚促索引"><span class="nav-number">4.</span> <span class="nav-text">聚促索引</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#由于实际的数据页只能按照一棵B-树进行排序，因此每张表只能拥有一个聚集索引。在多少情况下，查询优化器倾向于采用聚集索引。因为聚集索引能够在B-树索引的叶子节点上直接找到数据。此外由于定义了数据的逻辑顺序，聚集索引能够特别快地访问针对范围值得查询。"><span class="nav-number"></span> <span class="nav-text">由于实际的数据页只能按照一棵B+树进行排序，因此每张表只能拥有一个聚集索引。在多少情况下，查询优化器倾向于采用聚集索引。因为聚集索引能够在B+树索引的叶子节点上直接找到数据。此外由于定义了数据的逻辑顺序，聚集索引能够特别快地访问针对范围值得查询。</span></a></div>
             
 
           </div>
