@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Algorithm," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="没事在CSDN算法论坛上看到的一道题，估计好老了，是以前的华为OJ，觉得和我刚刚做过的一道leetcodeContest57 上面的一道数组交换，很像，就记录下来了。 基本是背包问题的变种，浮点数 我也不会处理了，123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051">
+<meta name="keywords" content="Algorithm">
+<meta property="og:type" content="article">
+<meta property="og:title" content="交换两个数组中的元素，使连个数组SUM之差最小">
+<meta property="og:url" content="https://coderlongren.github.io/2018/03/01/交换两个数组元素使sum之差最小/index.html">
+<meta property="og:site_name" content="coderlong的博客">
+<meta property="og:description" content="没事在CSDN算法论坛上看到的一道题，估计好老了，是以前的华为OJ，觉得和我刚刚做过的一道leetcodeContest57 上面的一道数组交换，很像，就记录下来了。 基本是背包问题的变种，浮点数 我也不会处理了，123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-03-18T05:22:00.636Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="交换两个数组中的元素，使连个数组SUM之差最小">
+<meta name="twitter:description" content="没事在CSDN算法论坛上看到的一道题，估计好老了，是以前的华为OJ，觉得和我刚刚做过的一道leetcodeContest57 上面的一道数组交换，很像，就记录下来了。 基本是背包问题的变种，浮点数 我也不会处理了，123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'coderlong'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://coderlongren.github.io/2018/03/01/交换两个数组元素使sum之差最小/"/>
+
+
+
+
+
+  <title>交换两个数组中的元素，使连个数组SUM之差最小 | coderlong的博客</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?b36fb048041f31d8aab6a5184644789e";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband">
+      <a href="https://github.com/coderlongren"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"></a>  
+  
+    </div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">coderlong的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">正是江南好风景，落花时节又逢君</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于我
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/03/01/交换两个数组元素使sum之差最小/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sailong Ren">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="coderlong的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">交换两个数组中的元素，使连个数组SUM之差最小</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-01T14:18:40+08:00">
+                2018-03-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/algorithm/" itemprop="url" rel="index">
+                    <span itemprop="name">algorithm</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>没事在CSDN算法论坛上看到的一道题，估计好老了，是以前的华为OJ，觉得和我刚刚做过的一道leetcodeContest57 上面的一道数组交换，很像，就记录下来了。</p>
+<p>基本是背包问题的变种，浮点数 我也不会处理了，<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></div><div class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>; </div><div class="line"></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">process</span><span class="params">(<span class="keyword">int</span> a[],<span class="keyword">int</span> b[],<span class="keyword">int</span> n)</span></span></div><div class="line"><span class="function"></span>&#123;    </div><div class="line">	<span class="keyword">int</span> temp[<span class="number">10</span>];</div><div class="line">	<span class="keyword">int</span> i;</div><div class="line">    <span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;n;i++)</div><div class="line">	&#123;</div><div class="line">		temp[i]=a[i];</div><div class="line">		temp[i+n]=b[i];</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">    sort(temp,temp+n*<span class="number">2</span>);<span class="comment">//对数组进行排序，默认升序，从小到大</span></div><div class="line">	</div><div class="line">	<span class="built_in">cout</span>&lt;&lt;<span class="built_in">endl</span>;</div><div class="line">	<span class="keyword">int</span> cura=<span class="number">0</span>,curb=<span class="number">0</span>,suma,sumb=<span class="number">0</span>;</div><div class="line">	</div><div class="line">	<span class="comment">//算法基本思想：将排序后的数组，按从大到小顺序放入a，b数组中，规则是先放a，再放b，</span></div><div class="line">	<span class="comment">//直到b中的元素总和大于等于a后，再放a中，以此类推。</span></div><div class="line">	</div><div class="line">	a[cura++]=suma=temp[<span class="number">9</span>];  <span class="comment">//先将最大元素放入a中</span></div><div class="line">	</div><div class="line">	<span class="keyword">for</span>(i=<span class="number">2</span>*n<span class="number">-2</span>;i&gt;=<span class="number">0</span>;i--)</div><div class="line">	&#123;</div><div class="line">		<span class="keyword">if</span>((suma&gt;sumb&amp;&amp;curb &lt; n))</div><div class="line">		&#123; </div><div class="line">			</div><div class="line">           	b[curb]=temp[i];</div><div class="line">			sumb+=b[curb++];		</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">else</span> <span class="keyword">if</span>(cura&lt;n)  <span class="comment">//数组b中元素总和大于a中元素总和情况</span></div><div class="line">		&#123; </div><div class="line">			</div><div class="line">			a[cura]=temp[i];</div><div class="line">			suma+=a[cura++];</div><div class="line">		&#125; </div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></div><div class="line"><span class="function"></span>&#123;</div><div class="line">	<span class="keyword">int</span> a[<span class="number">5</span>];</div><div class="line">	<span class="keyword">int</span> b[<span class="number">5</span>];</div><div class="line">	</div><div class="line">    <span class="keyword">int</span> i;</div><div class="line">	<span class="built_in">cout</span>&lt;&lt;<span class="string">"a数组："</span>;</div><div class="line">	<span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;<span class="number">5</span>;i++)</div><div class="line">	&#123;</div><div class="line">		<span class="built_in">cin</span>&gt;&gt;a[i];	</div><div class="line">	&#125;</div><div class="line">	<span class="built_in">cout</span>&lt;&lt;<span class="string">"b数组："</span>;</div><div class="line">	<span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;<span class="number">5</span>;i++)</div><div class="line">	&#123;</div><div class="line">		<span class="built_in">cin</span>&gt;&gt;b[i];</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	process(a,b,<span class="number">5</span>);</div><div class="line"></div><div class="line">	<span class="built_in">cout</span>&lt;&lt;<span class="string">"交换元素后a数组："</span>;</div><div class="line">	<span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;<span class="number">5</span>;i++)</div><div class="line">		<span class="built_in">cout</span>&lt;&lt;a[i]&lt;&lt;<span class="string">" "</span>;</div><div class="line">	<span class="built_in">cout</span>&lt;&lt;<span class="built_in">endl</span>;</div><div class="line"></div><div class="line">	<span class="built_in">cout</span>&lt;&lt;<span class="string">"交换元素后b数组："</span>;</div><div class="line">	<span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;<span class="number">5</span>;i++)</div><div class="line">		<span class="built_in">cout</span>&lt;&lt;b[i]&lt;&lt;<span class="string">" "</span>;</div><div class="line">	</div><div class="line">	<span class="built_in">cout</span>&lt;&lt;<span class="built_in">endl</span>;</div><div class="line">	<span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">	</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><code>Java版</code><br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">twoArray</span> </span>&#123;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">process</span><span class="params">(<span class="keyword">int</span>[] a, <span class="keyword">int</span> [] b, <span class="keyword">int</span> n)</span> </span>&#123;</div><div class="line">		<span class="keyword">int</span>[] temp = <span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">2</span>*n];</div><div class="line">		<span class="keyword">int</span> i;</div><div class="line">		<span class="comment">// 把两个数组复制到一个数组中去</span></div><div class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> index = <span class="number">0</span>; index &lt; n; index++) &#123;</div><div class="line">			temp[index] = a[index];</div><div class="line">			temp[index + n] = b[index];</div><div class="line">		&#125;</div><div class="line">		 <span class="comment">// 从小到大 排序</span></div><div class="line">		Arrays.sort(temp);</div><div class="line">		<span class="comment">// 将排序后的数组，按从大到小顺序放入a，b数组中，规则是先放a，再放b，</span></div><div class="line">		<span class="comment">//直到b中的元素总和大于等于a后，再放a中，以此类推</span></div><div class="line">		<span class="keyword">int</span> curA = <span class="number">0</span>; </div><div class="line">		<span class="keyword">int</span> curB = <span class="number">0</span>;</div><div class="line">		<span class="keyword">int</span> sumA = <span class="number">0</span>; </div><div class="line">		<span class="keyword">int</span> sumB = <span class="number">0</span>;</div><div class="line">		<span class="comment">// 最大元素 先放入a中</span></div><div class="line">		a[curA++] = sumA = temp[<span class="number">2</span>*n - <span class="number">1</span>];</div><div class="line">		</div><div class="line">		<span class="keyword">for</span> (i = <span class="number">2</span>*n - <span class="number">2</span>; i &gt;= <span class="number">0</span>; i--) &#123;</div><div class="line">			<span class="comment">// 第二大的放进b里面</span></div><div class="line">			<span class="keyword">if</span> (sumA &gt; sumB &amp;&amp; curB &lt; n) &#123;</div><div class="line">				b[curB] = temp[i];</div><div class="line">				sumB += b[curB++];</div><div class="line">			&#125;</div><div class="line">			<span class="keyword">else</span> <span class="keyword">if</span> (curA &lt; n) &#123;</div><div class="line">				a[curA] = temp[i];</div><div class="line">				sumA += a[curA++];</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">			</div><div class="line">		</div><div class="line">	&#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		<span class="keyword">int</span>[] a = &#123;<span class="number">1</span>,<span class="number">3</span>,<span class="number">5</span>,<span class="number">7</span>,<span class="number">8</span>&#125;;</div><div class="line">		<span class="keyword">int</span>[] b = &#123;<span class="number">2</span>,<span class="number">3</span>,<span class="number">5</span>,<span class="number">4</span>,<span class="number">10</span>&#125;;</div><div class="line">		process(a, b, a.length);</div><div class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i : a) &#123;</div><div class="line">			System.out.print(i + <span class="string">" "</span>);</div><div class="line">		&#125;</div><div class="line">		System.out.println();</div><div class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i : b) &#123;</div><div class="line">			System.out.print(i + <span class="string">" "</span>);</div><div class="line">		&#125;</div><div class="line"></div><div class="line">		<span class="comment">/*** result</span></div><div class="line"><span class="comment">		*10 5 5 3 1 </span></div><div class="line"><span class="comment">		*8 7 4 3 2</span></div><div class="line"><span class="comment">		**/</span> </div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>Donate</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="Sailong Ren WeChat Pay"/>
+        <p>WeChat Pay</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="Sailong Ren Alipay"/>
+        <p>Alipay</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Algorithm/" rel="tag"># Algorithm</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/03/01/调整数组顺序使奇数位于偶数前面/" rel="next" title="调整数组顺序使奇数位于偶数前面">
+                <i class="fa fa-chevron-left"></i> 调整数组顺序使奇数位于偶数前面
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/03/01/数值的整数次方/" rel="prev" title="数值的整数次方">
+                数值的整数次方 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel sidebar-panel-active">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="Sailong Ren" />
+          <p class="site-author-name" itemprop="name">Sailong Ren</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">88</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">18</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">47</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/coderlongren" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://blog.csdn.net/qq_33797928?ref=toolbar" target="_blank" title="CSDN博客">
+                  
+                    <i class="fa fa-fw fa-crosshairs"></i>
+                  
+                    
+                      CSDN博客
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="862983319@qq.com" target="_blank" title="E-Mail">
+                  
+                    <i class="fa fa-fw fa-envelope"></i>
+                  
+                    
+                      E-Mail
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/coderlongren/activities" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                    
+                      知乎
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sailong Ren</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Gemini
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+  
+</body>
+</html>
