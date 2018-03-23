@@ -94,18 +94,18 @@
 
 
 
-<meta name="description" content="转载自CSDN 泛型与类型擦除 Java语言并不是一开始就支持泛型的。在早期的JDK中，只能通过Object类是所有类型的父类和强制类型转换来实现泛型的功能。强制类型转换的缺点就是把编译期间的问题延迟到运行时，JVM并不能为我们提供编译期间的检查。 在JDK1.5中，Java语言引入了泛型机制。但是这种泛型机制是通过类型擦除来实现的，即Java中的泛型只在程序源代码中有效（源代码阶段提供类型检查）">
+<meta name="description" content="转载自http://blog.csdn.net/danchu/article/details/54986442 泛型与类型擦除 Java语言并不是一开始就支持泛型的。在早期的JDK中，只能通过Object类是所有类型的父类和强制类型转换来实现泛型的功能。强制类型转换的缺点就是把编译期间的问题延迟到运行时，JVM并不能为我们提供编译期间的检查。 在JDK1.5中，Java语言引入了泛型机制。但是这种">
 <meta name="keywords" content="JDK">
 <meta property="og:type" content="article">
 <meta property="og:title" content="浅谈java里面的语法糖">
 <meta property="og:url" content="https://coderlongren.github.io/2018/03/17/浅谈Java的语法糖/index.html">
 <meta property="og:site_name" content="coderlong的博客">
-<meta property="og:description" content="转载自CSDN 泛型与类型擦除 Java语言并不是一开始就支持泛型的。在早期的JDK中，只能通过Object类是所有类型的父类和强制类型转换来实现泛型的功能。强制类型转换的缺点就是把编译期间的问题延迟到运行时，JVM并不能为我们提供编译期间的检查。 在JDK1.5中，Java语言引入了泛型机制。但是这种泛型机制是通过类型擦除来实现的，即Java中的泛型只在程序源代码中有效（源代码阶段提供类型检查）">
+<meta property="og:description" content="转载自http://blog.csdn.net/danchu/article/details/54986442 泛型与类型擦除 Java语言并不是一开始就支持泛型的。在早期的JDK中，只能通过Object类是所有类型的父类和强制类型转换来实现泛型的功能。强制类型转换的缺点就是把编译期间的问题延迟到运行时，JVM并不能为我们提供编译期间的检查。 在JDK1.5中，Java语言引入了泛型机制。但是这种">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-03-17T12:40:51.142Z">
+<meta property="og:updated_time" content="2018-03-23T02:09:05.300Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="浅谈java里面的语法糖">
-<meta name="twitter:description" content="转载自CSDN 泛型与类型擦除 Java语言并不是一开始就支持泛型的。在早期的JDK中，只能通过Object类是所有类型的父类和强制类型转换来实现泛型的功能。强制类型转换的缺点就是把编译期间的问题延迟到运行时，JVM并不能为我们提供编译期间的检查。 在JDK1.5中，Java语言引入了泛型机制。但是这种泛型机制是通过类型擦除来实现的，即Java中的泛型只在程序源代码中有效（源代码阶段提供类型检查）">
+<meta name="twitter:description" content="转载自http://blog.csdn.net/danchu/article/details/54986442 泛型与类型擦除 Java语言并不是一开始就支持泛型的。在早期的JDK中，只能通过Object类是所有类型的父类和强制类型转换来实现泛型的功能。强制类型转换的缺点就是把编译期间的问题延迟到运行时，JVM并不能为我们提供编译期间的检查。 在JDK1.5中，Java语言引入了泛型机制。但是这种">
 
 
 
@@ -395,7 +395,7 @@
       
 
       
-        <p>转载自<a href="http://blog.csdn.net/danchu/article/details/54986442" target="_blank" rel="external">CSDN</a></p>
+        <p>转载自<a href="http://blog.csdn.net/danchu/article/details/54986442" target="_blank" rel="external">http://blog.csdn.net/danchu/article/details/54986442</a></p>
 <h2 id="泛型与类型擦除"><a href="#泛型与类型擦除" class="headerlink" title="泛型与类型擦除"></a>泛型与类型擦除</h2><blockquote>
 <p>Java语言并不是一开始就支持泛型的。在早期的JDK中，只能通过Object类是所有类型的父类和强制类型转换来实现泛型的功能。强制类型转换的缺点就是把编译期间的问题延迟到运行时，JVM并不能为我们提供编译期间的检查。</p>
 <p>在JDK1.5中，Java语言引入了泛型机制。但是这种泛型机制是通过类型擦除来实现的，即Java中的泛型只在程序源代码中有效（源代码阶段提供类型检查），在编译后的字节码中自动用强制类型转换进行替代。也就是说，Java语言中的泛型机制其实就是一颗语法糖，相较与C++、C#相比，其泛型实现实在是不那么优雅<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"><span class="comment">* 在源代码中存在泛型</span></div><div class="line"><span class="comment">*/</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">    Map&lt;String,String&gt; map = <span class="keyword">new</span> HashMap&lt;String,String&gt;();</div><div class="line">    map.put(<span class="string">"hello"</span>,<span class="string">"你好"</span>);</div><div class="line">    String hello = map.get(<span class="string">"hello"</span>);</div><div class="line">    System.out.println(hello);</div><div class="line">&#125;</div><div class="line"><span class="comment">// 当上述源代码被编译为class文件后，泛型被擦除且引入强制类型转换</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">    HashMap map = <span class="keyword">new</span> HashMap(); <span class="comment">//类型擦除</span></div><div class="line">    map.put(<span class="string">"hello"</span>, <span class="string">"你好"</span>);</div><div class="line">    String hello = (String)map.get(<span class="string">"hello"</span>);<span class="comment">//强制转换</span></div><div class="line">    System.out.println(hello);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
@@ -489,6 +489,10 @@
 
           <div class="post-nav-prev post-nav-item">
             
+              <a href="/2018/03/20/leetcode801_Mininum_SwapMakesSequencesIncreasing/" rel="prev" title="leetcode801_Mininum_SwapMakesSequencesIncreasing">
+                leetcode801_Mininum_SwapMakesSequencesIncreasing <i class="fa fa-chevron-right"></i>
+              </a>
+            
           </div>
         </div>
       
@@ -564,7 +568,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">88</span>
+                <span class="site-state-item-count">93</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -575,7 +579,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">18</span>
+                <span class="site-state-item-count">20</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -586,7 +590,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">47</span>
+                <span class="site-state-item-count">49</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -744,8 +748,6 @@
   
 
 
-  
-
 
 
 
@@ -773,9 +775,6 @@
 
   
   <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
-
-  
-  <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
 
 
   
@@ -855,10 +854,6 @@
 
   
 
-  
-
-  
-  <script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
   
 </body>
 </html>

@@ -102,7 +102,7 @@
 <meta property="og:site_name" content="coderlong的博客">
 <meta property="og:description" content="MySQL索引主要有BTree索引、Hash索引、full-text全文索引、R-Tree索引。   BTree性质    索引字段要尽量的小    索引的最左匹配特性BTree是Innodb默认的索引B+树是一个平衡的多叉树，从根节点到每个叶子节点的高度差值不超过1，而且同层级的节点间有指针相互链接。 B+树是一个平衡的多叉树，从根节点到每个叶子节点的高度差值不超过1，而且同层级的节点间有指针相">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-03-16T15:09:48.265Z">
+<meta property="og:updated_time" content="2018-03-21T12:32:08.779Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Mysql索引以及优化笔记">
 <meta name="twitter:description" content="MySQL索引主要有BTree索引、Hash索引、full-text全文索引、R-Tree索引。   BTree性质    索引字段要尽量的小    索引的最左匹配特性BTree是Innodb默认的索引B+树是一个平衡的多叉树，从根节点到每个叶子节点的高度差值不超过1，而且同层级的节点间有指针相互链接。 B+树是一个平衡的多叉树，从根节点到每个叶子节点的高度差值不超过1，而且同层级的节点间有指针相">
@@ -406,7 +406,22 @@
 <li>NDB 支持事务，支持行级别锁定，支持 Hash 索引，不支持 Btree、Full-text 等索引；</li>
 </ul>
 <h2 id="聚促索引"><a href="#聚促索引" class="headerlink" title="聚促索引"></a>聚促索引</h2><p>InnoDB存储引擎表示索引组织表，即表中数据按照主键顺序存放。而聚集索引（clustered index）就是按照每张表的主键构造一棵B+树，同时叶子结点存放的即为整张表的行记录数据，也将聚集索引的叶子结点称为数据页。聚集索引的这个特性决定了索引组织表中数据也是索引的一部分。同B+树数据结构一样，每个数据页都通过一个双向链表来进行链接。<br>如果未定义主键，MySQL取第一个唯一索引（unique）而且只含非空列（NOT NULL）作为主键，InnoDB使用它作为聚簇索引。<br>如果没有这样的列，InnoDB就自己产生一个这样的ID值，它有六个字节，而且是隐藏的，使其作为聚簇索引。</p>
-<h1 id="由于实际的数据页只能按照一棵B-树进行排序，因此每张表只能拥有一个聚集索引。在多少情况下，查询优化器倾向于采用聚集索引。因为聚集索引能够在B-树索引的叶子节点上直接找到数据。此外由于定义了数据的逻辑顺序，聚集索引能够特别快地访问针对范围值得查询。"><a href="#由于实际的数据页只能按照一棵B-树进行排序，因此每张表只能拥有一个聚集索引。在多少情况下，查询优化器倾向于采用聚集索引。因为聚集索引能够在B-树索引的叶子节点上直接找到数据。此外由于定义了数据的逻辑顺序，聚集索引能够特别快地访问针对范围值得查询。" class="headerlink" title="由于实际的数据页只能按照一棵B+树进行排序，因此每张表只能拥有一个聚集索引。在多少情况下，查询优化器倾向于采用聚集索引。因为聚集索引能够在B+树索引的叶子节点上直接找到数据。此外由于定义了数据的逻辑顺序，聚集索引能够特别快地访问针对范围值得查询。"></a>由于实际的数据页只能按照一棵B+树进行排序，因此每张表只能拥有一个聚集索引。在多少情况下，查询优化器倾向于采用聚集索引。因为聚集索引能够在B+树索引的叶子节点上直接找到数据。此外由于定义了数据的逻辑顺序，聚集索引能够特别快地访问针对范围值得查询。</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">public void say(String paramString) &#123;</div><div class="line">        String str = paramString;</div><div class="line">        int i = -1;</div><div class="line">        switch (str.hashCode()) &#123;</div><div class="line">        case 3254818:</div><div class="line">            if (str.equals(&quot;java&quot;))</div><div class="line">                i = 0;</div><div class="line">            break;</div><div class="line">        case 109250886:</div><div class="line">            if (str.equals(&quot;scala&quot;))</div><div class="line">                i = 1;</div><div class="line">        &#125;</div><div class="line">        switch (i) &#123;</div><div class="line">        case 0:</div><div class="line">            System.out.println(&quot;hello java!&quot;);</div><div class="line">            break;</div><div class="line">        case 1:</div><div class="line">            System.out.println(&quot;hello scala!&quot;);</div><div class="line">            break;</div><div class="line">        default:</div><div class="line">            System.out.println(&quot;no match!&quot;);</div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<h1 id="由于实际的数据页只能按照一棵B-树进行排序，因此每张表只能拥有一个聚集索引。在多少情况下，查询优化器倾向于采用聚集索引。因为聚集索引能够在B-树索引的叶子节点上直接找到数据。此外由于定义了数据的逻辑顺序，聚集索引能够特别快地访问针对范围值得查询。"><a href="#由于实际的数据页只能按照一棵B-树进行排序，因此每张表只能拥有一个聚集索引。在多少情况下，查询优化器倾向于采用聚集索引。因为聚集索引能够在B-树索引的叶子节点上直接找到数据。此外由于定义了数据的逻辑顺序，聚集索引能够特别快地访问针对范围值得查询。" class="headerlink" title="由于实际的数据页只能按照一棵B+树进行排序，因此每张表只能拥有一个聚集索引。在多少情况下，查询优化器倾向于采用聚集索引。因为聚集索引能够在B+树索引的叶子节点上直接找到数据。此外由于定义了数据的逻辑顺序，聚集索引能够特别快地访问针对范围值得查询。"></a>由于实际的数据页只能按照一棵B+树进行排序，因此每张表只能拥有一个聚集索引。在多少情况下，查询优化器倾向于采用聚集索引。因为聚集索引能够在B+树索引的叶子节点上直接找到数据。此外由于定义了数据的逻辑顺序，聚集索引能够特别快地访问针对范围值得查询。</h1><h2 id="Explain查询优化"><a href="#Explain查询优化" class="headerlink" title="Explain查询优化"></a>Explain查询优化</h2><ol>
+<li>id id列数字越大越先执行，如果说数字一样大，那么就从上往下依次执行  </li>
+<li>select_type<br>A：simple：表示不需要union操作或者不包含子查询的简单select查询。有连接查询时，外层的查询为simple，且只有一个<br>B：primary<br>C：union：union连接的两个select查询，第一个查询是dervied派生表，除了第一个表外，第二个以后的表select_type都是union<br>D：dependent union：与union一样，出现在union 或union all语句中，但是这个查询要受到外部查询的影响<br>E：union result：包含union的结果集，在union和union all语句中,因为它不需要参与查询，所以id字段为null<br>F：subquery：除了from字句中包含的子查询外，其他地方出现的子查询都可能是subquery<br>G：dependent subquery：与dependent union类似，表示这个subquery的查询要受到外部表查询的影响<br>H：derived：from字句中出现的子查询，也叫做派生表，其他数据库中可能叫做内联视图或嵌套select </li>
+<li>table 显示的查询表的名字</li>
+<li>type<br>const 表示一次通过索引就找到了<br>primary 使用主键<br>all 全表扫描，性能极差<br>null 未使用索引<br>ref 联合查询<br>system &gt; const &gt; eq_ref &gt; ref &gt; fulltext &gt; ref_or_null &gt; index_merge &gt; unique_subquery &gt; index_subquery &gt; range &gt; index &gt; ALL</li>
+<li>possible_keys<br>指出MySQL能使用哪个索引在该表中找到行。如果是空的，没有相关的索引。这时要提高性能，可通过检验where子句，看是否引用某些字段，或者检查字段不是适合索引。</li>
+<li>key<br>显示MySQL实际决定使用的键。如果没有索引被选择，键是null。</li>
+<li>key_len<br>显示MySQL决定使用的键长度。如果键是null，长度就是null。文档提示特别注意这个值可以得出一个多重主键里MySQL实际使用了哪一部分。</li>
+<li><p>ref<br>显示哪个字段或常数与key一起被使用。</p>
+</li>
+<li><p>rows<br>这个数表示MySQL要遍历多少数据才能找到，在InnoDB上是不准确的。</p>
+</li>
+<li><p>Extra<br>如果是only index，这意味着信息只用索引树中的信息检索出的，这比扫描整个表要快。<br>如果是where used，就是使用上了where限制。<br>如果是impossible where 表示用不着where，一般就是没查出来啥。<br>如果此信息显示using filesort或者using temporary的话会很吃力，where和order by的索引经常无法兼顾，如果按照where来确定索引，那么在order by时，就必然会引起using filesort，这就要看是先过滤再排序划算，还是先排序再过滤划算。</p>
+</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">public void say(String paramString) &#123;</div><div class="line">        String str = paramString;</div><div class="line">        int i = -1;</div><div class="line">        switch (str.hashCode()) &#123;</div><div class="line">        case 3254818:</div><div class="line">            if (str.equals(&quot;java&quot;))</div><div class="line">                i = 0;</div><div class="line">            break;</div><div class="line">        case 109250886:</div><div class="line">            if (str.equals(&quot;scala&quot;))</div><div class="line">                i = 1;</div><div class="line">        &#125;</div><div class="line">        switch (i) &#123;</div><div class="line">        case 0:</div><div class="line">            System.out.println(&quot;hello java!&quot;);</div><div class="line">            break;</div><div class="line">        case 1:</div><div class="line">            System.out.println(&quot;hello scala!&quot;);</div><div class="line">            break;</div><div class="line">        default:</div><div class="line">            System.out.println(&quot;no match!&quot;);</div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
       
     </div>
     
@@ -554,7 +569,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">88</span>
+                <span class="site-state-item-count">93</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -565,7 +580,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">18</span>
+                <span class="site-state-item-count">20</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -576,7 +591,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">47</span>
+                <span class="site-state-item-count">49</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -657,7 +672,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#MySQL索引"><span class="nav-number">1.</span> <span class="nav-text">MySQL索引</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#hash索引"><span class="nav-number">2.</span> <span class="nav-text">hash索引</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#butong的索引引擎区别"><span class="nav-number">3.</span> <span class="nav-text">butong的索引引擎区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#聚促索引"><span class="nav-number">4.</span> <span class="nav-text">聚促索引</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#由于实际的数据页只能按照一棵B-树进行排序，因此每张表只能拥有一个聚集索引。在多少情况下，查询优化器倾向于采用聚集索引。因为聚集索引能够在B-树索引的叶子节点上直接找到数据。此外由于定义了数据的逻辑顺序，聚集索引能够特别快地访问针对范围值得查询。"><span class="nav-number"></span> <span class="nav-text">由于实际的数据页只能按照一棵B+树进行排序，因此每张表只能拥有一个聚集索引。在多少情况下，查询优化器倾向于采用聚集索引。因为聚集索引能够在B+树索引的叶子节点上直接找到数据。此外由于定义了数据的逻辑顺序，聚集索引能够特别快地访问针对范围值得查询。</span></a></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#MySQL索引"><span class="nav-number">1.</span> <span class="nav-text">MySQL索引</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#hash索引"><span class="nav-number">2.</span> <span class="nav-text">hash索引</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#butong的索引引擎区别"><span class="nav-number">3.</span> <span class="nav-text">butong的索引引擎区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#聚促索引"><span class="nav-number">4.</span> <span class="nav-text">聚促索引</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#由于实际的数据页只能按照一棵B-树进行排序，因此每张表只能拥有一个聚集索引。在多少情况下，查询优化器倾向于采用聚集索引。因为聚集索引能够在B-树索引的叶子节点上直接找到数据。此外由于定义了数据的逻辑顺序，聚集索引能够特别快地访问针对范围值得查询。"><span class="nav-number"></span> <span class="nav-text">由于实际的数据页只能按照一棵B+树进行排序，因此每张表只能拥有一个聚集索引。在多少情况下，查询优化器倾向于采用聚集索引。因为聚集索引能够在B+树索引的叶子节点上直接找到数据。此外由于定义了数据的逻辑顺序，聚集索引能够特别快地访问针对范围值得查询。</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Explain查询优化"><span class="nav-number">1.</span> <span class="nav-text">Explain查询优化</span></a></li></ol></div>
             
 
           </div>
@@ -734,8 +749,6 @@
   
 
 
-  
-
 
 
 
@@ -763,9 +776,6 @@
 
   
   <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
-
-  
-  <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
 
 
   
@@ -845,10 +855,6 @@
 
   
 
-  
-
-  
-  <script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
   
 </body>
 </html>
