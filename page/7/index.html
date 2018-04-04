@@ -303,6 +303,177 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/01/18/Iterator设计模式&Collection源码剖析/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sailong Ren">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="coderlong的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/01/18/Iterator设计模式&Collection源码剖析/" itemprop="url">Iterator&Collection源码剖析</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-18T14:18:40+08:00">
+                2018-01-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JDK/" itemprop="url" rel="index">
+                    <span itemprop="name">JDK</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <ol>
+<li><p>统一接口，<br>ArrayList的定义</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ArrayList</span>&lt;<span class="title">E</span>&gt; <span class="keyword">extends</span> <span class="title">AbstractList</span>&lt;<span class="title">E</span>&gt;</span></div><div class="line"><span class="class">       <span class="keyword">implements</span> <span class="title">List</span>&lt;<span class="title">E</span>&gt;, <span class="title">RandomAccess</span>, <span class="title">Cloneable</span>, <span class="title">java</span>.<span class="title">io</span>.<span class="title">Serializable</span></span></div></pre></td></tr></table></figure>
+</li>
+<li><p>LinkedList的定义</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LinkedList</span>&lt;<span class="title">E</span>&gt;</span></div><div class="line"><span class="class">          <span class="keyword">extends</span> <span class="title">AbstractSequentialList</span>&lt;<span class="title">E</span>&gt;</span></div><div class="line"><span class="class">          <span class="keyword">implements</span> <span class="title">List</span>&lt;<span class="title">E</span>&gt;, <span class="title">Deque</span>&lt;<span class="title">E</span>&gt;, <span class="title">Cloneable</span>, <span class="title">java</span>.<span class="title">io</span>.<span class="title">Serializable</span></span></div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>从定义上可以看到ArrayList和LinkedList都实现了List接口，ok看下List接口的定义<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">List</span>&lt;<span class="title">E</span>&gt; <span class="keyword">extends</span> <span class="title">Collection</span>&lt;<span class="title">E</span>&gt; </span>&#123;</div><div class="line">         <span class="function"><span class="keyword">int</span> <span class="title">size</span><span class="params">()</span></span>;</div><div class="line">         <span class="function"><span class="keyword">boolean</span> <span class="title">isEmpty</span><span class="params">()</span></span>;</div><div class="line">         <span class="function"><span class="keyword">boolean</span> <span class="title">contains</span><span class="params">(Object o)</span></span>;</div><div class="line">         <span class="function">Iterator&lt;E&gt; <span class="title">iterator</span><span class="params">()</span></span>;</div><div class="line">         Object[] toArray();</div><div class="line">         &lt;T&gt; T[] toArray(T[] a);</div><div class="line">         <span class="function"><span class="keyword">boolean</span> <span class="title">add</span><span class="params">(E e)</span></span>;</div><div class="line">         <span class="function"><span class="keyword">boolean</span> <span class="title">remove</span><span class="params">(Object o)</span></span>;</div><div class="line">         <span class="function"><span class="keyword">boolean</span> <span class="title">containsAll</span><span class="params">(Collection&lt;?&gt; c)</span></span>;</div><div class="line">         <span class="function"><span class="keyword">boolean</span> <span class="title">addAll</span><span class="params">(Collection&lt;? extends E&gt; c)</span></span>;</div><div class="line">         <span class="function"><span class="keyword">boolean</span> <span class="title">addAll</span><span class="params">( <span class="keyword">int</span> index, Collection&lt;? extends E&gt; c)</span></span>;</div><div class="line">         <span class="function"><span class="keyword">boolean</span> <span class="title">removeAll</span><span class="params">(Collection&lt;?&gt; c)</span></span>;</div><div class="line">         <span class="function"><span class="keyword">boolean</span> <span class="title">retainAll</span><span class="params">(Collection&lt;?&gt; c)</span></span>;</div><div class="line">         <span class="function"><span class="keyword">void</span> <span class="title">clear</span><span class="params">()</span></span>;</div><div class="line">         <span class="function"><span class="keyword">boolean</span> <span class="title">equals</span><span class="params">(Object o)</span></span>;</div><div class="line">         <span class="function"><span class="keyword">int</span> <span class="title">hashCode</span><span class="params">()</span></span>;</div><div class="line">         <span class="function">E <span class="title">get</span><span class="params">( <span class="keyword">int</span> index)</span></span>;</div><div class="line">         <span class="function">E <span class="title">set</span><span class="params">( <span class="keyword">int</span> index, E element)</span></span>;</div><div class="line">         <span class="function"><span class="keyword">void</span> <span class="title">add</span><span class="params">( <span class="keyword">int</span> index, E element)</span></span>;</div><div class="line">         <span class="function">E <span class="title">remove</span><span class="params">( <span class="keyword">int</span> index)</span></span>;</div><div class="line">         <span class="function"><span class="keyword">int</span> <span class="title">indexOf</span><span class="params">(Object o)</span></span>;</div><div class="line">         <span class="function"><span class="keyword">int</span> <span class="title">lastIndexOf</span><span class="params">(Object o)</span></span>;</div><div class="line">         <span class="function">ListIterator&lt;E&gt; <span class="title">listIterator</span><span class="params">()</span></span>;</div><div class="line">         <span class="function">ListIterator&lt;E&gt; <span class="title">listIterator</span><span class="params">( <span class="keyword">int</span> index)</span></span>;</div><div class="line">         <span class="function">List&lt;E&gt; <span class="title">subList</span><span class="params">( <span class="keyword">int</span> fromIndex, <span class="keyword">int</span> toIndex)</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>可以看到List中对容器的各种操作add、remove、set、get、size等进行了统一定义，同时List实现了Collection接口，继续看下Collection接口的定义（先不关心Iterator）：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Collection</span>&lt;<span class="title">E</span>&gt; <span class="keyword">extends</span> <span class="title">Iterable</span>&lt;<span class="title">E</span>&gt; </span>&#123;</div><div class="line">          <span class="function"><span class="keyword">int</span> <span class="title">size</span><span class="params">()</span></span>;</div><div class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">isEmpty</span><span class="params">()</span></span>;</div><div class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">contains</span><span class="params">(Object o)</span></span>;</div><div class="line">    <span class="function">Iterator&lt;E&gt; <span class="title">iterator</span><span class="params">()</span></span>;</div><div class="line">    Object[] toArray();</div><div class="line">    &lt;T&gt; T[] toArray(T[] a);</div><div class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">add</span><span class="params">(E e)</span></span>;</div><div class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">remove</span><span class="params">(Object o)</span></span>;</div><div class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">containsAll</span><span class="params">(Collection&lt;?&gt; c)</span></span>;</div><div class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">addAll</span><span class="params">(Collection&lt;? extends E&gt; c)</span></span>;</div><div class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">removeAll</span><span class="params">(Collection&lt;?&gt; c)</span></span>;</div><div class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">retainAll</span><span class="params">(Collection&lt;?&gt; c)</span></span>;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">clear</span><span class="params">()</span></span>;</div><div class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">equals</span><span class="params">(Object o)</span></span>;</div><div class="line">    <span class="function"><span class="keyword">int</span> <span class="title">hashCode</span><span class="params">()</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>有了这两个接口，对于ArrayList和LinkeList的操作是不是就可以这么写了呢？<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="number">1</span> Collection&lt;String&gt; collection = <span class="keyword">new</span> ArrayList&lt;String&gt;();</div><div class="line"><span class="number">2</span> collection.add(<span class="string">"hello"</span>);</div><div class="line"><span class="number">3</span> collection.add(<span class="string">"java"</span>);</div><div class="line"><span class="number">4</span> collection.remove(<span class="string">"hello"</span>);</div><div class="line"></div><div class="line"><span class="comment">// 对于ArrayList的实现不满意，ok换成LinkedList实现，</span></div><div class="line"><span class="number">1</span> Collection&lt;String&gt; collection = <span class="keyword">new</span> LinkedList&lt;String&gt;();</div><div class="line"><span class="number">2</span> collection.add(<span class="string">"hello"</span>);</div><div class="line"><span class="number">3</span> collection.add(<span class="string">"java"</span>);</div><div class="line"><span class="number">4</span> collection.remove(<span class="string">"hello"</span>);</div></pre></td></tr></table></figure></p>
+<h2 id="Iterator设计思想"><a href="#Iterator设计思想" class="headerlink" title="Iterator设计思想"></a>Iterator设计思想</h2><p>需要统一一种遍历方式，提供一个统计遍历接口，而具体实现需要具体的容器自己根据自身数据结构特点来完成，而对于用户就只有一个接口而已，万年不变。于是就有了Iterator，接下来看下Iterator的实现吧。。。<br>     先回过头去看Collection的定义，发现Collection 实现了一个Iterable 接口（早就发现了好嘛？），来看下的Iterable的定义，</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/** Implementing this interface allows an object to be the target of</span></div><div class="line"><span class="comment"> *  the "foreach" statement.</span></div><div class="line"><span class="comment"> * <span class="doctag">@since</span> 1.5</span></div><div class="line"><span class="comment"> */</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Iterable</span>&lt;<span class="title">T</span>&gt; </span>&#123;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line"><span class="comment">     * Returns an iterator over a set of elements of type T.</span></div><div class="line"><span class="comment">     *</span></div><div class="line"><span class="comment">     * <span class="doctag">@return</span> an Iterator.</span></div><div class="line"><span class="comment">     */</span></div><div class="line">    <span class="function">Iterator&lt;T&gt; <span class="title">iterator</span><span class="params">()</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>英文注释说，实现iterable接口的类可以使用“foreach”操作，然后并要求实现Iterator<t> iterator()方法，该方法返回一个Iterator接口对象，来看下Iterator接口，<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Iterator</span>&lt;<span class="title">E</span>&gt; </span>&#123;</div><div class="line">    <span class="comment">// 是否还有元素</span></div><div class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">hasNext</span><span class="params">()</span></span>;</div><div class="line">    <span class="comment">// 下一个元素</span></div><div class="line">    <span class="function">E <span class="title">next</span><span class="params">()</span></span>; </div><div class="line">    <span class="comment">// 将迭代器返回的元素删除</span></div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">remove</span><span class="params">()</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></t></p>
+<p>Iterator接口一共有三个方法，通过这三个方法就可以实现通用遍历了，ok<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">Collection&lt;String&gt; collection = <span class="keyword">new</span> ArrayList&lt;String&gt;();</div><div class="line">collection.add(<span class="string">"hello"</span>);</div><div class="line">collection.add(<span class="string">"java"</span>);</div><div class="line"></div><div class="line">Iterator&lt;String&gt; iterator = collection.iterator();</div><div class="line"><span class="keyword">while</span> (iterator.hasNext()) &#123;</div><div class="line">     System. out.println(iterator.next());</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>用户再也不用关心容器的底层实现了，不管你是数组还是链表还是其他什么，只需要用Iterator就可以进行遍历了。</p>
+<p>到这里Iterator的设计原则和思路实际上已经讲完了，我们来整理下Iterator模式的几个角色：</p>
+<ol>
+<li>迭代器Iterator接口。</li>
+<li>迭代器Iterator的实现类，要求重写hasNext()，next()，remove()三个方法 。</li>
+<li>容器统一接口，要求有一个返回Iterator接口的方法。</li>
+<li>容器实现类，实现一个返回Iterator接口的方法。</li>
+</ol>
+<hr>
+<h2 id="其实到了这，我们完全可以自己实现一个iteretor模型，既然有现成的JDK，那就算了"><a href="#其实到了这，我们完全可以自己实现一个iteretor模型，既然有现成的JDK，那就算了" class="headerlink" title="其实到了这，我们完全可以自己实现一个iteretor模型，既然有现成的JDK，那就算了"></a>其实到了这，我们完全可以自己实现一个iteretor模型，既然有现成的JDK，那就算了</h2><p>ArrayList的Iterator实现<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">public Iterator&lt;E&gt; iterator() &#123;</div><div class="line">    return new Itr();</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>和自己实现的一样，采用 <em>内部类</em> 实现 Iterator接口。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">Itr</span> <span class="keyword">implements</span> <span class="title">Iterator</span>&lt;<span class="title">E</span>&gt; </span>&#123;</div><div class="line">       <span class="comment">// 将要next返回元素的索引</span></div><div class="line">        <span class="keyword">int</span> cursor = <span class="number">0</span>;</div><div class="line">       <span class="comment">// 当前返回的元素的索引，初始值-1</span></div><div class="line">        <span class="keyword">int</span> lastRet = -<span class="number">1</span>;</div><div class="line"></div><div class="line">        <span class="comment">/**</span></div><div class="line"><span class="comment">        * The modCount value that the iterator believes that the backing</span></div><div class="line"><span class="comment">        * List should have.  If this expectation is violated, the iterator</span></div><div class="line"><span class="comment">        * has detected concurrent modification.</span></div><div class="line"><span class="comment">        */</span></div><div class="line">        <span class="keyword">int</span> expectedModCount = modCount;</div><div class="line"></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">hasNext</span><span class="params">()</span> </span>&#123;</div><div class="line">            <span class="comment">// 由于cursor是将要返回元素的索引，也就是下一个元素的索引，和size比较是否相等，也就是判断是否已经next到最后一个元素</span></div><div class="line">            <span class="keyword">return</span> cursor != size();</div><div class="line">       &#125;</div><div class="line"></div><div class="line">        <span class="function"><span class="keyword">public</span> E <span class="title">next</span><span class="params">()</span> </span>&#123;</div><div class="line">            checkForComodification();</div><div class="line">           <span class="keyword">try</span> &#123;</div><div class="line">              <span class="comment">// 根据下一个元素索引取出对应元素</span></div><div class="line">              E next = get( cursor);</div><div class="line">              <span class="comment">// 更新lastRet为当前元素的索引，cursor加1</span></div><div class="line">               lastRet = cursor ++;</div><div class="line">              <span class="comment">// 返回元素</span></div><div class="line">               <span class="keyword">return</span> next;</div><div class="line">           &#125; <span class="keyword">catch</span> (IndexOutOfBoundsException e) &#123;</div><div class="line">              checkForComodification();</div><div class="line">               <span class="keyword">throw</span> <span class="keyword">new</span> NoSuchElementException();</div><div class="line">           &#125;</div><div class="line">       &#125;</div><div class="line"></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">remove</span><span class="params">()</span> </span>&#123;</div><div class="line">           <span class="comment">// remove前必须先next一下，先取得当前元素</span></div><div class="line">           <span class="keyword">if</span> (lastRet == -<span class="number">1</span>)</div><div class="line">               <span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException();</div><div class="line">            checkForComodification();</div><div class="line"></div><div class="line">           <span class="keyword">try</span> &#123;</div><div class="line">              AbstractList. <span class="keyword">this</span>.remove(lastRet );</div><div class="line">               <span class="comment">// 确保lastRet比cursor小、理论上永远lastRet比cursor小1</span></div><div class="line">               <span class="keyword">if</span> (lastRet &lt; cursor)</div><div class="line">                  <span class="comment">// 由于删除了一个元素cursor回退1</span></div><div class="line">                  cursor--;</div><div class="line">               <span class="comment">// 重置为-1</span></div><div class="line">               lastRet = -<span class="number">1</span>;</div><div class="line">               expectedModCount = modCount ;</div><div class="line">           &#125; <span class="keyword">catch</span> (IndexOutOfBoundsException e) &#123;</div><div class="line">               <span class="keyword">throw</span> <span class="keyword">new</span> ConcurrentModificationException();</div><div class="line">           &#125;</div><div class="line">       &#125;</div><div class="line"></div><div class="line">        <span class="function"><span class="keyword">final</span> <span class="keyword">void</span> <span class="title">checkForComodification</span><span class="params">()</span> </span>&#123;</div><div class="line">           <span class="keyword">if</span> (modCount != expectedModCount)</div><div class="line">               <span class="keyword">throw</span> <span class="keyword">new</span> ConcurrentModificationException();</div><div class="line">       &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>ArrayList的Iterator实现起来和我们自己实现的大同小异，很好理解。<br>有一点需要指出的是这里的checkForComodification 检查，之前ArrayList中留了个悬念，modCount这个变量到底是做什么的，这里简单解释一下：迭代器Iterator允许在容器遍历的时候对元素进行删除，但是有一点问题那就是当多线程操作容器的时候，在用Iterator对容器遍历的同时，其他线程可能已经改变了该容器的内容（add、remove等操作），所以每次对容器内容的更改操作（add、remove等）都会对modCount+1，这样相当于乐观锁的版本号+1，当在Iterator遍历中remove时，检查到modCount发生了变化，则马上抛出异常ConcurrentModificationException，这就是Java容器中的“fail-fast”机制。            </p>
+<h2 id="LinkedList的Iterator实现"><a href="#LinkedList的Iterator实现" class="headerlink" title=".LinkedList的Iterator实现"></a>.LinkedList的Iterator实现</h2><p> LinkedList的Iterator实现定义在AbstracSequentialtList中，实现在AbstractList中，看一下：<br>     AbstracSequentialtList的定义：<br> <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">public Iterator&lt;E&gt; iterator() &#123;</div><div class="line">       return listIterator();</div><div class="line">   &#125;</div></pre></td></tr></table></figure></p>
+<p> AbstractList的实现：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> ListIterator&lt;E&gt; <span class="title">listIterator</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> listIterator(<span class="number">0</span>);</div><div class="line">    &#125;</div><div class="line">   <span class="function"><span class="keyword">public</span> ListIterator&lt;E&gt; <span class="title">listIterator</span><span class="params">(<span class="keyword">final</span> <span class="keyword">int</span> index)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (index&lt;<span class="number">0</span> || index&gt;size())</div><div class="line">         <span class="keyword">throw</span> <span class="keyword">new</span> IndexOutOfBoundsException( <span class="string">"Index: "</span>+index);</div><div class="line"></div><div class="line">        <span class="keyword">return</span> <span class="keyword">new</span> ListItr(index);</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
+<p>ListItr的实现<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">ListItr</span> <span class="keyword">implements</span> <span class="title">ListIterator</span>&lt;<span class="title">E</span>&gt; </span>&#123;</div><div class="line">        <span class="comment">// 最后一次返回的节点，默认位header节点</span></div><div class="line">        <span class="keyword">private</span> Entry&lt;E&gt; lastReturned = header;</div><div class="line">        <span class="comment">// 将要返回的节点</span></div><div class="line">        <span class="keyword">private</span> Entry&lt;E&gt; next ;</div><div class="line">        <span class="comment">// 将要返回的节点index索引</span></div><div class="line">        <span class="keyword">private</span> <span class="keyword">int</span> nextIndex;</div><div class="line">        <span class="keyword">private</span> <span class="keyword">int</span> expectedModCount = modCount;</div><div class="line"></div><div class="line">       ListItr( <span class="keyword">int</span> index) &#123;</div><div class="line">           <span class="comment">// 索引越界检查</span></div><div class="line">           <span class="keyword">if</span> (index &lt; <span class="number">0</span> || index &gt; size)</div><div class="line">               <span class="keyword">throw</span> <span class="keyword">new</span> IndexOutOfBoundsException( <span class="string">"Index: "</span>+index+</div><div class="line">                                             <span class="string">", Size: "</span>+size );</div><div class="line">           <span class="comment">// 简单二分，判断遍历的方向</span></div><div class="line">           <span class="keyword">if</span> (index &lt; (size &gt;&gt; <span class="number">1</span>)) &#123;</div><div class="line">               <span class="comment">// 取得index位置对应的节点</span></div><div class="line">               next = header .next;</div><div class="line">               <span class="keyword">for</span> (nextIndex =<span class="number">0</span>; nextIndex&lt;index; nextIndex++)</div><div class="line">                  next = next .next;</div><div class="line">           &#125; <span class="keyword">else</span> &#123;</div><div class="line">               next = header ;</div><div class="line">               <span class="keyword">for</span> (nextIndex =size; nextIndex&gt;index; nextIndex --)</div><div class="line">                  next = next .previous;</div><div class="line">           &#125;</div><div class="line">       &#125;</div><div class="line"></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">hasNext</span><span class="params">()</span> </span>&#123;</div><div class="line">           <span class="comment">// 根据下一个节点index是否等于size，判断是否有下一个节点</span></div><div class="line">           <span class="keyword">return</span> nextIndex != size;</div><div class="line">       &#125;</div><div class="line"></div><div class="line">        <span class="function"><span class="keyword">public</span> E <span class="title">next</span><span class="params">()</span> </span>&#123;</div><div class="line">           checkForComodification();</div><div class="line">           <span class="comment">// 遍历完成</span></div><div class="line">           <span class="keyword">if</span> (nextIndex == size)</div><div class="line">               <span class="keyword">throw</span> <span class="keyword">new</span> NoSuchElementException();</div><div class="line"></div><div class="line">           <span class="comment">// 赋值最近一次返回的节点</span></div><div class="line">           lastReturned = next ;</div><div class="line">           <span class="comment">// 赋值下一次要返回的节点（next后移）</span></div><div class="line">           next = next .next;</div><div class="line">           <span class="comment">// 将要返回的节点index索引+1</span></div><div class="line">           nextIndex++;</div><div class="line">           <span class="keyword">return</span> lastReturned .element;</div><div class="line">       &#125;</div><div class="line"></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">hasPrevious</span><span class="params">()</span> </span>&#123;</div><div class="line">           <span class="keyword">return</span> nextIndex != <span class="number">0</span>;</div><div class="line">       &#125;</div><div class="line"></div><div class="line">       <span class="comment">//  返回上一个节点（双向循环链表嘛、可以两个方向遍历）</span></div><div class="line">        <span class="function"><span class="keyword">public</span> E <span class="title">previous</span><span class="params">()</span> </span>&#123;</div><div class="line">           <span class="keyword">if</span> (nextIndex == <span class="number">0</span>)</div><div class="line">               <span class="keyword">throw</span> <span class="keyword">new</span> NoSuchElementException();</div><div class="line"></div><div class="line">           lastReturned = next = next. previous;</div><div class="line">           nextIndex--;</div><div class="line">           checkForComodification();</div><div class="line">           <span class="keyword">return</span> lastReturned .element;</div><div class="line">       &#125;</div><div class="line"></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">nextIndex</span><span class="params">()</span> </span>&#123;</div><div class="line">           <span class="keyword">return</span> nextIndex ;</div><div class="line">       &#125;</div><div class="line"></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">previousIndex</span><span class="params">()</span> </span>&#123;</div><div class="line">           <span class="keyword">return</span> nextIndex -<span class="number">1</span>;</div><div class="line">       &#125;</div><div class="line"></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">remove</span><span class="params">()</span> </span>&#123;</div><div class="line">            checkForComodification();</div><div class="line">            <span class="comment">// 取出当前返回节点的下一个节点</span></div><div class="line">            Entry&lt;E&gt; lastNext = lastReturned.next ;</div><div class="line">            <span class="keyword">try</span> &#123;</div><div class="line">                LinkedList. <span class="keyword">this</span>.remove(lastReturned );</div><div class="line">            &#125; <span class="keyword">catch</span> (NoSuchElementException e) &#123;</div><div class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException();</div><div class="line">            &#125;</div><div class="line">           <span class="comment">// 确认下次要返回的节点不是当前节点，如果是则修正</span></div><div class="line">           <span class="keyword">if</span> (next ==lastReturned)</div><div class="line">                next = lastNext;</div><div class="line">            <span class="keyword">else</span></div><div class="line">             <span class="comment">// 由于删除了一个节点，下次要返回的节点索引-1</span></div><div class="line">               nextIndex--;</div><div class="line">           <span class="comment">// 重置lastReturned为header节点</span></div><div class="line">           lastReturned = header ;</div><div class="line">           expectedModCount++;</div><div class="line">       &#125;</div><div class="line"></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">set</span><span class="params">(E e)</span> </span>&#123;</div><div class="line">           <span class="keyword">if</span> (lastReturned == header)</div><div class="line">               <span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException();</div><div class="line">           checkForComodification();</div><div class="line">           lastReturned.element = e;</div><div class="line">       &#125;</div><div class="line"></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">add</span><span class="params">(E e)</span> </span>&#123;</div><div class="line">           checkForComodification();</div><div class="line">           lastReturned = header ;</div><div class="line">           addBefore(e, next);</div><div class="line">           nextIndex++;</div><div class="line">           expectedModCount++;</div><div class="line">       &#125;</div><div class="line"></div><div class="line">        <span class="function"><span class="keyword">final</span> <span class="keyword">void</span> <span class="title">checkForComodification</span><span class="params">()</span> </span>&#123;</div><div class="line">           <span class="keyword">if</span> (modCount != expectedModCount)</div><div class="line">               <span class="keyword">throw</span> <span class="keyword">new</span> ConcurrentModificationException();</div><div class="line">       &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/01/17/LinkedList源码剖析/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1738,130 +1909,6 @@ There are two paths: 0 -&gt; 1 -&gt; 3 and 0 -&gt; 2 -&gt; 3
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/01/05/miniTree-1/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Sailong Ren">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="coderlong的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/01/05/miniTree-1/" itemprop="url">miniTree</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-05T22:32:55+08:00">
-                2018-01-05
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p><img src="/images/suanfa1.jpg" alt=""><br>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/01/05/miniTree-1/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1912,7 +1959,7 @@ There are two paths: 0 -&gt; 1 -&gt; 3 and 0 -&gt; 2 -&gt; 3
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">99</span>
+                <span class="site-state-item-count">100</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
