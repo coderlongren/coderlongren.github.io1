@@ -303,6 +303,187 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/04/04/explain/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sailong Ren">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="coderlong的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/04/04/explain/" itemprop="url">explain语句怎么用</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-04T10:18:40+08:00">
+                2018-04-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/DB/" itemprop="url" rel="index">
+                    <span itemprop="name">DB</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>看完《高性能MySQL》这本书之后，终于敢在自己的简历上写上一行”熟悉MySQL数据库，能够进行基本的调优工作”，不过MySQL对Web开发人员来说的确的是很重要的。<br>你说你会基本的调优，那么咱们先来分析一下最基本的SQL语句的调优工作吧？<br><code>explain</code>就这个时候闪亮登场了。<br>用法嘛，看一遍就记住了。<br><code>explain + select * from table_name where ........</code><br><img src="https://images2015.cnblogs.com/blog/763020/201604/763020-20160417142105895-121211600.png" alt="mysql"></p>
+<ul>
+<li>id: SELECT 查询的标识符. 每个 SELECT 都会自动分配一个唯一的标识符.</li>
+<li>select_type: SELECT 查询的类型.</li>
+<li>table: 查询的是哪个表</li>
+<li>partitions: 匹配的分区</li>
+<li>type: join 类型</li>
+<li>possible_keys: 此次查询中可能选用的索引</li>
+<li>key: 此次查询中确切使用到的索引.</li>
+<li>ref: 哪个字段或常数与 key 一起被使用</li>
+<li>rows: 显示此查询一共扫描了多少行. 这个是一个估计值.</li>
+<li>filtered: 表示此查询条件所过滤的数据的百分比</li>
+<li>extra: 额外的信息</li>
+</ul>
+<h2 id="id"><a href="#id" class="headerlink" title="id"></a>id</h2><p>id列数字越大越先执行，如果说数字一样大，那么就从上往下依次执行.</p>
+<h2 id="select-type字段-常见的就是-simple-primary"><a href="#select-type字段-常见的就是-simple-primary" class="headerlink" title="select_type字段,常见的就是 simple primary,"></a>select_type字段,常见的就是 simple primary,</h2><p>A：simple：表示不需要union操作或者不包含子查询的简单select查询。有连接查询时，外层的查询为simple，且只有一个<br>B：primary：一个需要union操作或者含有子查询的select，位于最外层的单位查询的select_type即为primary。且只有一个<br>C：union：union连接的两个select查询，第一个查询是dervied派生表，除了第一个表外，第二个以后的表select_type都是union<br>D：dependent union：与union一样，出现在union 或union all语句中，但是这个查询要受到外部查询的影响<br>E：union result：包含union的结果集，在union和union all语句中,因为它不需要参与查询，所以id字段为null<br>F：subquery：除了from字句中包含的子查询外，其他地方出现的子查询都可能是subquery<br>G：dependent subquery：与dependent union类似，表示这个subquery的查询要受到外部表查询的影响<br>H：derived：from字句中出现的子查询，也叫做派生表，其他数据库中可能叫做内联视图或嵌套select</p>
+<h2 id="table字段"><a href="#table字段" class="headerlink" title="table字段"></a>table字段</h2><p>大家一看就懂，从哪个表查的。</p>
+<h2 id="type-重要字段"><a href="#type-重要字段" class="headerlink" title="type  重要字段`"></a>type  重要字段`</h2><p>指的联合查询使用的类型  </p>
+<ol>
+<li>system：表中只有一行数据或者是空表，且只能用于myisam索引和memory索引表。如果是Innodb引擎表，type列在这个情况通常都是all或者index</li>
+<li>const：使用唯一索引或者主键，返回记录一定是1行记录的等值where条件时，通常type是const。</li>
+<li>eq_ref：出现在要连接过个表的查询计划中，驱动表只返回一行数据，且这行数据是第二个表的主键或者唯一索引，且必须为not null，唯一索引和主键是多列时，只有所有的列都用作比较时才会出现eq_ref</li>
+<li>ref：不像eq_ref那样要求连接顺序，也没有主键和唯一索引的要求，只要使用相等条件检索时就可能出现。</li>
+<li>fulltext：全文索引检索，全文索引的优先级很高，若全文索引和普通索引同时存在时，mysql不管代价，优先选择使用全文索引</li>
+<li>ref_or_null：与ref方法类似，只是增加了null值的比较。实际用的不多。</li>
+<li>unique_subquery：用于where中的in形式子查询，子查询返回不重复值唯一值</li>
+<li>index_subquery：用于in形式子查询使用到了辅助索引或者in常数列表，子查询可能返回重复值，可以使用索引将子查询去重。</li>
+<li>range：索引范围扫描，常见于使用&gt;,&lt;,is null,between ,in ,like等运算符的查询中。<br><code>--------------------&gt;&gt;&gt;华丽的分界线，type到达这里就可以了</code></li>
+<li>index_merge：表示查询使用了两个以上的索引，最后取交集或者并集，常见and ，or的条件使用了不同的索引，官方排序这个在ref_or_null之后，但是实际上由于要读取所个索引，性能可能大部分时间都不如range</li>
+<li>index：索引全表扫描，把索引从头到尾扫一遍，常见于使用索引列就可以处理不需要读取数据文件的查询、可以使用索引排序或者分组的查询。</li>
+<li>all：这个就是全表扫描数据文件，然后再在server层进行过滤返回符合要求的记录。最坏的情况。</li>
+</ol>
+<p><code>system &gt; const &gt; eq_ref &gt; ref &gt; fulltext &gt; ref_or_null &gt; index_merge &gt; unique_subquery &gt; index_subquery &gt; range &gt; index &gt; ALL
+一般来说，得保证查询至少达到range级别，最好能达到ref。</code></p>
+<h2 id="possible-keys"><a href="#possible-keys" class="headerlink" title="possible_keys"></a>possible_keys</h2><p>可能用到的索引</p>
+<h2 id="key"><a href="#key" class="headerlink" title="key"></a>key</h2><p>查询真正使用到的索引</p>
+<h2 id="key-len"><a href="#key-len" class="headerlink" title="key_len"></a>key_len</h2><p>用于处理查询的索引长度，如果是单列索引，那就整个索引长度算进去，如果是多列索引，那么查询不一定都能使用到所有的列，具体使用到了多少个列的索引，这里就会计算进去，没有使用到的列，这里不会计算进去。</p>
+<h2 id="ref"><a href="#ref" class="headerlink" title="ref"></a>ref</h2><p>如果是使用的常数等值查询，这里会显示const，如果是连接查询，被驱动表的执行计划这里会显示驱动表的关联字段，如果是条件使用了表达式或者函数，或者条件列发生了内部隐式转换，这里可能显示为func</p>
+<h2 id="rows"><a href="#rows" class="headerlink" title="rows"></a>rows</h2><p>执行查询估计的扫描行数，非精确</p>
+<h2 id="Extra"><a href="#Extra" class="headerlink" title="Extra"></a>Extra</h2><p>using where<br>using idex  </p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/03/30/再谈DP/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -418,7 +599,7 @@
 <p>Return true because <code>&quot;leetcode&quot;</code> can be segmented as <code>&quot;leet code&quot;</code>.<br>如何抽象这个问题呢？<br>dp[0] = true<br>从头到尾遍历s, 遇到一个符合的子串时， set dp[i] = true<br>下次转移条件，从dp[i] = true开始，按着这个想法，写出代码:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">wordBreak</span><span class="params">(String s, List&lt;String&gt; wordDict)</span> </span>&#123;</div><div class="line">		<span class="keyword">int</span>[] dp = <span class="keyword">new</span> <span class="keyword">int</span>[s.length() + <span class="number">1</span>];</div><div class="line">		dp[<span class="number">0</span>] = <span class="number">1</span>;</div><div class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= s.length(); i++) &#123;</div><div class="line">			<span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; i; j++) &#123;</div><div class="line">				<span class="comment">// 转移的条件</span></div><div class="line">				<span class="keyword">if</span> (dp[j] == <span class="number">1</span> &amp;&amp; wordDict.contains(s.substring(j, i))) &#123;</div><div class="line">					dp[i] = <span class="number">1</span>;</div><div class="line">				&#125;</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">return</span> dp[s.length()] == <span class="number">1</span>;</div><div class="line">	&#125;</div></pre></td></tr></table></figure></p>
 <h2 id="leetcode152-Maximum-Product-Subarray"><a href="#leetcode152-Maximum-Product-Subarray" class="headerlink" title="leetcode152. Maximum Product Subarray"></a>leetcode152. Maximum Product Subarray</h2><p> Find the contiguous subarray within an array (containing at least one number) which has the largest product.</p>
 <p>For example, given the array <code>[2,3,-2,4]</code>,<br>the contiguous subarray <code>[2,3]</code> has the largest product = <code>6</code>. </p>
-<p>大家应该都会想到算法设计分析书里的那道，求子数组的最大值，或者子序列的最大值。  </p>
+<p>大家应该都会想到算法设计分析书里的那道，求子数组的最大值，或者子序列的，最大值。<br>OK，但是</p>
 
           
         
@@ -1714,200 +1895,6 @@ which are both strictly increasing.
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/03/16/JVM笔记/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Sailong Ren">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="coderlong的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/03/16/JVM笔记/" itemprop="url">JVM笔记</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-16T15:18:40+08:00">
-                2018-03-16
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/JVM/" itemprop="url" rel="index">
-                    <span itemprop="name">JVM</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><code>文字均出自《深入理解Java虚拟机》一书</code></p>
-<h2 id="Class类文件结构"><a href="#Class类文件结构" class="headerlink" title="Class类文件结构"></a>Class类文件结构</h2><p>平台无关性<br>Java是与平台无关的语言，这得益于Java源代码编译后生成的存储字节码的文件，即Class文件，以及Java虚拟机的实现。不仅使用Java编译器可以把Java代码编译成存储字节码的Class文件，使用JRuby等其他语言的编译器也可以把程序代码编译成Class文件，虚拟机并不关心Class的来源是什么语言，只要它符合一定的结构，就可以在Java中运行。Java语言中的各种变量、关键字和运算符的语义最终都是由多条字节码命令组合而成的，因此字节码命令所能提供的语义描述能力肯定会比Java语言本身更强大，这便为其他语言实现一些有别于Java的语言特性提供了基础，而且这也正是在类加载时要进行安全验证的原因。</p>
-<p>类文件结构<br>Class文件是一组以8位字节为基础单位的二进制流，各个数据项目严格按照顺序紧凑地排列在Class文件中，中间没有添加任何分隔符，这使得整个Class文件中存储的内容几乎全部都是程序运行的必要数据。</p>
-<h2 id="方法解析"><a href="#方法解析" class="headerlink" title="方法解析"></a>方法解析</h2><p>Class文件的编译过程中不包含传统编译中的连接步骤，一切方法调用在Class文件里面存储的都只是符号引用，而不是方法在实际运行时内存布局中的入口地址。这个特性给Java带来了更强大的动态扩展能力，使得可以在类运行期间才能确定某些目标方法的直接引用，称为动态连接，也有一部分方法的符号引用在类加载阶段或第一次使用时转化为直接引用，这种转化称为静态解析。这在前面的“Java内存区域与内存溢出”一文中有提到。</p>
-<pre><code>静态解析成立的前提是：方法在程序真正执行前就有一个可确定的调用版本，并且这个方法的调用版本在运行期是不可改变的。换句话说，调用目标在编译器进行编译时就必须确定下来，这类方法的调用称为解析。
-
-在Java语言中，符合“编译器可知，运行期不可变”这个要求的方法主要有静态方法和私有方法两大类，前者与类型直接关联，后者在外部不可被访问，这两种方法都不可能通过继承或别的方式重写出其他的版本，因此它们都适合在类加载阶段进行解析。
-</code></pre><p>Java虚拟机里共提供了四条方法调用字节指令，分别是：</p>
-<ul>
-<li>invokestatic：调用静态方法。</li>
-<li>invokespecial：调用实例构造器<init>方法、私有方法和父类方法。</init></li>
-<li>invokevirtual：调用所有的虚方法。</li>
-<li>invokeinterface：调用接口方法，会在运行时再确定一个实现此接口的对象。<br>只要能被invokestatic和invokespecial指令调用的方法，都可以在解析阶段确定唯一的调用版本，符合这个条件的有静态方法、私有方法、实例构造器和父类方法四类，它们在类加载时就会把符号引用解析为该方法的直接引用。这些方法可以称为非虚方法（还包括final方法），与之相反，其他方法就称为虚方法（final方法除外）。这里要特别说明下final方法，虽然调用final方法使用的是invokevirtual指令，但是由于它无法覆盖，没有其他版本，所以也无需对方发接收者进行多态选择。Java语言规范中明确说明了final方法是一种非虚方法。<br>  解析调用一定是个静态过程，在编译期间就完全确定，在类加载的解析阶段就会把涉及的符号引用转化为可确定的直接引用，不会延迟到运行期再去完成。而分派调用则可能是静态的也可能是动态的，根据分派依据的宗量数（方法的调用者和方法的参数统称为方法的宗量）又可分为单分派和多分派。两类分派方式两两组合便构成了静态单分派、静态多分派、动态单分派、动态多分派四种分派情况。</li>
-</ul>
-<h2 id="常量池"><a href="#常量池" class="headerlink" title="常量池"></a>常量池</h2><p>对.Java文件编译之后产生的 .class文件里面都是些什么东东呢？</p>
-<ol>
-<li>魔数，魔数就是这个文件的前四个字节</li>
-<li>版本号， 建议去看看深入理解JVM这本书，里面的第三章就是讲clas文件结构</li>
-<li><p>常量池的入口<br>常量池中主要存放两类常量：字面量和符号引用。字面量比较接近Java语言层面的常量概念。就是我们什么提到的常量。而符号引用则属于编译原理的方面的概念。包括以下三类常量：</p>
-<p>  i&gt; 类和接口的全限定名</p>
-<p> ii&gt;字段的名称和描述符</p>
-<p>iii&gt;方法的名称和描述符</p>
-</li>
-<li>运行时常量池<br>运行时常量池是方法区的一部分。Class文件中除了有类的版本、字段、方法、接口等描述信息外还有一项信息是常量池。</li>
-</ol>
-<p>用于存放编译期生成的字面量和符号应用，这部分内容将在类加载后进入方法区的时候存到运行时常量池中。运行时常量池还有个更重要的的特征：动态性。Java要求，编译期的常量池的内容可以进入运行时常量池，运行时产生的常量也可以放入池中。常用的是String类的intern()方法。</p>
-<p>int i = 1;<br>Integer j = 1;<br>i == j?<br>答案是肯定的嘛</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Integer <span class="title">valueOf</span><span class="params">(<span class="keyword">int</span> i)</span> </span>&#123;</div><div class="line">	<span class="keyword">final</span> <span class="keyword">int</span> offset = <span class="number">128</span>;</div><div class="line">	<span class="keyword">if</span> (i &gt;= -<span class="number">128</span> &amp;&amp; i &lt;= <span class="number">127</span>) </div><div class="line">	&#123; <span class="comment">// must cache</span></div><div class="line">		<span class="keyword">return</span> IntegerCache.cache[i + offset];</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">return</span> <span class="keyword">new</span> Integer(i);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		Integer i1=<span class="number">10</span>;</div><div class="line">		Integer i2=<span class="number">10</span>;</div><div class="line">		Integer i3=<span class="number">20</span>;</div><div class="line">		Integer i11=<span class="keyword">new</span> Integer(<span class="number">10</span>);</div><div class="line">		Integer i22=<span class="keyword">new</span> Integer(<span class="number">10</span>);</div><div class="line">		Integer i33=<span class="keyword">new</span> Integer(<span class="number">20</span>);</div><div class="line">		</div><div class="line">		System.out.println(i1==i2); <span class="comment">// true</span></div><div class="line">		System.out.println(i1==i11); <span class="comment">// false 比较对象</span></div><div class="line">		System.out.println(i11==i22); <span class="comment">// false</span></div><div class="line">		System.out.println(i3==(i1+i2)); <span class="comment">// true 包装类一旦遇到了 算术运算符可是会自动拆箱的</span></div><div class="line">		System.out.println(i3==(i11+i22));<span class="comment">// true 包装类一旦遇到了 算术运算符可是会自动拆箱的</span></div><div class="line">		System.out.println(i33==(i1+i2));<span class="comment">// true 包装类一旦遇到了 算术运算符可是会自动拆箱的</span></div><div class="line">		System.out.println(i33==(i11+i22));<span class="comment">// true 包装类一旦遇到了 算术运算符可是会自动拆箱的</span></div><div class="line"></div><div class="line">		String s1=<span class="string">"abc1"</span>;<span class="comment">//此处是数字1</span></div><div class="line">		String s2=<span class="string">"abc"</span>+<span class="number">1</span>;</div><div class="line">		System.out.println(s1==s2);<span class="comment">// 第一次比较</span></div><div class="line">		String s3=<span class="string">"ab"</span>;</div><div class="line">		String s4=<span class="string">"c"</span>;</div><div class="line">		String s5=<span class="string">"abc"</span>;</div><div class="line">		String s6=s3+s4;</div><div class="line">		System.out.println(s5==s6);<span class="comment">// 第二次比较</span></div><div class="line">	&#125;</div></pre></td></tr></table></figure>
-<h2 id="Synchronized-JVM语义"><a href="#Synchronized-JVM语义" class="headerlink" title="Synchronized JVM语义"></a>Synchronized JVM语义</h2><p>monitorenter ：对lock操作的封装<br>每个对象有一个监视器锁（monitor）。当monitor被占用时就会处于锁定状态，线程执行monitorenter指令时尝试获取monitor的所有权，过程如下：</p>
-<p>1、如果monitor的进入数为0，则该线程进入monitor，然后将进入数设置为1，该线程即为monitor的所有者。</p>
-<p>2、如果线程已经占有该monitor，只是重新进入，则进入monitor的进入数加1.</p>
-<p>3.如果其他线程已经占用了monitor，则该线程进入阻塞状态，直到monitor的进入数为0，再重新尝试获取monitor的所有权。</p>
-<p>monitorexit：unlock操作<br>执行monitorexit的线程必须是objectref所对应的monitor的所有者。</p>
-<p>指令执行时，monitor的进入数减1，如果减1后进入数为0，那线程退出monitor，不再是这个monitor的所有者。其他被这个monitor阻塞的线程可以尝试去获取这个 monitor 的所有权。 </p>
-<p>　　通过这两段描述，我们应该能很清楚的看出Synchronized的实现原理，Synchronized的语义底层是通过一个monitor的对象来完成，其实wait/notify等方法也依赖于monitor对象，这就是为什么只有在同步的块或者方法中才能调用wait/notify等方法，否则会抛出java.lang.IllegalMonitorStateException的异常的原因。　</p>
-<h1 id="类加载机制"><a href="#类加载机制" class="headerlink" title="类加载机制"></a>类加载机制</h1><p>类从被加载到虚拟机内存中开始，到卸载出内存为止，它的整个生命周期包括：加载、验证、准备、解析、初始化、使用和卸载七个阶段。</p>
-<h2 id="加载"><a href="#加载" class="headerlink" title="加载"></a>加载</h2><p>加载时类加载过程的第一个阶段，在加载阶段，虚拟机需要完成以下三件事情：</p>
-<pre><code>1、通过一个类的全限定名来获取其定义的二进制字节流。
-
-2、将这个字节流所代表的静态存储结构转化为方法区的运行时数据结构。
-
-3、在Java堆中生成一个代表这个类的java.lang.Class对象，作为对方法区中这些数据的访问入口。
-</code></pre><h2 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h2><p>验证的目的是为了确保Class文件中的字节流包含的信息符合当前虚拟机的要求，而且不会危害虚拟机自身的安全。不同的虚拟机对类验证的实现可能会有所不同，但大致都会完成以下四个阶段的验证：文件格式的验证、元数据的验证、字节码验证和符号引用验证。</p>
-<h2 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h2><p> 准备阶段是正式为类变量分配内存并设置类变量初始值的阶段，这些内存都将在方法区中分配。对于该阶段有以下几点需要注意：</p>
-<pre><code>1、这时候进行内存分配的仅包括类变量（static），而不包括实例变量，实例变量会在对象实例化时随着对象一块分配在Java堆中。
-
-2、这里所设置的初始值通常情况下是数据类型默认的零值（如0、0L、null、false等），而不是被在Java代码中被显式地赋予的值。
-</code></pre><p>   假设一个类变量的定义为：</p>
-<p>public static int value = 3；</p>
-<pre><code>那么变量value在准备阶段过后的初始值为0，而不是3，因为这时候尚未开始执行任何Java方法，而把value赋值为3的putstatic指令是在程序编译后，存放于类构造器&lt;clinit&gt;（）方法之中的，所以把value赋值为3的动作将在初始化阶段才会执行。
-</code></pre><h2 id="解析"><a href="#解析" class="headerlink" title="解析"></a>解析</h2><p>  解析阶段是虚拟机将常量池中的符号引用转化为直接引用的过程。在Class类文件结构一文中已经比较过了符号引用和直接引用的区别和关联，这里不再赘述。前面说解析阶段可能开始于初始化之前，也可能在初始化之后开始，虚拟机会根据需要来判断，到底是在类被加载器加载时就对常量池中的符号引用进行解析（初始化之前），还是等到一个符号引用将要被使用前才去解析它（初始化之后）。<br>    对同一个符号引用进行多次解析请求时很常见的事情，虚拟机实现可能会对第一次解析的结果进行缓存（在运行时常量池中记录直接引用，并把常量标示为已解析状态），从而避免解析动作重复进行。<br>    解析动作主要针对类或接口、字段、类方法、接口方法四类符号引用进行，分别对应于常量池中的CONSTANT_Class_info、CONSTANT_Fieldref_info、CONSTANT_Methodref_info、CONSTANT_InterfaceMethodref_info四种常量类型。</p>
-<h2 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h2><p>初始化是类加载过程的最后一步，到了此阶段，才真正开始执行类中定义的Java程序代码。在准备阶段，类变量已经被赋过一次系统要求的初始值，而在初始化阶段，则是根据程序员通过程序指定的主观计划去初始化类变量和其他资源，或者可以从另一个角度来表达：初始化阶段是执行类构造器<clinit>()方法的过程。</clinit></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1958,7 +1945,7 @@ which are both strictly increasing.
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">98</span>
+                <span class="site-state-item-count">99</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1969,7 +1956,7 @@ which are both strictly increasing.
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">22</span>
+                <span class="site-state-item-count">23</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
