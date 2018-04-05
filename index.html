@@ -581,6 +581,16 @@
 <h2 id="ref"><a href="#ref" class="headerlink" title="ref"></a>ref</h2><p>如果是使用的常数等值查询，这里会显示const，如果是连接查询，被驱动表的执行计划这里会显示驱动表的关联字段，如果是条件使用了表达式或者函数，或者条件列发生了内部隐式转换，这里可能显示为func</p>
 <h2 id="rows"><a href="#rows" class="headerlink" title="rows"></a>rows</h2><p>执行查询估计的扫描行数，非精确</p>
 <h2 id="Extra"><a href="#Extra" class="headerlink" title="Extra"></a>Extra</h2><p>using where<br>using idex  </p>
+<p>再来一点优化方案的小例子。<br>add index idx_ABC on (a,b,c);<br>where a = 3 | 只用到了 a<br>where a = 3 and b = 5 | 只用到了 a,b<br>where a = 3 and b = 5 and c = 6| 用到了 a,b,c<br>where a = 3 od b = 5 od c = 6| 用不到索引<br>b line ‘kk%’ 可以用到<br>b line ‘%kk’ 用不到, 左值匹配  </p>
+<h3 id="EXIT-And-In的比较使用"><a href="#EXIT-And-In的比较使用" class="headerlink" title="EXIT And In的比较使用"></a>EXIT And In的比较使用</h3><p>in 是把外表和内表作hash 连接，而exists是对外表作loop循环，每次loop循环再对内表进行查询。<br>如果两张表的大小是差不多的，那么in 和 exit的效率的确是差不多的，可是如果是一个小表和一个大表关联查询的话，<br>select <em> from A where id in (select id from B)<br>应该尽可能的让B表比A表小，这样使用小表驱动大表增加效率。<br>相同的<br>select </em> from A where exists(select id from B where cc=A.id)<br>应该把外围的查询使用小表，因为会用到exits()内的索引。<br>总的来说，就是尽量小表驱动大表。</p>
+<h3 id="为使用排序而使用索引的规范"><a href="#为使用排序而使用索引的规范" class="headerlink" title="为使用排序而使用索引的规范"></a>为使用排序而使用索引的规范</h3><p>`KEY a_b_c (a,b,c)<br>order by 能使用索引最左前缀<br>order by a<br>order by a,b<br>order by a,b,c<br>order by a DESC,b DESC, c DESC # 全部升序，或者全部降序</p>
+<h1 id="如果where-使用索引最左前缀为const-orderby可以使用索引"><a href="#如果where-使用索引最左前缀为const-orderby可以使用索引" class="headerlink" title="如果where 使用索引最左前缀为const orderby可以使用索引"></a>如果where 使用索引最左前缀为const orderby可以使用索引</h1><p>where a = const order by b,c<br>where a = const and b = const order by c<br>where a = const and b &gt; const order by b,c</p>
+<h2 id="不可以的情况"><a href="#不可以的情况" class="headerlink" title="不可以的情况"></a>不可以的情况</h2><p>排序不一致，不可以使用<br>where g = const orderby b,c 丢失了a索引<br>where a = const orderby c 丢失了b索引<br>where a = const order by a,d d不是索引<br>where a in(…..) order by b,c带头的a索引是范围值，不知道是否能用上索引<br>`</p>
+<h3 id="Group-by关键字的优化"><a href="#Group-by关键字的优化" class="headerlink" title="Group by关键字的优化"></a>Group by关键字的优化</h3><p>其实group by实质就是先排序之后，在进行分组，同样遵循最左前缀<br>能在where限定条件之下，尽量不要使用having在进行限定  </p>
+<h3 id="profile的优化"><a href="#profile的优化" class="headerlink" title="profile的优化"></a>profile的优化</h3><p>慢查询无果后，可以使用show profile cpu, block io for query query_id<br>来诊断sql，一般出现数据库压力的也就几种情况。<br><code>converting HEAP to MyISAM 这是由于查询结果过大，内存会往次磁盘搬运  
+Creating tmp table 显而易见的创建了临时表，copy-&gt;remove   
+Coping to tmp table on dick 内存临时表复制到磁盘，磁盘IO影响较大  
+locked 加锁了。</code></p>
 
           
         
