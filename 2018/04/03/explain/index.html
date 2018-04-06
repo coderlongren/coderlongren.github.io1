@@ -103,7 +103,7 @@
 <meta property="og:description" content="看完《高性能MySQL》这本书之后，终于敢在自己的简历上写上一行”熟悉MySQL数据库，能够进行基本的调优工作”，不过MySQL对Web开发人员来说的确的是很重要的。你说你会基本的调优，那么咱们先来分析一下最基本的SQL语句的调优工作吧？explain就这个时候闪亮登场了。用法嘛，看一遍就记住了。explain + select * from table_name where ........">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://images2015.cnblogs.com/blog/763020/201604/763020-20160417142105895-121211600.png">
-<meta property="og:updated_time" content="2018-04-05T13:17:20.453Z">
+<meta property="og:updated_time" content="2018-04-06T02:11:46.205Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="explain语句怎么用">
 <meta name="twitter:description" content="看完《高性能MySQL》这本书之后，终于敢在自己的简历上写上一行”熟悉MySQL数据库，能够进行基本的调优工作”，不过MySQL对Web开发人员来说的确的是很重要的。你说你会基本的调优，那么咱们先来分析一下最基本的SQL语句的调优工作吧？explain就这个时候闪亮登场了。用法嘛，看一遍就记住了。explain + select * from table_name where ........">
@@ -446,7 +446,7 @@
 <h3 id="profile的优化"><a href="#profile的优化" class="headerlink" title="profile的优化"></a>profile的优化</h3><p>慢查询无果后，可以使用show profile cpu, block io for query query_id<br>来诊断sql，一般出现数据库压力的也就几种情况。<br><code>converting HEAP to MyISAM 这是由于查询结果过大，内存会往次磁盘搬运  
 Creating tmp table 显而易见的创建了临时表，copy-&gt;remove   
 Coping to tmp table on dick 内存临时表复制到磁盘，磁盘IO影响较大  
-locked 加锁了。</code></p>
+locked 加锁了。</code><br>在使</p>
 
       
     </div>
@@ -595,7 +595,7 @@ locked 加锁了。</code></p>
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">100</span>
+                <span class="site-state-item-count">101</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>

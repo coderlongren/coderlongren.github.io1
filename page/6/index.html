@@ -303,6 +303,165 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/02/07/Max Sum of Rectangle No Larger Than K/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sailong Ren">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="coderlong的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/02/07/Max Sum of Rectangle No Larger Than K/" itemprop="url">363.Max Sum of Rectangle No Larger Than K</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-07T21:48:38+08:00">
+                2018-02-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/algorithm/" itemprop="url" rel="index">
+                    <span itemprop="name">algorithm</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>Given a non-empty 2D matrix matrix and an integer k, find the max sum of a rectangle in the matrix such that its sum is no larger than k.</p>
+<p><em>Example:</em><br>    Given matrix = [<br>      [1,  0, 1],<br>      [0, -2, 3]<br>    ]<br>    k = 2</p>
+<p>The answer is <strong>2</strong>. Because the sum of rectangle <strong>[[0, 1], [-2, 3]]</strong> is 2 and 2 is the max number no larger than k (k = 2).  </p>
+<p>Note:<br>    The rectangle inside the matrix must have an area &gt; 0.<br>    What if the number of rows is much larger than the number of columns?</p>
+<p>按照<code>[LeetCode] Range Sum Query 2D - Immutable 二维区域和检索 - 不可变</code> 一样的方法，使用O(n^4)复杂度得出答案。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">maxSumSubmatrix</span><span class="params">(<span class="keyword">int</span>[][] matrix, <span class="keyword">int</span> k)</span> </span>&#123;</div><div class="line">			<span class="keyword">if</span> (matrix == <span class="keyword">null</span> || matrix.length == <span class="number">0</span> || matrix[<span class="number">0</span>].length == <span class="number">0</span>) &#123;</div><div class="line">				<span class="keyword">return</span> -<span class="number">1</span>;</div><div class="line">			&#125;</div><div class="line">			<span class="comment">// DP数组保存的是右下角和左上角之间区域的和</span></div><div class="line">	        <span class="keyword">int</span>[][] dp = <span class="keyword">new</span> <span class="keyword">int</span>[matrix.length + <span class="number">1</span>][matrix[<span class="number">0</span>].length + <span class="number">1</span>];</div><div class="line"><span class="comment">//	        dp[0][0] = matrix[0][0];</span></div><div class="line">	        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= matrix.length; i++) &#123;</div><div class="line">	        	<span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">1</span>; j &lt;= matrix[<span class="number">0</span>].length; j++) &#123;</div><div class="line">	        		dp[i][j] = dp[i - <span class="number">1</span>][j] + dp[i][j - <span class="number">1</span>] - dp[i - <span class="number">1</span>][j - <span class="number">1</span>] + matrix[i - <span class="number">1</span>][j - <span class="number">1</span>];</div><div class="line">	        	&#125;</div><div class="line">	        &#125;</div><div class="line">	        <span class="keyword">int</span> res = Integer.MIN_VALUE;</div><div class="line">	        <span class="comment">// 这里O(n^4)应该是可以改善的，，，，，，，,暂时还没注意。</span></div><div class="line">	        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= matrix.length; i++) &#123;</div><div class="line">	        	<span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">1</span>; j &lt;= matrix[<span class="number">0</span>].length; j++) &#123;</div><div class="line">	        		<span class="keyword">for</span> (<span class="keyword">int</span> h = i; h &lt;= matrix.length; h++) &#123;</div><div class="line">	        			<span class="keyword">for</span> (<span class="keyword">int</span> s = j; s &lt;= matrix[<span class="number">0</span>].length; s++) &#123;</div><div class="line">	        				<span class="keyword">if</span> (sumRegion(i, j, h, s, dp) == k) &#123;</div><div class="line">	        					<span class="keyword">return</span> k;</div><div class="line">	        				&#125;</div><div class="line">	        				<span class="keyword">if</span> (sumRegion(i, j, h, s, dp) &lt; k) &#123;</div><div class="line">	        					res = Math.max(res, sumRegion(i, j, h, s, dp));</div><div class="line">	        				&#125;</div><div class="line">	        			&#125;</div><div class="line">	        		&#125;</div><div class="line">	        	&#125;</div><div class="line">	        &#125;</div><div class="line">	        <span class="comment">// 没有得到小于k的res</span></div><div class="line">	        <span class="keyword">if</span> (res == Integer.MIN_VALUE) &#123;</div><div class="line">	        	<span class="keyword">return</span> -<span class="number">1</span>;</div><div class="line">	        &#125;</div><div class="line">	        <span class="keyword">return</span> res;</div><div class="line">	 &#125;</div><div class="line">	 <span class="comment">// 求区域和的函数</span></div><div class="line">	 <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">sumRegion</span><span class="params">(<span class="keyword">int</span> row1, <span class="keyword">int</span> col1, <span class="keyword">int</span> row2, <span class="keyword">int</span> col2, <span class="keyword">int</span>[][] dp)</span> </span>&#123;</div><div class="line">	    	</div><div class="line">			<span class="keyword">return</span> dp[row2][col2] - dp[row2][col1 - <span class="number">1</span>] - dp[row1 - <span class="number">1</span>][col2] + dp[row1 - <span class="number">1</span>][col1 - <span class="number">1</span>];</div><div class="line">	        </div><div class="line">	 &#125;</div></pre></td></tr></table></figure>
+<hr>
+<p> Range Sum Query 2D - Immutable 和上面那个题目是相同的思想 </p>
+<p>Given a 2D matrix matrix, find the sum of the elements inside the rectangle defined by its upper left corner (row1, col1) and lower right corner (row2, col2).</p>
+<p>Range Sum Query 2D<br>The above rectangle (with the red border) is defined by (row1, col1) = (2, 1) and (row2, col2) = (4, 3), which contains sum = 8.</p>
+<p>Example:</p>
+<p>Given matrix = [<br>  [3, 0, 1, 4, 2],<br>  [5, 6, 3, 2, 1],<br>  [1, 2, 0, 1, 5],<br>  [4, 1, 0, 1, 7],<br>  [1, 0, 3, 0, 5]<br>]</p>
+<p>sumRegion(2, 1, 4, 3) -&gt; 8<br>sumRegion(1, 1, 2, 2) -&gt; 11<br>sumRegion(1, 2, 2, 4) -&gt; 12</p>
+<p>Note:</p>
+<pre><code>You may assume that the matrix does not change.
+There are many calls to sumRegion function.
+You may assume that row1 ≤ row2 and col1 ≤ col2.
+</code></pre><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">NumMatrix</span> </span>&#123;</div><div class="line">	<span class="keyword">private</span> <span class="keyword">int</span>[][] dp;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="title">NumMatrix</span><span class="params">(<span class="keyword">int</span>[][] matrix)</span> </span>&#123;</div><div class="line">		<span class="keyword">if</span> (matrix == <span class="keyword">null</span> || matrix.length == <span class="number">0</span> || matrix[<span class="number">0</span>].length == <span class="number">0</span>) &#123;</div><div class="line">			<span class="keyword">return</span> ;</div><div class="line">		&#125;</div><div class="line">        <span class="keyword">int</span> rows = matrix.length;</div><div class="line">        <span class="keyword">int</span> cols = matrix[<span class="number">0</span>].length;</div><div class="line">        dp = <span class="keyword">new</span> <span class="keyword">int</span>[rows + <span class="number">1</span>][cols + <span class="number">1</span>];</div><div class="line">        dp[<span class="number">0</span>][<span class="number">0</span>] = matrix[<span class="number">0</span>][<span class="number">0</span>];</div><div class="line"><span class="comment">//        for (int i = 1; i &lt; rows; i++) &#123;</span></div><div class="line"><span class="comment">//        	dp[i][0] = matrix[i][0] + dp[i - 1][0];</span></div><div class="line"><span class="comment">//        &#125;</span></div><div class="line"><span class="comment">//        for (int i = 1; i &lt; cols; i++) &#123;</span></div><div class="line"><span class="comment">//        	dp[0][i] = matrix[0][i] + dp[0][i - 1];</span></div><div class="line"><span class="comment">//        &#125;</span></div><div class="line">        </div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= rows; i++) &#123;</div><div class="line">        	<span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">1</span>; j &lt;= cols; j++) &#123;</div><div class="line">        		dp[i][j] = dp[i - <span class="number">1</span>][j] + dp[i][j - <span class="number">1</span>] - dp[i - <span class="number">1</span>][j - <span class="number">1</span>] + matrix[i - <span class="number">1</span>][j - <span class="number">1</span>];</div><div class="line">        	&#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">sumRegion</span><span class="params">(<span class="keyword">int</span> row1, <span class="keyword">int</span> col1, <span class="keyword">int</span> row2, <span class="keyword">int</span> col2)</span> </span>&#123;</div><div class="line">    	</div><div class="line">		<span class="keyword">return</span> dp[row2 + <span class="number">1</span>][col2 + <span class="number">1</span>] - dp[row2 + <span class="number">1</span>][col1] - dp[row1][col2 + <span class="number">1</span>] + dp[row1][col1];</div><div class="line">        </div><div class="line">    &#125;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		<span class="comment">// TODO Auto-generated method stub</span></div><div class="line">		<span class="keyword">int</span>[][] matrix = &#123;</div><div class="line">		                &#123;<span class="number">3</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">4</span>, <span class="number">2</span>&#125;,</div><div class="line">		                &#123;<span class="number">5</span>, <span class="number">6</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">1</span>&#125;,</div><div class="line">		                &#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">5</span>&#125;,</div><div class="line">		                &#123;<span class="number">4</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">7</span>&#125;,</div><div class="line">		                &#123;<span class="number">1</span>, <span class="number">0</span>, <span class="number">3</span>, <span class="number">0</span>, <span class="number">5</span>&#125;</div><div class="line">		&#125;;</div><div class="line">		NumMatrix matrix2 = <span class="keyword">new</span> NumMatrix(matrix);</div><div class="line">		System.out.println(matrix2.sumRegion(<span class="number">1</span>,<span class="number">2</span>,<span class="number">2</span>,<span class="number">4</span>));</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/02/05/再谈回溯法/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1765,171 +1924,11 @@ CGlib动态代理是通过继承业务类，生成的动态代理类是业务类
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/01/21/JavaScript严格模式/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Sailong Ren">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="coderlong的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/01/21/JavaScript严格模式/" itemprop="url">Javascript use strict</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-21T14:18:40+08:00">
-                2018-01-21
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/javascript/" itemprop="url" rel="index">
-                    <span itemprop="name">javascript</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>转载<a href="https://www.cnblogs.com/jiqing9006/p/5091491.html" target="_blank" rel="external">博客园</a></p>
-<h2 id="1-概述"><a href="#1-概述" class="headerlink" title="1 概述"></a>1 概述</h2><p>除了正常运行模式，ECMAscript 5添加了第二种运行模式：”严格模式”（strict mode）。顾名思义，这种模式使得Javascript在更严格的条件下运行。</p>
-<h2 id="2-为何使用严格模式"><a href="#2-为何使用严格模式" class="headerlink" title="2 为何使用严格模式"></a>2 为何使用严格模式</h2><ul>
-<li><p>消除Javascript语法的一些不合理、不严谨之处，减少一些怪异行为;</p>
-</li>
-<li><p>消除代码运行的一些不安全之处，保证代码运行的安全；</p>
-</li>
-<li><p>提高编译器效率，增加运行速度；</p>
-</li>
-<li><p>为未来新版本的Javascript做好铺垫。</p>
-</li>
-</ul>
-<p>“严格模式”体现了Javascript更合理、更安全、更严谨的发展方向，包括IE 10在内的主流浏览器，都已经支持它，许多大项目已经开始全面拥抱它。</p>
-<p>另一方面，同样的代码，在”严格模式”中，可能会有不一样的运行结果；一些在”正常模式”下可以运行的语句，在”严格模式”下将不能运行。掌握这些内容，有助于更细致深入地理解Javascript，让你变成一个更好的程序员。</p>
-<h2 id="3-进入标志"><a href="#3-进入标志" class="headerlink" title="3 进入标志"></a>3 进入标志</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="meta">"use strict"</span></div></pre></td></tr></table></figure>
-<h2 id="4-如何调用"><a href="#4-如何调用" class="headerlink" title="4 如何调用"></a>4 如何调用</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="number">1</span></div><div class="line">&lt;script&gt;</div><div class="line"><span class="meta">　 "use strict"</span>;</div><div class="line">　 <span class="built_in">console</span>.log(<span class="string">"这是严格模式。"</span>);</div><div class="line">&lt;<span class="regexp">/script&gt;</span></div><div class="line"><span class="regexp"></span></div><div class="line"><span class="regexp">2 </span></div><div class="line"><span class="regexp">function strict()&#123;</span></div><div class="line"><span class="regexp">　　　　"use strict";</span></div><div class="line"><span class="regexp">　　　　return "这是严格模式。";</span></div><div class="line"><span class="regexp">　　&#125;</span></div><div class="line"><span class="regexp">　　function notStrict() &#123;</span></div><div class="line"><span class="regexp">　　　　return "这是正常模式。";</span></div><div class="line"><span class="regexp">　　&#125;</span></div></pre></td></tr></table></figure>
-<h2 id="5-语法行为改变"><a href="#5-语法行为改变" class="headerlink" title="5 语法行为改变"></a>5 语法行为改变</h2><p>5.1 在正常模式中，如果一个变量没有声明就赋值，默认是全局变量。严格模式禁止这种用法，全局变量必须显式声明。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="meta">"use strict"</span>;</div><div class="line">　　v = <span class="number">1</span>; <span class="comment">// 报错，v未声明</span></div><div class="line">　　<span class="keyword">for</span>(i = <span class="number">0</span>; i &lt; <span class="number">2</span>; i++) &#123; <span class="comment">// 报错，i未声明</span></div><div class="line">　　&#125;</div></pre></td></tr></table></figure></p>
-<p>5.2 禁止this关键字指向全局对象<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">f</span>(<span class="params"></span>)</span>&#123;</div><div class="line">　　　　<span class="keyword">return</span> !<span class="keyword">this</span>;</div><div class="line">　　&#125; </div><div class="line">　　<span class="comment">// 返回false，因为"this"指向全局对象，"!this"就是false</span></div><div class="line">　　<span class="function"><span class="keyword">function</span> <span class="title">f</span>(<span class="params"></span>)</span>&#123; </div><div class="line"><span class="meta">　　　　"use strict"</span>;</div><div class="line">　　　　<span class="keyword">return</span> !<span class="keyword">this</span>;</div><div class="line">　　&#125; </div><div class="line">　　<span class="comment">// 返回true，因为严格模式下，this的值为undefined，所以"!this"为true。</span></div></pre></td></tr></table></figure></p>
-<p>5.3 禁止删除变量<br>5.4 对象不能有重名的属性</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/5/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="extend next" rel="next" href="/page/7/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/5/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="extend next" rel="next" href="/page/7/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1975,7 +1974,7 @@ CGlib动态代理是通过继承业务类，生成的动态代理类是业务类
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">100</span>
+                <span class="site-state-item-count">101</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
