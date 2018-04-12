@@ -303,6 +303,296 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/02/25/Mybatis源码学习/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sailong Ren">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="coderlong的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/02/25/Mybatis源码学习/" itemprop="url">Mybatis源码学习</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-25T21:02:17+08:00">
+                2018-02-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Mybatis/" itemprop="url" rel="index">
+                    <span itemprop="name">Mybatis</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="Mybatis的初始化"><a href="#Mybatis的初始化" class="headerlink" title="Mybatis的初始化"></a>Mybatis的初始化</h2><p>× configuration 配置<br>    × properties 属性<br>    × settings 设置<br>   × typeAliases 类型命名<br>   × typeHandlers 类型处理器<br>   × objectFactory 对象工厂<br>   × plugins 插件<br>   × environments 环境<br>       ×environment 环境变量<br>       × transactionManager 事务管理器<br>       ×dataSource 数据源<br>×映射器<br>MyBatis采用了一个非常直白和简单的方式—使用 org.apache.ibatis.session.Configuration 对象作为一个所有配置信息的容器</p>
+<ul>
+<li>mybatis的初始化的过程，就是创建Configration对象的过程 *</li>
+</ul>
+<ol>
+<li>基于XML配置文件：基于XML配置文件的方式是将MyBatis的所有配置信息放在XML文件中，MyBatis通过加载并XML配置文件，将配置文信息组装成内部的Configuration对象</li>
+<li>基于Java API：这种方式不使用XML配置文件，需要MyBatis使用者在Java代码中，手动创建Configuration对象，然后将配置参数set 进入Configuration对象中</li>
+</ol>
+<h3 id="基于xml配置文件创建Configration对象的过程"><a href="#基于xml配置文件创建Configration对象的过程" class="headerlink" title="基于xml配置文件创建Configration对象的过程"></a>基于xml配置文件创建Configration对象的过程</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">String resource = <span class="string">"mybatis-config.xml"</span>;</div><div class="line">InputStream inputStream = Resources.getResourceAsStream(resource);</div><div class="line">SqlSessionFactory sqlSessionFactory = <span class="keyword">new</span> SqlSessionFactoryBuilder().build(inputStream);</div><div class="line">SqlSession sqlSession = sqlSessionFactory.openSession();</div><div class="line">List list = sqlSession.selectList(<span class="string">"com.foo.bean.BlogMapper.queryAllBlogInfo"</span>);</div></pre></td></tr></table></figure>
+<p>上面就是 执行 queryAllBloginfo()的过程<br>经历了mybatis初始化 –&gt;创建SqlSession –&gt;执行SQL语句 返回结果三个过程。<br>真实创建就是那一句 <code>SqlSessionFactoryBuilder().build(inputStream);</code><br>SqlSessionFactoryBuilder根据传入的数据流生成Configuration对象，然后根据Configuration对象创建默认的SqlSessionFactory实例。<br><img src="http://img.blog.csdn.net/20140718131020765" alt=""><br>`</p>
+<ol>
+<li>调用 SqlSessionFactoryBuilder对象的build(inputStream)方法</li>
+<li>SqlSessionFactoryBuilder会根据inputStream流创建XMLConfigBuilder对象</li>
+<li>SqlSessionFactoryBuilder调用XMLConfigBuilder的parse（）方法解析</li>
+<li>XMLConfigBuilder对象返回 Configration对象</li>
+<li>SqlSessionFactoryBuilder根据Configuration对象创建一个DefaultSessionFactory对象</li>
+<li>SqlSessionFactoryBuilder返回DefaultSessionFactory对象给Client，供Client使用。<br>`<br>SqlSessionFactoryBuilder的构造方法<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> SqlSessionFactory <span class="title">build</span><span class="params">(InputStream inputStream)</span></span></div><div class="line"><span class="function"></span>&#123;</div><div class="line">    <span class="keyword">return</span> build(inputStream, <span class="keyword">null</span>, <span class="keyword">null</span>);</div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">public</span> SqlSessionFactory <span class="title">build</span><span class="params">(InputStream inputStream, String environment, Properties properties)</span></span></div><div class="line"><span class="function"></span>&#123;</div><div class="line">    <span class="keyword">try</span></div><div class="line">    &#123;</div><div class="line">        <span class="comment">//2. 创建XMLConfigBuilder对象用来解析XML配置文件，生成Configuration对象</span></div><div class="line">        XMLConfigBuilder parser = <span class="keyword">new</span> XMLConfigBuilder(inputStream, environment, properties);</div><div class="line">        <span class="comment">//3. 将XML配置文件内的信息解析成Java对象Configuration对象</span></div><div class="line">        Configuration config = parser.parse();</div><div class="line">        <span class="comment">//4. 根据Configuration对象创建出SqlSessionFactory对象</span></div><div class="line">        <span class="keyword">return</span> build(config);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">catch</span> (Exception e)</div><div class="line">    &#123;</div><div class="line">        <span class="keyword">throw</span> ExceptionFactory.wrapException(<span class="string">"Error building SqlSession."</span>, e);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">finally</span></div><div class="line">    &#123;</div><div class="line">        ErrorContext.instance().reset();</div><div class="line">        <span class="keyword">try</span></div><div class="line">        &#123;</div><div class="line">            inputStream.close();</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">catch</span> (IOException e)</div><div class="line">        &#123;</div><div class="line">            <span class="comment">// Intentionally ignore. Prefer previous error.</span></div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">public</span> SqlSessionFactory <span class="title">build</span><span class="params">(Configuration config)</span></span></div><div class="line"><span class="function"></span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">new</span> DefaultSqlSessionFactory(config);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/02/21/异或去重/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sailong Ren">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="coderlong的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/02/21/异或去重/" itemprop="url">异或去重</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-21T22:32:55+08:00">
+                2018-02-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>来看三道题目<br><em>1、1-1000放在含有1001个元素的数组中，只有唯一的一个元素值重复，其它均只出现一次。每个数组元素只能访问一次，设计一个算法，将它找出来；不用辅助存储空间，能否设计一个算法实现？</em></p>
+<p>当然，这道题，可以用最直观的方法来做，将所有的数加起来，减去1+2+3+…+1000的和，得到的即是重复的那个数，该方法很容易理解，而且效率很高，也不需要辅助空间，唯一的不足时，如果范围不是1000，而是更大的数字，可能会发生溢出。</p>
+<p>我们考虑用异或操作来解决该问题。现在问题是要求重复的那个数字，我们姑且假设该数字式n吧，如果我们能想办法把1-1000中除n以外的数字全部异或两次，而数字n只异或一次，就可以把1-1000中出n以外的所有数字消去，这样就只剩下n了。我们首先把所有的数字异或，记为T，可以得到如下：</p>
+<p>T = 1^2^3^4…^n…^n…^1000 = 1^2^3…^1000（结果中不含n）</p>
+<p>而后我们再让T与1-1000之间的所有数字（仅包含一个n）异或，便可得到该重复数字n。如下所示：</p>
+<p>T^(1^2^3^4…^n…^1000) = T^(T^n) = 0^n = n<br><em>2、一个整型数组里除了两个数字之外，其他的数字都出现了两次。请写程序找出这两个只出现一次的数字。</em><br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">样例输入：<span class="number">2</span> <span class="number">4</span> <span class="number">3</span> <span class="number">6</span> <span class="number">3</span> <span class="number">2</span> <span class="number">5</span> <span class="number">5</span></div><div class="line">样例输出：<span class="number">4</span> <span class="number">6</span></div></pre></td></tr></table></figure></p>
+<p>思路：异或去重是知道如果只有一个只出现一次的数字的求法，但这里是有两个只出现一次的数字，我们便要想办法把他分为两个子数组，每个子数组中包含一个只出现一次的数字，其他的数字都出现了两次。</p>
+<p>首先依然从头到尾异或所有的数字，如ABCCDDEEFF，这样得到的结果就是AB异或的结果，那么在异或后的结果中找出其二进制中最右边为1的位，该位既然为1，说明AB对应的该位肯定不同，必定一个为1，一个为0，因此我们可以考虑根据此位是否为1来划分这两个子数组，这样两个只出现一次的数字就分开了</p>
+<p>但我们还要保证出现两次的数字都分到同一个子数组中，很明显，相同的数字相同的位上的值是相同的，要么都为1，要么都为0，因此我们同样可以通过判断该位是否为1来将这些出现两次的数字划分到同一个子数组中，该位如果为1，就分到一个子数组中，如果为0，就分到另一个子数组中。</p>
+<p>这样就能保证每个子数组中只有一个出现一次的数字，其他的数字都出现两次，分别全部异或即可得到这两个只出现一次的数字。时间复杂度为O(n)。<br>另外，<strong> 所有元素异或后，在找出最右边为1的时,**</strong>X&amp;(-X)之后得到的数字，是把X中最右边的1保留下来 **</p>
+<p>注意，<strong>这里的-X是X的相反数，-X是对X所有位取反+1</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> 剑指offer;</div><div class="line"><span class="comment">/**</span></div><div class="line"><span class="comment">* <span class="doctag">@author</span> 作者 : coderlong</span></div><div class="line"><span class="comment">* <span class="doctag">@version</span> 创建时间：2018年2月21日 下午10:37:48</span></div><div class="line"><span class="comment">* 类说明: </span></div><div class="line"><span class="comment">*/</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> 数组中出现一次的数字 </span>&#123;</div><div class="line">	<span class="comment">// 问题一</span></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">FindNumsAppearOnce</span><span class="params">(<span class="keyword">int</span>[] arr)</span>  </span></div><div class="line"><span class="function">    </span>&#123;  </div><div class="line">        <span class="keyword">int</span> len = arr.length;</div><div class="line">        <span class="keyword">if</span>(len&lt;<span class="number">2</span>) &#123;</div><div class="line">        	<span class="keyword">return</span>; </div><div class="line">        &#125; </div><div class="line"></div><div class="line">        <span class="keyword">int</span> i;  </div><div class="line">        <span class="keyword">int</span> AllXOR = <span class="number">0</span>;  </div><div class="line">        <span class="comment">//全部异或  </span></div><div class="line">        <span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;len;i++) &#123;</div><div class="line">            AllXOR ^= arr[i];</div><div class="line">        &#125;</div><div class="line"></div><div class="line">      <span class="comment">//找出第几位为1，如010</span></div><div class="line">        <span class="keyword">int</span> res = FindFirstBit1(AllXOR);  </div><div class="line"></div><div class="line">        <span class="keyword">int</span> num1=<span class="number">0</span>, num2 = <span class="number">0</span>;  </div><div class="line">        <span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;len;i++)  </div><div class="line">        &#123;  <span class="comment">//分成了两组</span></div><div class="line">            <span class="keyword">if</span>(IsBit1(arr[i],res)) &#123;</div><div class="line">                num1 ^= arr[i];  </div><div class="line">            &#125;</div><div class="line">            <span class="keyword">else</span> &#123; </div><div class="line">                num2 ^= arr[i];  </div><div class="line">            &#125;</div><div class="line">        &#125;  </div><div class="line">        System.out.println(num1+<span class="string">"and"</span>+num2);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/* </span></div><div class="line"><span class="comment">    返回num的最低位的1，其他各位都为0 </span></div><div class="line"><span class="comment">    */</span>  </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">FindFirstBit1</span><span class="params">(<span class="keyword">int</span> num)</span>  </span></div><div class="line"><span class="function">    </span>&#123;  </div><div class="line">        <span class="comment">//二者与后得到的数，将num最右边的1保留下来，其他位的全部置为了0  </span></div><div class="line">        <span class="keyword">return</span> num &amp; (-num);  </div><div class="line">    &#125;  </div><div class="line"></div><div class="line">    <span class="comment">/* </span></div><div class="line"><span class="comment">    判断data中特定的位是否为1， </span></div><div class="line"><span class="comment">    这里的要判断的特定的位由res确定， </span></div><div class="line"><span class="comment">    res中只有一位为1，其他位均为0，由FindFirstBit1函数返回， </span></div><div class="line"><span class="comment">    而data中要判断的位便是res中这唯一的1所在的位 </span></div><div class="line"><span class="comment">    */</span>  </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">IsBit1</span><span class="params">(<span class="keyword">int</span> data,<span class="keyword">int</span> res)</span>  </span></div><div class="line"><span class="function">    </span>&#123;  </div><div class="line">        <span class="keyword">return</span> ((data &amp; res)==<span class="number">0</span>) ? <span class="keyword">false</span>:<span class="keyword">true</span>;  </div><div class="line">    &#125;  </div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        <span class="keyword">int</span>[] a = &#123; <span class="number">1</span>,<span class="number">1</span>,<span class="number">2</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">44</span>,<span class="number">55</span>,<span class="number">55</span>,<span class="number">66</span>,<span class="number">66</span>,<span class="number">34</span>,<span class="number">34</span>,<span class="number">5</span>,<span class="number">5</span>,<span class="number">7</span>,<span class="number">7</span> &#125;;</div><div class="line">        FindNumsAppearOnce(a);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/02/20/Java8方法引用/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1187,11 +1477,12 @@ You may assume that row1 ≤ row2 and col1 ≤ col2.
       
         
           
-            <h3 id="Condition借口"><a href="#Condition借口" class="headerlink" title="Condition借口"></a>Condition借口</h3><p>一个线程因为某个condition不满足被挂起，直到该Condition被满足了。<br>类似与Object的wait/<br>notify，因此Condition对象应该是被多线程共享的，需要使用锁保护其状态的一致性</p>
+            <p><code>此博文过长，纯属自己写笔记用，慎入！</code></p>
+<h3 id="Condition借口"><a href="#Condition借口" class="headerlink" title="Condition借口"></a>Condition借口</h3><p>一个线程因为某个condition不满足被挂起，直到该Condition被满足了。<br>类似与Object的wait/<br>notify，因此Condition对象应该是被多线程共享的，需要使用锁保护其状态的一致性</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">BoundedBuffer</span> </span>&#123;</div><div class="line">     <span class="keyword">final</span> Lock lock = <span class="keyword">new</span> ReentrantLock();</div><div class="line">     <span class="keyword">final</span> Condition notFull     = lock.newCondition();</div><div class="line">     <span class="keyword">final</span> Condition notEmpty = lock.newCondition();</div><div class="line"></div><div class="line">     <span class="keyword">final</span> Object[] items = <span class="keyword">new</span> Object[<span class="number">100</span>];</div><div class="line">     <span class="keyword">int</span> putptr, takeptr, count;</div><div class="line"></div><div class="line">     <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">put</span><span class="params">(Object x)</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</div><div class="line">          lock.lock();</div><div class="line">          <span class="keyword">try</span> &#123;</div><div class="line">               <span class="keyword">while</span> (count == items.length)</div><div class="line">                    notFull.await();</div><div class="line">               items[putptr] = x;</div><div class="line">               <span class="keyword">if</span> (++putptr == items.length) putptr = <span class="number">0</span>;</div><div class="line">               ++count;</div><div class="line">               notEmpty.signal();</div><div class="line">          &#125; <span class="keyword">finally</span> &#123;</div><div class="line">               lock.unlock();</div><div class="line">          &#125;</div><div class="line">     &#125;         </div><div class="line"></div><div class="line">     <span class="function"><span class="keyword">public</span> Object <span class="title">take</span><span class="params">()</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</div><div class="line">          lock.lock();</div><div class="line">          <span class="keyword">try</span> &#123;</div><div class="line">               <span class="keyword">while</span> (count == <span class="number">0</span>)</div><div class="line">                    notEmpty.await();</div><div class="line">               Object x = items[takeptr];</div><div class="line">               <span class="keyword">if</span> (++takeptr == items.length) takeptr = <span class="number">0</span>;</div><div class="line">               --count;</div><div class="line">               notFull.signal();</div><div class="line">               <span class="keyword">return</span> x;</div><div class="line">          &#125; <span class="keyword">finally</span> &#123;</div><div class="line">               lock.unlock();</div><div class="line">          &#125;</div><div class="line">     &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <h2 id="Lock和ReadWriteLock"><a href="#Lock和ReadWriteLock" class="headerlink" title="Lock和ReadWriteLock"></a>Lock和ReadWriteLock</h2><p>两个接口，后者不是前者的子接口，通过以下ReadWriteLock的代码就可以看出两者的联系了：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">ReadWriteLock</span> </span>&#123;</div><div class="line">    <span class="comment">/**</span></div><div class="line"><span class="comment">     * Returns the lock used for reading.</span></div><div class="line"><span class="comment">     *</span></div><div class="line"><span class="comment">     * <span class="doctag">@return</span> the lock used for reading.</span></div><div class="line"><span class="comment">     读锁</span></div><div class="line"><span class="comment">     */</span></div><div class="line">    <span class="function">Lock <span class="title">readLock</span><span class="params">()</span></span>;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line"><span class="comment">     * Returns the lock used for writing.</span></div><div class="line"><span class="comment">     *写锁</span></div><div class="line"><span class="comment">     * <span class="doctag">@return</span> the lock used for writing.</span></div><div class="line"><span class="comment">     */</span></div><div class="line">    <span class="function">Lock <span class="title">writeLock</span><span class="params">()</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p>两个接口都有一个可重入(ReentrantLock, ReentrantReadWriteLock)的实现</p>
-<h2 id="LockSupport工具类"><a href="#LockSupport工具类" class="headerlink" title="LockSupport工具类"></a>LockSupport工具类</h2><p>这这个类，我也不还很明白，是一个工具类，操作对象是线程，基于Unsafe类实现<br>基本操作park和unpark。park会把使得当前线程失效（没有提供操作其他线程的，其实是可以实现的），暂时挂起</p>
+<h2 id="LockSupport工具类"><a href="#LockSupport工具类" class="headerlink" title="LockSupport工具类"></a>LockSupport工具类</h2><p>这个类，我也不是很明白，是一个工具类，操作对象是线程，基于Unsafe类实现<br>基本操作park和unpark。park会把使得当前线程失效（没有提供操作其他线程的，其实是可以实现的），暂时挂起</p>
 <h2 id="AbstractOwnableSynchronizer-AbstractQueuedSynchronizer"><a href="#AbstractOwnableSynchronizer-AbstractQueuedSynchronizer" class="headerlink" title="AbstractOwnableSynchronizer, AbstractQueuedSynchronizer,"></a>AbstractOwnableSynchronizer, AbstractQueuedSynchronizer,</h2><p>AbstractQueuedLongSynchronizer<br>并发包的JDK源码充满了大量的 包装类，和设计模式用到的类，所以就算看着中文的注释还是很难读懂，这三个类，就是典型的代表。<br>AbstractQueuedSynchronizer, AbstractQueuedLongSynchronizer是AbstractOwnableSynchronizer的子类，<br>AbstractOwnableSynchronizer只是实现了被线程独占这些功能的Synchronizer，并不包含如何管理实现多个线程的同步。包含了一个exclusiveOwnerThread，set/get方法。</p>
 <p>AbstractQueuedSynchronizer利用Queue的方式来管理线程关于锁的使用和同步，相当于一个锁的管理者。<br>首先关注四个最核心的方法：<br>protected boolean tryAcquire(int arg)<br>protected boolean tryRelease(int arg)<br>protected int tryAcquireShared(int arg)<br>protected boolean tryReleaseShared(int arg)</p>
 <p>前两个用于独占锁，后两者用于共享锁，这四个方法是由子类来实现的，即如何获取和释放锁AbstractQueuedSynchronizer是不参与的，默认实现是不支持，即抛出UnsupportedOperationException。<br>AbstractQueuedSynchronizer做什么呢？</p>
@@ -1220,6 +1511,18 @@ You may assume that row1 ≤ row2 and col1 ≤ col2.
 <p>判断读锁是否存在。因为要确保写锁的操作对读锁是可见的，如果在存在读锁的情况下允许获取写锁，那么那些已经获取读锁的其他线程可能就无法感知当前写线程的操作。因此只有等读锁完全释放后，写锁才能够被当前线程所获取，一旦写锁获取了，所有其他读、写线程均会被阻塞。</p>
 <h3 id="写锁的释放"><a href="#写锁的释放" class="headerlink" title="写锁的释放"></a>写锁的释放</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">unlock</span><span class="params">()</span> </span>&#123;</div><div class="line">    sync.release(<span class="number">1</span>);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">boolean</span> <span class="title">release</span><span class="params">(<span class="keyword">int</span> arg)</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span> (tryRelease(arg)) &#123;</div><div class="line">        Node h = head;</div><div class="line">        <span class="keyword">if</span> (h != <span class="keyword">null</span> &amp;&amp; h.waitStatus != <span class="number">0</span>)</div><div class="line">            unparkSuccessor(h);</div><div class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <h3 id="读锁的获取-与释放"><a href="#读锁的获取-与释放" class="headerlink" title="读锁的获取 与释放"></a>读锁的获取 与释放</h3><p><code>这个有点复杂，涉及到锁的降级，部分代码我现在看不懂以后再说吧。。。</code><br>锁降级就意味着写锁是可以降级为读锁的，但是需要遵循先获取写锁、获取读锁在释放写锁的次序。</p>
+<h1 id="Condition-在没有Lock之前，我们使用synchronized来控制同步，配合Object的wait-、notify-系列方法可以实现等待-通知模式。在Java-SE5后，Java提供了Lock接口，相对于Synchronized而言，Lock提供了条件Condition，对线程的等待、唤醒操作更加详细和灵活。"><a href="#Condition-在没有Lock之前，我们使用synchronized来控制同步，配合Object的wait-、notify-系列方法可以实现等待-通知模式。在Java-SE5后，Java提供了Lock接口，相对于Synchronized而言，Lock提供了条件Condition，对线程的等待、唤醒操作更加详细和灵活。" class="headerlink" title="Condition 在没有Lock之前，我们使用synchronized来控制同步，配合Object的wait()、notify()系列方法可以实现等待/通知模式。在Java SE5后，Java提供了Lock接口，相对于Synchronized而言，Lock提供了条件Condition，对线程的等待、唤醒操作更加详细和灵活。"></a>Condition 在没有Lock之前，我们使用synchronized来控制同步，配合Object的wait()、notify()系列方法可以实现等待/通知模式。在Java SE5后，Java提供了Lock接口，相对于Synchronized而言，Lock提供了条件Condition，对线程的等待、唤醒操作更加详细和灵活。</h1><p>Condition提供了一系列的方法来对阻塞和唤醒线程：</p>
+<ol>
+<li>await() ：造成当前线程在接到信号或被中断之前一直处于等待状态。</li>
+<li>await(long time, TimeUnit unit) ：造成当前线程在接到信号、被中断或到达指定等待时间之前一直处于等待状态。</li>
+<li>awaitNanos(long nanosTimeout) ：造成当前线程在接到信号、被中断或到达指定等待时间之前一直处于等待状态。返回值表示剩余时间，如果在nanosTimesout之前唤醒，那么返回值 = nanosTimeout - 消耗时间，如果返回值 &lt;= 0 ,则可以认定它已经超时了。</li>
+<li>awaitUninterruptibly()：造成当前线程在接到信号之前一直处于等待状态。</li>
+<li>awaitUntil(Date deadline) ：造成当前线程在接到信号、被中断或到达指定最后期限之前一直处于等待状态。如果没有到指定时间就被通知，则返回true，否则表示到了指定时间，返回返回false。</li>
+<li>signal()：唤醒一个等待线程。该线程从等待方法返回前必须获得与Condition相关的锁。</li>
+<li>signalAll()：唤醒所有等待线程。能够从等待方法返回的线程必须获得与Condition相关的锁。</li>
+</ol>
+<p>Condition 需要使用Lock的newCondition()方法来创建<br>Condition为一个接口，其下仅有一个实现类ConditionObject，由于Condition的操作需要获取相关的锁，而AQS则是同步锁的实现基础，所以ConditionObject则定义为AQS的内部类。定义如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConditionObject</span> <span class="keyword">implements</span> <span class="title">Condition</span>, <span class="title">java</span>.<span class="title">io</span>.<span class="title">Serializable</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">long</span> serialVersionUID = <span class="number">1173984872572414699L</span>;</div><div class="line"></div><div class="line">    <span class="comment">//头节点</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">transient</span> Node firstWaiter;</div><div class="line">    <span class="comment">//尾节点</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">transient</span> Node lastWaiter;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ConditionObject</span><span class="params">()</span> </span>&#123;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>具体的过程就是：<br>一个线程获得锁后，通过调用Condition()的Await()会将当前线程先加入到条件队列中，然后释放锁，最后通过isOnSyncQueue(Node node)方法不断自检看节点是否已经在CLH同步队列了，如果是则尝试获取锁，否则一直挂起。当线程调用signal()方法后，程序首先检查当前线程是否获取了锁，然后通过doSignal(Node first)方法唤醒CLH同步队列的首节点。被唤醒的线程，将从await()方法中的while循环中退出来，然后调用acquireQueued()方法竞争同步状态。<br>自我实现一个生产者消费者模型<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> java.util.LinkedList;</div><div class="line"><span class="keyword">import</span> java.util.concurrent.locks.Condition;</div><div class="line"><span class="keyword">import</span> java.util.concurrent.locks.Lock;</div><div class="line"><span class="keyword">import</span> java.util.concurrent.locks.ReentrantLock;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"><span class="comment">* <span class="doctag">@author</span> 作者 : coderlong</span></div><div class="line"><span class="comment">* <span class="doctag">@version</span> 创建时间：2018年4月9日 下午10:30:51</span></div><div class="line"><span class="comment">* 类说明:  使用Condition实现的生产者消费者模式</span></div><div class="line"><span class="comment">*/</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConditionTest</span> </span>&#123;</div><div class="line">  <span class="keyword">private</span> LinkedList&lt;String&gt; buffer;    <span class="comment">//容器</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span> maxSize ;           <span class="comment">//容器最大</span></div><div class="line">    <span class="keyword">private</span> Lock lock;</div><div class="line">    <span class="keyword">private</span> Condition fullCondition;</div><div class="line">    <span class="keyword">private</span> Condition notFullCondition;</div><div class="line">    </div><div class="line">  <span class="function"><span class="keyword">public</span> <span class="title">ConditionTest</span><span class="params">( <span class="keyword">int</span> maxSize)</span> </span>&#123;</div><div class="line">    <span class="keyword">super</span>();</div><div class="line">    <span class="keyword">this</span>.buffer = <span class="keyword">new</span> LinkedList&lt;&gt;();</div><div class="line">    <span class="keyword">this</span>.maxSize = maxSize;</div><div class="line">    <span class="keyword">this</span>.lock = <span class="keyword">new</span> ReentrantLock();</div><div class="line">    <span class="keyword">this</span>.fullCondition = lock.newCondition();</div><div class="line">    <span class="keyword">this</span>.notFullCondition = lock.newCondition();</div><div class="line">  &#125;</div><div class="line">  <span class="comment">// 生产操作</span></div><div class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">set</span><span class="params">(String string)</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</div><div class="line">    lock.lock();</div><div class="line">    <span class="keyword">try</span> &#123;</div><div class="line">      <span class="keyword">while</span> (maxSize == buffer.size())&#123;</div><div class="line">        notFullCondition.await(); <span class="comment">// 慢了</span></div><div class="line">      &#125; </div><div class="line">      System.out.println(<span class="string">"set"</span> + string);</div><div class="line">      buffer.add(string);</div><div class="line">      fullCondition.signal();</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">finally</span> &#123;</div><div class="line">      lock.unlock();</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  </div><div class="line">  <span class="comment">// 消费</span></div><div class="line">  <span class="function"><span class="keyword">public</span> String <span class="title">get</span><span class="params">()</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</div><div class="line">    String string;</div><div class="line">    lock.lock();</div><div class="line">    <span class="keyword">try</span> &#123;</div><div class="line">      <span class="keyword">while</span> (buffer.size() == <span class="number">0</span>) &#123;</div><div class="line">        fullCondition.await(); <span class="comment">// </span></div><div class="line">      &#125;</div><div class="line">      string = buffer.poll();</div><div class="line">      notFullCondition.signal();</div><div class="line">    &#125; <span class="keyword">finally</span> &#123;</div><div class="line">      lock.unlock();</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> string;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">    <span class="comment">// TODO Auto-generated method stub</span></div><div class="line">    ConditionTest conditionTest = <span class="keyword">new</span> ConditionTest(<span class="number">3</span>);</div><div class="line">    <span class="keyword">while</span> (<span class="keyword">true</span>) &#123;</div><div class="line">      Thread setter = <span class="keyword">new</span> Thread(<span class="keyword">new</span> Runnable() &#123;</div><div class="line">        </div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">          <span class="comment">// TODO Auto-generated method stub</span></div><div class="line">          <span class="keyword">try</span> &#123;</div><div class="line">            conditionTest.set(<span class="string">"abc"</span>);</div><div class="line">          &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</div><div class="line">            <span class="comment">// TODO Auto-generated catch block</span></div><div class="line">            e.printStackTrace();</div><div class="line">          &#125;</div><div class="line">        &#125;</div><div class="line">      &#125;);</div><div class="line">      setter.start();</div><div class="line">      Thread getter = <span class="keyword">new</span> Thread(<span class="keyword">new</span> Runnable() &#123;</div><div class="line">        </div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">          <span class="comment">// TODO Auto-generated method stub</span></div><div class="line">          <span class="keyword">try</span> &#123;</div><div class="line">            </div><div class="line">            System.out.println(conditionTest.get());</div><div class="line">            </div><div class="line">          &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</div><div class="line">            <span class="comment">// TODO Auto-generated catch block</span></div><div class="line">            e.printStackTrace();</div><div class="line">          &#125;</div><div class="line">        &#125;</div><div class="line">      &#125;);</div><div class="line">      getter.start();</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 
           
         
@@ -1582,348 +1885,6 @@ You may assume that row1 ≤ row2 and col1 ≤ col2.
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/02/01/Arrays.copyof()&&System.arraycopy()/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Sailong Ren">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="coderlong的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/02/01/Arrays.copyof()&&System.arraycopy()/" itemprop="url">Arrays.copyof()&&System.arraycopy()</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-01T16:18:40+08:00">
-                2018-02-01
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/有趣的API/" itemprop="url" rel="index">
-                    <span itemprop="name">有趣的API</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>System.arraycopy()的声明<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">native</span> <span class="keyword">void</span> <span class="title">arraycopy</span><span class="params">(Object src,<span class="keyword">int</span> srcPos, Object dest, <span class="keyword">int</span> destPos,<span class="keyword">int</span> length)</span></span>;</div></pre></td></tr></table></figure></p>
-<p>一个native方法 ，说明是调用的其他语言的底层函数<br>src - 源数组。<br>srcPos - 源数组中的起始位置。<br>dest - 目标数组。<br>destPos - 目标数据中的起始位置。<br>length - 要复制的数组元素的数量。  </p>
-<hr>
-<p>Arrays.copyof()的声明呢？</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> &lt;T,U&gt; T[] copyOf(U[] original, <span class="keyword">int</span> newLength, Class&lt;? extends T[]&gt; newType) &#123;</div><div class="line">        <span class="meta">@SuppressWarnings</span>(<span class="string">"unchecked"</span>)</div><div class="line">        T[] copy = ((Object)newType == (Object)Object[].class)</div><div class="line">            ? (T[]) <span class="keyword">new</span> Object[newLength]</div><div class="line">            : (T[]) Array.newInstance(newType.getComponentType(), newLength);</div><div class="line">        System.arraycopy(original, <span class="number">0</span>, copy, <span class="number">0</span>,</div><div class="line">                         Math.min(original.length, newLength));</div><div class="line">        <span class="keyword">return</span> copy;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
-<p>original - 要复制的数组<br>newLength - 要返回的副本的长度<br>newType - 要返回的副本的类型  </p>
-<hr>
-<p>copyof内部调用了system.arraycopy()方法<br>arraycopy()需要目标数组，将原数组拷贝到你自己定义的数组里，而且可以选择拷贝的起点和长度以及放入新数组中的位置   </p>
-<p>copyOf()是系统自动在内部新建一个数组，调用arraycopy()<br>将original内容复制到copy中去，并且长度为newLength。返回copy;<br>即将原数组拷贝到一个长度为newLength的新数组中，并返回该数组。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/02/01/String源码剖析/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Sailong Ren">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="coderlong的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/02/01/String源码剖析/" itemprop="url">String源码剖析</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-01T14:18:40+08:00">
-                2018-02-01
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/JDK/" itemprop="url" rel="index">
-                    <span itemprop="name">JDK</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="String源码分析"><a href="#String源码分析" class="headerlink" title="#String源码分析"></a>#String源码分析</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">stringTest</span><span class="params">()</span></span>&#123;</div><div class="line">    String a = <span class="string">"a"</span>+<span class="string">"b"</span>+<span class="number">1</span>;</div><div class="line">    String b = <span class="string">"ab1"</span>;</div><div class="line">    System.out.println(a == b);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>结果是 true</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">stringTest</span><span class="params">()</span></span>&#123;</div><div class="line">    String a = <span class="keyword">new</span> String(<span class="string">"ab1"</span>);</div><div class="line">    String b = <span class="string">"ab1"</span>;</div><div class="line">    System.out.println(a == b);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>是false。</p>
-<p>第一段代码经过了编译期优化，原因是编译器发现”a”+”b”+1和”ab1”的效果是一样的，都是不可变量组成。但是为什么他们的内存地址会相同呢？如果你对此还有兴趣，那就一起看看String类的一些重要源码吧。</p>
-<h3 id="一-String类"><a href="#一-String类" class="headerlink" title="一 String类"></a>一 String类</h3><p>String类被final所修饰，也就是说String对象是不可变量，并发程序最喜欢不可变量了。String类实现了Serializable, Comparable<string>, CharSequence接口。</string></p>
-<p>Comparable接口有compareTo(String s)方法，CharSequence接口有length()，charAt(int index)，subSequence(int start,int end)方法。</p>
-<h3 id="二-String属性"><a href="#二-String属性" class="headerlink" title="二 String属性"></a>二 String属性</h3><p>String类中包含一个不可变的char数组用来存放字符串，一个int型的变量hash用来存放计算后的哈希值。</p>
-<p>下面是源码里面说的，也很简单<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//用于存储字符串</span></div><div class="line"><span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">char</span> value[];</div><div class="line"></div><div class="line"><span class="comment">//缓存String的hash值</span></div><div class="line"><span class="keyword">private</span> <span class="keyword">int</span> hash; <span class="comment">// Default to 0</span></div><div class="line"></div><div class="line"><span class="comment">/** use serialVersionUID from JDK 1.0.2 for interoperability */</span></div><div class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">long</span> serialVersionUID = -<span class="number">6849794470754667710L</span>;</div></pre></td></tr></table></figure></p>
-<h3 id="三-String构造函数"><a href="#三-String构造函数" class="headerlink" title="三 String构造函数"></a>三 String构造函数</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//不含参数的构造函数，一般没什么用，因为value是不可变量</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="title">String</span><span class="params">()</span> </span>&#123;</div><div class="line">    <span class="keyword">this</span>.value = <span class="keyword">new</span> <span class="keyword">char</span>[<span class="number">0</span>];</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//参数为String类型</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="title">String</span><span class="params">(String original)</span> </span>&#123;</div><div class="line">    <span class="keyword">this</span>.value = original.value;</div><div class="line">    <span class="keyword">this</span>.hash = original.hash;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//参数为char数组，使用java.utils包中的Arrays类复制</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="title">String</span><span class="params">(<span class="keyword">char</span> value[])</span> </span>&#123;</div><div class="line">    <span class="keyword">this</span>.value = Arrays.copyOf(value, value.length);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//从bytes数组中的offset位置开始，将长度为length的字节，以charsetName格式编码，拷贝到value</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="title">String</span><span class="params">(<span class="keyword">byte</span> bytes[], <span class="keyword">int</span> offset, <span class="keyword">int</span> length, String charsetName)</span></span></div><div class="line"><span class="function">        <span class="keyword">throws</span> UnsupportedEncodingException </span>&#123;</div><div class="line">    <span class="keyword">if</span> (charsetName == <span class="keyword">null</span>)</div><div class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> NullPointerException(<span class="string">"charsetName"</span>);</div><div class="line">    checkBounds(bytes, offset, length);</div><div class="line">    <span class="keyword">this</span>.value = StringCoding.decode(charsetName, bytes, offset, length);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//调用public String(byte bytes[], int offset, int length, String charsetName)构造函数</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="title">String</span><span class="params">(<span class="keyword">byte</span> bytes[], String charsetName)</span></span></div><div class="line"><span class="function">        <span class="keyword">throws</span> UnsupportedEncodingException </span>&#123;</div><div class="line">    <span class="keyword">this</span>(bytes, <span class="number">0</span>, bytes.length, charsetName);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>三 String常用方法</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">boolean</span> <span class="title">equals</span><span class="params">(Object anObject)</span></span></div><div class="line"><span class="function"></span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">equals</span><span class="params">(Object anObject)</span> </span>&#123;</div><div class="line">    <span class="comment">//如果引用的是同一个对象，返回真</span></div><div class="line">    <span class="keyword">if</span> (<span class="keyword">this</span> == anObject) &#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="comment">//如果不是String类型的数据，返回假,</span></div><div class="line">    <span class="comment">// 这个比较是很有必要的，试想一下为什么"abs".equals(new StringBuffer("abc")) 是 false？</span></div><div class="line">    <span class="keyword">if</span> (anObject <span class="keyword">instanceof</span> String) &#123;</div><div class="line">        String anotherString = (String) anObject;</div><div class="line">        <span class="keyword">int</span> n = value.length;</div><div class="line">        <span class="comment">//如果char数组长度不相等，返回假</span></div><div class="line">        <span class="keyword">if</span> (n == anotherString.value.length) &#123;</div><div class="line">            <span class="keyword">char</span> v1[] = value;</div><div class="line">            <span class="keyword">char</span> v2[] = anotherString.value;</div><div class="line">            <span class="keyword">int</span> i = <span class="number">0</span>;</div><div class="line">            <span class="comment">//从后往前单个字符判断，如果有不相等，返回假</span></div><div class="line">            <span class="keyword">while</span> (n-- != <span class="number">0</span>) &#123;</div><div class="line">                <span class="keyword">if</span> (v1[i] != v2[i])</div><div class="line">                        <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">                i++;</div><div class="line">            &#125;</div><div class="line">            <span class="comment">//每个字符都相等，返回真</span></div><div class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<ol>
-<li>内存地址相同，则为真。</li>
-<li>如果对象类型不是String类型，则为假。否则继续判断。</li>
-<li>如果对象长度不相等，则为假。否则继续判断。</li>
-<li>从后往前，判断String类中char数组value的单个字符是否相等，有不相等则为假。如果一直相等直到第一个数，则返回真。</li>
-</ol>
-<p>equals方法经常用得到，它用来判断两个对象从实际意义上是否相等，String对象判断规则：</p>
-<p>内存地址相同，则为真。</p>
-<p>如果对象类型不是String类型，则为假。否则继续判断。</p>
-<p>如果对象长度不相等，则为假。否则继续判断。</p>
-<p>从后往前，判断String类中char数组value的单个字符是否相等，有不相等则为假。如果一直相等直到第一个数，则返回真。</p>
-<p>由此可以看出，如果对两个超长的字符串进行比较还是非常费时间的。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">compareTo</span><span class="params">(String anotherString)</span></span></div><div class="line"><span class="function"></span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">compareTo</span><span class="params">(String anotherString)</span> </span>&#123;</div><div class="line">    <span class="comment">//自身对象字符串长度len1</span></div><div class="line">    <span class="keyword">int</span> len1 = value.length;</div><div class="line">    <span class="comment">//被比较对象字符串长度len2</span></div><div class="line">    <span class="keyword">int</span> len2 = anotherString.value.length;</div><div class="line">    <span class="comment">//取两个字符串长度的最小值lim</span></div><div class="line">    <span class="keyword">int</span> lim = Math.min(len1, len2);</div><div class="line">    <span class="keyword">char</span> v1[] = value;</div><div class="line">    <span class="keyword">char</span> v2[] = anotherString.value;</div><div class="line"></div><div class="line">    <span class="keyword">int</span> k = <span class="number">0</span>;</div><div class="line">    <span class="comment">//从value的第一个字符开始到最小长度lim处为止，如果字符不相等，返回自身（对象不相等处字符-被比较对象不相等字符）</span></div><div class="line">    <span class="keyword">while</span> (k &lt; lim) &#123;</div><div class="line">        <span class="keyword">char</span> c1 = v1[k];</div><div class="line">        <span class="keyword">char</span> c2 = v2[k];</div><div class="line">        <span class="keyword">if</span> (c1 != c2) &#123;</div><div class="line">            <span class="keyword">return</span> c1 - c2;</div><div class="line">        &#125;</div><div class="line">        k++;</div><div class="line">    &#125;</div><div class="line">    <span class="comment">//如果前面都相等，则返回（自身长度-被比较对象长度）</span></div><div class="line">    <span class="keyword">return</span> len1 - len2;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>这个方法写的很巧妙，先从0开始判断字符大小。如果两个对象能比较字符的地方比较完了还相等，就直接返回自身长度减被比较对象长度，如果两个字符串长度相等，则返回的是0，巧妙地判断了三种情况。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">hashCode</span><span class="params">()</span></span></div><div class="line"><span class="function"></span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">hashCode</span><span class="params">()</span> </span>&#123;</div><div class="line">    <span class="keyword">int</span> h = hash;</div><div class="line">    <span class="comment">//如果hash没有被计算过，并且字符串不为空，则进行hashCode计算</span></div><div class="line">    <span class="keyword">if</span> (h == <span class="number">0</span> &amp;&amp; value.length &gt; <span class="number">0</span>) &#123;</div><div class="line">        <span class="keyword">char</span> val[] = value;</div><div class="line"></div><div class="line">        <span class="comment">//计算过程</span></div><div class="line">        <span class="comment">//s[0]*31^(n-1) + s[1]*31^(n-2) + ... + s[n-1]</span></div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; value.length; i++) &#123;</div><div class="line">            h = <span class="number">31</span> * h + val[i];</div><div class="line">        &#125;</div><div class="line">        <span class="comment">//hash赋值</span></div><div class="line">        hash = h;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> h;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>String类重写了hashCode方法，Object中的hashCode方法是一个Native调用。String类的hash采用多项式计算得来，我们完全可以通过不相同的字符串得出同样的hash，所以两个String对象的hashCode相同，并不代表两个String是一样的。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">boolean</span> <span class="title">startsWith</span><span class="params">(String prefix,<span class="keyword">int</span> toffset)</span></span></div><div class="line"><span class="function"></span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">startsWith</span><span class="params">(String prefix, <span class="keyword">int</span> toffset)</span> </span>&#123;</div><div class="line">    <span class="keyword">char</span> ta[] = value;</div><div class="line">    <span class="keyword">int</span> to = toffset;</div><div class="line">    <span class="keyword">char</span> pa[] = prefix.value;</div><div class="line">    <span class="keyword">int</span> po = <span class="number">0</span>;</div><div class="line">    <span class="keyword">int</span> pc = prefix.value.length;</div><div class="line">    <span class="comment">// Note: toffset might be near -1&gt;&gt;&gt;1.</span></div><div class="line">    <span class="comment">//如果起始地址小于0或者（起始地址+所比较对象长度）大于自身对象长度，返回假</span></div><div class="line">    <span class="keyword">if</span> ((toffset &lt; <span class="number">0</span>) || (toffset &gt; value.length - pc)) &#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="comment">//从所比较对象的末尾开始比较</span></div><div class="line">    <span class="keyword">while</span> (--pc &gt;= <span class="number">0</span>) &#123;</div><div class="line">        <span class="keyword">if</span> (ta[to++] != pa[po++]) &#123;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">startsWith</span><span class="params">(String prefix)</span> </span>&#123;</div><div class="line">    <span class="keyword">return</span> startsWith(prefix, <span class="number">0</span>);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">endsWith</span><span class="params">(String suffix)</span> </span>&#123;</div><div class="line">    <span class="keyword">return</span> startsWith(suffix, value.length - suffix.value.length);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>起始比较和末尾比较都是比较经常用得到的方法，例如在判断一个字符串是不是http协议的，或者初步判断一个文件是不是mp3文件，都可以采用这个方法进行比较。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="function">String <span class="title">concat</span><span class="params">(String str)</span></span></div><div class="line"><span class="function"></span></div><div class="line"><span class="function"><span class="keyword">public</span> String <span class="title">concat</span><span class="params">(String str)</span> </span>&#123;</div><div class="line">    <span class="keyword">int</span> otherLen = str.length();</div><div class="line">    <span class="comment">//如果被添加的字符串为空，返回对象本身</span></div><div class="line">    <span class="keyword">if</span> (otherLen == <span class="number">0</span>) &#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">this</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">int</span> len = value.length;</div><div class="line">    <span class="keyword">char</span> buf[] = Arrays.copyOf(value, len + otherLen);</div><div class="line">    str.getChars(buf, len);</div><div class="line">    <span class="keyword">return</span> <span class="keyword">new</span> String(buf, <span class="keyword">true</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>concat方法也是经常用的方法之一，它先判断被添加字符串是否为空来决定要不要创建新的对象。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line"><span class="function">String <span class="title">replace</span><span class="params">(<span class="keyword">char</span> oldChar,<span class="keyword">char</span> newChar)</span></span></div><div class="line"><span class="function"></span></div><div class="line"><span class="function"><span class="keyword">public</span> String <span class="title">replace</span><span class="params">(<span class="keyword">char</span> oldChar, <span class="keyword">char</span> newChar)</span> </span>&#123;</div><div class="line">    <span class="comment">//新旧值先对比</span></div><div class="line">    <span class="keyword">if</span> (oldChar != newChar) &#123;</div><div class="line">        <span class="keyword">int</span> len = value.length;</div><div class="line">        <span class="keyword">int</span> i = -<span class="number">1</span>;</div><div class="line">        <span class="keyword">char</span>[] val = value; <span class="comment">/* avoid getfield opcode */</span></div><div class="line"></div><div class="line">        <span class="comment">//找到旧值最开始出现的位置</span></div><div class="line">        <span class="keyword">while</span> (++i &lt; len) &#123;</div><div class="line">            <span class="keyword">if</span> (val[i] == oldChar) &#123;</div><div class="line">                <span class="keyword">break</span>;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="comment">//从那个位置开始，直到末尾，用新值代替出现的旧值</span></div><div class="line">        <span class="keyword">if</span> (i &lt; len) &#123;</div><div class="line">            <span class="keyword">char</span> buf[] = <span class="keyword">new</span> <span class="keyword">char</span>[len];</div><div class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; i; j++) &#123;</div><div class="line">                buf[j] = val[j];</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">while</span> (i &lt; len) &#123;</div><div class="line">                <span class="keyword">char</span> c = val[i];</div><div class="line">                buf[i] = (c == oldChar) ? newChar : c;</div><div class="line">                i++;</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">new</span> String(buf, <span class="keyword">true</span>);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">this</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>这个方法也有讨巧的地方，例如最开始先找出旧值出现的位置，这样节省了一部分对比的时间。replace(String oldStr,String newStr)方法通过正则表达式来判断。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">String trim()</div><div class="line"></div><div class="line">public String trim() &#123;</div><div class="line">    int len = value.length;</div><div class="line">    int st = 0;</div><div class="line">    char[] val = value;    /* avoid getfield opcode */</div><div class="line"></div><div class="line">    //找到字符串前段没有空格的位置</div><div class="line">    while ((st &lt; len) &amp;&amp; (val[st] &lt;= &apos; &apos;)) &#123;</div><div class="line">        st++;</div><div class="line">    &#125;</div><div class="line">    //找到字符串末尾没有空格的位置</div><div class="line">    while ((st &lt; len) &amp;&amp; (val[len - 1] &lt;= &apos; &apos;)) &#123;</div><div class="line">        len--;</div><div class="line">    &#125;</div><div class="line">    //如果前后都没有出现空格，返回字符串本身</div><div class="line">    return ((st &gt; 0) || (len &lt; value.length)) ? substring(st, len) : this;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>trim方法用起来也6的飞起</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">String intern()</div><div class="line"></div><div class="line">public native String intern();</div></pre></td></tr></table></figure>
-<p>intern方法是Native调用，它的作用是在方法区中的常量池里通过equals方法寻找等值的对象，如果没有找到则在常量池中开辟一片空间存放字符串并返回该对应String的引用，否则直接返回常量池中已存在String对象的引用。</p>
-<p>将引言中第二段代码</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">//String a = new String(&quot;ab1&quot;);</div><div class="line">//改为</div><div class="line">String a = new String(&quot;ab1&quot;).intern();</div></pre></td></tr></table></figure>
-<p>则结果为为真，原因在于a所指向的地址来自于常量池，而b所指向的字符串常量默认会调用这个方法，所以a和b都指向了同一个地址空间。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">int hash32()</div><div class="line"></div><div class="line">private transient int hash32 = 0;</div><div class="line">int hash32() &#123;</div><div class="line">    int h = hash32;</div><div class="line">    if (0 == h) &#123;</div><div class="line">       // harmless data race on hash32 here.</div><div class="line">       h = sun.misc.Hashing.murmur3_32(HASHING_SEED, value, 0, value.length);</div><div class="line"></div><div class="line">       // ensure result is not zero to avoid recalcing</div><div class="line">       h = (0 != h) ? h : 1;</div><div class="line"></div><div class="line">       hash32 = h;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    return h;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>在JDK1.7中，Hash相关集合类在String类作key的情况下，不再使用hashCode方式离散数据，而是采用hash32方法。这个方法默认使用系统当前时间，String类地址，System类地址等作为因子计算得到hash种子，通过hash种子在经过hash得到32位的int型数值。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">public int length() &#123;</div><div class="line">    return value.length;</div><div class="line">&#125;</div><div class="line">public String toString() &#123;</div><div class="line">    return this;</div><div class="line">&#125;</div><div class="line">public boolean isEmpty() &#123;</div><div class="line">    return value.length == 0;</div><div class="line">&#125;</div><div class="line">public char charAt(int index) &#123;</div><div class="line">    if ((index &lt; 0) || (index &gt;= value.length)) &#123;</div><div class="line">        throw new StringIndexOutOfBoundsException(index);</div><div class="line">    &#125;</div><div class="line">    return value[index];</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>以上是一些简单的常用方法。</p>
-<p>总结</p>
-<p>String对象是不可变类型，返回类型为String的String方法每次返回的都是新的String对象，除了某些方法的某些特定条件返回自身。</p>
-<p>String对象的三种比较方式：</p>
-<p>==内存比较：直接对比两个引用所指向的内存值，精确简洁直接明了。</p>
-<p>equals字符串值比较：比较两个引用所指对象字面值是否相等。</p>
-<p>hashCode字符串数值化比较：将字符串数值化。两个引用的hashCode相同，不保证内存一定相同，不保证字面值一定相同。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1974,7 +1935,7 @@ You may assume that row1 ≤ row2 and col1 ≤ col2.
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">108</span>
+                <span class="site-state-item-count">110</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>

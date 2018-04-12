@@ -303,6 +303,400 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/01/16/ArrayList源码解析/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sailong Ren">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="coderlong的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/01/16/ArrayList源码解析/" itemprop="url">ArrayList源码剖析</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-16T14:18:40+08:00">
+                2018-01-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JDK/" itemprop="url" rel="index">
+                    <span itemprop="name">JDK</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="ArrayList源码解析"><a href="#ArrayList源码解析" class="headerlink" title="ArrayList源码解析"></a>ArrayList源码解析</h2><p>我们经常会听到别人讲”容器”各种各样的容器，话说到底什么是容器，通俗的讲“容器就是用来装东西的器皿，比如：水桶就是用来盛水的，水桶就是一个容器。”<br>ok，在我们写程序的时候常常要对大量的对象进行管理，比如查询，遍历，修改等。jdk为我们提供的容器位于java.util包，也是我们平时用的最多的包之一。<br>但是为什么不用数组（其实也不是不用，只是不直接用）呢，因为数组的长度需要提前确定，而且不能改变大小，用起来手脚受限嘛。</p>
+<ol>
+<li>定义<br>首先先来看下顶级接口Collection的定义，</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Collection</span>&lt;<span class="title">E</span>&gt; <span class="keyword">extends</span> <span class="title">Iterable</span>&lt;<span class="title">E</span>&gt; </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">int</span> <span class="title">size</span><span class="params">()</span></span>;</div><div class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">isEmpty</span><span class="params">()</span></span>;</div><div class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">contains</span><span class="params">(Object o)</span></span>;</div><div class="line">    <span class="function">Iterator&lt;E&gt; <span class="title">iterator</span><span class="params">()</span></span>;</div><div class="line">    Object[] toArray();</div><div class="line">    &lt;T&gt; T[] toArray(T[] a);</div><div class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">add</span><span class="params">(E e)</span></span>;</div><div class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">remove</span><span class="params">(Object o)</span></span>;</div><div class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">containsAll</span><span class="params">(Collection&lt;?&gt; c)</span></span>;</div><div class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">addAll</span><span class="params">(Collection&lt;? extends E&gt; c)</span></span>;</div><div class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">removeAll</span><span class="params">(Collection&lt;?&gt; c)</span></span>;</div><div class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">retainAll</span><span class="params">(Collection&lt;?&gt; c)</span></span>;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">clear</span><span class="params">()</span></span>;</div><div class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">equals</span><span class="params">(Object o)</span></span>;</div><div class="line">    <span class="function"><span class="keyword">int</span> <span class="title">hashCode</span><span class="params">()</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>然后是List接口的定义</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">List</span>&lt;<span class="title">E</span>&gt; <span class="keyword">extends</span> <span class="title">Collection</span>&lt;<span class="title">E</span>&gt; </span>&#123;</div><div class="line">         <span class="function"><span class="keyword">int</span> <span class="title">size</span><span class="params">()</span></span>;</div><div class="line">         <span class="function"><span class="keyword">boolean</span> <span class="title">isEmpty</span><span class="params">()</span></span>;</div><div class="line">         <span class="function"><span class="keyword">boolean</span> <span class="title">contains</span><span class="params">(Object o)</span></span>;</div><div class="line">         <span class="function">Iterator&lt;E&gt; <span class="title">iterator</span><span class="params">()</span></span>;</div><div class="line">         Object[] toArray();</div><div class="line">         &lt;T&gt; T[] toArray(T[] a);</div><div class="line">         <span class="function"><span class="keyword">boolean</span> <span class="title">add</span><span class="params">(E e)</span></span>;</div><div class="line">         <span class="function"><span class="keyword">boolean</span> <span class="title">remove</span><span class="params">(Object o)</span></span>;</div><div class="line">         <span class="function"><span class="keyword">boolean</span> <span class="title">containsAll</span><span class="params">(Collection&lt;?&gt; c)</span></span>;</div><div class="line">         <span class="function"><span class="keyword">boolean</span> <span class="title">addAll</span><span class="params">(Collection&lt;? extends E&gt; c)</span></span>;</div><div class="line">         <span class="function"><span class="keyword">boolean</span> <span class="title">addAll</span><span class="params">( <span class="keyword">int</span> index, Collection&lt;? extends E&gt; c)</span></span>;</div><div class="line">         <span class="function"><span class="keyword">boolean</span> <span class="title">removeAll</span><span class="params">(Collection&lt;?&gt; c)</span></span>;</div><div class="line">         <span class="function"><span class="keyword">boolean</span> <span class="title">retainAll</span><span class="params">(Collection&lt;?&gt; c)</span></span>;</div><div class="line">         <span class="function"><span class="keyword">void</span> <span class="title">clear</span><span class="params">()</span></span>;</div><div class="line">         <span class="function"><span class="keyword">boolean</span> <span class="title">equals</span><span class="params">(Object o)</span></span>;</div><div class="line">         <span class="function"><span class="keyword">int</span> <span class="title">hashCode</span><span class="params">()</span></span>;</div><div class="line">         <span class="function">E <span class="title">get</span><span class="params">( <span class="keyword">int</span> index)</span></span>;</div><div class="line">         <span class="function">E <span class="title">set</span><span class="params">( <span class="keyword">int</span> index, E element)</span></span>;</div><div class="line">         <span class="function"><span class="keyword">void</span> <span class="title">add</span><span class="params">( <span class="keyword">int</span> index, E element)</span></span>;</div><div class="line">         <span class="function">E <span class="title">remove</span><span class="params">( <span class="keyword">int</span> index)</span></span>;</div><div class="line">         <span class="function"><span class="keyword">int</span> <span class="title">indexOf</span><span class="params">(Object o)</span></span>;</div><div class="line">         <span class="function"><span class="keyword">int</span> <span class="title">lastIndexOf</span><span class="params">(Object o)</span></span>;</div><div class="line">         <span class="function">ListIterator&lt;E&gt; <span class="title">listIterator</span><span class="params">()</span></span>;</div><div class="line">         <span class="function">ListIterator&lt;E&gt; <span class="title">listIterator</span><span class="params">( <span class="keyword">int</span> index)</span></span>;</div><div class="line">         <span class="function">List&lt;E&gt; <span class="title">subList</span><span class="params">( <span class="keyword">int</span> fromIndex, <span class="keyword">int</span> toIndex)</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>看ArrayList的 定义<br><code>public class ArrayList&lt;E&gt; extends AbstractList&lt;E&gt; implements List&lt;E&gt;, RandomAccess, Cloneable, java.io.Serializable</code><br>可以看出ArrayList继承AbstractList（这是一个抽象类，对一些基础的list操作进行封装），实现List，RandomAccess，Cloneable，Serializable几个接口，RandomAccess是一个标记接口，用来表明其支持快速随机访问。</p>
+<ol>
+<li>底层存储<br>ArrayList就是用数组实现的List容器，既然是用数组实现，当然底层用数组来保存数据啦<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">1 private transient Object[] elementData;</div><div class="line">2 private int size;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>可以看到用一个Object数组来存储数据，用一个int值来计数，记录当前容器的数据大小。</p>
+<p>另外，细心的人会发现elementData数组是使用transient修饰的，关于transient关键字的作用简单说就是java自带默认机制进行序列化的时候，被其修饰的属性不需要维持。会不会产生一点疑问？elementData不需要维持，那么怎么进行反序列化，又怎么保证序列化和反序列化数据的正确性？难道不需要存储？用大腿想一下那当然是不可以的嘛，既然需要存储，它是怎么实现的呢？注意上面红色加粗的地方，默认序列化机制，嗯哼想明白了ArrayList一定是使用了自定义的序列化方式，到底是不是这样的呢？看下面两个方法：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"><span class="comment">     * Save the state of the &lt;tt&gt;ArrayList&lt;/tt&gt; instance to a stream (that</span></div><div class="line"><span class="comment">     * is, serialize it).</span></div><div class="line"><span class="comment">     *</span></div><div class="line"><span class="comment">     * <span class="doctag">@serialData</span> The length of the array backing the &lt;tt&gt;ArrayList &lt;/tt&gt;</span></div><div class="line"><span class="comment">     *             instance is emitted (int), followed by all of its elements</span></div><div class="line"><span class="comment">     *             (each an &lt;tt&gt;Object&lt;/tt&gt; ) in the proper order.</span></div><div class="line"><span class="comment">     */</span></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">writeObject</span><span class="params">(java.io.ObjectOutputStream s)</span></span></div><div class="line"><span class="function">        <span class="keyword">throws</span> java.io.IOException</span>&#123;</div><div class="line">        <span class="comment">// Write out element count, and any hidden stuff</span></div><div class="line">        <span class="keyword">int</span> expectedModCount = modCount ;</div><div class="line">       s.defaultWriteObject();</div><div class="line"></div><div class="line">        <span class="comment">// Write out array length</span></div><div class="line">        s.writeInt( elementData.length );</div><div class="line"></div><div class="line">        <span class="comment">// Write out all elements in the proper order.</span></div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;size; i++)</div><div class="line">            s.writeObject( elementData[i]);</div><div class="line"></div><div class="line">        <span class="keyword">if</span> (modCount != expectedModCount) &#123;</div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> ConcurrentModificationException();</div><div class="line">        &#125;</div><div class="line"></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line"><span class="comment">     * Reconstitute the &lt;tt&gt;ArrayList&lt;/tt&gt; instance from a stream (that is,</span></div><div class="line"><span class="comment">     * deserialize it).</span></div><div class="line"><span class="comment">     */</span></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">readObject</span><span class="params">(java.io.ObjectInputStream s)</span></span></div><div class="line"><span class="function">        <span class="keyword">throws</span> java.io.IOException, ClassNotFoundException </span>&#123;</div><div class="line">        <span class="comment">// Read in size, and any hidden stuff</span></div><div class="line">       s.defaultReadObject();</div><div class="line"></div><div class="line">        <span class="comment">// Read in array length and allocate array</span></div><div class="line">        <span class="keyword">int</span> arrayLength = s.readInt();</div><div class="line">        Object[] a = elementData = <span class="keyword">new</span> Object[arrayLength];</div><div class="line"></div><div class="line">        <span class="comment">// Read in all elements in the proper order.</span></div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;size; i++)</div><div class="line">            a[i] = s.readObject();</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
+<p>为什么这样设计呢？<br>elementData 是一个数据存储数组，而数组是定长的，它会初始化一个容量，等容量不足时再扩充容量（扩容方式为数据拷贝，后面会详细解释），再通俗一点说就是比如elementData 的长度是10，而里面只保存了3个对象，那么数组中其余的7个元素（null）是没有意义的，所以也就不需要保存，以节省序列化后的内存容量，好了到这里就明白了这样设计的初衷和好处，顺便好像也明白了长度单独用一个int变量保存，而不是直接使用elementData.length的原因。</p>
+<ol>
+<li>构造方法<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line">     * 构造一个具有指定容量的list</div><div class="line">     */</div><div class="line">    public ArrayList( int initialCapacity) &#123;</div><div class="line">        super();</div><div class="line">        if (initialCapacity &lt; 0)</div><div class="line">            throw new IllegalArgumentException( &quot;Illegal Capacity: &quot; +</div><div class="line">                                               initialCapacity);</div><div class="line">        this.elementData = new Object[initialCapacity];</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 构造一个初始容量为10的list</div><div class="line">     */</div><div class="line">    public ArrayList() &#123;</div><div class="line">        this(10);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 构造一个包含指定元素的list，这些元素的是按照Collection的迭代器返回的顺序排列的</div><div class="line">     */</div><div class="line">    public ArrayList(Collection&lt;? extends E&gt; c) &#123;</div><div class="line">        elementData = c.toArray();</div><div class="line">        size = elementData .length;</div><div class="line">        // c.toArray might (incorrectly) not return Object[] (see 6260652)</div><div class="line">        if (elementData .getClass() != Object[].class)</div><div class="line">           elementData = Arrays.copyOf( elementData, size , Object[].class);</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>构造方法看完了，想一下指定容量的构造方法的意义，既然默认为10就可以那么为什么还要提供一个可以指定容量大小的构造方法呢？在这里说好像有点太早，那就卖个关子，下面再说。。。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div></pre></td><td class="code"><pre><div class="line">4. 增加</div><div class="line"></div><div class="line">/**</div><div class="line">     * 添加一个元素</div><div class="line">     */</div><div class="line">    public boolean add(E e) &#123;</div><div class="line">       // 进行扩容检查</div><div class="line">       ensureCapacity( size + 1);  // Increments modCount</div><div class="line">       // 将e增加至list的数据尾部，容量+1</div><div class="line">        elementData[size ++] = e;</div><div class="line">        return true;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 在指定位置添加一个元素</div><div class="line">     */</div><div class="line">    public void add(int index, E element) &#123;</div><div class="line">        // 判断索引是否越界，这里会抛出多么熟悉的异常。。。</div><div class="line">        if (index &gt; size || index &lt; 0)</div><div class="line">           throw new IndexOutOfBoundsException(</div><div class="line">               &quot;Index: &quot;+index+&quot;, Size: &quot; +size);</div><div class="line"></div><div class="line">       // 进行扩容检查</div><div class="line">       ensureCapacity( size+1);  // Increments modCount  </div><div class="line">       // 对数组进行复制处理，目的就是空出index的位置插入element，并将index后的元素位移一个位置</div><div class="line">       System. arraycopy(elementData, index, elementData, index + 1,</div><div class="line">                      size - index);</div><div class="line">       // 将指定的index位置赋值为element</div><div class="line">        elementData[index] = element;</div><div class="line">       // list容量+1</div><div class="line">        size++;</div><div class="line">    &#125;</div><div class="line">    /**</div><div class="line">     * 增加一个集合元素</div><div class="line">     */</div><div class="line">    public boolean addAll(Collection&lt;? extends E&gt; c) &#123;</div><div class="line">       //将c转换为数组</div><div class="line">       Object[] a = c.toArray();</div><div class="line">        int numNew = a.length ;</div><div class="line">       //扩容检查</div><div class="line">       ensureCapacity( size + numNew);  // Increments modCount</div><div class="line">       //将c添加至list的数据尾部</div><div class="line">        System. arraycopy(a, 0, elementData, size, numNew);</div><div class="line">       //更新当前容器大小</div><div class="line">        size += numNew;</div><div class="line">        return numNew != 0;</div><div class="line">    &#125;</div><div class="line">    /**</div><div class="line">     * 在指定位置，增加一个集合元素</div><div class="line">     */</div><div class="line">    public boolean addAll(int index, Collection&lt;? extends E&gt; c) &#123;</div><div class="line">        if (index &gt; size || index &lt; 0)</div><div class="line">           throw new IndexOutOfBoundsException(</div><div class="line">               &quot;Index: &quot; + index + &quot;, Size: &quot; + size);</div><div class="line"></div><div class="line">       Object[] a = c.toArray();</div><div class="line">        int numNew = a.length ;</div><div class="line">       ensureCapacity( size + numNew);  // Increments modCount</div><div class="line"></div><div class="line">       // 计算需要移动的长度（index之后的元素个数）</div><div class="line">        int numMoved = size - index;</div><div class="line">       // 数组复制，空出第index到index+numNum的位置，即将数组index后的元素向右移动numNum个位置</div><div class="line">        if (numMoved &gt; 0)</div><div class="line">           System. arraycopy(elementData, index, elementData, index + numNew,</div><div class="line">                          numMoved);</div><div class="line"></div><div class="line">       // 将要插入的集合元素复制到数组空出的位置中</div><div class="line">        System. arraycopy(a, 0, elementData, index, numNew);</div><div class="line">        size += numNew;</div><div class="line">        return numNew != 0;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 数组容量检查，不够时则进行扩容</div><div class="line">     */</div><div class="line">   public void ensureCapacity( int minCapacity) &#123;</div><div class="line">        modCount++;</div><div class="line">       // 当前数组的长度</div><div class="line">        int oldCapacity = elementData .length;</div><div class="line">       // 最小需要的容量大于当前数组的长度则进行扩容</div><div class="line">        if (minCapacity &gt; oldCapacity) &#123;</div><div class="line">           Object oldData[] = elementData;</div><div class="line">          // 新扩容的数组长度为旧容量的1.5倍+1</div><div class="line">           int newCapacity = (oldCapacity * 3)/2 + 1;</div><div class="line">          // 如果新扩容的数组长度还是比最小需要的容量小，则以最小需要的容量为长度进行扩容</div><div class="line">           if (newCapacity &lt; minCapacity)</div><div class="line">              newCapacity = minCapacity;</div><div class="line">            // minCapacity is usually close to size, so this is a win:</div><div class="line">            // 进行数据拷贝，Arrays.copyOf底层实现是System.arrayCopy()</div><div class="line">            elementData = Arrays.copyOf( elementData, newCapacity);</div><div class="line">       &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<ol>
+<li>删除<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line">     * 根据索引位置删除元素</div><div class="line">     */</div><div class="line">    public E remove( int index) &#123;</div><div class="line">      // 数组越界检查</div><div class="line">       RangeCheck(index);</div><div class="line"></div><div class="line">        modCount++;</div><div class="line">      // 取出要删除位置的元素，供返回使用</div><div class="line">       E oldValue = (E) elementData[index];</div><div class="line">       // 计算数组要复制的数量</div><div class="line">        int numMoved = size - index - 1;</div><div class="line">       // 数组复制，就是将index之后的元素往前移动一个位置</div><div class="line">        if (numMoved &gt; 0)</div><div class="line">           System. arraycopy(elementData, index+1, elementData, index,</div><div class="line">                          numMoved);</div><div class="line">       // 将数组最后一个元素置空（因为删除了一个元素，然后index后面的元素都向前移动了，所以最后一个就没用了），好让gc尽快回收</div><div class="line">       // 不要忘了size减一</div><div class="line">        elementData[--size ] = null; // Let gc do its work</div><div class="line"></div><div class="line">        return oldValue;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 根据元素内容删除，只删除匹配的第一个</div><div class="line">     */</div><div class="line">    public boolean remove(Object o) &#123;</div><div class="line">       // 对要删除的元素进行null判断</div><div class="line">       // 对数据元素进行遍历查找，知道找到第一个要删除的元素，删除后进行返回，如果要删除的元素正好是最后一个那就惨了，时间复杂度可达O(n) 。。。</div><div class="line">        if (o == null) &#123;</div><div class="line">            for (int index = 0; index &lt; size; index++)</div><div class="line">              // null值要用==比较</div><div class="line">               if (elementData [index] == null) &#123;</div><div class="line">                  fastRemove(index);</div><div class="line">                  return true;</div><div class="line">              &#125;</div><div class="line">       &#125; else &#123;</div><div class="line">           for (int index = 0; index &lt; size; index++)</div><div class="line">              // 非null当然是用equals比较了</div><div class="line">               if (o.equals(elementData [index])) &#123;</div><div class="line">                  fastRemove(index);</div><div class="line">                  return true;</div><div class="line">              &#125;</div><div class="line">        &#125;</div><div class="line">        return false;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    /*</div><div class="line">     * Private remove method that skips bounds checking and does not</div><div class="line">     * return the value removed.</div><div class="line">     */</div><div class="line">    private void fastRemove(int index) &#123;</div><div class="line">        modCount++;</div><div class="line">       // 原理和之前的add一样，还是进行数组复制，将index后的元素向前移动一个位置，不细解释了，</div><div class="line">        int numMoved = size - index - 1;</div><div class="line">        if (numMoved &gt; 0)</div><div class="line">            System. arraycopy(elementData, index+1, elementData, index,</div><div class="line">                             numMoved);</div><div class="line">        elementData[--size ] = null; // Let gc do its work</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 数组越界检查</div><div class="line">     */</div><div class="line">    private void RangeCheck(int index) &#123;</div><div class="line">        if (index &gt;= size )</div><div class="line">           throw new IndexOutOfBoundsException(</div><div class="line">               &quot;Index: &quot;+index+&quot;, Size: &quot; +size);</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>上面讲增加元素可能会进行扩容，而删除元素却不会进行缩容，如果在已删除为主的场景下使用list，一直不停的删除而很少进行增加，那么会出现什么情况？再或者数组进行一次大扩容后，我们后续只使用了几个空间，会出现上面情况？当然是空间浪费啦啦啦，怎么办呢？  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">那就缩减容量呗。</div><div class="line">/**</div><div class="line">     * 将底层数组的容量调整为当前实际元素的大小，来释放空间。</div><div class="line">     */</div><div class="line">    public void trimToSize() &#123;</div><div class="line">        modCount++;</div><div class="line">       // 当前数组的容量</div><div class="line">        int oldCapacity = elementData .length;</div><div class="line">       // 如果当前实际元素大小 小于 当前数组的容量，则进行缩容</div><div class="line">        if (size &lt; oldCapacity) &#123;</div><div class="line">            elementData = Arrays.copyOf( elementData, size );</div><div class="line">       &#125;</div></pre></td></tr></table></figure>
+<ol>
+<li><p>更新 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line">     * 将指定位置的元素更新为新元素</div><div class="line">     */</div><div class="line">    public E set( int index, E element) &#123;</div><div class="line">       // 数组越界检查</div><div class="line">       RangeCheck(index);</div><div class="line"> </div><div class="line">       // 取出要更新位置的元素，供返回使用</div><div class="line">       E oldValue = (E) elementData[index];</div><div class="line">       // 将该位置赋值为行的元素</div><div class="line">        elementData[index] = element;</div><div class="line">       // 返回旧元素</div><div class="line">        return oldValue;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>查找</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line">     * 查找指定位置上的元素</div><div class="line">     */</div><div class="line">    public E get( int index) &#123;</div><div class="line">       RangeCheck(index);</div><div class="line"> </div><div class="line">        return (E) elementData [index];</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>由于ArrayList使用数组实现，更新和查找直接基于下标操作，变得十分简单。</p>
+<ol>
+<li><p>是否包含？</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line">     * Returns &lt;tt&gt;true&lt;/tt&gt; if this list contains the specified element.</div><div class="line">     * More formally, returns &lt;tt&gt;true&lt;/tt&gt; if and only if this list contains</div><div class="line">     * at least one element &lt;tt&gt;e&lt;/tt&gt; such that</div><div class="line">     * &lt;tt&gt;(o==null&amp;nbsp;?&amp;nbsp;e==null&amp;nbsp;:&amp;nbsp;o.equals(e))&lt;/tt&gt;.</div><div class="line">     *</div><div class="line">     * @param o element whose presence in this list is to be tested</div><div class="line">     * @return &lt;tt&gt; true&lt;/tt&gt; if this list contains the specified element</div><div class="line">     */</div><div class="line">    public boolean contains(Object o) &#123;</div><div class="line">        return indexOf(o) &gt;= 0;</div><div class="line">    &#125;</div><div class="line"> </div><div class="line">    /**</div><div class="line">     * Returns the index of the first occurrence of the specified element</div><div class="line">     * in this list, or -1 if this list does not contain the element.</div><div class="line">     * More formally, returns the lowest index &lt;tt&gt;i&lt;/tt&gt; such that</div><div class="line">     * &lt;tt&gt;(o==null&amp;nbsp;?&amp;nbsp;get(i)==null&amp;nbsp;:&amp;nbsp;o.equals(get(i)))&lt;/tt&gt;,</div><div class="line">     * or -1 if there is no such index.</div><div class="line">     */</div><div class="line">    public int indexOf(Object o) &#123;</div><div class="line">        if (o == null) &#123;</div><div class="line">           for (int i = 0; i &lt; size; i++)</div><div class="line">               if (elementData [i]==null)</div><div class="line">                  return i;</div><div class="line">       &#125; else &#123;</div><div class="line">           for (int i = 0; i &lt; size; i++)</div><div class="line">               if (o.equals(elementData [i]))</div><div class="line">                  return i;</div><div class="line">       &#125;</div><div class="line">        return -1;</div><div class="line">    &#125;</div><div class="line"> </div><div class="line">    /**</div><div class="line">     * Returns the index of the last occurrence of the specified element</div><div class="line">     * in this list, or -1 if this list does not contain the element.</div><div class="line">     * More formally, returns the highest index &lt;tt&gt;i&lt;/tt&gt; such that</div><div class="line">     * &lt;tt&gt;(o==null&amp;nbsp;?&amp;nbsp;get(i)==null&amp;nbsp;:&amp;nbsp;o.equals(get(i)))&lt;/tt&gt;,</div><div class="line">     * or -1 if there is no such index.</div><div class="line">     */</div><div class="line">    public int lastIndexOf(Object o) &#123;</div><div class="line">        if (o == null) &#123;</div><div class="line">           for (int i = size-1; i &gt;= 0; i--)</div><div class="line">               if (elementData [i]==null)</div><div class="line">                  return i;</div><div class="line">       &#125; else &#123;</div><div class="line">           for (int i = size-1; i &gt;= 0; i--)</div><div class="line">               if (o.equals(elementData [i]))</div><div class="line">                  return i;</div><div class="line">       &#125;</div><div class="line">        return -1;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>容量判断</p>
+</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line">     * Returns the number of elements in this list.</div><div class="line">     *</div><div class="line">     * @return the number of elements in this list</div><div class="line">     */</div><div class="line">    public int size() &#123;</div><div class="line">        return size ;</div><div class="line">    &#125;</div><div class="line"> </div><div class="line">    /**</div><div class="line">     * Returns &lt;tt&gt;true&lt;/tt&gt; if this list contains no elements.</div><div class="line">     *</div><div class="line">     * @return &lt;tt&gt; true&lt;/tt&gt; if this list contains no elements</div><div class="line">     */</div><div class="line">    public boolean isEmpty() &#123;</div><div class="line">        return size == 0;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>最后附上一点 Markdown的快捷键</p>
+<h2 id="快捷键"><a href="#快捷键" class="headerlink" title="快捷键"></a>快捷键</h2><ul>
+<li>加粗    <code>Ctrl + B</code> </li>
+<li>斜体    <code>Ctrl + I</code> </li>
+<li>引用    <code>Ctrl + Q</code></li>
+<li>插入链接    <code>Ctrl + L</code></li>
+<li>插入代码    <code>Ctrl + K</code></li>
+<li>插入图片    <code>Ctrl + G</code></li>
+<li>提升标题    <code>Ctrl + H</code></li>
+<li>有序列表    <code>Ctrl + O</code></li>
+<li>无序列表    <code>Ctrl + U</code></li>
+<li>横线    <code>Ctrl + R</code></li>
+<li>撤销    <code>Ctrl + Z</code></li>
+<li>重做    <code>Ctrl + Y</code></li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/01/15/AQS阻塞队列/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sailong Ren">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="coderlong的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/01/15/AQS阻塞队列/" itemprop="url">AQS阻塞队列</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-15T12:50:17+08:00">
+                2018-01-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/concurrent/" itemprop="url" rel="index">
+                    <span itemprop="name">concurrent</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>AQS，AbstractQueuedSynchronizer，即队列同步器。它是构建锁或者其他同步组件的基础框架（如ReentrantLock、ReentrantReadWriteLock、Semaphore等），JUC并发包的作者（Doug Lea）期望它能够成为实现大部分同步需求的基础。它是JUC并发包中的核心基础组件。<br>AQS解决了子啊实现同步器时涉及当的大量细节问题，例如获取同步状态、FIFO同步队列。基于AQS来构建同步器可以带来很多好处。它不仅能够极大地减少实现工作，而且也不必处理在多个位置上发生的竞争问题。AQS的主要使用方式是继承，子类通过继承同步器并实现它的抽象方法来管理同步状态。<br>AQS的主要使用方式是继承，子类通过继承同步器并实现它的抽象方法来管理同步状态。</p>
+<p>AQS使用一个int类型的成员变量state来表示同步状态，当state&gt;0时表示已经获取了锁，当state = 0时表示释放了锁。它提供了三个方法（getState()、setState(int newState)、compareAndSetState(int expect,int update)）来对同步状态state进行操作，当然AQS可以确保对state的操作是安全的。</p>
+<p>AQS通过内置的FIFO同步队列来完成资源获取线程的排队工作，如果当前线程获取同步状态失败（锁）时，AQS则会将当前线程以及等待状态等信息构造成一个节点（Node）并将其加入同步队列，同时会阻塞当前线程，当同步状态释放时，则会把节点中的线程唤醒，使其再次尝试获取同步状态。<br>AQS的一些主要方法：  </p>
+<ol>
+<li>getState()：返回同步状态的当前值；</li>
+<li>setState(int newState)：设置当前同步状态；</li>
+<li>compareAndSetState(int expect, int update)：使用CAS设置当前状态，该方法能够保证状态设置的原子性；</li>
+<li>tryAcquire(int arg)：独占式获取同步状态，获取同步状态成功后，其他线程需要等待该线程释放同步状态才能获取同步状态；</li>
+<li>tryRelease(int arg)：独占式释放同步状态；</li>
+<li>tryAcquireShared(int arg)：共享式获取同步状态，返回值大于等于0则表示获取成功，否则获取失败；</li>
+<li>tryReleaseShared(int arg)：共享式释放同步状态；</li>
+<li>isHeldExclusively()：当前同步器是否在独占式模式下被线程占用，一般该方法表示是否被当前线程所独占；</li>
+<li>acquire(int arg)：独占式获取同步状态，如果当前线程获取同步状态成功，则由该方法返回，否则，将会进入同步队列等待，该方法将会调用可重写的tryAcquire(int arg)方法；</li>
+<li>acquireInterruptibly(int arg)：与acquire(int arg)相同，但是该方法响应中断，当前线程为获取到同步状态而进入到同步队列中，如果当前线程被中断，则该方法会抛出InterruptedException异常并返回；</li>
+<li>tryAcquireNanos(int arg,long nanos)：超时获取同步状态，如果当前线程在nanos时间内没有获取到同步状态，那么将会返回false，已经获取则返回true；</li>
+<li>acquireShared(int arg)：共享式获取同步状态，如果当前线程未获取到同步状态，将会进入同步队列等待，与独占式的主要区别是在同一时刻可以有多个线程获取到同步状态；</li>
+<li>acquireSharedInterruptibly(int arg)：共享式获取同步状态，响应中断；</li>
+<li>tryAcquireSharedNanos(int arg, long nanosTimeout)：共享式获取同步状态，增加超时限制；</li>
+<li>release(int arg)：独占式释放同步状态，该方法会在释放同步状态之后，将同步队列中第一个节点包含的线程唤醒；</li>
+<li>releaseShared(int arg)：共享式释放同步状态；</li>
+</ol>
+<h2 id="CLH阻塞队列"><a href="#CLH阻塞队列" class="headerlink" title="CLH阻塞队列"></a>CLH阻塞队列</h2><p>CLH同步队列是一个FIFO双向队列，AQS依赖它来完成同步状态的管理，当前线程如果获取同步状态失败时，AQS则会将当前线程已经等待状态等信息构造成一个节点（Node）并将其加入到CLH同步队列，同时会阻塞当前线程，当同步状态释放时，会把首节点唤醒（公平锁），使其再次尝试获取同步状态。<br>在CLH同步队列中，一个节点表示一个线程，它保存着线程的引用（thread）、状态（waitStatus）、前驱节点（prev）、后继节点（next），定义：<br>AQS 内部类 Node的源码<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">static</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">Node</span> </span>&#123;</div><div class="line">    <span class="comment">/** 共享 */</span></div><div class="line">    <span class="keyword">static</span> <span class="keyword">final</span> Node SHARED = <span class="keyword">new</span> Node();</div><div class="line"></div><div class="line">    <span class="comment">/** 独占 */</span></div><div class="line">    <span class="keyword">static</span> <span class="keyword">final</span> Node EXCLUSIVE = <span class="keyword">null</span>;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line"><span class="comment">     * 因为超时或者中断，节点会被设置为取消状态，被取消的节点时不会参与到竞争中的，他会一直保持取消状态不会转变为其他状态；</span></div><div class="line"><span class="comment">     */</span></div><div class="line">    <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> CANCELLED =  <span class="number">1</span>;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line"><span class="comment">     * 后继节点的线程处于等待状态，而当前节点的线程如果释放了同步状态或者被取消，将会通知后继节点，使后继节点的线程得以运行</span></div><div class="line"><span class="comment">     */</span></div><div class="line">    <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> SIGNAL    = -<span class="number">1</span>;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line"><span class="comment">     * 节点在等待队列中，节点线程等待在Condition上，当其他线程对Condition调用了signal()后，改节点将会从等待队列中转移到同步队列中，加入到同步状态的获取中</span></div><div class="line"><span class="comment">     */</span></div><div class="line">    <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> CONDITION = -<span class="number">2</span>;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line"><span class="comment">     * 表示下一次共享式同步状态获取将会无条件地传播下去</span></div><div class="line"><span class="comment">     */</span></div><div class="line">    <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> PROPAGATE = -<span class="number">3</span>;</div><div class="line"></div><div class="line">    <span class="comment">/** 等待状态 */</span></div><div class="line">    <span class="keyword">volatile</span> <span class="keyword">int</span> waitStatus;</div><div class="line"></div><div class="line">    <span class="comment">/** 前驱节点 */</span></div><div class="line">    <span class="keyword">volatile</span> Node prev;</div><div class="line"></div><div class="line">    <span class="comment">/** 后继节点 */</span></div><div class="line">    <span class="keyword">volatile</span> Node next;</div><div class="line"></div><div class="line">    <span class="comment">/** 获取同步状态的线程 */</span></div><div class="line">    <span class="keyword">volatile</span> Thread thread;</div><div class="line"></div><div class="line">    Node nextWaiter;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">final</span> <span class="keyword">boolean</span> <span class="title">isShared</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> nextWaiter == SHARED;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">final</span> Node <span class="title">predecessor</span><span class="params">()</span> <span class="keyword">throws</span> NullPointerException </span>&#123;</div><div class="line">        Node p = prev;</div><div class="line">        <span class="keyword">if</span> (p == <span class="keyword">null</span>)</div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> NullPointerException();</div><div class="line">        <span class="keyword">else</span></div><div class="line">            <span class="keyword">return</span> p;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    Node() &#123;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    Node(Thread thread, Node mode) &#123;</div><div class="line">        <span class="keyword">this</span>.nextWaiter = mode;</div><div class="line">        <span class="keyword">this</span>.thread = thread;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    Node(Thread thread, <span class="keyword">int</span> waitStatus) &#123;</div><div class="line">        <span class="keyword">this</span>.waitStatus = waitStatus;</div><div class="line">        <span class="keyword">this</span>.thread = thread;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="CLH入队"><a href="#CLH入队" class="headerlink" title="CLH入队"></a>CLH入队</h2><h3 id="addWaiter-方法，增加等待线程"><a href="#addWaiter-方法，增加等待线程" class="headerlink" title="addWaiter()方法，增加等待线程"></a>addWaiter()方法，增加等待线程</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"><span class="comment">    * Creates and enqueues node for current thread and given mode.</span></div><div class="line"><span class="comment">    *</span></div><div class="line"><span class="comment">    * <span class="doctag">@param</span> mode Node.EXCLUSIVE for exclusive, Node.SHARED for shared</span></div><div class="line"><span class="comment">    * <span class="doctag">@return</span> the new node</span></div><div class="line"><span class="comment">    */</span></div><div class="line">   <span class="function"><span class="keyword">private</span> Node <span class="title">addWaiter</span><span class="params">(Node mode)</span> </span>&#123;</div><div class="line">       Node node = <span class="keyword">new</span> Node(Thread.currentThread(), mode);</div><div class="line">       <span class="comment">// Try the fast path of enq; backup to full enq on failure</span></div><div class="line">       Node pred = tail;</div><div class="line">       <span class="keyword">if</span> (pred != <span class="keyword">null</span>) &#123;</div><div class="line">           node.prev = pred;</div><div class="line">           <span class="comment">//CAS</span></div><div class="line">           <span class="keyword">if</span> (compareAndSetTail(pred, node)) &#123;</div><div class="line">               pred.next = node;</div><div class="line">               <span class="keyword">return</span> node;</div><div class="line">           &#125;</div><div class="line">       &#125;</div><div class="line">       <span class="comment">// 多次尝试</span></div><div class="line">       enq(node);</div><div class="line">       <span class="keyword">return</span> node;</div><div class="line">   &#125;</div></pre></td></tr></table></figure>
+<p>先通过快速尝试设置为节点，如果失败则通过enq(node)设置尾节点<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">private</span> Node <span class="title">enq</span><span class="params">(<span class="keyword">final</span> Node node)</span> </span>&#123;</div><div class="line">        <span class="comment">//多次尝试，直到成功为止</span></div><div class="line">        <span class="keyword">for</span> (;;) &#123;</div><div class="line">            Node t = tail;</div><div class="line">            <span class="comment">//tail不存在，设置为首节点</span></div><div class="line">            <span class="keyword">if</span> (t == <span class="keyword">null</span>) &#123;</div><div class="line">                <span class="keyword">if</span> (compareAndSetHead(<span class="keyword">new</span> Node()))</div><div class="line">                    tail = head;</div><div class="line">            &#125; <span class="keyword">else</span> &#123;</div><div class="line">                <span class="comment">//设置为尾节点</span></div><div class="line">                node.prev = t;</div><div class="line">                <span class="keyword">if</span> (compareAndSetTail(t, node)) &#123;</div><div class="line">                    t.next = node;</div><div class="line">                    <span class="keyword">return</span> t;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
+<p>上述两个方法都是使用<code>compareAndSetTail(t, node)</code>来死循环添加尾部节点，</p>
+<h2 id="CLH出队"><a href="#CLH出队" class="headerlink" title="CLH出队"></a>CLH出队</h2><p>CLH同步队列遵循FIFO，首节点的线程释放同步状态后，将会唤醒它的后继节点（next），而后继节点将会在获取同步状态成功时将自己设置为首节点，这个过程非常简单，head执行该节点并断开原首节点的next和当前节点的prev即可，注意在这个过程是不需要使用CAS来保证的，因为只有一个线程能够成功获取到同步状态。</p>
+<h1 id="同步状态的获取与释放"><a href="#同步状态的获取与释放" class="headerlink" title="同步状态的获取与释放"></a>同步状态的获取与释放</h1><p>AQS提供了大量的模板方法（被叫做模板模式）来实现同步，主要是分为三类：独占式获取和释放同步状态、共享式获取和释放同步状态、查询同步队列中的等待线程情况。自定义子类使用AQS提供的模板方法就可以实现自己的同步语义。</p>
+<h2 id="独占式"><a href="#独占式" class="headerlink" title="独占式"></a>独占式</h2><p>每次只有一个线程持有同步状态</p>
+<h4 id="独占式同步状态的获取"><a href="#独占式同步状态的获取" class="headerlink" title="独占式同步状态的获取"></a>独占式同步状态的获取</h4><p>对中断状态不敏感<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">acquire</span><span class="params">(<span class="keyword">int</span> arg)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (!tryAcquire(arg) &amp;&amp;</div><div class="line">            acquireQueued(addWaiter(Node.EXCLUSIVE), arg))</div><div class="line">            selfInterrupt();</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<ol>
+<li>tryAcquire：去尝试获取锁，获取成功则设置锁状态并返回true，否则返回false。该方法自定义同步组件自己实现，该方法必须要保证线程安全的获取同步状态。</li>
+<li>addWaiter：如果tryAcquire返回FALSE（获取同步状态失败），则调用该方法将当前线程加入到CLH同步队列尾部。</li>
+<li>acquireQueued：当前线程会根据公平性原则来进行阻塞等待（自旋）,直到获取锁为止；并且返回当前线程在等待过程中有没有中断过。</li>
+<li>selfInterrupt：产生一个中断。</li>
+</ol>
+<p>acquireQueued方法为一个自旋的过程，也就是说当前线程进入同步队列后，就会进入一个自旋的过程，每个节点都会自省地观察，当条件满足，获取到同步状态后，就可以从这个自旋过程中退出，否则会一直执行下去<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">final</span> <span class="keyword">boolean</span> <span class="title">acquireQueued</span><span class="params">(<span class="keyword">final</span> Node node, <span class="keyword">int</span> arg)</span> </span>&#123;</div><div class="line">    <span class="keyword">boolean</span> failed = <span class="keyword">true</span>;</div><div class="line">    <span class="keyword">try</span> &#123;</div><div class="line">        <span class="comment">//中断标志</span></div><div class="line">        <span class="keyword">boolean</span> interrupted = <span class="keyword">false</span>;</div><div class="line">        <span class="comment">/*</span></div><div class="line"><span class="comment">         * 自旋过程，其实就是一个死循环而已</span></div><div class="line"><span class="comment">         */</span></div><div class="line">        <span class="keyword">for</span> (;;) &#123;</div><div class="line">            <span class="comment">//当前线程的前驱节点</span></div><div class="line">            <span class="keyword">final</span> Node p = node.predecessor();</div><div class="line">            <span class="comment">//当前线程的前驱节点是头结点，且同步状态成功</span></div><div class="line">            <span class="keyword">if</span> (p == head &amp;&amp; tryAcquire(arg)) &#123;</div><div class="line">                setHead(node);</div><div class="line">                p.next = <span class="keyword">null</span>; <span class="comment">// help GC</span></div><div class="line">                failed = <span class="keyword">false</span>;</div><div class="line">                <span class="keyword">return</span> interrupted;</div><div class="line">            &#125;</div><div class="line">            <span class="comment">//获取失败，线程等待</span></div><div class="line">            <span class="keyword">if</span> (shouldParkAfterFailedAcquire(p, node) &amp;&amp;</div><div class="line">                    parkAndCheckInterrupt())</div><div class="line">                interrupted = <span class="keyword">true</span>;</div><div class="line">        &#125;</div><div class="line">    &#125; <span class="keyword">finally</span> &#123;</div><div class="line">        <span class="keyword">if</span> (failed)</div><div class="line">            cancelAcquire(node);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="独占式获取响应中断"><a href="#独占式获取响应中断" class="headerlink" title="独占式获取响应中断"></a>独占式获取响应中断</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">acquireInterruptibly</span><span class="params">(<span class="keyword">int</span> arg)</span></span></div><div class="line"><span class="function">            <span class="keyword">throws</span> InterruptedException </span>&#123;</div><div class="line">        <span class="keyword">if</span> (Thread.interrupted())</div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> InterruptedException();</div><div class="line">        <span class="keyword">if</span> (!tryAcquire(arg))</div><div class="line">            doAcquireInterruptibly(arg);</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>如果当前线程被中断了，会立刻响应中断抛出异常InterruptedException。<br>doAcquireInterruptibly()<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">doAcquireInterruptibly</span><span class="params">(<span class="keyword">int</span> arg)</span></span></div><div class="line"><span class="function">        <span class="keyword">throws</span> InterruptedException </span>&#123;</div><div class="line">        <span class="keyword">final</span> Node node = addWaiter(Node.EXCLUSIVE);</div><div class="line">        <span class="keyword">boolean</span> failed = <span class="keyword">true</span>;</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            <span class="keyword">for</span> (;;) &#123;</div><div class="line">                <span class="keyword">final</span> Node p = node.predecessor();</div><div class="line">                <span class="keyword">if</span> (p == head &amp;&amp; tryAcquire(arg)) &#123;</div><div class="line">                    setHead(node);</div><div class="line">                    p.next = <span class="keyword">null</span>; <span class="comment">// help GC</span></div><div class="line">                    failed = <span class="keyword">false</span>;</div><div class="line">                    <span class="keyword">return</span>;</div><div class="line">                &#125;</div><div class="line">                <span class="keyword">if</span> (shouldParkAfterFailedAcquire(p, node) &amp;&amp;</div><div class="line">                    parkAndCheckInterrupt())</div><div class="line">                    <span class="keyword">throw</span> <span class="keyword">new</span> InterruptedException();</div><div class="line">            &#125;</div><div class="line">        &#125; <span class="keyword">finally</span> &#123;</div><div class="line">            <span class="keyword">if</span> (failed)</div><div class="line">                cancelAcquire(node);</div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
+<h3 id="独占同步状态释放"><a href="#独占同步状态释放" class="headerlink" title="独占同步状态释放"></a>独占同步状态释放</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">boolean</span> <span class="title">release</span><span class="params">(<span class="keyword">int</span> arg)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (tryRelease(arg)) &#123;</div><div class="line">            Node h = head;</div><div class="line">            <span class="keyword">if</span> (h != <span class="keyword">null</span> &amp;&amp; h.waitStatus != <span class="number">0</span>)</div><div class="line">                unparkSuccessor(h);</div><div class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>先调用自定义同步器自定义的tryRelease(int arg)方法来释放同步状态，释放成功后，会调用unparkSuccessor(Node node)方法唤醒后继节点</p>
+<p><code>在AQS中维护着一个FIFO的同步队列，当线程获取同步状态失败后，则会加入到这个CLH同步队列的对尾并一直保持着自旋。在CLH同步队列中的线程在自旋时会判断其前驱节点是否为首节点，如果为首节点则不断尝试获取同步状态，获取成功则退出CLH同步队列。当线程执行完逻辑后，会释放同步状态，释放后会唤醒其后继节点。</code></p>
+<h2 id="共享式"><a href="#共享式" class="headerlink" title="共享式"></a>共享式</h2><p>最主要区别在于同一时刻独占式只能有一个线程获取同步状态，而共享式在同一时刻可以有多个线程获取同步状态</p>
+<h3 id="共享获取状态"><a href="#共享获取状态" class="headerlink" title="共享获取状态"></a>共享获取状态</h3><p>acquireShared(int arg)<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">acquireShared</span><span class="params">(<span class="keyword">int</span> arg)</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span> (tryAcquireShared(arg) &lt; <span class="number">0</span>)</div><div class="line">        <span class="comment">//获取失败，自旋获取同步状态</span></div><div class="line">        doAcquireShared(arg);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>调用tryAcquireShared(int arg)方法尝试获取同步状态，如果获取失败则调用doAcquireShared(int arg)自旋方式获取同步状态，共享式获取同步状态的标志是返回 &gt;= 0 的值表示获取成功。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line"> <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">doAcquireShared</span><span class="params">(<span class="keyword">int</span> arg)</span> </span>&#123;</div><div class="line">    /共享式节点</div><div class="line">    <span class="keyword">final</span> Node node = addWaiter(Node.SHARED);</div><div class="line">    <span class="keyword">boolean</span> failed = <span class="keyword">true</span>;</div><div class="line">    <span class="keyword">try</span> &#123;</div><div class="line">        <span class="keyword">boolean</span> interrupted = <span class="keyword">false</span>;</div><div class="line">        <span class="keyword">for</span> (;;) &#123;</div><div class="line">            <span class="comment">//前驱节点</span></div><div class="line">            <span class="keyword">final</span> Node p = node.predecessor();</div><div class="line">            <span class="comment">//如果其前驱节点，获取同步状态</span></div><div class="line">            <span class="keyword">if</span> (p == head) &#123;</div><div class="line">                <span class="comment">//尝试获取同步</span></div><div class="line">                <span class="keyword">int</span> r = tryAcquireShared(arg);</div><div class="line">                <span class="keyword">if</span> (r &gt;= <span class="number">0</span>) &#123;</div><div class="line">                    setHeadAndPropagate(node, r);</div><div class="line">                    p.next = <span class="keyword">null</span>; <span class="comment">// help GC</span></div><div class="line">                    <span class="keyword">if</span> (interrupted)</div><div class="line">                        selfInterrupt();</div><div class="line">                    failed = <span class="keyword">false</span>;</div><div class="line">                    <span class="keyword">return</span>;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">if</span> (shouldParkAfterFailedAcquire(p, node) &amp;&amp;</div><div class="line">                    parkAndCheckInterrupt())</div><div class="line">                interrupted = <span class="keyword">true</span>;</div><div class="line">        &#125;</div><div class="line">    &#125; <span class="keyword">finally</span> &#123;</div><div class="line">        <span class="keyword">if</span> (failed)</div><div class="line">            cancelAcquire(node);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>获得状态之后，完成自己的逻辑，就释放掉<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">boolean</span> <span class="title">releaseShared</span><span class="params">(<span class="keyword">int</span> arg)</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span> (tryReleaseShared(arg)) &#123;</div><div class="line">        doReleaseShared();</div><div class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h1 id="AQS阻塞与唤醒"><a href="#AQS阻塞与唤醒" class="headerlink" title="AQS阻塞与唤醒"></a>AQS阻塞与唤醒</h1><p>在线程获取同步状态时如果获取失败，则加入CLH同步队列，通过通过自旋的方式不断获取同步状态，但是在自旋的过程中则需要判断当前线程是否需要阻塞，主要方法在acquireQueued()：<br>如果获取同步状态失败之后，不是立刻阻塞，而是检查前驱结点，是否需要阻塞<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">shouldParkAfterFailedAcquire</span><span class="params">(Node pred, Node node)</span> </span>&#123;</div><div class="line">    <span class="comment">//前驱节点</span></div><div class="line">    <span class="keyword">int</span> ws = pred.waitStatus;</div><div class="line">    <span class="comment">//状态为signal，表示当前线程处于等待状态，直接放回true</span></div><div class="line">    <span class="keyword">if</span> (ws == Node.SIGNAL)</div><div class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">    <span class="comment">//前驱节点状态 &gt; 0 ，则为Cancelled,表明该节点已经超时或者被中断了，需要从同步队列中取消</span></div><div class="line">    <span class="keyword">if</span> (ws &gt; <span class="number">0</span>) &#123;</div><div class="line">        <span class="keyword">do</span> &#123;</div><div class="line">            node.prev = pred = pred.prev;</div><div class="line">        &#125; <span class="keyword">while</span> (pred.waitStatus &gt; <span class="number">0</span>);</div><div class="line">        pred.next = node;</div><div class="line">    &#125; </div><div class="line">    <span class="comment">//前驱节点状态为Condition、propagate</span></div><div class="line">    <span class="keyword">else</span> &#123;</div><div class="line">        compareAndSetWaitStatus(pred, ws, Node.SIGNAL);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<ol>
+<li>前驱结点 Sinnal, 表明当前节点需要阻塞，</li>
+<li>前驱结点 cancelled(ws&gt;0) 则表明该线程的前驱节点已经等待超时或者被中断了，则需要从CLH队列中将该前驱节点删除掉，直到回溯到前驱节点状态 &lt;= 0 ，返回false</li>
+<li>前驱节点非SINNAL，非CANCELLED<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">boolean</span> <span class="title">parkAndCheckInterrupt</span><span class="params">()</span> </span>&#123;</div><div class="line">    LockSupport.park(<span class="keyword">this</span>);</div><div class="line">    <span class="keyword">return</span> Thread.interrupted();</div><div class="line">&#125;</div><div class="line">``` </div><div class="line">parkAndCheckInterrupt() 方法主要是把当前线程挂起</div><div class="line">```java</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">boolean</span> <span class="title">release</span><span class="params">(<span class="keyword">int</span> arg)</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span> (tryRelease(arg)) &#123;</div><div class="line">        Node h = head;</div><div class="line">        <span class="keyword">if</span> (h != <span class="keyword">null</span> &amp;&amp; h.waitStatus != <span class="number">0</span>)</div><div class="line">            <span class="comment">//唤醒后继节点</span></div><div class="line">            unparkSuccessor(h);</div><div class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">unparkSuccessor</span><span class="params">(Node node)</span> </span>&#123;</div><div class="line">    <span class="comment">//当前节点状态</span></div><div class="line">    <span class="keyword">int</span> ws = node.waitStatus;</div><div class="line">    <span class="comment">//当前状态 &lt; 0 则设置为 0</span></div><div class="line">    <span class="keyword">if</span> (ws &lt; <span class="number">0</span>)</div><div class="line">        compareAndSetWaitStatus(node, ws, <span class="number">0</span>);</div><div class="line"></div><div class="line">    <span class="comment">//当前节点的后继节点</span></div><div class="line">    Node s = node.next;</div><div class="line">    <span class="comment">//后继节点为null或者其状态 &gt; 0 (超时或者被中断了)</span></div><div class="line">    <span class="keyword">if</span> (s == <span class="keyword">null</span> || s.waitStatus &gt; <span class="number">0</span>) &#123;</div><div class="line">        s = <span class="keyword">null</span>;</div><div class="line">        <span class="comment">//从tail节点来找可用节点</span></div><div class="line">        <span class="keyword">for</span> (Node t = tail; t != <span class="keyword">null</span> &amp;&amp; t != node; t = t.prev)</div><div class="line">            <span class="keyword">if</span> (t.waitStatus &lt;= <span class="number">0</span>)</div><div class="line">                s = t;</div><div class="line">    &#125;</div><div class="line">    <span class="comment">//唤醒后继节点</span></div><div class="line">    <span class="keyword">if</span> (s != <span class="keyword">null</span>)</div><div class="line">        LockSupport.unpark(s.thread);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="LockSupport是用来创建锁和其他同步类的基本线程阻塞原语"><a href="#LockSupport是用来创建锁和其他同步类的基本线程阻塞原语" class="headerlink" title="LockSupport是用来创建锁和其他同步类的基本线程阻塞原语"></a>LockSupport是用来创建锁和其他同步类的基本线程阻塞原语</h3><p>好像LockSupport底层还是依赖UNSAFE native类来搞得，</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/01/14/SlidingWindow/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1478,298 +1872,6 @@ There are two paths: 0 -&gt; 1 -&gt; 3 and 0 -&gt; 2 -&gt; 3
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/01/03/copyClass/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Sailong Ren">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="coderlong的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/01/03/copyClass/" itemprop="url">copyClass</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-03T23:26:52+08:00">
-                2018-01-03
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index">
-                    <span itemprop="name">java</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>摘要：深浅拷贝<br><img src="/images/love1.jpg" alt=""><br>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/01/03/copyClass/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/01/03/protoType/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Sailong Ren">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="coderlong的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/01/03/protoType/" itemprop="url">protoType</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-03T23:21:41+08:00">
-                2018-01-03
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index">
-                    <span itemprop="name">java</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>摘要：原型模式<br><img src="/images/protoType.jpeg" alt=""><br>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/01/03/protoType/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1820,7 +1922,7 @@ There are two paths: 0 -&gt; 1 -&gt; 3 and 0 -&gt; 2 -&gt; 3
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">108</span>
+                <span class="site-state-item-count">110</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
