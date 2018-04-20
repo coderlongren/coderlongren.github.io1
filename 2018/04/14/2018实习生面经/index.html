@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="生活," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="笔试之路因为我大鹏哥是腾讯大牛，所以第一个是我大鹏哥给的内推腾讯，后来估计是我简历里面信息填错了，笔试机会都没给，唉。后来，汪学长内推的美团，笔试觉得做的还可以吧。可还是挂了。自己又去投了，七牛云，百词斩，爱奇艺，搜狐的实习生职位，最后要么都是笔试没通过，要么简历不通过。绝处逢生，湖大的研究生学长内推的阿里，而且第二天电话面试。这个怨自己，问的JDK集合底层实现，Java并发编程，线程池源码啦这些">
+<meta name="keywords" content="生活">
+<meta property="og:type" content="article">
+<meta property="og:title" content="2018年0 offer面经">
+<meta property="og:url" content="https://coderlongren.github.io/2018/04/14/2018实习生面经/index.html">
+<meta property="og:site_name" content="coderlong的博客">
+<meta property="og:description" content="笔试之路因为我大鹏哥是腾讯大牛，所以第一个是我大鹏哥给的内推腾讯，后来估计是我简历里面信息填错了，笔试机会都没给，唉。后来，汪学长内推的美团，笔试觉得做的还可以吧。可还是挂了。自己又去投了，七牛云，百词斩，爱奇艺，搜狐的实习生职位，最后要么都是笔试没通过，要么简历不通过。绝处逢生，湖大的研究生学长内推的阿里，而且第二天电话面试。这个怨自己，问的JDK集合底层实现，Java并发编程，线程池源码啦这些">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-04-20T01:49:22.695Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="2018年0 offer面经">
+<meta name="twitter:description" content="笔试之路因为我大鹏哥是腾讯大牛，所以第一个是我大鹏哥给的内推腾讯，后来估计是我简历里面信息填错了，笔试机会都没给，唉。后来，汪学长内推的美团，笔试觉得做的还可以吧。可还是挂了。自己又去投了，七牛云，百词斩，爱奇艺，搜狐的实习生职位，最后要么都是笔试没通过，要么简历不通过。绝处逢生，湖大的研究生学长内推的阿里，而且第二天电话面试。这个怨自己，问的JDK集合底层实现，Java并发编程，线程池源码啦这些">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'coderlong'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://coderlongren.github.io/2018/04/14/2018实习生面经/"/>
+
+
+
+
+
+  <title>2018年0 offer面经 | coderlong的博客</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?b36fb048041f31d8aab6a5184644789e";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband">
+      <a href="https://github.com/coderlongren"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"></a>  
+  
+    </div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">coderlong的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">正是江南好风景，落花时节又逢君</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于我
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/04/14/2018实习生面经/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sailong Ren">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="coderlong的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">2018年0 offer面经</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-14T21:18:40+08:00">
+                2018-04-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/生活/" itemprop="url" rel="index">
+                    <span itemprop="name">生活</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="笔试之路"><a href="#笔试之路" class="headerlink" title="笔试之路"></a>笔试之路</h2><p>因为我大鹏哥是腾讯大牛，所以第一个是我大鹏哥给的内推腾讯，后来估计是我简历里面信息填错了，笔试机会都没给，唉。<br>后来，汪学长内推的美团，笔试觉得做的还可以吧。可还是挂了。<br>自己又去投了，七牛云，百词斩，爱奇艺，搜狐的实习生职位，最后要么都是笔试没通过，要么简历不通过。绝处逢生，湖大的研究生学长内推的阿里，而且第二天电话面试。这个怨自己，问的JDK集合底层实现，Java并发编程，线程池源码啦这些，这个本来是自己的强项，因为第一次电话面试，对方还自称杭州阿里总部的大佬，回答的紧张，最后面试结果不理想。微众银行也没过。<br>今日头条过了笔试，链家网过了笔试。</p>
+<h2 id="三月份-初"><a href="#三月份-初" class="headerlink" title="三月份 初"></a>三月份 初</h2><p>最早拿的一份实习职位是汉得公司，据说是上海一家做Oracle数据库的，笔试太简单了。<br>第二天面试，三面一起，在1305，感觉那面试官稀里糊涂乱问，具体的技术问题都没问到，我就说读过JDK源码，做过SSM，懂一点JVM，他就让我过了，而且第二天就发通知Offer发出，你们招人这么随意，谁愿意去啊。后来给我打了几个电话都拒绝了。  </p>
+<h2 id="悲惨的面试之京东"><a href="#悲惨的面试之京东" class="headerlink" title="悲惨的面试之京东"></a>悲惨的面试之京东</h2><p>狗东一上来问了几个分布式的问题，我都不会，“你回去好好学习再来。” 直接挂我电话。伤心，好歹我经常在你们网站买东西。</p>
+<h2 id="三月中旬"><a href="#三月中旬" class="headerlink" title="三月中旬"></a>三月中旬</h2><p>链家一次略坑的面试。我是在武大参加的宣讲会，宣讲会之后，现场笔试，你能想象两个小时的笔试？ 反正我是第一次做，（继续坑我们啊，），驱车赶到武大就已经六点半了，宣讲快八点了。再来俩小时，十点了，那个饿啊！<br>笔试题目全部算法，不过幸运的是，看过剑指offer的我遇到了熟悉的题目，暴力 + 分治法 + DP + 不会写的写了想法。勉强拿到了面试名额，3.29早早地出发，我擦，找错地方了。HR姐姐通知的纽宾凯鲁光国际酒店，我找到了纽宾凯国际酒店， 和索隆一样路痴了。<br>打电话说了下。下午参加的面试，三轮技术面下午面完。人生第一次大型的面试，一面是个很可爱的大叔，我自我介绍完，就提了一句做过一个小程序，面试官貌似感兴趣，后来和我聊了半个多小时未来技术的发展趋势。完了聊了聊List结构的数组链表实现，涉及扩容，加锁，Java数据内存占用怎么算，HashMap的Hash查找，Indexfor()，自己实现hashcode方法(我用的effective-Java书里给的算法，位运算实现)，fail-fast,著名的currentModifacationException,JVM常见指令，Class文件构成，JMM模型，双亲委托，类加载。。。。对方说话有亲和力，的确聊了很长时间。<br>二面上来了个戴眼镜的人，目测比我大不了多少。可是一开口。。。。。<br>“了解MySQL？”<br>“嗯，熟悉MySQL，，”<br>“那mysql索引呢？”<br>“还可以”<br>“那说一下，索引的物理结构， ”<br>“B+树啊，怎么寻址，范围查询，索引存储，巴拉巴拉。。。。”<br>“嗯好，那你谈谈B+树插入，删除操作。和B树，二叉查找树有什么不一样”<br>“懵逼，这点记得不是太清楚，只记得什么LL，LR，RR旋转”<br>“那么红黑树呢？ 了解吗？ ”<br>“我说了下JDK1.8 HashMap链表往红黑树的转化”<br>“红黑树各种操作的时间复杂度多少？ ”又蒙了，染色+旋转我怎么算？O(nlgn)，O(n)吗？<br>“你说的不对，时间复杂度最优不是On……….”<br>“好吧”，“你说一下，你的项目把！”<br>“我把自己搭建的几个网站说了下，爬虫，并发处理，巴拉巴拉。。。。”<br>“看来你做的项目也没什么难点啊，”， 面试官从此刻开始鄙视我了。。。。<br>后面就是项目细节问题，面试问的很细，一直问到你不会为止。 早知道不往简历上写那一行熟悉MySQL数据库啦，你要是熟悉这些东东都不知道吗？<br>。。。。。<br>“你还有什么要问的?”<br>“你们公司对新人怎么培养啊？”<br>面试官巴拉巴拉说了一堆。<br>二面运气过了，后来听HR说，面试官给的评价基础扎实，项目亮点少。好吧，反正总算过了。<br>三面看对方面相是个leader，上来自我介绍完，面试官鄙视了下我，估计对我的项目也没兴趣。<br>“我们来谈谈数据库吧”<br>“我们有一张几十亿数据的表，插入数据，分库分表怎么弄？”<br>“呃呃 就对表切割啊，横分，或者竖分”其实我也不是很清楚啊，<br>怎么分？分完了，ID相同怎么处理<br>顺序分配吗？ 还是 hash算法散列一下，，？。<br>那假如让你使用一个阻塞队列呢？ 你有什么想法？<br>“就把BlockQueue，AQS那样的中断实现， JAVA里面的那一套说了下”<br>你说的不对，你没考虑并发环境下id自增的bug处理，<br>我又说了说使用无界队列，阻塞唤醒，，，，，，<br>面试仍然不满意，接下来的说话就是一直围绕着这张几十亿的表来进行的，不过后面都是面试官教我新知识，怎么用AWK，grep，shell 写小的数据库监控脚本这些，我说我只用Python写过一些查找文件的。还问我有没有线上排查异常经验，压力测试懂不懂，你觉得我一个大三狗会接触到线上排错这些吗？我就默默的看着他装逼、<br>结果你也知道了，三面没通过，凉凉。。。。。。<br>华丽的分割线。  </p>
+<hr>
+<p>时间到达2018.4.14 今日头条的视频面  </p>
+<p>讲实话， 我觉得头条当初的网上笔试水水。一共是90分钟四道编程题，我AC了二三题，第一题超时。第四题我完全循环偏分，开始没思路，后来想到绝妙骗分思路，通过了90%，估计骗来个面试名额。<br>这个不说，下午一面面试官视频直接卡了，连了几次还是卡，干脆给我打了个电话，电话面试<br>第一道， 二进制字符串，寻找K大的子串中1的最大个数，有些着急了，一眼觉得动态规划就应该可以了，可是没考虑全回溯的条件。bug，后来改了有五六分钟。二叉树中序遍历非递归。<br>第二道，两个排好序的数组合并到一起的前K各元素是多少，很多同学说使用合并排序。其实没有注意到条件已经有序。所以每次拿出数组的第一个元素相互比较循环就可以了。这道题我写的飞快，面试官应该对我比较满意，后来又问了问我TCP状态机，握手挥手具体流程，这方面我学的比较好，说了很多，讲到了TCP首部构成。听他语气应该是过了。一面结束，没一会HR姐姐通知二面。我一二面写代码都是在页面里面的文本编辑框写得。<br>二面是个帅气的大叔，他说他是某某项目技术负责人，继续写算法，逆转链表。写出你能想到的最好的方法，我还问他能不能链表存起来，再倒着建立起来，“你觉得这是我想要的算法吗？”。哈哈，其实我是迷惑他，这个我用很多方法都写过，直接白板写了个递归形式的。但是还是要故作沉思。三分钟，就给出了代码。面试官估计有些惊讶我的速度，又问了些奇怪的问题。说让我用五分钟给你讲明白小程序的前途。不好意思，看过张小龙的演讲，巴拉巴拉给了说了说去中心化，媒体社交传播的重要性。又问了Web相关的知识：Servlet，Spring生命周期，IOC具体实现，反射调用字节码怎么搞，JDK原生注解的实现原理，并发没有深入问，只问了Condation，中断，我是准备的要说Sychronized，还有JUC源码的操作系统层面和JVM的语义的，没有给我机会装这个逼。<br>HTTP1.0 1.1 2.0 的各自区别(我只回答到了首部压缩，二进制分帧。计算机网络问的很细，一直问道1,2,3,4,5的各种状态码啥意思？302 304 305 啥区别，太细节的我忘记了。回答完，他好像挺满意。结束了二面。<br>三面，是个戴眼镜的胖子大叔，这人非常和蔼，一上来就主动和我打招呼，全程都笑眯眯的看着我，提示我的时候也是面带微笑。万幸。<br>三面面试官估计是个大Boss，问了很多不同的技术，界面优化，Web应用的优化(因为我看那本《大型分布式系统架构和Java中间件》淘宝那本书，所以基本都是回答的书里面的概念，负载均衡，页面的CDN代理，应用的横向纵向扩展。读写分离的实现，缓存穿透的解决方案)，数据库优化（幸亏上次面完链家，看了看高《性能MySQL》这本书）。当然我回答的是也有很多漏洞，他再来纠正我。问了TCP协议序列号溢出，我并不知道，redis缓存问题，MySQL主从复制的缺陷怎么解决，还有远程下载文件提速，我是真不会，想着迅雷，电驴，就乱扯了一些自己也不知道的P2P加速，我只有百度百科的那点知识储备。最后还问我我简历上面的那个博客是自己搭建的吗？ 我说用hexo + githubPage建的，他说那你就是搬砖吗？ 最后自己谎称那个界面里面的线条飞舞效果是自己用JS写得，因为自己看过一次别人讲如何实现页面动态效果插件，他没深问JS代码怎么写。又问问JS闭包，原型链模型，JS里面几个重要的对象，BOM，装饰器模式。我强行给他说了说Tomcat里面装饰器模式具体的类，又问装饰器模式和组合模式的优缺点，好吧，我虽然看过设计模式那本书，但是这些具体的我还真忘记了。最后回答了出来。<br>“你有什么问题要问我的？”<br>问了问他，他问的这些问题别人都回答出来了吗？头条今年校招趋势是什么？ 您觉得我哪些地方还有待提高啊？你对我怎么评价？ 最后面试官也不好意思了，就说了我作为软件工程专业的就读生，操作系统掌握的不是太好啊。<br>还问了头条今年校招是重视基础还是项目。当然结果意料之中，两者均优秀是最好了。三面聊了一个多小时把。最后我看这个面试官好说话，拉着她聊了好多职业规划的问题，学习方法选择，他也挺乐意给别人讲解这个。<br>三面结束，三次面试持续了四个小时吧，总的来说头条的笔面试很重视算法，重视基础，对好的项目感兴趣。垃圾项目，根本问都不问。半个小时之后，HR来电话说三面过了，两周内等官网公布结果。估计是进备胎池了。</p>
+<hr>
+<p><code>最新更新</code>， 2018年4月20号，我的简历状态变为<code>已结束</code>，又凉了。 唉， 昨天晚上，HR还来电话问我offer的事，说随后有人联系，然后直接就放我鸽子了(仔细一想也是，这次头条面试简单，好多985的最后三面过，也被刷下来了，最后是按学校，和前几轮面试评价刷人的，还是自己太菜)。真是玄学面试。真是不懂你们招聘的套路。一个满意的offer也没拿到。  </p>
+<p>拜拜了， 各位大佬，暑假打算去鹏哥那里打磨自己去。<br>今年春招归根结底还是自己太菜了，头条面试官讽刺我说，大神都不写博客，只看书。(我只是想分享技术而已)，希望我这份垃圾面经能帮到需要的同学。<br>我要闭关了。博客停止更新一年。    </p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>Donate</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="Sailong Ren WeChat Pay"/>
+        <p>WeChat Pay</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="Sailong Ren Alipay"/>
+        <p>Alipay</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/生活/" rel="tag"># 生活</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/04/13/leetcode207_Course Schedule/" rel="next" title="leetcode207_Course Schedule">
+                <i class="fa fa-chevron-left"></i> leetcode207_Course Schedule
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="Sailong Ren" />
+          <p class="site-author-name" itemprop="name">Sailong Ren</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">112</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">23</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">50</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/coderlongren" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://blog.csdn.net/qq_33797928?ref=toolbar" target="_blank" title="CSDN博客">
+                  
+                    <i class="fa fa-fw fa-crosshairs"></i>
+                  
+                    
+                      CSDN博客
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="862983319@qq.com" target="_blank" title="E-Mail">
+                  
+                    <i class="fa fa-fw fa-envelope"></i>
+                  
+                    
+                      E-Mail
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/coderlongren/activities" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                    
+                      知乎
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#笔试之路"><span class="nav-number">1.</span> <span class="nav-text">笔试之路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三月份-初"><span class="nav-number">2.</span> <span class="nav-text">三月份 初</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#悲惨的面试之京东"><span class="nav-number">3.</span> <span class="nav-text">悲惨的面试之京东</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三月中旬"><span class="nav-number">4.</span> <span class="nav-text">三月中旬</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sailong Ren</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Gemini
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</body>
+</html>

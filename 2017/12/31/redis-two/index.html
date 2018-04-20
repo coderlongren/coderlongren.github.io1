@@ -103,7 +103,7 @@
 <meta property="og:description" content="摘要：redis">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://coderlongren.github.io/images/redis1.jpg">
-<meta property="og:updated_time" content="2017-12-31T08:14:46.388Z">
+<meta property="og:updated_time" content="2018-04-13T14:15:17.161Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="redis_two">
 <meta name="twitter:description" content="摘要：redis">
@@ -409,7 +409,7 @@
 <li>指定日志记录级别，Redis总共支持四个级别：debug、verbose、notice、warning，默认为verbose<br>loglevel verbose</li>
 <li>日志记录方式，默认为标准输出，如果配置Redis为守护进程方式运行，而这里又配置为日志记录方式为标准输出，则日志将会发送给/dev/null<br>logfile stdout</li>
 <li>database 16 默认是0 可以使用 select<dbid>命令连接指定数据库id<br> database 16 </dbid></li>
-<li>指定在多长时间内，有多少次更新操作，就将数据同步到数据文件，可以多个条件配合<br>save <seconds> <changes><br>Redis默认配置文件中提供了三个条件：<br>save 900 1<br>save 300 10<br>save 60 10000<br>分别表示900秒（15分钟）内有1个更改，300秒（5分钟）内有10个更改以及60秒内有10000个更改。  </changes></seconds></li>
+<li>指定在多长时间内，有多少次更新操作，就将数据同步到数据文件，可以多个条件配合<h2 id="RDB的持久化配置"><a href="#RDB的持久化配置" class="headerlink" title="RDB的持久化配置,"></a>RDB的持久化配置,</h2>save <seconds> <changes><br>Redis默认配置文件中提供了三个条件：<br>save 900 1<br>save 300 10<br>save 60 10000<br>分别表示900秒（15分钟）内有1个更改，300秒（5分钟）内有10个更改以及60秒内有10000个更改。  </changes></seconds></li>
 <li>指定存储至本地数据库时是否压缩数据，默认为yes，Redis采用LZF压缩，如果为了节省CPU时间，可以关闭该选项，但会导致数据库文件变的巨大<br>rdbcompression yes</li>
 <li>指定本地数据库文件名，默认值是dump.rdb<br>dbfilename dump.rdb</li>
 <li>指定本地数据库存放目录<br>dir ./</li>
@@ -418,8 +418,11 @@
 <li>requirepass foobared  默认是关闭的 </li>
 <li>masclients 128 最大客户端连接数</li>
 <li>指定Redis最大内存限制，Redis在启动时会把数据加载到内存中，达到最大内存后，Redis会先尝试清除已到期或即将到期的Key，当此方法处理 后，仍然到达最大内存设置，将无法再进行写入操作，但仍然可以进行读取操作。Redis新的vm机制，会把Key存放内存，Value会存放在swap区<br>maxmemory <bytes></bytes></li>
-<li>指定是否在每次更新操作后进行日志记录，Redis在默认情况下是异步的把数据写入磁盘，如果不开启，可能会在断电时导致一段时间内的数据丢失。因为 redis本身同步数据文件是按上面save条件来同步的，所以有的数据会在一段时间内只存在于内存中。默认为no<br>appendonly no</li>
-<li>指定更新日志文件名，默认为appendonly.aof<br>appendfilename appendonly.aof</li>
+<li><p>指定是否在每次更新操作后进行日志记录，Redis在默认情况下是异步的把数据写入磁盘，如果不开启，可能会在断电时导致一段时间内的数据丢失。因为 redis本身同步数据文件是按上面save条件来同步的，所以有的数据会在一段时间内只存在于内存中。默认为no<br>appendonly no</p>
+<h2 id="AOF持久化配置"><a href="#AOF持久化配置" class="headerlink" title="AOF持久化配置"></a>AOF持久化配置</h2><p>在Redis的配置文件中存在三种同步方式，它们分别是：<br>appendfsync always     #每次有数据修改发生时都会写入AOF文件。<br>appendfsync everysec  #每秒钟同步一次，该策略为AOF的缺省策略。<br>appendfsync no          #从不同步。高效但是数据不会被持久化。</p>
+</li>
+<li><p>指定更新日志文件名，默认为appendonly.aof<br>appendfilename appendonly.aof</p>
+</li>
 <li>指定更新日志条件，共有3个可选值：<br>no：表示等操作系统进行数据缓存同步到磁盘（快）<br>always：表示每次更新操作后手动调用fsync()将数据写到磁盘（慢，安全）<br>everysec：表示每秒同步一次（折衷，默认值）<br>appendfsync everysec</li>
 <li>指定是否启用虚拟内存机制，默认值为no，</li>
 <li>虚拟内存文件路径，默认值为/tmp/redis.swap，不可多个Redis实例共享<br>vm-swap-file /tmp/redis.swap</li>
@@ -431,6 +434,17 @@
 <li>指定在超过一定的数量或者最大的元素超过某一临界值时，采用一种特殊的哈希算法<br>hash-max-zipmap-entries 64<br>hash-max-zipmap-value 512</li>
 <li>指定是否激活重置哈希，默认为开启（后面在介绍Redis的哈希算法时具体介绍）<br>activerehashing yes</li>
 <li>指定包含其它的配置文件，可以在同一主机上多个Redis实例之间使用同一份配置文件，而同时各个实例又拥有自己的特定配置文件<br>include /path/to/local.conf</li>
+</ol>
+<p>Redis还可以用作消息队列，但是在这方面，阿里很多消息中间件做得更好</p>
+<h2 id="使用消息队列的必要性"><a href="#使用消息队列的必要性" class="headerlink" title="使用消息队列的必要性"></a>使用消息队列的必要性</h2><ol>
+<li>解耦：<br>允许你独立的扩展或修改两边的处理过程，只要确保它们遵守同样的接口约束。</li>
+<li>冗余：<br>消息队列把数据进行持久化直到它们已经被完全处理，通过这一方式规避了数据丢失风险。许多消息队列所采用的”插入-获取-删除”范式中，在把一个消息从队列中删除之前，需要你的处理系统明确的指出该消息已经被处理完毕，从而确保你的数据被安全的保存直到你使用完毕。</li>
+<li>扩展性：<br>因为消息队列解耦了你的处理过程，所以增大消息入队和处理的频率是很容易的，只要另外增加处理过程即可。</li>
+<li>灵活性&amp;峰值处理能力：<br>在访问量剧增的情况下，应用仍然需要继续发挥作用，但是这样的突发流量并不常见。如果为以能处理这类峰值访问为标准来投入资源随时待命无疑是巨大的浪费。使用消息队列能够使关键组件顶住突发的访问压力，而不会因为突发的超负荷的请求而完全崩溃。</li>
+<li>可恢复性：<br>系统的一部分组件失效时，不会影响到整个系统。消息队列降低了进程间的耦合度，所以即使一个处理消息的进程挂掉，加入队列中的消息仍然可以在系统恢复后被处理。</li>
+<li>顺序保证：<br>在大多使用场景下，数据处理的顺序都很重要。大部分消息队列本来就是排序的，并且能保证数据会按照特定的顺序来处理。（Kafka保证一个Partition内的消息的有序性）</li>
+<li>缓冲：<br>有助于控制和优化数据流经过系统的速度，解决生产消息和消费消息的处理速度不一致的情况。</li>
+<li>异步通信：<br>很多时候，用户不想也不需要立即处理消息。消息队列提供了异步处理机制，允许用户把一个消息放入队列，但并不立即处理它。想向队列中放入多少消息就放多少，然后在需要的时候再去处理它们。</li>
 </ol>
 <h2 id="附上守护进程的概念，玩Linux的同学一定都知道拉。。。。"><a href="#附上守护进程的概念，玩Linux的同学一定都知道拉。。。。" class="headerlink" title="附上守护进程的概念，玩Linux的同学一定都知道拉。。。。"></a>附上守护进程的概念，玩Linux的同学一定都知道拉。。。。</h2><p>守护进程是在后台运行不受终端控制的进程（如输入、输出等），一般的网络服务都是以守护进程的方式运行。守护进程脱离终端的主要原因有两点：<br>（1）用来启动守护进程的终端在启动守护进程之后，需要执行其他任务。<br>（2）（如其他用户登录该终端后，以前的守护进程的错误信息不应出现）由终端上的一些键所产生的信号（如中断信号），不应对以前从该终端上启动的任何守护进程造成影响。要注意守护进程与后台运行程序（即加＆启动的程序）的区别。</p>
 
@@ -585,7 +599,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">110</span>
+                <span class="site-state-item-count">112</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -688,7 +702,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#正文："><span class="nav-number">1.</span> <span class="nav-text">正文：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解析Redis配置文件（不吝赐教了），常用的配置。"><span class="nav-number">2.</span> <span class="nav-text">解析Redis配置文件（不吝赐教了），常用的配置。</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#有些配置，我并没有亲自尝试，是从别人的博客中摘抄过来的，用之前请再次查阅官方文档。"><span class="nav-number">2.1.</span> <span class="nav-text">有些配置，我并没有亲自尝试，是从别人的博客中摘抄过来的，用之前请再次查阅官方文档。</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#redis的过期内存回收策略-五种-volatile-lru-volatile-random等策略"><span class="nav-number">3.</span> <span class="nav-text">redis的过期内存回收策略 五种 volatile-lru,volatile-random等策略</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#常用的redis的配置"><span class="nav-number">4.</span> <span class="nav-text">常用的redis的配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#附上守护进程的概念，玩Linux的同学一定都知道拉。。。。"><span class="nav-number">5.</span> <span class="nav-text">附上守护进程的概念，玩Linux的同学一定都知道拉。。。。</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#正文："><span class="nav-number">1.</span> <span class="nav-text">正文：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解析Redis配置文件（不吝赐教了），常用的配置。"><span class="nav-number">2.</span> <span class="nav-text">解析Redis配置文件（不吝赐教了），常用的配置。</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#有些配置，我并没有亲自尝试，是从别人的博客中摘抄过来的，用之前请再次查阅官方文档。"><span class="nav-number">2.1.</span> <span class="nav-text">有些配置，我并没有亲自尝试，是从别人的博客中摘抄过来的，用之前请再次查阅官方文档。</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#redis的过期内存回收策略-五种-volatile-lru-volatile-random等策略"><span class="nav-number">3.</span> <span class="nav-text">redis的过期内存回收策略 五种 volatile-lru,volatile-random等策略</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#常用的redis的配置"><span class="nav-number">4.</span> <span class="nav-text">常用的redis的配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RDB的持久化配置"><span class="nav-number">5.</span> <span class="nav-text">RDB的持久化配置,</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AOF持久化配置"><span class="nav-number">6.</span> <span class="nav-text">AOF持久化配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用消息队列的必要性"><span class="nav-number">7.</span> <span class="nav-text">使用消息队列的必要性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#附上守护进程的概念，玩Linux的同学一定都知道拉。。。。"><span class="nav-number">8.</span> <span class="nav-text">附上守护进程的概念，玩Linux的同学一定都知道拉。。。。</span></a></li></ol></div>
             
 
           </div>

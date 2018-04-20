@@ -303,7 +303,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/03/06/重建二叉树/">
+    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/03/06/二进制中1的个数/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Sailong Ren">
@@ -322,7 +322,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/06/重建二叉树/" itemprop="url">重建二叉树</a></h1>
+                <a class="post-title-link" href="/2018/03/06/二进制中1的个数/" itemprop="url">二进制中1的个数</a></h1>
         
 
         <div class="post-meta">
@@ -396,8 +396,155 @@
       
         
           
-            <h2 id="重建二叉树"><a href="#重建二叉树" class="headerlink" title="重建二叉树"></a>重建二叉树</h2><p><code>题目描述：已知中序和前序，请重建二叉树</code></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> 二叉树重建 </span>&#123;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		<span class="comment">// TODO Auto-generated method stub</span></div><div class="line">		</div><div class="line">	&#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> TreeNode <span class="title">reConstructBinaryTree</span><span class="params">(<span class="keyword">int</span>[] pre, <span class="keyword">int</span>[] in)</span> </span>&#123;</div><div class="line">		<span class="comment">// 前序遍历&#123;1,2,4,7,3,5,6,8&#125;</span></div><div class="line">		<span class="comment">// 中序遍历 &#123;4,7,2,1,5,3,8,6&#125;</span></div><div class="line">		TreeNode root =  reConstruct(pre, <span class="number">0</span>, pre.length - <span class="number">1</span>, in, <span class="number">0</span>, in.length - <span class="number">1</span>);</div><div class="line">		<span class="keyword">return</span> root;</div><div class="line">	&#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> TreeNode <span class="title">reConstruct</span><span class="params">(<span class="keyword">int</span>[] pre, <span class="keyword">int</span> startPre, <span class="keyword">int</span> endPre, <span class="keyword">int</span>[] in, <span class="keyword">int</span> startIn, <span class="keyword">int</span> endIn)</span> </span>&#123;</div><div class="line">		<span class="comment">// 如果起始坐标大于结束下标， 无效的输入</span></div><div class="line">		<span class="keyword">if</span> (startPre &gt; endPre || startIn &gt; endIn) &#123;</div><div class="line">			<span class="keyword">return</span> <span class="keyword">null</span>; <span class="comment">// 无效</span></div><div class="line">		&#125;</div><div class="line">		</div><div class="line">		TreeNode root = <span class="keyword">new</span> TreeNode(pre[<span class="number">0</span>]);<span class="comment">// 前序遍历第一个数，即根节点</span></div><div class="line">		</div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i = startIn; i &lt;= endIn; i++) &#123;</div><div class="line">			<span class="comment">// 在中序遍历中找到 中根节点</span></div><div class="line">			<span class="keyword">if</span> (in[i] == pre[startPre]) &#123;</div><div class="line">				<span class="comment">//i-startIn是左子树节点的个数，前序遍历起始值加上这个就是终点值</span></div><div class="line">                <span class="comment">//i-1就是中序遍历左子树的终点，起始值是从0一直都是从0开始</span></div><div class="line">				root.left = reConstruct(pre, startPre + <span class="number">1</span>, startPre + i - startIn, in, startIn, i - <span class="number">1</span>);</div><div class="line">				<span class="comment">//前序右子树遍历的起始值:startPre+i-startIn+1 前序右子树遍历的终点值:endPre</span></div><div class="line">                <span class="comment">//中序遍历右子树的起始值:i+1,endIn</span></div><div class="line">				root.right = reConstruct(pre, startPre + i - startIn + <span class="number">1</span>, endPre, in, i + <span class="number">1</span>, endIn);</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">return</span> root;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+            <h2 id="二进制中1的个数"><a href="#二进制中1的个数" class="headerlink" title="二进制中1的个数"></a>二进制中1的个数</h2><p><code>题目描述
+输入一个整数，输出该数二进制表示中1的个数。其中负数用补码表示。</code><br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> 二进制1的个数 </span>&#123;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		<span class="comment">// TODO Auto-generated method stub</span></div><div class="line">		String string = Integer.toBinaryString(<span class="number">5</span>);</div><div class="line">		string = Integer.toBinaryString(Integer.valueOf(<span class="string">"111"</span>,<span class="number">2</span>));</div><div class="line">		string = Integer.toBinaryString(-<span class="number">16</span>);</div><div class="line"><span class="comment">//		System.out.println(string);</span></div><div class="line">		System.out.println(NumberOf2(-<span class="number">4</span>));</div><div class="line">	&#125;</div><div class="line">	<span class="comment">// 改进的算法，可以应对负数情况</span></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span>  <span class="title">NumberOf2</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</div><div class="line">        <span class="keyword">int</span> count= <span class="number">0</span>;</div><div class="line">        <span class="keyword">int</span> flag = <span class="number">1</span>;</div><div class="line">        <span class="keyword">while</span> (flag != <span class="number">0</span>)&#123;</div><div class="line">            <span class="keyword">if</span> ((n &amp; flag) != <span class="number">0</span>)&#123;</div><div class="line">                count++;      </div><div class="line">            &#125;</div><div class="line">            flag  = flag &lt;&lt; <span class="number">1</span>;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> count;</div><div class="line">	&#125;</div><div class="line">	<span class="comment">// 负数，会造成死循环</span></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span>  <span class="title">NumberOf1</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</div><div class="line">        <span class="keyword">int</span> count= <span class="number">0</span>;</div><div class="line">        <span class="keyword">int</span> flag = <span class="number">1</span>;</div><div class="line">        <span class="keyword">while</span> (n!= <span class="number">0</span>)&#123;</div><div class="line">            <span class="keyword">if</span> ((n &amp; <span class="number">1</span>) != <span class="number">0</span>)&#123;</div><div class="line">                count++;      </div><div class="line">            &#125;</div><div class="line">            n = n&gt;&gt;<span class="number">1</span>;</div><div class="line">        &#125;</div><div class="line">         <span class="keyword">return</span> count;</div><div class="line">     &#125;  </div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/03/06/旋转数组的最小数字/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sailong Ren">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="coderlong的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/03/06/旋转数组的最小数字/" itemprop="url">旋转数组的最小数字</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-06T14:18:40+08:00">
+                2018-03-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/剑指offer/" itemprop="url" rel="index">
+                    <span itemprop="name">剑指offer</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="旋转数组的最小数字"><a href="#旋转数组的最小数字" class="headerlink" title="旋转数组的最小数字"></a>旋转数组的最小数字</h2><p><code>题目描述
+把一个数组最开始的若干个元素搬到数组的末尾，我们称之为数组的旋转。
+输入一个递增排序的数组的一个旋转，输出旋转数组的最小元素。
+例如数组{3,4,5,1,2}为{1,2,3,4,5}的一个旋转，该数组的最小值为1。
+NOTE：给出的所有元素都大于0，若数组大小为0，请返回0。</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> 旋转数组的最小数字 </span>&#123;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		<span class="comment">// TODO Auto-generated method stub</span></div><div class="line">		<span class="keyword">int</span>[] array = &#123;<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>&#125;;</div><div class="line">		System.out.println(minNumberInRotateArray(array));</div><div class="line">	&#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">minNumberInRotateArray</span><span class="params">(<span class="keyword">int</span>[] array)</span> </span>&#123;</div><div class="line">		<span class="keyword">if</span> (array.length == <span class="number">0</span>) &#123;</div><div class="line">			<span class="keyword">return</span> <span class="number">0</span>;<span class="comment">// 数组长度为0 不合法</span></div><div class="line">		&#125;</div><div class="line">		</div><div class="line">		<span class="keyword">int</span> left = <span class="number">0</span>;<span class="comment">// 处理的第一个元素</span></div><div class="line">		<span class="keyword">int</span> right = array.length - <span class="number">1</span>;</div><div class="line">		<span class="keyword">int</span> mid = left;</div><div class="line">		</div><div class="line">		<span class="keyword">while</span> (array[left] &gt;= array[right]) &#123;</div><div class="line">			<span class="comment">// 当right - left = 1 后一个是结果</span></div><div class="line">			<span class="keyword">if</span> (right - left == <span class="number">1</span>) &#123;</div><div class="line">				<span class="keyword">return</span> array[right];</div><div class="line">			&#125;</div><div class="line">			mid = (left + right)/<span class="number">2</span>;</div><div class="line">			</div><div class="line">			<span class="keyword">if</span> (array[mid] == array[left] &amp;&amp; array[left] == array[right]) &#123;</div><div class="line">				<span class="keyword">return</span> minNum(array, left, right);</div><div class="line">			&#125;</div><div class="line">			<span class="comment">// 最小值 在后半部分</span></div><div class="line">			<span class="keyword">else</span> <span class="keyword">if</span> (array[left] &gt;= array[mid]) &#123;</div><div class="line">				right = mid;</div><div class="line">			&#125;</div><div class="line">			<span class="keyword">else</span> &#123;</div><div class="line">				left = mid;</div><div class="line">			&#125;</div><div class="line">			</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">return</span> array[mid];</div><div class="line">		</div><div class="line">	&#125;</div><div class="line">	<span class="comment">// 顺序查找最小元素</span></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">minNum</span><span class="params">(<span class="keyword">int</span>[] array, <span class="keyword">int</span> left, <span class="keyword">int</span> right)</span> </span>&#123;</div><div class="line">		<span class="keyword">int</span> min = array[left];</div><div class="line">		<span class="keyword">while</span> (left &lt;= right) &#123;</div><div class="line">			min = Math.min(min, array[left++]);</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">return</span> min;</div><div class="line">	&#125;</div><div class="line">	 </div><div class="line">&#125;</div></pre></td></tr></table></figure>
           
         
       
@@ -683,6 +830,148 @@
             <h2 id="用两个栈实现队列"><a href="#用两个栈实现队列" class="headerlink" title="用两个栈实现队列"></a>用两个栈实现队列</h2><p><code>题目描述
 用两个栈来实现一个队列，完成队列的Push和Pop操作。 队列中的元素为int类型。</code></p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> 两个栈实现队列 </span>&#123;</div><div class="line">	</div><div class="line">	Stack&lt;Integer&gt; stack1 = <span class="keyword">new</span> Stack&lt;&gt;();</div><div class="line">	Stack&lt;Integer&gt; stack2 = <span class="keyword">new</span> Stack&lt;&gt;();</div><div class="line">	</div><div class="line">	<span class="comment">// 入队，就是每一次就push()进 stack1中</span></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">push</span><span class="params">(<span class="keyword">int</span> node)</span> </span>&#123;</div><div class="line">		stack1.push(node);</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="comment">// 出队操作： 把stack2全部清空，然后把stack1里面的所有元素都出栈，再进栈 stack2，返回的就是stack2.pop()</span></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">pop</span><span class="params">()</span> </span>&#123;</div><div class="line">		<span class="keyword">while</span> (!stack2.isEmpty()) &#123;</div><div class="line">			<span class="keyword">return</span> stack2.pop();</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">while</span> (!stack1.isEmpty()) &#123;</div><div class="line">			stack2.push(stack1.pop());</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">return</span> stack2.pop();</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/03/06/重建二叉树/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sailong Ren">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="coderlong的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/03/06/重建二叉树/" itemprop="url">重建二叉树</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-06T14:18:40+08:00">
+                2018-03-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/剑指offer/" itemprop="url" rel="index">
+                    <span itemprop="name">剑指offer</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="重建二叉树"><a href="#重建二叉树" class="headerlink" title="重建二叉树"></a>重建二叉树</h2><p><code>题目描述：已知中序和前序，请重建二叉树</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> 二叉树重建 </span>&#123;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		<span class="comment">// TODO Auto-generated method stub</span></div><div class="line">		</div><div class="line">	&#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> TreeNode <span class="title">reConstructBinaryTree</span><span class="params">(<span class="keyword">int</span>[] pre, <span class="keyword">int</span>[] in)</span> </span>&#123;</div><div class="line">		<span class="comment">// 前序遍历&#123;1,2,4,7,3,5,6,8&#125;</span></div><div class="line">		<span class="comment">// 中序遍历 &#123;4,7,2,1,5,3,8,6&#125;</span></div><div class="line">		TreeNode root =  reConstruct(pre, <span class="number">0</span>, pre.length - <span class="number">1</span>, in, <span class="number">0</span>, in.length - <span class="number">1</span>);</div><div class="line">		<span class="keyword">return</span> root;</div><div class="line">	&#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> TreeNode <span class="title">reConstruct</span><span class="params">(<span class="keyword">int</span>[] pre, <span class="keyword">int</span> startPre, <span class="keyword">int</span> endPre, <span class="keyword">int</span>[] in, <span class="keyword">int</span> startIn, <span class="keyword">int</span> endIn)</span> </span>&#123;</div><div class="line">		<span class="comment">// 如果起始坐标大于结束下标， 无效的输入</span></div><div class="line">		<span class="keyword">if</span> (startPre &gt; endPre || startIn &gt; endIn) &#123;</div><div class="line">			<span class="keyword">return</span> <span class="keyword">null</span>; <span class="comment">// 无效</span></div><div class="line">		&#125;</div><div class="line">		</div><div class="line">		TreeNode root = <span class="keyword">new</span> TreeNode(pre[<span class="number">0</span>]);<span class="comment">// 前序遍历第一个数，即根节点</span></div><div class="line">		</div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i = startIn; i &lt;= endIn; i++) &#123;</div><div class="line">			<span class="comment">// 在中序遍历中找到 中根节点</span></div><div class="line">			<span class="keyword">if</span> (in[i] == pre[startPre]) &#123;</div><div class="line">				<span class="comment">//i-startIn是左子树节点的个数，前序遍历起始值加上这个就是终点值</span></div><div class="line">                <span class="comment">//i-1就是中序遍历左子树的终点，起始值是从0一直都是从0开始</span></div><div class="line">				root.left = reConstruct(pre, startPre + <span class="number">1</span>, startPre + i - startIn, in, startIn, i - <span class="number">1</span>);</div><div class="line">				<span class="comment">//前序右子树遍历的起始值:startPre+i-startIn+1 前序右子树遍历的终点值:endPre</span></div><div class="line">                <span class="comment">//中序遍历右子树的起始值:i+1,endIn</span></div><div class="line">				root.right = reConstruct(pre, startPre + i - startIn + <span class="number">1</span>, endPre, in, i + <span class="number">1</span>, endIn);</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">return</span> root;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
           
         
       
@@ -1548,295 +1837,11 @@ AbstractQueuedSynchronizer : compareAndSetState(int expect, int update)
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/03/01/Vector源码剖析/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Sailong Ren">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="coderlong的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/03/01/Vector源码剖析/" itemprop="url">Vector源码剖析</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-01T23:18:40+08:00">
-                2018-03-01
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/JUC/" itemprop="url" rel="index">
-                    <span itemprop="name">JUC</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>Vector是List的一个实现类，其实Vector也是一个基于数组实现的List容器，其功能及实现代码和ArrayList基本上是一样的。那么不一样的是什么地方的，一个是数组扩容的时候，Vector是<em>2，ArrayList是</em>1.5+1；另一个就是Vector是线程安全的，而ArrayList不是，而Vector线程安全的做法是在每个方法上面加了一个synchronized关键字来保证的。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div><div class="line">168</div><div class="line">169</div><div class="line">170</div><div class="line">171</div><div class="line">172</div><div class="line">173</div><div class="line">174</div><div class="line">175</div><div class="line">176</div><div class="line">177</div><div class="line">178</div><div class="line">179</div><div class="line">180</div><div class="line">181</div><div class="line">182</div><div class="line">183</div><div class="line">184</div><div class="line">185</div><div class="line">186</div><div class="line">187</div><div class="line">188</div><div class="line">189</div><div class="line">190</div><div class="line">191</div><div class="line">192</div><div class="line">193</div><div class="line">194</div><div class="line">195</div><div class="line">196</div><div class="line">197</div><div class="line">198</div><div class="line">199</div><div class="line">200</div><div class="line">201</div><div class="line">202</div><div class="line">203</div><div class="line">204</div><div class="line">205</div><div class="line">206</div><div class="line">207</div><div class="line">208</div><div class="line">209</div><div class="line">210</div><div class="line">211</div><div class="line">212</div><div class="line">213</div><div class="line">214</div><div class="line">215</div><div class="line">216</div><div class="line">217</div><div class="line">218</div><div class="line">219</div><div class="line">220</div><div class="line">221</div><div class="line">222</div><div class="line">223</div><div class="line">224</div><div class="line">225</div><div class="line">226</div><div class="line">227</div><div class="line">228</div><div class="line">229</div><div class="line">230</div><div class="line">231</div><div class="line">232</div><div class="line">233</div><div class="line">234</div><div class="line">235</div><div class="line">236</div><div class="line">237</div><div class="line">238</div><div class="line">239</div><div class="line">240</div><div class="line">241</div><div class="line">242</div><div class="line">243</div><div class="line">244</div><div class="line">245</div><div class="line">246</div><div class="line">247</div><div class="line">248</div><div class="line">249</div><div class="line">250</div><div class="line">251</div><div class="line">252</div><div class="line">253</div><div class="line">254</div><div class="line">255</div><div class="line">256</div><div class="line">257</div><div class="line">258</div><div class="line">259</div><div class="line">260</div><div class="line">261</div><div class="line">262</div><div class="line">263</div><div class="line">264</div><div class="line">265</div><div class="line">266</div><div class="line">267</div><div class="line">268</div><div class="line">269</div><div class="line">270</div><div class="line">271</div><div class="line">272</div><div class="line">273</div><div class="line">274</div><div class="line">275</div><div class="line">276</div><div class="line">277</div><div class="line">278</div><div class="line">279</div><div class="line">280</div><div class="line">281</div><div class="line">282</div><div class="line">283</div><div class="line">284</div><div class="line">285</div><div class="line">286</div><div class="line">287</div><div class="line">288</div><div class="line">289</div><div class="line">290</div><div class="line">291</div><div class="line">292</div><div class="line">293</div><div class="line">294</div><div class="line">295</div><div class="line">296</div><div class="line">297</div><div class="line">298</div><div class="line">299</div><div class="line">300</div><div class="line">301</div><div class="line">302</div><div class="line">303</div><div class="line">304</div><div class="line">305</div><div class="line">306</div><div class="line">307</div><div class="line">308</div><div class="line">309</div><div class="line">310</div><div class="line">311</div><div class="line">312</div><div class="line">313</div><div class="line">314</div><div class="line">315</div><div class="line">316</div><div class="line">317</div><div class="line">318</div><div class="line">319</div><div class="line">320</div><div class="line">321</div><div class="line">322</div><div class="line">323</div><div class="line">324</div><div class="line">325</div><div class="line">326</div><div class="line">327</div><div class="line">328</div><div class="line">329</div><div class="line">330</div><div class="line">331</div><div class="line">332</div><div class="line">333</div><div class="line">334</div><div class="line">335</div><div class="line">336</div><div class="line">337</div><div class="line">338</div><div class="line">339</div><div class="line">340</div><div class="line">341</div><div class="line">342</div><div class="line">343</div><div class="line">344</div><div class="line">345</div><div class="line">346</div><div class="line">347</div><div class="line">348</div><div class="line">349</div><div class="line">350</div><div class="line">351</div><div class="line">352</div><div class="line">353</div><div class="line">354</div><div class="line">355</div><div class="line">356</div><div class="line">357</div><div class="line">358</div><div class="line">359</div><div class="line">360</div><div class="line">361</div><div class="line">362</div><div class="line">363</div><div class="line">364</div><div class="line">365</div><div class="line">366</div><div class="line">367</div><div class="line">368</div><div class="line">369</div><div class="line">370</div><div class="line">371</div><div class="line">372</div><div class="line">373</div><div class="line">374</div><div class="line">375</div><div class="line">376</div><div class="line">377</div><div class="line">378</div><div class="line">379</div><div class="line">380</div><div class="line">381</div><div class="line">382</div><div class="line">383</div><div class="line">384</div><div class="line">385</div><div class="line">386</div><div class="line">387</div><div class="line">388</div><div class="line">389</div><div class="line">390</div><div class="line">391</div><div class="line">392</div><div class="line">393</div><div class="line">394</div><div class="line">395</div><div class="line">396</div><div class="line">397</div><div class="line">398</div><div class="line">399</div><div class="line">400</div><div class="line">401</div><div class="line">402</div><div class="line">403</div><div class="line">404</div><div class="line">405</div><div class="line">406</div><div class="line">407</div><div class="line">408</div><div class="line">409</div><div class="line">410</div><div class="line">411</div><div class="line">412</div><div class="line">413</div><div class="line">414</div><div class="line">415</div><div class="line">416</div><div class="line">417</div><div class="line">418</div><div class="line">419</div><div class="line">420</div><div class="line">421</div><div class="line">422</div><div class="line">423</div><div class="line">424</div><div class="line">425</div><div class="line">426</div><div class="line">427</div><div class="line">428</div><div class="line">429</div><div class="line">430</div><div class="line">431</div><div class="line">432</div><div class="line">433</div><div class="line">434</div><div class="line">435</div><div class="line">436</div><div class="line">437</div><div class="line">438</div><div class="line">439</div><div class="line">440</div><div class="line">441</div><div class="line">442</div><div class="line">443</div><div class="line">444</div><div class="line">445</div><div class="line">446</div><div class="line">447</div><div class="line">448</div><div class="line">449</div><div class="line">450</div><div class="line">451</div><div class="line">452</div><div class="line">453</div><div class="line">454</div><div class="line">455</div><div class="line">456</div><div class="line">457</div><div class="line">458</div><div class="line">459</div><div class="line">460</div><div class="line">461</div><div class="line">462</div><div class="line">463</div><div class="line">464</div><div class="line">465</div><div class="line">466</div><div class="line">467</div><div class="line">468</div><div class="line">469</div><div class="line">470</div><div class="line">471</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> java.util;  </div><div class="line"> </div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Vector</span>&lt;<span class="title">E</span>&gt;  </span></div><div class="line"><span class="class">    <span class="keyword">extends</span> <span class="title">AbstractList</span>&lt;<span class="title">E</span>&gt;  </span></div><div class="line"><span class="class">    <span class="keyword">implements</span> <span class="title">List</span>&lt;<span class="title">E</span>&gt;, <span class="title">RandomAccess</span>, <span class="title">Cloneable</span>, <span class="title">java</span>.<span class="title">io</span>.<span class="title">Serializable</span>  </span></div><div class="line"><span class="class"></span>&#123;  </div><div class="line">     </div><div class="line">    <span class="comment">// 保存Vector中数据的数组  </span></div><div class="line">    <span class="keyword">protected</span> Object[] elementData;  </div><div class="line"> </div><div class="line">    <span class="comment">// 实际数据的数量  </span></div><div class="line">    <span class="keyword">protected</span> <span class="keyword">int</span> elementCount;  </div><div class="line"> </div><div class="line">    <span class="comment">// 容量增长系数  </span></div><div class="line">    <span class="keyword">protected</span> <span class="keyword">int</span> capacityIncrement;  </div><div class="line"> </div><div class="line">    <span class="comment">// Vector的序列版本号  </span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">long</span> serialVersionUID = -<span class="number">2767605614048989439L</span>;  </div><div class="line"> </div><div class="line">    <span class="comment">// Vector构造函数。默认容量是10。  </span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Vector</span><span class="params">()</span> </span>&#123;  </div><div class="line">        <span class="keyword">this</span>(<span class="number">10</span>);  </div><div class="line">    &#125;  </div><div class="line"> </div><div class="line">    <span class="comment">// 指定Vector容量大小的构造函数  </span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Vector</span><span class="params">(<span class="keyword">int</span> initialCapacity)</span> </span>&#123;  </div><div class="line">        <span class="keyword">this</span>(initialCapacity, <span class="number">0</span>);  </div><div class="line">    &#125;  </div><div class="line"> </div><div class="line">    <span class="comment">// 指定Vector"容量大小"和"增长系数"的构造函数  </span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Vector</span><span class="params">(<span class="keyword">int</span> initialCapacity, <span class="keyword">int</span> capacityIncrement)</span> </span>&#123;  </div><div class="line">        <span class="keyword">super</span>();  </div><div class="line">        <span class="keyword">if</span> (initialCapacity &lt; <span class="number">0</span>)  </div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"Illegal Capacity: "</span>+  </div><div class="line">                                               initialCapacity);  </div><div class="line">        <span class="comment">// 新建一个数组，数组容量是initialCapacity  </span></div><div class="line">        <span class="keyword">this</span>.elementData = <span class="keyword">new</span> Object[initialCapacity];  </div><div class="line">        <span class="comment">// 设置容量增长系数  </span></div><div class="line">        <span class="keyword">this</span>.capacityIncrement = capacityIncrement;  </div><div class="line">    &#125;  </div><div class="line"> </div><div class="line">    <span class="comment">// 指定集合的Vector构造函数。  </span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Vector</span><span class="params">(Collection&lt;? extends E&gt; c)</span> </span>&#123;  </div><div class="line">        <span class="comment">// 获取“集合(c)”的数组，并将其赋值给elementData  </span></div><div class="line">        elementData = c.toArray();  </div><div class="line">        <span class="comment">// 设置数组长度  </span></div><div class="line">        elementCount = elementData.length;  </div><div class="line">        <span class="comment">// c.toArray might (incorrectly) not return Object[] (see 6260652)  </span></div><div class="line">        <span class="keyword">if</span> (elementData.getClass() != Object[].class)  </div><div class="line">            elementData = Arrays.copyOf(elementData, elementCount, Object[].class);  </div><div class="line">    &#125;  </div><div class="line"> </div><div class="line">    <span class="comment">// 将数组Vector的全部元素都拷贝到数组anArray中  </span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">copyInto</span><span class="params">(Object[] anArray)</span> </span>&#123;  </div><div class="line">        System.arraycopy(elementData, <span class="number">0</span>, anArray, <span class="number">0</span>, elementCount);  </div><div class="line">    &#125;  </div><div class="line"> </div><div class="line">    <span class="comment">// 将当前容量值设为 =实际元素个数  </span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">trimToSize</span><span class="params">()</span> </span>&#123;  </div><div class="line">        modCount++;  </div><div class="line">        <span class="keyword">int</span> oldCapacity = elementData.length;  </div><div class="line">        <span class="keyword">if</span> (elementCount &lt; oldCapacity) &#123;  </div><div class="line">            elementData = Arrays.copyOf(elementData, elementCount);  </div><div class="line">        &#125;  </div><div class="line">    &#125;  </div><div class="line"> </div><div class="line">    <span class="comment">// 确认“Vector容量”的帮助函数  </span></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">ensureCapacityHelper</span><span class="params">(<span class="keyword">int</span> minCapacity)</span> </span>&#123;  </div><div class="line">        <span class="keyword">int</span> oldCapacity = elementData.length;  </div><div class="line">        <span class="comment">// 当Vector的容量不足以容纳当前的全部元素，增加容量大小。  </span></div><div class="line">        <span class="comment">// 若 容量增量系数&gt;0(即capacityIncrement&gt;0)，则将容量增大当capacityIncrement  </span></div><div class="line">        <span class="comment">// 否则，将容量*2，扩大二倍。  </span></div><div class="line">        <span class="keyword">if</span> (minCapacity &gt; oldCapacity) &#123;  </div><div class="line">            Object[] oldData = elementData;  </div><div class="line">            <span class="keyword">int</span> newCapacity = (capacityIncrement &gt; <span class="number">0</span>) ?  </div><div class="line">                (oldCapacity + capacityIncrement) : (oldCapacity * <span class="number">2</span>);  </div><div class="line">            <span class="keyword">if</span> (newCapacity &lt; minCapacity) &#123;  </div><div class="line">                newCapacity = minCapacity;  </div><div class="line">            &#125;  </div><div class="line">            elementData = Arrays.copyOf(elementData, newCapacity);  </div><div class="line">        &#125;  </div><div class="line">    &#125;  </div><div class="line"> </div><div class="line">    <span class="comment">// 确定Vector的容量。  </span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">ensureCapacity</span><span class="params">(<span class="keyword">int</span> minCapacity)</span> </span>&#123;  </div><div class="line">        <span class="comment">// 将Vector的改变统计数+1  </span></div><div class="line">        modCount++;  </div><div class="line">        ensureCapacityHelper(minCapacity);  </div><div class="line">    &#125;  </div><div class="line"> </div><div class="line">    <span class="comment">// 设置容量值为 newSize  </span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">setSize</span><span class="params">(<span class="keyword">int</span> newSize)</span> </span>&#123;  </div><div class="line">        modCount++;  </div><div class="line">        <span class="keyword">if</span> (newSize &gt; elementCount) &#123;  </div><div class="line">            <span class="comment">// 若 "newSize 大于 Vector容量"，则调整Vector的大小。  </span></div><div class="line">            ensureCapacityHelper(newSize);  </div><div class="line">        &#125; <span class="keyword">else</span> &#123;  </div><div class="line">            <span class="comment">// 若 "newSize 小于/等于 Vector容量"，则将newSize位置开始的元素都设置为null  </span></div><div class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = newSize ; i &lt; elementCount ; i++) &#123;  </div><div class="line">                elementData[i] = <span class="keyword">null</span>;  </div><div class="line">            &#125;  </div><div class="line">        &#125;  </div><div class="line">        elementCount = newSize;  </div><div class="line">    &#125;  </div><div class="line"> </div><div class="line">    <span class="comment">// 返回“Vector的总的容量”  </span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">int</span> <span class="title">capacity</span><span class="params">()</span> </span>&#123;  </div><div class="line">        <span class="keyword">return</span> elementData.length;  </div><div class="line">    &#125;  </div><div class="line"> </div><div class="line">    <span class="comment">// 返回“Vector的实际大小”，即Vector中元素个数  </span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">int</span> <span class="title">size</span><span class="params">()</span> </span>&#123;  </div><div class="line">        <span class="keyword">return</span> elementCount;  </div><div class="line">    &#125;  </div><div class="line"> </div><div class="line">    <span class="comment">// 判断Vector是否为空  </span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">boolean</span> <span class="title">isEmpty</span><span class="params">()</span> </span>&#123;  </div><div class="line">        <span class="keyword">return</span> elementCount == <span class="number">0</span>;  </div><div class="line">    &#125;  </div><div class="line"> </div><div class="line">    <span class="comment">// 返回“Vector中全部元素对应的Enumeration”  </span></div><div class="line">    <span class="function"><span class="keyword">public</span> Enumeration&lt;E&gt; <span class="title">elements</span><span class="params">()</span> </span>&#123;  </div><div class="line">        <span class="comment">// 通过匿名类实现Enumeration  </span></div><div class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Enumeration&lt;E&gt;() &#123;  </div><div class="line">            <span class="keyword">int</span> count = <span class="number">0</span>;  </div><div class="line"> </div><div class="line">            <span class="comment">// 是否存在下一个元素  </span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">hasMoreElements</span><span class="params">()</span> </span>&#123;  </div><div class="line">                <span class="keyword">return</span> count &lt; elementCount;  </div><div class="line">            &#125;  </div><div class="line"> </div><div class="line">            <span class="comment">// 获取下一个元素  </span></div><div class="line">            <span class="function"><span class="keyword">public</span> E <span class="title">nextElement</span><span class="params">()</span> </span>&#123;  </div><div class="line">                <span class="keyword">synchronized</span> (Vector.<span class="keyword">this</span>) &#123;  </div><div class="line">                    <span class="keyword">if</span> (count &lt; elementCount) &#123;  </div><div class="line">                        <span class="keyword">return</span> (E)elementData[count++];  </div><div class="line">                    &#125;  </div><div class="line">                &#125;  </div><div class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> NoSuchElementException(<span class="string">"Vector Enumeration"</span>);  </div><div class="line">            &#125;  </div><div class="line">        &#125;;  </div><div class="line">    &#125;  </div><div class="line"> </div><div class="line">    <span class="comment">// 返回Vector中是否包含对象(o)  </span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">contains</span><span class="params">(Object o)</span> </span>&#123;  </div><div class="line">        <span class="keyword">return</span> indexOf(o, <span class="number">0</span>) &gt;= <span class="number">0</span>;  </div><div class="line">    &#125;  </div><div class="line"> </div><div class="line"> </div><div class="line">    <span class="comment">// 从index位置开始向后查找元素(o)。  </span></div><div class="line">    <span class="comment">// 若找到，则返回元素的索引值；否则，返回-1  </span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">int</span> <span class="title">indexOf</span><span class="params">(Object o, <span class="keyword">int</span> index)</span> </span>&#123;  </div><div class="line">        <span class="keyword">if</span> (o == <span class="keyword">null</span>) &#123;  </div><div class="line">            <span class="comment">// 若查找元素为null，则正向找出null元素，并返回它对应的序号  </span></div><div class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = index ; i &lt; elementCount ; i++)  </div><div class="line">            <span class="keyword">if</span> (elementData[i]==<span class="keyword">null</span>)  </div><div class="line">                <span class="keyword">return</span> i;  </div><div class="line">        &#125; <span class="keyword">else</span> &#123;  </div><div class="line">            <span class="comment">// 若查找元素不为null，则正向找出该元素，并返回它对应的序号  </span></div><div class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = index ; i &lt; elementCount ; i++)  </div><div class="line">            <span class="keyword">if</span> (o.equals(elementData[i]))  </div><div class="line">                <span class="keyword">return</span> i;  </div><div class="line">        &#125;  </div><div class="line">        <span class="keyword">return</span> -<span class="number">1</span>;  </div><div class="line">    &#125;  </div><div class="line"> </div><div class="line">    <span class="comment">// 查找并返回元素(o)在Vector中的索引值  </span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">indexOf</span><span class="params">(Object o)</span> </span>&#123;  </div><div class="line">        <span class="keyword">return</span> indexOf(o, <span class="number">0</span>);  </div><div class="line">    &#125;  </div><div class="line"> </div><div class="line">    <span class="comment">// 从后向前查找元素(o)。并返回元素的索引  </span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">int</span> <span class="title">lastIndexOf</span><span class="params">(Object o)</span> </span>&#123;  </div><div class="line">        <span class="keyword">return</span> lastIndexOf(o, elementCount-<span class="number">1</span>);  </div><div class="line">    &#125;  </div><div class="line"> </div><div class="line">    <span class="comment">// 从后向前查找元素(o)。开始位置是从前向后的第index个数；  </span></div><div class="line">    <span class="comment">// 若找到，则返回元素的“索引值”；否则，返回-1。  </span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">int</span> <span class="title">lastIndexOf</span><span class="params">(Object o, <span class="keyword">int</span> index)</span> </span>&#123;  </div><div class="line">        <span class="keyword">if</span> (index &gt;= elementCount)  </div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IndexOutOfBoundsException(index + <span class="string">" &gt;= "</span>+ elementCount);  </div><div class="line"> </div><div class="line">        <span class="keyword">if</span> (o == <span class="keyword">null</span>) &#123;  </div><div class="line">            <span class="comment">// 若查找元素为null，则反向找出null元素，并返回它对应的序号  </span></div><div class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = index; i &gt;= <span class="number">0</span>; i--)  </div><div class="line">            <span class="keyword">if</span> (elementData[i]==<span class="keyword">null</span>)  </div><div class="line">                <span class="keyword">return</span> i;  </div><div class="line">        &#125; <span class="keyword">else</span> &#123;  </div><div class="line">            <span class="comment">// 若查找元素不为null，则反向找出该元素，并返回它对应的序号  </span></div><div class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = index; i &gt;= <span class="number">0</span>; i--)  </div><div class="line">            <span class="keyword">if</span> (o.equals(elementData[i]))  </div><div class="line">                <span class="keyword">return</span> i;  </div><div class="line">        &#125;  </div><div class="line">        <span class="keyword">return</span> -<span class="number">1</span>;  </div><div class="line">    &#125;  </div><div class="line"> </div><div class="line">    <span class="comment">// 返回Vector中index位置的元素。  </span></div><div class="line">    <span class="comment">// 若index月结，则抛出异常  </span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> E <span class="title">elementAt</span><span class="params">(<span class="keyword">int</span> index)</span> </span>&#123;  </div><div class="line">        <span class="keyword">if</span> (index &gt;= elementCount) &#123;  </div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> ArrayIndexOutOfBoundsException(index + <span class="string">" &gt;= "</span> + elementCount);  </div><div class="line">        &#125;  </div><div class="line"> </div><div class="line">        <span class="keyword">return</span> (E)elementData[index];  </div><div class="line">    &#125;  </div><div class="line"> </div><div class="line">    <span class="comment">// 获取Vector中的第一个元素。  </span></div><div class="line">    <span class="comment">// 若失败，则抛出异常！  </span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> E <span class="title">firstElement</span><span class="params">()</span> </span>&#123;  </div><div class="line">        <span class="keyword">if</span> (elementCount == <span class="number">0</span>) &#123;  </div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> NoSuchElementException();  </div><div class="line">        &#125;  </div><div class="line">        <span class="keyword">return</span> (E)elementData[<span class="number">0</span>];  </div><div class="line">    &#125;  </div><div class="line"> </div><div class="line">    <span class="comment">// 获取Vector中的最后一个元素。  </span></div><div class="line">    <span class="comment">// 若失败，则抛出异常！  </span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> E <span class="title">lastElement</span><span class="params">()</span> </span>&#123;  </div><div class="line">        <span class="keyword">if</span> (elementCount == <span class="number">0</span>) &#123;  </div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> NoSuchElementException();  </div><div class="line">        &#125;  </div><div class="line">        <span class="keyword">return</span> (E)elementData[elementCount - <span class="number">1</span>];  </div><div class="line">    &#125;  </div><div class="line"> </div><div class="line">    <span class="comment">// 设置index位置的元素值为obj  </span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">setElementAt</span><span class="params">(E obj, <span class="keyword">int</span> index)</span> </span>&#123;  </div><div class="line">        <span class="keyword">if</span> (index &gt;= elementCount) &#123;  </div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> ArrayIndexOutOfBoundsException(index + <span class="string">" &gt;= "</span> +  </div><div class="line">                                 elementCount);  </div><div class="line">        &#125;  </div><div class="line">        elementData[index] = obj;  </div><div class="line">    &#125;  </div><div class="line"> </div><div class="line">    <span class="comment">// 删除index位置的元素  </span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">removeElementAt</span><span class="params">(<span class="keyword">int</span> index)</span> </span>&#123;  </div><div class="line">        modCount++;  </div><div class="line">        <span class="keyword">if</span> (index &gt;= elementCount) &#123;  </div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> ArrayIndexOutOfBoundsException(index + <span class="string">" &gt;= "</span> +  </div><div class="line">                                 elementCount);  </div><div class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (index &lt; <span class="number">0</span>) &#123;  </div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> ArrayIndexOutOfBoundsException(index);  </div><div class="line">        &#125;  </div><div class="line"> </div><div class="line">        <span class="keyword">int</span> j = elementCount - index - <span class="number">1</span>;  </div><div class="line">        <span class="keyword">if</span> (j &gt; <span class="number">0</span>) &#123;  </div><div class="line">            System.arraycopy(elementData, index + <span class="number">1</span>, elementData, index, j);  </div><div class="line">        &#125;  </div><div class="line">        elementCount--;  </div><div class="line">        elementData[elementCount] = <span class="keyword">null</span>; <span class="comment">/* to let gc do its work */</span> </div><div class="line">    &#125;  </div><div class="line"> </div><div class="line">    <span class="comment">// 在index位置处插入元素(obj)  </span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">insertElementAt</span><span class="params">(E obj, <span class="keyword">int</span> index)</span> </span>&#123;  </div><div class="line">        modCount++;  </div><div class="line">        <span class="keyword">if</span> (index &gt; elementCount) &#123;  </div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> ArrayIndexOutOfBoundsException(index  </div><div class="line">                                 + <span class="string">" &gt; "</span> + elementCount);  </div><div class="line">        &#125;  </div><div class="line">        ensureCapacityHelper(elementCount + <span class="number">1</span>);  </div><div class="line">        System.arraycopy(elementData, index, elementData, index + <span class="number">1</span>, elementCount - index);  </div><div class="line">        elementData[index] = obj;  </div><div class="line">        elementCount++;  </div><div class="line">    &#125;  </div><div class="line"> </div><div class="line">    <span class="comment">// 将“元素obj”添加到Vector末尾  </span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">addElement</span><span class="params">(E obj)</span> </span>&#123;  </div><div class="line">        modCount++;  </div><div class="line">        ensureCapacityHelper(elementCount + <span class="number">1</span>);  </div><div class="line">        elementData[elementCount++] = obj;  </div><div class="line">    &#125;  </div><div class="line"> </div><div class="line">    <span class="comment">// 在Vector中查找并删除元素obj。  </span></div><div class="line">    <span class="comment">// 成功的话，返回true；否则，返回false。  </span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">boolean</span> <span class="title">removeElement</span><span class="params">(Object obj)</span> </span>&#123;  </div><div class="line">        modCount++;  </div><div class="line">        <span class="keyword">int</span> i = indexOf(obj);  </div><div class="line">        <span class="keyword">if</span> (i &gt;= <span class="number">0</span>) &#123;  </div><div class="line">            removeElementAt(i);  </div><div class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;  </div><div class="line">        &#125;  </div><div class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;  </div><div class="line">    &#125;  </div><div class="line"> </div><div class="line">    <span class="comment">// 删除Vector中的全部元素  </span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">removeAllElements</span><span class="params">()</span> </span>&#123;  </div><div class="line">        modCount++;  </div><div class="line">        <span class="comment">// 将Vector中的全部元素设为null  </span></div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; elementCount; i++)  </div><div class="line">            elementData[i] = <span class="keyword">null</span>;  </div><div class="line"> </div><div class="line">        elementCount = <span class="number">0</span>;  </div><div class="line">    &#125;  </div><div class="line"> </div><div class="line">    <span class="comment">// 克隆函数  </span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> Object <span class="title">clone</span><span class="params">()</span> </span>&#123;  </div><div class="line">        <span class="keyword">try</span> &#123;  </div><div class="line">            Vector&lt;E&gt; v = (Vector&lt;E&gt;) <span class="keyword">super</span>.clone();  </div><div class="line">            <span class="comment">// 将当前Vector的全部元素拷贝到v中  </span></div><div class="line">            v.elementData = Arrays.copyOf(elementData, elementCount);  </div><div class="line">            v.modCount = <span class="number">0</span>;  </div><div class="line">            <span class="keyword">return</span> v;  </div><div class="line">        &#125; <span class="keyword">catch</span> (CloneNotSupportedException e) &#123;  </div><div class="line">            <span class="comment">// this shouldn't happen, since we are Cloneable  </span></div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> InternalError();  </div><div class="line">        &#125;  </div><div class="line">    &#125;  </div><div class="line"> </div><div class="line">    <span class="comment">// 返回Object数组  </span></div><div class="line">    <span class="keyword">public</span> <span class="keyword">synchronized</span> Object[] toArray() &#123;  </div><div class="line">        <span class="keyword">return</span> Arrays.copyOf(elementData, elementCount);  </div><div class="line">    &#125;  </div><div class="line"> </div><div class="line">    <span class="comment">// 返回Vector的模板数组。所谓模板数组，即可以将T设为任意的数据类型  </span></div><div class="line">    <span class="keyword">public</span> <span class="keyword">synchronized</span> &lt;T&gt; T[] toArray(T[] a) &#123;  </div><div class="line">        <span class="comment">// 若数组a的大小 &lt; Vector的元素个数；  </span></div><div class="line">        <span class="comment">// 则新建一个T[]数组，数组大小是“Vector的元素个数”，并将“Vector”全部拷贝到新数组中  </span></div><div class="line">        <span class="keyword">if</span> (a.length &lt; elementCount)  </div><div class="line">            <span class="keyword">return</span> (T[]) Arrays.copyOf(elementData, elementCount, a.getClass());  </div><div class="line"> </div><div class="line">        <span class="comment">// 若数组a的大小 &gt;= Vector的元素个数；  </span></div><div class="line">        <span class="comment">// 则将Vector的全部元素都拷贝到数组a中。  </span></div><div class="line">    System.arraycopy(elementData, <span class="number">0</span>, a, <span class="number">0</span>, elementCount);  </div><div class="line"> </div><div class="line">        <span class="keyword">if</span> (a.length &gt; elementCount)  </div><div class="line">            a[elementCount] = <span class="keyword">null</span>;  </div><div class="line"> </div><div class="line">        <span class="keyword">return</span> a;  </div><div class="line">    &#125;  </div><div class="line"> </div><div class="line">    <span class="comment">// 获取index位置的元素  </span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> E <span class="title">get</span><span class="params">(<span class="keyword">int</span> index)</span> </span>&#123;  </div><div class="line">        <span class="keyword">if</span> (index &gt;= elementCount)  </div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> ArrayIndexOutOfBoundsException(index);  </div><div class="line"> </div><div class="line">        <span class="keyword">return</span> (E)elementData[index];  </div><div class="line">    &#125;  </div><div class="line"> </div><div class="line">    <span class="comment">// 设置index位置的值为element。并返回index位置的原始值  </span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> E <span class="title">set</span><span class="params">(<span class="keyword">int</span> index, E element)</span> </span>&#123;  </div><div class="line">        <span class="keyword">if</span> (index &gt;= elementCount)  </div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> ArrayIndexOutOfBoundsException(index);  </div><div class="line"> </div><div class="line">        Object oldValue = elementData[index];  </div><div class="line">        elementData[index] = element;  </div><div class="line">        <span class="keyword">return</span> (E)oldValue;  </div><div class="line">    &#125;  </div><div class="line"> </div><div class="line">    <span class="comment">// 将“元素e”添加到Vector最后。  </span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">boolean</span> <span class="title">add</span><span class="params">(E e)</span> </span>&#123;  </div><div class="line">        modCount++;  </div><div class="line">        ensureCapacityHelper(elementCount + <span class="number">1</span>);  </div><div class="line">        elementData[elementCount++] = e;  </div><div class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;  </div><div class="line">    &#125;  </div><div class="line"> </div><div class="line">    <span class="comment">// 删除Vector中的元素o  </span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">remove</span><span class="params">(Object o)</span> </span>&#123;  </div><div class="line">        <span class="keyword">return</span> removeElement(o);  </div><div class="line">    &#125;  </div><div class="line"> </div><div class="line">    <span class="comment">// 在index位置添加元素element  </span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> index, E element)</span> </span>&#123;  </div><div class="line">        insertElementAt(element, index);  </div><div class="line">    &#125;  </div><div class="line"> </div><div class="line">    <span class="comment">// 删除index位置的元素，并返回index位置的原始值  </span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> E <span class="title">remove</span><span class="params">(<span class="keyword">int</span> index)</span> </span>&#123;  </div><div class="line">        modCount++;  </div><div class="line">        <span class="keyword">if</span> (index &gt;= elementCount)  </div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> ArrayIndexOutOfBoundsException(index);  </div><div class="line">        Object oldValue = elementData[index];  </div><div class="line"> </div><div class="line">        <span class="keyword">int</span> numMoved = elementCount - index - <span class="number">1</span>;  </div><div class="line">        <span class="keyword">if</span> (numMoved &gt; <span class="number">0</span>)  </div><div class="line">            System.arraycopy(elementData, index+<span class="number">1</span>, elementData, index,  </div><div class="line">                     numMoved);  </div><div class="line">        elementData[--elementCount] = <span class="keyword">null</span>; <span class="comment">// Let gc do its work  </span></div><div class="line"> </div><div class="line">        <span class="keyword">return</span> (E)oldValue;  </div><div class="line">    &#125;  </div><div class="line"> </div><div class="line">    <span class="comment">// 清空Vector  </span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">clear</span><span class="params">()</span> </span>&#123;  </div><div class="line">        removeAllElements();  </div><div class="line">    &#125;  </div><div class="line"> </div><div class="line">    <span class="comment">// 返回Vector是否包含集合c  </span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">boolean</span> <span class="title">containsAll</span><span class="params">(Collection&lt;?&gt; c)</span> </span>&#123;  </div><div class="line">        <span class="keyword">return</span> <span class="keyword">super</span>.containsAll(c);  </div><div class="line">    &#125;  </div><div class="line"> </div><div class="line">    <span class="comment">// 将集合c添加到Vector中  </span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">boolean</span> <span class="title">addAll</span><span class="params">(Collection&lt;? extends E&gt; c)</span> </span>&#123;  </div><div class="line">        modCount++;  </div><div class="line">        Object[] a = c.toArray();  </div><div class="line">        <span class="keyword">int</span> numNew = a.length;  </div><div class="line">        ensureCapacityHelper(elementCount + numNew);  </div><div class="line">        <span class="comment">// 将集合c的全部元素拷贝到数组elementData中  </span></div><div class="line">        System.arraycopy(a, <span class="number">0</span>, elementData, elementCount, numNew);  </div><div class="line">        elementCount += numNew;  </div><div class="line">        <span class="keyword">return</span> numNew != <span class="number">0</span>;  </div><div class="line">    &#125;  </div><div class="line"> </div><div class="line">    <span class="comment">// 删除集合c的全部元素  </span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">boolean</span> <span class="title">removeAll</span><span class="params">(Collection&lt;?&gt; c)</span> </span>&#123;  </div><div class="line">        <span class="keyword">return</span> <span class="keyword">super</span>.removeAll(c);  </div><div class="line">    &#125;  </div><div class="line"> </div><div class="line">    <span class="comment">// 删除“非集合c中的元素”  </span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">boolean</span> <span class="title">retainAll</span><span class="params">(Collection&lt;?&gt; c)</span>  </span>&#123;  </div><div class="line">        <span class="keyword">return</span> <span class="keyword">super</span>.retainAll(c);  </div><div class="line">    &#125;  </div><div class="line"> </div><div class="line">    <span class="comment">// 从index位置开始，将集合c添加到Vector中  </span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">boolean</span> <span class="title">addAll</span><span class="params">(<span class="keyword">int</span> index, Collection&lt;? extends E&gt; c)</span> </span>&#123;  </div><div class="line">        modCount++;  </div><div class="line">        <span class="keyword">if</span> (index &lt; <span class="number">0</span> || index &gt; elementCount)  </div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> ArrayIndexOutOfBoundsException(index);  </div><div class="line"> </div><div class="line">        Object[] a = c.toArray();  </div><div class="line">        <span class="keyword">int</span> numNew = a.length;  </div><div class="line">        ensureCapacityHelper(elementCount + numNew);  </div><div class="line"> </div><div class="line">        <span class="keyword">int</span> numMoved = elementCount - index;  </div><div class="line">        <span class="keyword">if</span> (numMoved &gt; <span class="number">0</span>)  </div><div class="line">        System.arraycopy(elementData, index, elementData, index + numNew, numMoved);  </div><div class="line"> </div><div class="line">        System.arraycopy(a, <span class="number">0</span>, elementData, index, numNew);  </div><div class="line">        elementCount += numNew;  </div><div class="line">        <span class="keyword">return</span> numNew != <span class="number">0</span>;  </div><div class="line">    &#125;  </div><div class="line"> </div><div class="line">    <span class="comment">// 返回两个对象是否相等  </span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">boolean</span> <span class="title">equals</span><span class="params">(Object o)</span> </span>&#123;  </div><div class="line">        <span class="keyword">return</span> <span class="keyword">super</span>.equals(o);  </div><div class="line">    &#125;  </div><div class="line"> </div><div class="line">    <span class="comment">// 计算哈希值  </span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">int</span> <span class="title">hashCode</span><span class="params">()</span> </span>&#123;  </div><div class="line">        <span class="keyword">return</span> <span class="keyword">super</span>.hashCode();  </div><div class="line">    &#125;  </div><div class="line"> </div><div class="line">    <span class="comment">// 调用父类的toString()  </span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;  </div><div class="line">        <span class="keyword">return</span> <span class="keyword">super</span>.toString();  </div><div class="line">    &#125;  </div><div class="line"> </div><div class="line">    <span class="comment">// 获取Vector中fromIndex(包括)到toIndex(不包括)的子集  </span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> List&lt;E&gt; <span class="title">subList</span><span class="params">(<span class="keyword">int</span> fromIndex, <span class="keyword">int</span> toIndex)</span> </span>&#123;  </div><div class="line">        <span class="keyword">return</span> Collections.synchronizedList(<span class="keyword">super</span>.subList(fromIndex, toIndex), <span class="keyword">this</span>);  </div><div class="line">    &#125;  </div><div class="line"> </div><div class="line">    <span class="comment">// 删除Vector中fromIndex到toIndex的元素  </span></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">removeRange</span><span class="params">(<span class="keyword">int</span> fromIndex, <span class="keyword">int</span> toIndex)</span> </span>&#123;  </div><div class="line">        modCount++;  </div><div class="line">        <span class="keyword">int</span> numMoved = elementCount - toIndex;  </div><div class="line">        System.arraycopy(elementData, toIndex, elementData, fromIndex,  </div><div class="line">                         numMoved);  </div><div class="line"> </div><div class="line">        <span class="comment">// Let gc do its work  </span></div><div class="line">        <span class="keyword">int</span> newElementCount = elementCount - (toIndex-fromIndex);  </div><div class="line">        <span class="keyword">while</span> (elementCount != newElementCount)  </div><div class="line">            elementData[--elementCount] = <span class="keyword">null</span>;  </div><div class="line">    &#125;  </div><div class="line"> </div><div class="line">    <span class="comment">// java.io.Serializable的写入函数  </span></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">writeObject</span><span class="params">(java.io.ObjectOutputStream s)</span>  </span></div><div class="line"><span class="function">        <span class="keyword">throws</span> java.io.IOException </span>&#123;  </div><div class="line">        s.defaultWriteObject();  </div><div class="line">    &#125;  </div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/03/01/并发编程实战笔记/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Sailong Ren">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="coderlong的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/03/01/并发编程实战笔记/" itemprop="url">并发编程实战，</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-01T21:18:40+08:00">
-                2018-03-01
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/JUC/" itemprop="url" rel="index">
-                    <span itemprop="name">JUC</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="11-锁的性能与可伸缩性"><a href="#11-锁的性能与可伸缩性" class="headerlink" title="11 锁的性能与可伸缩性"></a>11 锁的性能与可伸缩性</h2><p>减小锁的竞争<br>    缩小锁的范围<br>    减小锁的持有时间<br>    减小锁的粒度 比如只在map的get操作加锁即可，而不用在整个调用get方法的函数加锁<br>    锁分段，著名的concurrentHashMap就是使用的这种技术</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/3/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="extend next" rel="next" href="/page/5/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/3/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/5/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1882,7 +1887,7 @@ AbstractQueuedSynchronizer : compareAndSetState(int expect, int update)
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">110</span>
+                <span class="site-state-item-count">112</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>

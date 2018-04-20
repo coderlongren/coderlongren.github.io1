@@ -103,7 +103,7 @@
 <meta property="og:description" content="问题给定一个数值sum，假设我们有m种不同类型的硬币{V1, V2, …, Vm}，如果要组合成sum，求所有可能的组合数。给定一个数值sum，假设我们有m种不同类型的硬币{V1, V2, …, Vm}，如果要组合成sumsum = x1*v1 + x2*v2 + x3*v3 + ..... + xm*vm求所有可能的组合数，求满足所有等值的系数{x1,x2,x3,...xm} 暴力破解枚举，每个">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://www.sciweavers.org/tex2img.php?eq=dp%5Bi%5D%5Bsum%5D%20%3D%20%5Csum_%7Bk%3D0%7D%5E%7Bsum%2FVm%7D%20dp%5Bi-1%5D%5Bsum%20-%20k%2AVm%5D&bc=White&fc=Black&im=png&fs=12&ff=arev&edit=0">
-<meta property="og:updated_time" content="2018-04-09T11:49:21.905Z">
+<meta property="og:updated_time" content="2018-04-19T11:56:56.794Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="硬币组合">
 <meta name="twitter:description" content="问题给定一个数值sum，假设我们有m种不同类型的硬币{V1, V2, …, Vm}，如果要组合成sum，求所有可能的组合数。给定一个数值sum，假设我们有m种不同类型的硬币{V1, V2, …, Vm}，如果要组合成sumsum = x1*v1 + x2*v2 + x3*v3 + ..... + xm*vm求所有可能的组合数，求满足所有等值的系数{x1,x2,x3,...xm} 暴力破解枚举，每个">
@@ -420,6 +420,10 @@ dp[3] = min(dp[3], dp[3 - 1] + 1, dp[3 - 2] + 1) = dp[1] + 1 = 2;
 ........
 dp[n] = min(dp[n], dp[n - coins[j]] + 1) : coins[j] &lt;= n;
 </code></pre><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">coinChange</span><span class="params">(<span class="keyword">int</span>[] coins, <span class="keyword">int</span> amount)</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span> (coins == <span class="keyword">null</span> || coins.length == <span class="number">0</span> || amount &lt;= <span class="number">0</span>) &#123;</div><div class="line">    	<span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">if</span> (coins.length == <span class="number">1</span>) &#123;</div><div class="line">    	</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">int</span>[] dp = <span class="keyword">new</span> <span class="keyword">int</span>[amount + <span class="number">1</span>];</div><div class="line">    Arrays.fill(dp, <span class="number">100000</span>);</div><div class="line">    dp[<span class="number">0</span>] = <span class="number">0</span>;</div><div class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= amount; i++) &#123;</div><div class="line">    	<span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; coins.length; j++) &#123;</div><div class="line">    		<span class="keyword">if</span> (i &gt;= coins[j]) &#123;</div><div class="line">    			dp[i] = Math.min(dp[i], dp[i - coins[j]]+ <span class="number">1</span>);</div><div class="line">    		&#125;</div><div class="line">    	&#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> dp[amount] == <span class="number">100000</span>?-<span class="number">1</span>:dp[amount];</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<!-- UY BEGIN -->
+<p><div id="uyan_frame"></div></p>
+<p><script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=2147299"></script><br><!-- UY END --></p>
+
       
     </div>
     
@@ -567,7 +571,7 @@ dp[n] = min(dp[n], dp[n - coins[j]] + 1) : coins[j] &lt;= n;
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">110</span>
+                <span class="site-state-item-count">112</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
