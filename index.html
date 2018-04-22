@@ -303,6 +303,200 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/04/20/牛客网SQL题目答案/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sailong Ren">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="coderlong的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/04/20/牛客网SQL题目答案/" itemprop="url">牛客网SQL题目答案</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-20T21:18:40+08:00">
+                2018-04-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/MySQL/" itemprop="url" rel="index">
+                    <span itemprop="name">MySQL</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>牛客SQL一直用的就是那几张表</p>
+<ol>
+<li>查找最晚入职员工的所有信息<br> CREATE TABLE <code>employees</code> (<br> <code>emp_no</code> int(11) NOT NULL,<br> <code>birth_date</code> date NOT NULL,<br> <code>first_name</code> varchar(14) NOT NULL,<br> <code>last_name</code> varchar(16) NOT NULL,<br> <code>gender</code> char(1) NOT NULL,<br> <code>hire_date</code> date NOT NULL,<br> PRIMARY KEY (<code>emp_no</code>));</li>
+</ol>
+<p>sql:<br><code>select * from employees where hire_date = (select max(hire_date) from employees);</code></p>
+<ol>
+<li>查找入职员工时间排名倒数第三的员工所有信息<br> CREATE TABLE <code>employees</code> (<br> <code>emp_no</code> int(11) NOT NULL,<br> <code>birth_date</code> date NOT NULL,<br> <code>first_name</code> varchar(14) NOT NULL,<br> <code>last_name</code> varchar(16) NOT NULL,<br> <code>gender</code> char(1) NOT NULL,<br> <code>hire_date</code> date NOT NULL,<br> PRIMARY KEY (<code>emp_no</code>));</li>
+</ol>
+<p><code>select * from employees where hire_date = (select hire_date from employees order by hire_date desc limit 2,1);</code></p>
+<ol>
+<li>查找各个部门当前(to_date=’9999-01-01’)领导当前薪水详情以及其对应部门编号dept_no<br> CREATE TABLE <code>dept_manager</code> (<br> <code>dept_no</code> char(4) NOT NULL,<br> <code>emp_no</code> int(11) NOT NULL,<br> <code>from_date</code> date NOT NULL,<br> <code>to_date</code> date NOT NULL,<br> PRIMARY KEY (<code>emp_no</code>,<code>dept_no</code>));<br> CREATE TABLE <code>salaries</code> (<br> <code>emp_no</code> int(11) NOT NULL,<br> <code>salary</code> int(11) NOT NULL,<br> <code>from_date</code> date NOT NULL,<br> <code>to_date</code> date NOT NULL,<br> PRIMARY KEY (<code>emp_no</code>,<code>from_date</code>));</li>
+</ol>
+<p><code>select s.*,d.dept_no from salaries s ,dept_manager d  where s.emp_no = d.emp_no and d.to_date=&#39;9999-01-01&#39; and s.to_date=&#39;9999-01-01&#39;;</code></p>
+<ol>
+<li>查找所有已经分配部门的员工的last_name和first_name<br> CREATE TABLE <code>dept_emp</code> (<br> <code>emp_no</code> int(11) NOT NULL,<br> <code>dept_no</code> char(4) NOT NULL,<br> <code>from_date</code> date NOT NULL,<br> <code>to_date</code> date NOT NULL,<br> PRIMARY KEY (<code>emp_no</code>,<code>dept_no</code>));<br> CREATE TABLE <code>employees</code> (<br> <code>emp_no</code> int(11) NOT NULL,<br> <code>birth_date</code> date NOT NULL,<br> <code>first_name</code> varchar(14) NOT NULL,<br> <code>last_name</code> varchar(16) NOT NULL,<br> <code>gender</code> char(1) NOT NULL,<br> <code>hire_date</code> date NOT NULL,<br> PRIMARY KEY (<code>emp_no</code>));</li>
+</ol>
+<p><code>select e.last_name, e.first_name,d.dept_no from dept_emp d,employees e where d.emp_no = e.emp_no;</code></p>
+<ol>
+<li>查找所有员工的last_name和first_name以及对应部门编号dept_no，也包括展示没有分配具体部门的员工<br> CREATE TABLE <code>dept_emp</code> (<br> <code>emp_no</code> int(11) NOT NULL,<br> <code>dept_no</code> char(4) NOT NULL,<br> <code>from_date</code> date NOT NULL,<br> <code>to_date</code> date NOT NULL,<br> PRIMARY KEY (<code>emp_no</code>,<code>dept_no</code>));<br> CREATE TABLE <code>employees</code> (<br> <code>emp_no</code> int(11) NOT NULL,<br> <code>birth_date</code> date NOT NULL,<br> <code>first_name</code> varchar(14) NOT NULL,<br> <code>last_name</code> varchar(16) NOT NULL,<br> <code>gender</code> char(1) NOT NULL,<br> <code>hire_date</code> date NOT NULL,<br> PRIMARY KEY (<code>emp_no</code>));</li>
+</ol>
+<p><code>select e.last_name, e.first_name ,d.dept_no from  employees e left join  dept_emp d on e.emp_no = d.emp_no;</code></p>
+<ol>
+<li>查找所有员工入职时候的薪水情况，给出emp_no以及salary， 并按照emp_no进行逆序<br> CREATE TABLE <code>employees</code> (<br> <code>emp_no</code> int(11) NOT NULL,<br> <code>birth_date</code> date NOT NULL,<br> <code>first_name</code> varchar(14) NOT NULL,<br> <code>last_name</code> varchar(16) NOT NULL,<br> <code>gender</code> char(1) NOT NULL,<br> <code>hire_date</code> date NOT NULL,<br> PRIMARY KEY (<code>emp_no</code>));<br> CREATE TABLE <code>salaries</code> (<br> <code>emp_no</code> int(11) NOT NULL,<br> <code>salary</code> int(11) NOT NULL,<br> <code>from_date</code> date NOT NULL,<br> <code>to_date</code> date NOT NULL,<br> PRIMARY KEY (<code>emp_no</code>,<code>from_date</code>));</li>
+</ol>
+<p><code>select e.emp_no, s.salary from employees e, salaries s   
+where e.emp_no  = s.emp_no and e.hire_date = s.from_date 
+order by e.emp_no DESC ;</code></p>
+<ol>
+<li>查找薪水涨幅超过15次的员工号emp_no以及其对应的涨幅次数t<br> CREATE TABLE <code>salaries</code> (<br> <code>emp_no</code> int(11) NOT NULL,<br> <code>salary</code> int(11) NOT NULL,<br> <code>from_date</code> date NOT NULL,<br> <code>to_date</code> date NOT NULL,<br> PRIMARY KEY (<code>emp_no</code>,<code>from_date</code>));</li>
+</ol>
+<p><code>select salaries.emp_no, count(salaries.emp_no) t  from salaries
+group by salaries.emp_no having t &gt; 15;</code></p>
+<ol>
+<li>找出所有员工当前(to_date=’9999-01-01’)具体的薪水salary情况，对于相同的薪水只显示一次,并按照逆序显示<br> CREATE TABLE <code>salaries</code> (<br> <code>emp_no</code> int(11) NOT NULL,<br> <code>salary</code> int(11) NOT NULL,<br> <code>from_date</code> date NOT NULL,<br> <code>to_date</code> date NOT NULL,<br> PRIMARY KEY (<code>emp_no</code>,<code>from_date</code>));</li>
+</ol>
+<p><code>select  distinct salaries.salary  from salaries where salaries.to_date = &#39;9999-01-01&#39;
+order by salaries.salary DESC</code></p>
+<ol>
+<li>获取所有部门当前manager的当前薪水情况，给出dept_no, emp_no以及salary，当前表示to_date=’9999-01-01’<br> CREATE TABLE <code>dept_manager</code> (<br> <code>dept_no</code> char(4) NOT NULL,<br> <code>emp_no</code> int(11) NOT NULL,<br> <code>from_date</code> date NOT NULL,<br> <code>to_date</code> date NOT NULL,<br> PRIMARY KEY (<code>emp_no</code>,<code>dept_no</code>));<br> CREATE TABLE <code>salaries</code> (<br> <code>emp_no</code> int(11) NOT NULL,<br> <code>salary</code> int(11) NOT NULL,<br> <code>from_date</code> date NOT NULL,<br> <code>to_date</code> date NOT NULL,<br> PRIMARY KEY (<code>emp_no</code>,<code>from_date</code>));</li>
+</ol>
+<p><code>select dept_manager.dept_no, dept_manager.emp_no, salaries.salary from  salaries , dept_manager 
+where salaries.to_date=&#39;9999-01-01&#39; and dept_manager.to_date=&#39;9999-01-01&#39; and dept_manager.emp_no = salaries.emp_no;</code></p>
+<ol>
+<li>获取所有非manager的员工emp_no<br>CREATE TABLE <code>dept_manager</code> (<br><code>dept_no</code> char(4) NOT NULL,<br><code>emp_no</code> int(11) NOT NULL,<br><code>from_date</code> date NOT NULL,<br><code>to_date</code> date NOT NULL,<br>PRIMARY KEY (<code>emp_no</code>,<code>dept_no</code>));<br>CREATE TABLE <code>employees</code> (<br><code>emp_no</code> int(11) NOT NULL,<br><code>birth_date</code> date NOT NULL,<br><code>first_name</code> varchar(14) NOT NULL,<br><code>last_name</code> varchar(16) NOT NULL,<br><code>gender</code> char(1) NOT NULL,<br><code>hire_date</code> date NOT NULL,<br>PRIMARY KEY (<code>emp_no</code>));</li>
+</ol>
+<p>明显可以使用很多方法来写SQl </p>
+<ul>
+<li>使用NOT IN选出在employees但不在dept_manager中的emp_no记录<br><code>SELECT emp_no FROM employees
+WHERE emp_no NOT IN (SELECT emp_no FROM dept_manager)</code></li>
+<li>先使用LEFT JOIN连接两张表，再从此表中选出dept_no值为NULL对应的emp_no记录 </li>
+</ul>
+<p><code>select e.emp_no from employees e left join dept_manager d
+on e.emp_no = d.emp_no where d.dept_no is null;</code></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/04/14/2018实习生面经/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -396,7 +590,7 @@
       
         
           
-            <h2 id="笔试之路"><a href="#笔试之路" class="headerlink" title="笔试之路"></a>笔试之路</h2><p>因为我大鹏哥是腾讯大牛，所以第一个是我大鹏哥给的内推腾讯，后来估计是我简历里面信息填错了，笔试机会都没给，唉。<br>后来，汪学长内推的美团，笔试觉得做的还可以吧。可还是挂了。<br>自己又去投了，七牛云，百词斩，爱奇艺，搜狐的实习生职位，最后要么都是笔试没通过，要么简历不通过。绝处逢生，湖大的研究生学长内推的阿里，而且第二天电话面试。这个怨自己，问的JDK集合底层实现，Java并发编程，线程池源码啦这些，这个本来是自己的强项，因为第一次电话面试，对方还自称杭州阿里总部的大佬，回答的紧张，最后面试结果不理想。微众银行也没过。<br>今日头条过了笔试，链家网过了笔试。</p>
+            <h2 id="笔试之流水账"><a href="#笔试之流水账" class="headerlink" title="笔试之流水账"></a>笔试之流水账</h2><p>因为我大鹏哥是腾讯大牛，所以第一个是鹏哥给的内推腾讯，后来估计是我简历里面信息填错了，笔试机会也没给我。<br>后来，汪学长内推的美团，笔试觉得做的还可以吧。可还是挂了。<br>自己又去投了，七牛云，百词斩，爱奇艺，搜狐的实习生职位，最后要么都是笔试没通过，要么简历不通过。绝处逢生，湖大的研究生学长内推的阿里，而且第二天电话面试。这个怨自己，问的JDK集合底层实现，Java并发编程，线程池源码啦这些，这个本来是自己的强项，因为第一次电话面试，对方还自称杭州阿里总部的大佬，回答的紧张，最后面试结果不理想。微众银行也没过。<br>今日头条过了笔试，链家网过了笔试。</p>
 <h2 id="三月份-初"><a href="#三月份-初" class="headerlink" title="三月份 初"></a>三月份 初</h2><p>最早拿的一份实习职位是汉得公司，据说是上海一家做Oracle数据库的，笔试太简单了。<br>第二天面试，三面一起，在1305，感觉那面试官稀里糊涂乱问，具体的技术问题都没问到，我就说读过JDK源码，做过SSM，懂一点JVM，他就让我过了，而且第二天就发通知Offer发出，你们招人这么随意，谁愿意去啊。后来给我打了几个电话都拒绝了。  </p>
 <h2 id="悲惨的面试之京东"><a href="#悲惨的面试之京东" class="headerlink" title="悲惨的面试之京东"></a>悲惨的面试之京东</h2><p>狗东一上来问了几个分布式的问题，我都不会，“你回去好好学习再来。” 直接挂我电话。伤心，好歹我经常在你们网站买东西。</p>
 <h2 id="三月中旬"><a href="#三月中旬" class="headerlink" title="三月中旬"></a>三月中旬</h2><p>链家一次略坑的面试。我是在武大参加的宣讲会，宣讲会之后，现场笔试，你能想象两个小时的笔试？ 反正我是第一次做，（继续坑我们啊，），驱车赶到武大就已经六点半了，宣讲快八点了。再来俩小时，十点了，那个饿啊！<br>笔试题目全部算法，不过幸运的是，看过剑指offer的我遇到了熟悉的题目，暴力 + 分治法 + DP + 不会写的写了想法。勉强拿到了面试名额，3.29早早地出发，我擦，找错地方了。HR姐姐通知的纽宾凯鲁光国际酒店，我找到了纽宾凯国际酒店， 和索隆一样路痴了。<br>打电话说了下。下午参加的面试，三轮技术面下午面完。人生第一次大型的面试，一面是个很可爱的大叔，我自我介绍完，就提了一句做过一个小程序，面试官貌似感兴趣，后来和我聊了半个多小时未来技术的发展趋势。完了聊了聊List结构的数组链表实现，涉及扩容，加锁，Java数据内存占用怎么算，HashMap的Hash查找，Indexfor()，自己实现hashcode方法(我用的effective-Java书里给的算法，位运算实现)，fail-fast,著名的currentModifacationException,JVM常见指令，Class文件构成，JMM模型，双亲委托，类加载。。。。对方说话有亲和力，的确聊了很长时间。<br>二面上来了个戴眼镜的人，目测比我大不了多少。可是一开口。。。。。<br>“了解MySQL？”<br>“嗯，熟悉MySQL，，”<br>“那mysql索引呢？”<br>“还可以”<br>“那说一下，索引的物理结构， ”<br>“B+树啊，怎么寻址，范围查询，索引存储，巴拉巴拉。。。。”<br>“嗯好，那你谈谈B+树插入，删除操作。和B树，二叉查找树有什么不一样”<br>“懵逼，这点记得不是太清楚，只记得什么LL，LR，RR旋转”<br>“那么红黑树呢？ 了解吗？ ”<br>“我说了下JDK1.8 HashMap链表往红黑树的转化”<br>“红黑树各种操作的时间复杂度多少？ ”又蒙了，染色+旋转我怎么算？O(nlgn)，O(n)吗？<br>“你说的不对，时间复杂度最优不是On……….”<br>“好吧”，“你说一下，你的项目把！”<br>“我把自己搭建的几个网站说了下，爬虫，并发处理，巴拉巴拉。。。。”<br>“看来你做的项目也没什么难点啊，”， 面试官从此刻开始鄙视我了。。。。<br>后面就是项目细节问题，面试问的很细，一直问到你不会为止。 早知道不往简历上写那一行熟悉MySQL数据库啦，你要是熟悉这些东东都不知道吗？<br>。。。。。<br>“你还有什么要问的?”<br>“你们公司对新人怎么培养啊？”<br>面试官巴拉巴拉说了一堆。<br>二面运气过了，后来听HR说，面试官给的评价基础扎实，项目亮点少。好吧，反正总算过了。<br>三面看对方面相是个leader，上来自我介绍完，面试官鄙视了下我，估计对我的项目也没兴趣。<br>“我们来谈谈数据库吧”<br>“我们有一张几十亿数据的表，插入数据，分库分表怎么弄？”<br>“呃呃 就对表切割啊，横分，或者竖分”其实我也不是很清楚啊，<br>怎么分？分完了，ID相同怎么处理<br>顺序分配吗？ 还是 hash算法散列一下，，？。<br>那假如让你使用一个阻塞队列呢？ 你有什么想法？<br>“就把BlockQueue，AQS那样的中断实现， JAVA里面的那一套说了下”<br>你说的不对，你没考虑并发环境下id自增的bug处理，<br>我又说了说使用无界队列，阻塞唤醒，，，，，，<br>面试仍然不满意，接下来的说话就是一直围绕着这张几十亿的表来进行的，不过后面都是面试官教我新知识，怎么用AWK，grep，shell 写小的数据库监控脚本这些，我说我只用Python写过一些查找文件的。还问我有没有线上排查异常经验，压力测试懂不懂，你觉得我一个大三狗会接触到线上排错这些吗？我就默默的看着他装逼、<br>结果你也知道了，三面没通过，凉凉。。。。。。<br>华丽的分割线。  </p>
@@ -1758,156 +1952,6 @@ locked 加锁了。</code><br>Begin<br>select * from table_name where … for up
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/03/30/Sychronized/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Sailong Ren">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="coderlong的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/03/30/Sychronized/" itemprop="url">Sychronized关键字解析</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-30T14:18:40+08:00">
-                2018-03-30
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/JDK/" itemprop="url" rel="index">
-                    <span itemprop="name">JDK</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>synchronized可以保证方法或者代码块在运行时，同一时刻只有一个方法可以进入到临界区，同时它还可以保证共享变量的内存可见性 .<br>Java中每一个对象都可以作为锁，这是synchronized实现同步的基础：</p>
-<ol>
-<li>普通同步方法，锁是当前实例对象</li>
-<li>静态同步方法，锁是当前类的class对象</li>
-<li>同步方法块，锁是括号里面的对象<br>同步代码块是使用monitorenter和monitorexit指令实现的，依靠的是方法修饰符上的ACC_SYNCHRONIZED实现。<br>同步代码块：monitorenter指令插入到同步代码块的开始位置，monitorexit指令插入到同步代码块的结束位置，JVM需要保证每一个monitorenter都有一个monitorexit与之相对应。任何对象都有一个monitor与之相关联，当且一个monitor被持有之后，他将处于锁定状态。线程执行到monitorenter指令时，将会尝试获取对象所对应的monitor所有权，即尝试获取对象的锁；<br>同步方法：synchronized方法则会被翻译成普通的方法调用和返回指令如:invokevirtual、areturn指令，在JVM字节码层面并没有任何特别的指令来实现被synchronized修饰的方法，而是在Class文件的方法表中将该方法的access_flags字段中的synchronized标志位置1，表示该方法是同步方法并使用调用该方法的对象或该方法所属的Class在JVM的内部对象表示Klass做为锁对象。</li>
-</ol>
-<h2 id="Java对象头，monitor"><a href="#Java对象头，monitor" class="headerlink" title="Java对象头，monitor"></a>Java对象头，monitor</h2><p>Hotspot虚拟机的对象头主要包括两部分数据：MarkWord（标记字段）、Klass Pointer（类型指针）。其中Klass Point是是对象指向它的类元数据的指针，虚拟机通过这个指针来确定这个对象是哪个类的实例，MarkWord用于存储对象自身的运行时数据，它是实现轻量级锁和偏向锁的关键。</p>
-<h3 id="Mark-Word"><a href="#Mark-Word" class="headerlink" title="Mark Word"></a>Mark Word</h3><p>Mark Word用于存储对象自身的运行时数据，如哈希码（HashCode）、GC分代年龄、锁状态标志、线程持有的锁、偏向线程 ID、偏向时间戳等等</p>
-<h3 id="Monitor"><a href="#Monitor" class="headerlink" title="Monitor"></a>Monitor</h3><p>我们可以把它理解为一个同步工具，所有的Java对象是天生的Monitor，每一个Java对象都有成为Monitor的潜质，每一个Java对象出来就带了一把看不见的锁，它叫做内部锁或者Monitor锁。<br>Monitor 是线程私有的数据结构，每一个线程都有一个可用monitor record列表，同时还有一个全局的可用列表。每一个被锁住的对象都会和一个monitor关联（对象头的MarkWord中的LockWord指向monitor的起始地址）</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1958,7 +2002,7 @@ locked 加锁了。</code><br>Begin<br>select * from table_name where … for up
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">112</span>
+                <span class="site-state-item-count">113</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
