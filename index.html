@@ -303,6 +303,366 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/04/25/Docker入门记录一下/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sailong Ren">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="coderlong的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/04/25/Docker入门记录一下/" itemprop="url">Docker  Hello World</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-25T14:18:40+08:00">
+                2018-04-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Docker/" itemprop="url" rel="index">
+                    <span itemprop="name">Docker</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>刚在 Win10装好Docker，第一条命令当然是看一下成功了没？ </p>
+<pre><code>PS C:\Users\86298&gt; docker -v
+Docker version 18.03.0-ce, build 0520e24
+PS C:\Users\86298&gt; docker
+</code></pre><p>OK –&gt;<br>运行下Hello world呢?<br>    PS C:\Users\86298&gt; docker run ubuntu:15.10 /bin/echo “hello world”</p>
+<p>这里命令 <code>docker run ubuntu:15.10 /bin/echo &quot;hello world&quot;</code></p>
+<ul>
+<li><p>docker: 就是用Docker二进制文件来执行命令</p>
+</li>
+<li><p>run:与前面的 docker 组合来运行一个容器。</p>
+</li>
+<li><p>ubuntu:15.10指定要运行的镜像，Docker首先从本地主机上查找镜像是否存在，如果不存在，Docker 就会从镜像仓库 Docker Hub 下载公共镜像。</p>
+</li>
+<li><p>/bin/echo “Hello world”: 在启动的容器里执行的命令<br>下面就是从源pull iamge的过程</p>
+<p>  Unable to find image ‘ubuntu:15.10’ locally<br>  15.10: Pulling from library/ubuntu<br>  7dcf5a444392: Pull complete<br>  759aa75f3cee: Pull complete<br>  3fa871dc8a2b: Pull complete<br>  224c42ae46e7: Pull complete<br>  Digest: sha256:02521a2d079595241c6793b2044f02eecf294034f31d6e235ac4b2b54ffc41f3<br>  Status: Downloaded newer image for ubuntu:15.10<br>  hello world</p>
+<p>   docker run -i -t ubuntu:15.10 /bin/bash</p>
+</li>
+</ul>
+<p>模拟和Docker容器交互式<br>    -t:在新容器内指定一个伪终端或终端。</p>
+<pre><code>-i:允许你对容器内的标准输入 (STDIN) 进行交互。  
+</code></pre><p>下面你就使用这台ubuntu15.10主机了。</p>
+<pre><code>root@de839238d52e:/# ls
+bin  boot  dev  etc  home  lib  lib64  media  mnt  opt  proc  root  run  sbin  srv  sys  tmp  usr  var
+root@de839238d52e:/# echo &quot;hello world&quot;
+hello world
+root@de839238d52e:/# whoami
+root
+root@de839238d52e:/# top
+top - 06:25:36 up 9 min,  0 users,  load average: 0.32, 0.31, 0.18
+Tasks:   2 total,   1 running,   1 sleeping,   0 stopped,   0 zombie
+%Cpu(s):  0.0 us,  0.0 sy,  0.0 ni,100.0 id,  0.0 wa,  0.0 hi,  0.0 si,  0.0 st
+KiB Mem:   2027764 total,  1805460 used,   222304 free,     9344 buffers
+KiB Swap:  1048572 total,        0 used,  1048572 free.  1378564 cached Mem
+
+   PID USER      PR  NI    VIRT    RES    SHR S  %CPU %MEM     TIME+ COMMAND
+     1 root      20   0   18208   3348   2872 S   0.0  0.2   0:00.03 bash
+    11 root      20   0   19912   2464   2096 R   0.0  0.1   0:00.00 top
+</code></pre>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/04/23/NOWCODER_SQL2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sailong Ren">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="coderlong的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/04/23/NOWCODER_SQL2/" itemprop="url">NOWCODER_SQL题目</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-23T23:18:40+08:00">
+                2018-04-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/MySQL/" itemprop="url" rel="index">
+                    <span itemprop="name">MySQL</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <ol>
+<li>获取所有员工当前的manager，如果当前的manager是自己的话结果不显示，当前表示to_date=’9999-01-01’。<br>结果第一列给出当前员工的emp_no,第二列给出其manager对应的manager_no。<br>CREATE TABLE <code>dept_emp</code> (<br> <code>emp_no</code> int(11) NOT NULL,<br> <code>dept_no</code> char(4) NOT NULL,<br> <code>from_date</code> date NOT NULL,<br> <code>to_date</code> date NOT NULL,<br> PRIMARY KEY (<code>emp_no</code>,<code>dept_no</code>));<br> CREATE TABLE <code>dept_manager</code> (<br> <code>dept_no</code> char(4) NOT NULL,<br> <code>emp_no</code> int(11) NOT NULL,<br> <code>from_date</code> date NOT NULL,<br> <code>to_date</code> date NOT NULL,<br> PRIMARY KEY (<code>emp_no</code>,<code>dept_no</code>));</li>
+</ol>
+<p><code>select dept_emp.emp_no,dept_manager.emp_no as manager_no from dept_emp,dept_manager 
+where dept_emp.dept_no = dept_manager.dept_no
+and dept_emp.emp_no &lt;&gt; dept_manager.emp_no
+and dept_emp.to_date=&#39;9999-01-01&#39; and dept_manager.to_date=&#39;9999-01-01&#39;</code></p>
+<ol>
+<li>获取所有部门中当前员工薪水最高的相关信息，给出dept_no, emp_no以及其对应的salary<br> CREATE TABLE <code>dept_emp</code> (<br> <code>emp_no</code> int(11) NOT NULL,<br> <code>dept_no</code> char(4) NOT NULL,<br> <code>from_date</code> date NOT NULL,<br> <code>to_date</code> date NOT NULL,<br> PRIMARY KEY (<code>emp_no</code>,<code>dept_no</code>));<br> CREATE TABLE <code>salaries</code> (<br> <code>emp_no</code> int(11) NOT NULL,<br> <code>salary</code> int(11) NOT NULL,<br> <code>from_date</code> date NOT NULL,<br> <code>to_date</code> date NOT NULL,<br> PRIMARY KEY (<code>emp_no</code>,<code>from_date</code>));</li>
+</ol>
+<p><code>Group by语句应用</code></p>
+<p><code>select d.dept_no, d.emp_no, max(s.salary) from dept_emp d, salaries s 
+where d.emp_no = s.emp_no and s.to_date = &#39;9999-01-01&#39; and d.to_date = &#39;9999-01-01&#39; 
+group by d.dept_no;</code></p>
+<p>3.查找employees表所有emp_no为奇数，且last_name不为Mary的员工信息，并按照hire_date逆序排列<br>    CREATE TABLE <code>employees</code> (<br>    <code>emp_no</code> int(11) NOT NULL,<br>    <code>birth_date</code> date NOT NULL,<br>    <code>first_name</code> varchar(14) NOT NULL,<br>    <code>last_name</code> varchar(16) NOT NULL,<br>    <code>gender</code> char(1) NOT NULL,<br>    <code>hire_date</code> date NOT NULL,<br>    PRIMARY KEY (<code>emp_no</code>));<br><code>select * from employees e where e.emp_no % 2 = 1 and e.last_name &lt;&gt; &#39;Mary&#39;
+order by e.hire_date DESC;</code></p>
+<ol>
+<li>统计出当前各个title类型对应的员工当前薪水对应的平均工资。结果给出title以及平均工资avg。<br> CREATE TABLE <code>salaries</code> (<br> <code>emp_no</code> int(11) NOT NULL,<br> <code>salary</code> int(11) NOT NULL,<br> <code>from_date</code> date NOT NULL,<br> <code>to_date</code> date NOT NULL,<br> PRIMARY KEY (<code>emp_no</code>,<code>from_date</code>));<br> CREATE TABLE IF NOT EXISTS “titles” (<br> <code>emp_no</code> int(11) NOT NULL,<br> <code>title</code> varchar(50) NOT NULL,<br> <code>from_date</code> date NOT NULL,<br> <code>to_date</code> date DEFAULT NULL);</li>
+</ol>
+<p><code>select t.title as title, avg(s.salary)as avg  from titles t, salaries s 
+where t.emp_no = s.emp_no and t.to_date = &#39;9999-01-01&#39; and s.to_date = &#39;9999-01-01&#39;
+group by t.title;</code></p>
+<ol>
+<li>获取当前（to_date=’9999-01-01’）薪水第二多的员工的emp_no以及其对应的薪水salary</li>
+</ol>
+<p><code>select s.emp_no, s.salary from salaries s 
+where s.to_date = &#39;9999-01-01&#39; order by s.salary DESC
+limit 1, 1;</code></p>
+<ol>
+<li>查找所有员工的last_name和first_name以及对应的dept_name，也包括暂时没有分配部门的员工<br> CREATE TABLE <code>departments</code> (<br> <code>dept_no</code> char(4) NOT NULL,<br> <code>dept_name</code> varchar(40) NOT NULL,<br> PRIMARY KEY (<code>dept_no</code>));<br> CREATE TABLE <code>dept_emp</code> (<br> <code>emp_no</code> int(11) NOT NULL,<br> <code>dept_no</code> char(4) NOT NULL,<br> <code>from_date</code> date NOT NULL,<br> <code>to_date</code> date NOT NULL,<br> PRIMARY KEY (<code>emp_no</code>,<code>dept_no</code>));<br> CREATE TABLE <code>employees</code> (<br> <code>emp_no</code> int(11) NOT NULL,<br> <code>birth_date</code> date NOT NULL,<br> <code>first_name</code> varchar(14) NOT NULL,<br> <code>last_name</code> varchar(16) NOT NULL,<br> <code>gender</code> char(1) NOT NULL,<br> <code>hire_date</code> date NOT NULL,<br> PRIMARY KEY (<code>emp_no</code>));<br>1.第一次LEFT JOIN连接employees表与dept_emp表，得到所有员工的last_name和first_name以及对应的dept_no，也包括暂时没有分配部门的员工</li>
+<li>第二次LEFT JOIN连接上表与departments表，即连接dept_no与dept_name，得到所有员工的last_name和first_name以及对应的dept_name，也包括暂时没有分配部门的员工 </li>
+</ol>
+<p><code>select e.last_name, e.first_name ,de.dept_name from 
+employees e left join dept_emp dp on e.emp_no = dp.emp_no
+left join departments de on de.dept_no = dp.dept_no;</code></p>
+<ol>
+<li>查找员工编号emp_now为10001其自入职以来的薪水salary涨幅值growth<br> CREATE TABLE <code>salaries</code> (<br> <code>emp_no</code> int(11) NOT NULL,<br> <code>salary</code> int(11) NOT NULL,<br> <code>from_date</code> date NOT NULL,<br> <code>to_date</code> date NOT NULL,<br> PRIMARY KEY (<code>emp_no</code>,<code>from_date</code>));</li>
+</ol>
+<p><code>select ((select salary from salaries where emp_no = 10001 order by to_date DESC limit 0,1) - (select salary from salaries where emp_no = 10001 order by to_date limit 0,1))
+as growth;</code></p>
+<p>8. </p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/04/20/牛客网SQL题目答案/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1647,311 +2007,6 @@ locked 加锁了。</code><br>Begin<br>select * from table_name where … for up
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/03/31/线程池源码剖析/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Sailong Ren">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="coderlong的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/03/31/线程池源码剖析/" itemprop="url">线程池源码剖析</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-31T14:18:40+08:00">
-                2018-03-31
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/JDK/" itemprop="url" rel="index">
-                    <span itemprop="name">JDK</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/03/30/再谈DP/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Sailong Ren">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="coderlong的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/03/30/再谈DP/" itemprop="url">再谈Dp，路径求和</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-30T22:18:40+08:00">
-                2018-03-30
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/algorithm/" itemprop="url" rel="index">
-                    <span itemprop="name">algorithm</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>Given a m x n grid filled with non-negative numbers, find a path from top left to bottom right which minimizes the sum of all numbers along its path.</p>
-<ul>
-<li>Note *: You can only move either down or right at any point in time.</li>
-</ul>
-<p><code>Example 1:</code><br>    [[1,3,1],<br>     [1,5,1],<br>     [4,2,1]]<br>Given the above grid map, return 7. Because the path 1→3→1→1→1 minimizes the sum. </p>
-<p>基本和以前的那几道二维数组求动态规划的差不多，从后向前构造。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">minPathSum</span><span class="params">(<span class="keyword">int</span>[][] grid)</span> </span>&#123;</div><div class="line">	<span class="keyword">if</span> (grid == <span class="keyword">null</span> || grid.length == <span class="number">0</span>) &#123;</div><div class="line">		<span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">return</span>  minPath(grid, grid.length - <span class="number">1</span>, grid[<span class="number">0</span>].length - <span class="number">1</span>);</div><div class="line">&#125;</div><div class="line"><span class="comment">// 一提交，就会栈溢出</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">minPath</span> <span class="params">(<span class="keyword">int</span>[][] grid, <span class="keyword">int</span> x, <span class="keyword">int</span> y)</span> </span>&#123;</div><div class="line">	<span class="keyword">if</span> ((x - <span class="number">1</span>) &gt;= <span class="number">0</span> &amp;&amp; (y - <span class="number">1</span>) &gt;= <span class="number">0</span>) &#123;</div><div class="line">		<span class="keyword">return</span> grid[x][y] + Math.min(minPath(grid, x - <span class="number">1</span>, y), minPath(grid, x, y - <span class="number">1</span>));</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">else</span> <span class="keyword">if</span> ((x - <span class="number">1</span>) &gt;= <span class="number">0</span>) &#123;</div><div class="line">		<span class="keyword">return</span> grid[x][y] + minPath(grid, x - <span class="number">1</span>, y);</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">else</span> <span class="keyword">if</span> ((y - <span class="number">1</span>) &gt;= <span class="number">0</span>)&#123;</div><div class="line">		<span class="keyword">return</span> grid[x][y] + minPath(grid, x, y - <span class="number">1</span>);</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">else</span> &#123;</div><div class="line">		<span class="keyword">return</span> grid[x][y];</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p><code>使用DP数组，保存结果</code><br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">minPathSum2</span><span class="params">(<span class="keyword">int</span>[][] grid)</span> </span>&#123;</div><div class="line">	<span class="keyword">if</span> (grid == <span class="keyword">null</span> || grid.length == <span class="number">0</span>) &#123;</div><div class="line">		<span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">int</span> m = grid.length;</div><div class="line">	<span class="keyword">int</span> n = grid[<span class="number">0</span>].length;</div><div class="line">	<span class="keyword">int</span>[][] dp = <span class="keyword">new</span> <span class="keyword">int</span>[m][n];</div><div class="line">	dp[<span class="number">0</span>][<span class="number">0</span>] = grid[<span class="number">0</span>][<span class="number">0</span>];</div><div class="line">	<span class="comment">// 第一列DP赋值</span></div><div class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; m; i++) &#123;</div><div class="line">		dp[i][<span class="number">0</span>] = dp[i - <span class="number">1</span>][<span class="number">0</span>] + grid[i][<span class="number">0</span>];</div><div class="line">	&#125;</div><div class="line">	<span class="comment">// 第一行DP赋值</span></div><div class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; n; i++) &#123;</div><div class="line">		dp[<span class="number">0</span>][i] = dp[<span class="number">0</span>][i - <span class="number">1</span>] + grid[<span class="number">0</span>][i];</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; m; i++) &#123;</div><div class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">1</span>; j &lt; n; j++) &#123;</div><div class="line">			dp[i][j] = Math.min(dp[i - <span class="number">1</span>][j], dp[i][j - <span class="number">1</span>]) + grid[i][j];</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">return</span> dp[m - <span class="number">1</span>][n - <span class="number">1</span>];</div><div class="line">	</div><div class="line">	&#125;</div></pre></td></tr></table></figure></p>
-<p><code>还能不能优化了， 用一用C++，好久没写C++了</code><br><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></div><div class="line"><span class="keyword">public</span>:</div><div class="line">    <span class="function"><span class="keyword">int</span> <span class="title">minPathSum</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt;&amp; grid)</span> </span>&#123;</div><div class="line">        <span class="keyword">int</span> m = grid.size();</div><div class="line">        <span class="keyword">int</span> n = grid[<span class="number">0</span>].size();</div><div class="line">        <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; pre(m, grid[<span class="number">0</span>][<span class="number">0</span>]);</div><div class="line">        <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; cur(m, <span class="number">0</span>);</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; m; i++)</div><div class="line">            pre[i] = pre[i - <span class="number">1</span>] + grid[i][<span class="number">0</span>];</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">1</span>; j &lt; n; j++) &#123; </div><div class="line">            cur[<span class="number">0</span>] = pre[<span class="number">0</span>] + grid[<span class="number">0</span>][j]; </div><div class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; m; i++)</div><div class="line">                cur[i] = min(cur[i - <span class="number">1</span>], pre[i]) + grid[i][j];</div><div class="line">            swap(pre, cur); </div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> pre[m - <span class="number">1</span>];</div><div class="line">    &#125;</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
-<h2 id="卡塔兰数的应用"><a href="#卡塔兰数的应用" class="headerlink" title="卡塔兰数的应用"></a>卡塔兰数的应用</h2><p>Given n, how many structurally unique BST’s (binary search trees) that store values 1…n?</p>
-<p>For example,<br>Given n = 3, there are a total of 5 unique BST’s.</p>
-<pre><code>1         3     3      2      1
- \       /     /      / \      \
-  3     2     1      1   3      2
- /     /       \                 \
-2     1         2                 3
-</code></pre><p><img src="https://www.cnblogs.com/grandyang/p/4299608.html" alt="参考大神的讲解"></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">numTrees</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</div><div class="line">		<span class="keyword">if</span> (n &lt;= <span class="number">0</span>) &#123;</div><div class="line">			<span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">		&#125;</div><div class="line">	    <span class="keyword">int</span>[] dp = <span class="keyword">new</span> <span class="keyword">int</span>[n + <span class="number">1</span>];</div><div class="line">	    dp[<span class="number">0</span>] = <span class="number">1</span>; <span class="comment">// 空BST也算是 1 </span></div><div class="line">	    dp[<span class="number">1</span>] = <span class="number">1</span>; <span class="comment">//</span></div><div class="line">	    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">2</span>; i &lt;= n; i++) &#123;</div><div class="line">	    	<span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; i; j++) &#123;</div><div class="line">	    		dp[i] += (dp[j]*dp[i - j - <span class="number">1</span>]);</div><div class="line">	    	&#125;</div><div class="line">	    &#125;</div><div class="line">	    <span class="keyword">return</span> dp[n];</div><div class="line">	&#125;</div></pre></td></tr></table></figure>
-<h2 id="Word-Break"><a href="#Word-Break" class="headerlink" title="Word Break"></a>Word Break</h2><p> Given a non-empty string s and a dictionary wordDict containing a list of non-empty words, determine if s can be segmented into a space-separated sequence of one or more dictionary words. You may assume the dictionary does not contain duplicate words.</p>
-<h2 id="For-example-given"><a href="#For-example-given" class="headerlink" title="For example, given"></a>For example, given</h2><p>s = <code>&quot;leetcode&quot;</code>,<br>dict = <code>[&quot;leet&quot;, &quot;code&quot;]</code>.</p>
-<p>Return true because <code>&quot;leetcode&quot;</code> can be segmented as <code>&quot;leet code&quot;</code>.<br>如何抽象这个问题呢？<br>dp[0] = true<br>从头到尾遍历s, 遇到一个符合的子串时， set dp[i] = true<br>下次转移条件，从dp[i] = true开始，按着这个想法，写出代码:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">wordBreak</span><span class="params">(String s, List&lt;String&gt; wordDict)</span> </span>&#123;</div><div class="line">		<span class="keyword">int</span>[] dp = <span class="keyword">new</span> <span class="keyword">int</span>[s.length() + <span class="number">1</span>];</div><div class="line">		dp[<span class="number">0</span>] = <span class="number">1</span>;</div><div class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= s.length(); i++) &#123;</div><div class="line">			<span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; i; j++) &#123;</div><div class="line">				<span class="comment">// 转移的条件</span></div><div class="line">				<span class="keyword">if</span> (dp[j] == <span class="number">1</span> &amp;&amp; wordDict.contains(s.substring(j, i))) &#123;</div><div class="line">					dp[i] = <span class="number">1</span>;</div><div class="line">				&#125;</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">return</span> dp[s.length()] == <span class="number">1</span>;</div><div class="line">	&#125;</div></pre></td></tr></table></figure></p>
-<h2 id="leetcode152-Maximum-Product-Subarray"><a href="#leetcode152-Maximum-Product-Subarray" class="headerlink" title="leetcode152. Maximum Product Subarray"></a>leetcode152. Maximum Product Subarray</h2><p> Find the contiguous subarray within an array (containing at least one number) which has the largest product.</p>
-<p>For example, given the array <code>[2,3,-2,4]</code>,<br>the contiguous subarray <code>[2,3]</code> has the largest product = <code>6</code>. </p>
-<p>大家应该都会想到算法设计分析书里的那道，求子数组的最大值，或者子序列的，最大值。<br>OK，但是</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2002,7 +2057,7 @@ locked 加锁了。</code><br>Begin<br>select * from table_name where … for up
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">113</span>
+                <span class="site-state-item-count">115</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -2013,7 +2068,7 @@ locked 加锁了。</code><br>Begin<br>select * from table_name where … for up
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">23</span>
+                <span class="site-state-item-count">24</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -2024,7 +2079,7 @@ locked 加锁了。</code><br>Begin<br>select * from table_name where … for up
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">50</span>
+                <span class="site-state-item-count">51</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
