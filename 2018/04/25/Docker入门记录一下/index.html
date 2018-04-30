@@ -102,7 +102,7 @@
 <meta property="og:site_name" content="coderlong的博客">
 <meta property="og:description" content="刚在 Win10装好Docker，第一条命令当然是看一下成功了没？  PS C:\Users\86298&amp;gt; docker -v Docker version 18.03.0-ce, build 0520e24 PS C:\Users\86298&amp;gt; docker OK –&amp;gt;运行下Hello world呢?    PS C:\Users\86298&amp;gt; docker run ub">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-04-26T15:25:57.112Z">
+<meta property="og:updated_time" content="2018-04-27T01:14:49.447Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Docker  Hello World">
 <meta name="twitter:description" content="刚在 Win10装好Docker，第一条命令当然是看一下成功了没？  PS C:\Users\86298&amp;gt; docker -v Docker version 18.03.0-ce, build 0520e24 PS C:\Users\86298&amp;gt; docker OK –&amp;gt;运行下Hello world呢?    PS C:\Users\86298&amp;gt; docker run ub">
@@ -432,7 +432,9 @@ KiB Swap:  1048572 total,        0 used,  1048572 free.  1378564 cached Mem
    PID USER      PR  NI    VIRT    RES    SHR S  %CPU %MEM     TIME+ COMMAND
      1 root      20   0   18208   3348   2872 S   0.0  0.2   0:00.03 bash
     11 root      20   0   19912   2464   2096 R   0.0  0.1   0:00.00 top
-</code></pre>
+</code></pre><h2 id="构建自己的Docker镜像"><a href="#构建自己的Docker镜像" class="headerlink" title="构建自己的Docker镜像"></a>构建自己的Docker镜像</h2><p><code>Dockerfile</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">FROM    centos:6.7</div><div class="line">MAINTAINER      Fisher &quot;fisher@sudops.com&quot;</div><div class="line"></div><div class="line">RUN     /bin/echo &apos;root:123456&apos; |chpasswd</div><div class="line">RUN     useradd runoob</div><div class="line">RUN     /bin/echo &apos;runoob:123456&apos; |chpasswd</div><div class="line">RUN     /bin/echo -e &quot;LANG=\&quot;en_US.UTF-8\&quot;&quot; &gt;/etc/default/local</div><div class="line">EXPOSE  22</div><div class="line">EXPOSE  80</div><div class="line">CMD     /usr/sbin/sshd -D</div></pre></td></tr></table></figure></p>
+<p>使用 Dockerfile 文件，通过 docker build 命令来构建一个镜像。s<br>    docker build -t runoob/centos:6.7 .</p>
+
       
     </div>
     
@@ -501,6 +503,10 @@ KiB Swap:  1048572 total,        0 used,  1048572 free.  1378564 cached Mem
 
           <div class="post-nav-prev post-nav-item">
             
+              <a href="/2018/04/27/leetcode417. Pacific Atlantic Water Flow/" rel="prev" title="417. Pacific Atlantic Water Flow">
+                417. Pacific Atlantic Water Flow <i class="fa fa-chevron-right"></i>
+              </a>
+            
           </div>
         </div>
       
@@ -551,8 +557,17 @@ KiB Swap:  1048572 total,        0 used,  1048572 free.  1378564 cached Mem
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.png"
@@ -567,7 +582,7 @@ KiB Swap:  1048572 total,        0 used,  1048572 free.  1378564 cached Mem
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">115</span>
+                <span class="site-state-item-count">116</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -660,6 +675,22 @@ KiB Swap:  1048572 total,        0 used,  1048572 free.  1378564 cached Mem
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#构建自己的Docker镜像"><span class="nav-number">1.</span> <span class="nav-text">构建自己的Docker镜像</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       

@@ -303,6 +303,161 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/04/27/leetcode417. Pacific Atlantic Water Flow/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sailong Ren">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="coderlong的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/04/27/leetcode417. Pacific Atlantic Water Flow/" itemprop="url">417. Pacific Atlantic Water Flow</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-27T16:18:40+08:00">
+                2018-04-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/algorithm/" itemprop="url" rel="index">
+                    <span itemprop="name">algorithm</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><strong>原题目:</strong><br>Given an m x n matrix of non-negative integers representing the height of each unit cell in a continent, the “Pacific ocean” touches the left and top edges of the matrix and the “Atlantic ocean” touches the right and bottom edges.</p>
+<p>Water can only flow in four directions (up, down, left, or right) from a cell to another one with height equal or lower.</p>
+<p>Find the list of grid coordinates where water can flow to both the Pacific and Atlantic ocean.</p>
+<p><strong>Note:</strong></p>
+<pre><code>The order of returned grid coordinates does not matter.
+Both m and n are less than 150.
+</code></pre><p><strong>Example:</strong></p>
+<p>Given the following 5x5 matrix:</p>
+<p>  Pacific ~   ~   ~   ~   ~<br>       ~  1   2   2   3  (5) <em><br>       ~  3   2   3  (4) (4) </em><br>       ~  2   4  (5)  3   1  <em><br>       ~ (6) (7)  1   4   5  </em><br>       ~ (5)  1   1   2   4  *</p>
+<pre><code>*   *   *   *   * Atlantic
+</code></pre><p><strong>Return:</strong></p>
+<p>[[0, 4], [1, 3], [1, 4], [2, 2], [3, 0], [3, 1], [4, 0]] (positions with parentheses in above matrix).</p>
+<p>题目说，在每个位置<strong>matrix[x][y]</strong> 代表这个点的高度， 每个点可以流向等于或者低于自己高度的点。<br>上面，左面代表 Pacific, 右面，下面代表Atlantic ，求这个matrix里面可以同时流向太平洋，大西洋的坐标集。<br>一般看到就会想到DFS的解法，我第一次理解错了题意，结果遍历matrix里的每个点， 看是否他能到达两个海洋。最后，超时，思考更完善的算法。<br><code>Java BFS</code><br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</div><div class="line">	<span class="keyword">int</span>[][] dics = <span class="keyword">new</span> <span class="keyword">int</span>[][]&#123;&#123;<span class="number">1</span>,<span class="number">0</span>&#125;, &#123;<span class="number">0</span>,<span class="number">1</span>&#125;,&#123;-<span class="number">1</span>,<span class="number">0</span>&#125;, &#123;<span class="number">0</span>,-<span class="number">1</span>&#125;&#125;;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		<span class="comment">// TODO Auto-generated method stub</span></div><div class="line"></div><div class="line">	&#125;</div><div class="line">	<span class="comment">//  这道题明显是可以使用 BFS 或者DFS 来做的，</span></div><div class="line">	<span class="comment">// 第一种我才用 广搜</span></div><div class="line">	<span class="keyword">public</span> List&lt;<span class="keyword">int</span>[]&gt; pacificAtlantic(<span class="keyword">int</span>[][] matrix) &#123;</div><div class="line">		List&lt;<span class="keyword">int</span>[]&gt; res = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line">		<span class="keyword">if</span> (matrix == <span class="keyword">null</span> || matrix.length == <span class="number">0</span> || matrix[<span class="number">0</span>].length == <span class="number">0</span>) &#123;</div><div class="line">			<span class="keyword">return</span> res;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">int</span> rows = matrix.length;</div><div class="line">		<span class="keyword">int</span> cols = matrix[<span class="number">0</span>].length;</div><div class="line">		<span class="keyword">boolean</span>[][] pacific =  <span class="keyword">new</span> <span class="keyword">boolean</span>[rows][cols]; <span class="comment">// 记录 可以到达 pacific</span></div><div class="line">		<span class="keyword">boolean</span>[][] atlantic = <span class="keyword">new</span> <span class="keyword">boolean</span>[rows][cols]; <span class="comment">// 记录可以到达 atlantic</span></div><div class="line">		Stack&lt;<span class="keyword">int</span>[]&gt; visitPac = <span class="keyword">new</span> Stack&lt;&gt;();</div><div class="line">		Stack&lt;<span class="keyword">int</span>[]&gt; visitAtlan = <span class="keyword">new</span> Stack&lt;&gt;();</div><div class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; rows; i++) &#123;</div><div class="line">			pacific[i][<span class="number">0</span>] = <span class="keyword">true</span>;</div><div class="line">			visitPac.push(<span class="keyword">new</span> <span class="keyword">int</span>[]&#123;i,<span class="number">0</span>&#125;);</div><div class="line">			atlantic[i][cols - <span class="number">1</span>] = <span class="keyword">true</span>;</div><div class="line">			visitAtlan.push(<span class="keyword">new</span> <span class="keyword">int</span>[]&#123;i,cols - <span class="number">1</span>&#125;);</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; cols; j++) &#123;</div><div class="line">			pacific[<span class="number">0</span>][j] = <span class="keyword">true</span>;</div><div class="line">			visitPac.push(<span class="keyword">new</span> <span class="keyword">int</span>[]&#123;<span class="number">0</span>,j&#125;);</div><div class="line">			atlantic[rows - <span class="number">1</span>][j] = <span class="keyword">true</span>;</div><div class="line">			visitAtlan.push(<span class="keyword">new</span> <span class="keyword">int</span>[]&#123;rows - <span class="number">1</span>, j&#125;);</div><div class="line">		&#125;</div><div class="line">		bfs(matrix, visitPac, pacific);</div><div class="line">		bfs(matrix, visitAtlan, atlantic);</div><div class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; rows; i++) &#123;</div><div class="line">			<span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; cols; j++) &#123;</div><div class="line">				<span class="keyword">if</span> (pacific[i][j] &amp;&amp; atlantic[i][j]) &#123;</div><div class="line">					res.add(<span class="keyword">new</span> <span class="keyword">int</span>[]&#123;i,j&#125;);</div><div class="line">				&#125;</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">return</span> res;</div><div class="line">	&#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">bfs</span><span class="params">(<span class="keyword">int</span>[][] matrix, Stack&lt;<span class="keyword">int</span>[]&gt; stack, <span class="keyword">boolean</span>[][] visited)</span> </span>&#123;</div><div class="line">		<span class="keyword">int</span> rows = matrix.length;</div><div class="line">		<span class="keyword">int</span> cols = matrix[<span class="number">0</span>].length;</div><div class="line">		<span class="keyword">while</span> (!stack.isEmpty()) &#123;</div><div class="line">			<span class="keyword">int</span>[] idx = stack.pop();</div><div class="line">			<span class="keyword">for</span> (<span class="keyword">int</span>[] dic:dics) &#123;</div><div class="line">				<span class="keyword">int</span> x = idx[<span class="number">0</span>] + dic[<span class="number">0</span>];</div><div class="line">				<span class="keyword">int</span> y = idx[<span class="number">1</span>] + dic[<span class="number">1</span>];</div><div class="line">				<span class="keyword">if</span> (x &lt; <span class="number">0</span> || x &gt;= rows || y &lt; <span class="number">0</span> || y &gt;= cols || visited[x][y] || matrix[x][y] &lt; matrix[idx[<span class="number">0</span>]][idx[<span class="number">1</span>]]) &#123;</div><div class="line">					<span class="keyword">continue</span>;</div><div class="line">				&#125;</div><div class="line">				visited[x][y] = <span class="keyword">true</span>;</div><div class="line">				stack.push(<span class="keyword">new</span> <span class="keyword">int</span>[]&#123;x,y&#125;);</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>后来看到别人提交的DFS版本的答案，DFS 更加好理解。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> java.util.ArrayList;</div><div class="line"><span class="keyword">import</span> java.util.List;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"><span class="comment">* <span class="doctag">@author</span> 作者 : coderlong</span></div><div class="line"><span class="comment">* <span class="doctag">@version</span> 创建时间：2018年4月27日 下午2:59:28</span></div><div class="line"><span class="comment">* 类说明: </span></div><div class="line"><span class="comment">*/</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">leetcode417_Pactic_Atlantic_water_Flow2</span> </span>&#123;</div><div class="line">	<span class="keyword">public</span> <span class="keyword">int</span>[][] dics = &#123;&#123;<span class="number">1</span>,<span class="number">0</span>&#125;, &#123;-<span class="number">1</span>,<span class="number">0</span>&#125;, &#123;<span class="number">0</span>,<span class="number">1</span>&#125;, &#123;<span class="number">0</span>,-<span class="number">1</span>&#125;&#125;;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		<span class="comment">// TODO Auto-generated method stub</span></div><div class="line"></div><div class="line">	&#125;</div><div class="line">	<span class="keyword">public</span> List&lt;<span class="keyword">int</span>[]&gt; pacificAtlantic(<span class="keyword">int</span>[][] matrix) &#123;</div><div class="line">		List&lt;<span class="keyword">int</span>[]&gt; res = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line">		<span class="keyword">if</span> (matrix == <span class="keyword">null</span> || matrix.length == <span class="number">0</span> || matrix[<span class="number">0</span>].length == <span class="number">0</span>) &#123;</div><div class="line">			<span class="keyword">return</span> res;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">int</span> rows = matrix.length;</div><div class="line">		<span class="keyword">int</span> cols = matrix[<span class="number">0</span>].length;</div><div class="line">		</div><div class="line">		<span class="keyword">boolean</span>[][] pacific = <span class="keyword">new</span> <span class="keyword">boolean</span>[rows][cols];</div><div class="line">		<span class="keyword">boolean</span>[][] atlantic = <span class="keyword">new</span> <span class="keyword">boolean</span>[rows][cols];</div><div class="line">		<span class="comment">// 用Integer.MIN_VALUE 来访问 四周边界元素， 保证四周元素绝对可以流向visit海域</span></div><div class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; rows; i++) &#123;</div><div class="line">			dfs(matrix, Integer.MIN_VALUE, i, <span class="number">0</span>, pacific);</div><div class="line">			dfs(matrix, Integer.MIN_VALUE, i, cols - <span class="number">1</span>, atlantic);</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; cols; j++) &#123;</div><div class="line">			dfs(matrix, Integer.MIN_VALUE, <span class="number">0</span>, j, pacific);</div><div class="line">			dfs(matrix, Integer.MIN_VALUE, rows - <span class="number">1</span>, j, atlantic);</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; rows; i++) &#123;</div><div class="line">			<span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; cols; j++) &#123;</div><div class="line">				<span class="keyword">if</span> (pacific[i][j] &amp;&amp; atlantic[i][j]) &#123;</div><div class="line">					res.add(<span class="keyword">new</span> <span class="keyword">int</span>[]&#123;i,j&#125;);</div><div class="line">				&#125;</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">return</span> res;</div><div class="line">	&#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">dfs</span><span class="params">(<span class="keyword">int</span>[][] matrix, <span class="keyword">int</span> height, <span class="keyword">int</span> x, <span class="keyword">int</span> y, <span class="keyword">boolean</span>[][]visit)</span> </span>&#123;</div><div class="line">		<span class="keyword">int</span> rows = matrix.length;</div><div class="line">		<span class="keyword">int</span> cols = matrix[<span class="number">0</span>].length;</div><div class="line">		<span class="comment">// x y 为坐标， 需先判断是否符合要求</span></div><div class="line">		<span class="keyword">if</span> (x &lt;<span class="number">0</span> || x &gt;= rows || y &lt; <span class="number">0</span> || y &gt;= cols || visit[x][y] || matrix[x][y] &lt; height) &#123;</div><div class="line">			<span class="keyword">return</span> ;</div><div class="line">		&#125;</div><div class="line">		visit[x][y] = <span class="keyword">true</span>; <span class="comment">// (x,y) 可以流向visit海域</span></div><div class="line">		<span class="keyword">for</span> (<span class="keyword">int</span>[] cur : dics) &#123;</div><div class="line">			dfs(matrix, matrix[x][y], x + cur[<span class="number">0</span>], y + cur[<span class="number">1</span>], visit);</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/04/25/Docker入门记录一下/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -433,7 +588,9 @@ KiB Swap:  1048572 total,        0 used,  1048572 free.  1378564 cached Mem
    PID USER      PR  NI    VIRT    RES    SHR S  %CPU %MEM     TIME+ COMMAND
      1 root      20   0   18208   3348   2872 S   0.0  0.2   0:00.03 bash
     11 root      20   0   19912   2464   2096 R   0.0  0.1   0:00.00 top
-</code></pre>
+</code></pre><h2 id="构建自己的Docker镜像"><a href="#构建自己的Docker镜像" class="headerlink" title="构建自己的Docker镜像"></a>构建自己的Docker镜像</h2><p><code>Dockerfile</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">FROM    centos:6.7</div><div class="line">MAINTAINER      Fisher &quot;fisher@sudops.com&quot;</div><div class="line"></div><div class="line">RUN     /bin/echo &apos;root:123456&apos; |chpasswd</div><div class="line">RUN     useradd runoob</div><div class="line">RUN     /bin/echo &apos;runoob:123456&apos; |chpasswd</div><div class="line">RUN     /bin/echo -e &quot;LANG=\&quot;en_US.UTF-8\&quot;&quot; &gt;/etc/default/local</div><div class="line">EXPOSE  22</div><div class="line">EXPOSE  80</div><div class="line">CMD     /usr/sbin/sshd -D</div></pre></td></tr></table></figure></p>
+<p>使用 Dockerfile 文件，通过 docker build 命令来构建一个镜像。s<br>    docker build -t runoob/centos:6.7 .</p>
+
           
         
       
@@ -958,8 +1115,15 @@ on e.emp_no = d.emp_no where d.dept_no is null;</code></p>
 <p>时间到达2018.4.14 今日头条的视频面  </p>
 <p>讲实话， 我觉得头条当初的网上笔试水水。一共是90分钟四道编程题，我AC了二三题，第一题超时。第四题我完全循环偏分，开始没思路，后来想到绝妙骗分思路，通过了90%，估计骗来个面试名额。<br>这个不说，下午一面面试官视频直接卡了，连了几次还是卡，干脆给我打了个电话，电话面试<br>第一道， 二进制字符串，寻找K大的子串中1的最大个数，有些着急了，一眼觉得动态规划就应该可以了，可是没考虑全回溯的条件。bug，后来改了有五六分钟。二叉树中序遍历非递归。<br>第二道，两个排好序的数组合并到一起的前K各元素是多少，很多同学说使用合并排序。其实没有注意到条件已经有序。所以每次拿出数组的第一个元素相互比较循环就可以了。这道题我写的飞快，面试官应该对我比较满意，后来又问了问我TCP状态机，握手挥手具体流程，这方面我学的比较好，说了很多，讲到了TCP首部构成。听他语气应该是过了。一面结束，没一会HR姐姐通知二面。我一二面写代码都是在页面里面的文本编辑框写得。<br>二面是个帅气的大叔，他说他是某某项目技术负责人，继续写算法，逆转链表。写出你能想到的最好的方法，我还问他能不能链表存起来，再倒着建立起来，“你觉得这是我想要的算法吗？”。哈哈，其实我是迷惑他，这个我用很多方法都写过，直接白板写了个递归形式的。但是还是要故作沉思。三分钟，就给出了代码。面试官估计有些惊讶我的速度，又问了些奇怪的问题。说让我用五分钟给你讲明白小程序的前途。不好意思，看过张小龙的演讲，巴拉巴拉给了说了说去中心化，媒体社交传播的重要性。又问了Web相关的知识：Servlet，Spring生命周期，IOC具体实现，反射调用字节码怎么搞，JDK原生注解的实现原理，并发没有深入问，只问了Condation，中断，我是准备的要说Sychronized，还有JUC源码的操作系统层面和JVM的语义的，没有给我机会装这个逼。<br>HTTP1.0 1.1 2.0 的各自区别(我只回答到了首部压缩，二进制分帧。计算机网络问的很细，一直问道1,2,3,4,5的各种状态码啥意思？302 304 305 啥区别，太细节的我忘记了。回答完，他好像挺满意。结束了二面。<br>三面，是个戴眼镜的胖子大叔，这人非常和蔼，一上来就主动和我打招呼，全程都笑眯眯的看着我，提示我的时候也是面带微笑。万幸。<br>三面面试官估计是个大Boss，问了很多不同的技术，界面优化，Web应用的优化(因为我看那本《大型分布式系统架构和Java中间件》淘宝那本书，所以基本都是回答的书里面的概念，负载均衡，页面的CDN代理，应用的横向纵向扩展。读写分离的实现，缓存穿透的解决方案)，数据库优化（幸亏上次面完链家，看了看高《性能MySQL》这本书）。当然我回答的是也有很多漏洞，他再来纠正我。问了TCP协议序列号溢出，我并不知道，redis缓存问题，MySQL主从复制的缺陷怎么解决，还有远程下载文件提速，我是真不会，想着迅雷，电驴，就乱扯了一些自己也不知道的P2P加速，我只有百度百科的那点知识储备。最后还问我我简历上面的那个博客是自己搭建的吗？ 我说用hexo + githubPage建的，他说那你就是搬砖吗？ 最后自己谎称那个界面里面的线条飞舞效果是自己用JS写得，因为自己看过一次别人讲如何实现页面动态效果插件，他没深问JS代码怎么写。又问问JS闭包，原型链模型，JS里面几个重要的对象，BOM，装饰器模式。我强行给他说了说Tomcat里面装饰器模式具体的类，又问装饰器模式和组合模式的优缺点，好吧，我虽然看过设计模式那本书，但是这些具体的我还真忘记了。最后回答了出来。<br>“你有什么问题要问我的？”<br>问了问他，他问的这些问题别人都回答出来了吗？头条今年校招趋势是什么？ 您觉得我哪些地方还有待提高啊？你对我怎么评价？ 最后面试官也不好意思了，就说了我作为软件工程专业的就读生，操作系统掌握的不是太好啊。<br>还问了头条今年校招是重视基础还是项目。当然结果意料之中，两者均优秀是最好了。三面聊了一个多小时把。最后我看这个面试官好说话，拉着她聊了好多职业规划的问题，学习方法选择，他也挺乐意给别人讲解这个。<br>三面结束，三次面试持续了四个小时吧，总的来说头条的笔面试很重视算法，重视基础，对好的项目感兴趣。垃圾项目，根本问都不问。半个小时之后，HR来电话说三面过了，两周内等官网公布结果。估计是进备胎池了。</p>
 <hr>
-<p><code>最新更新</code>， 2018年4月20号，我的简历状态变为<code>已结束</code>，又凉了。 唉， 昨天晚上，HR还来电话问我offer的事，说随后有人联系，然后直接就放我鸽子了(仔细一想也是，这次头条面试简单，好多985的最后三面过，也被刷下来了，最后是按学校，和前几轮面试评价刷人的，还是自己太菜)。真是玄学面试。真是不懂你们招聘的套路。一个满意的offer也没拿到。  </p>
-<p>拜拜了， 各位大佬，暑假打算去鹏哥那里打磨自己去。<br>今年春招归根结底还是自己太菜了，头条面试官讽刺我说，大神都不写博客，只看书。(我只是想分享技术而已)，希望我这份垃圾面经能帮到需要的同学。<br>我要闭关了。博客停止更新一年。    </p>
+<p><code>最新更新</code>， 2018年4月20号，头条简历状态变为<code>已结束</code>，又凉了。 唉， 昨天晚上，HR还来电话问我offer的事，说随后有人联系，然后直接就放我鸽子了(仔细一想也是，这次头条面试简单，好多985的最后三面过，也被刷下来了，最后是按学校，和前几轮面试评价刷人的，还是自己太菜)。真是玄学面试。不懂你们招聘的套路。最终一个特别满意的offer也没拿到。  </p>
+<p>拜拜了， 各位大佬，暑假打算去鹏哥那里去实习，深入学习学习运维。<br>今年春招归根结底还是自己太菜了，所以如果想在秋招收割offer，要在接下来的时间更加努力才行。自己给自己定下几个目标：  </p>
+<ol>
+<li>啃完 Stevens的那本Unix网络编程，光会用个Netty不懂原理是不行的。看网络编程的同时，要把C++/C的知识补上来，面试问道的C指针，C++虚函数全都忘光了啊。</li>
+<li>MySQL优化要搞好，其实没做过真实的运维工作，自己根本不会用书里面的那些优化的技巧。</li>
+<li>把分布式原理搞清楚，即使自己不接触到分布式，Ngix,redis, Docker简单怎么使用要学习学习, 把深入理解分布式缓存那本书看完。</li>
+<li>看看Spring源码分析，因为自己不太想继续学JavaWeb了，主要目前自己用的语言还是java, JS/Python研究的还不是太深。C++ STL也没怎么用过。这样不懂Java界的Spring源码是不行的，Golang（够浪）要用一用。</li>
+<li>还要记得把宗白华的美学散步和看完，整天面对台电脑，艺术细胞快被杀死光光啦。哈哈，<br>秋招自己投的职位还是定位在后台研发方向。</li>
+</ol>
 
           
         
@@ -1816,197 +1980,6 @@ dp[n] = min(dp[n], dp[n - coins[j]] + 1) : coins[j] &lt;= n;
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/04/03/explain/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Sailong Ren">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="coderlong的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/04/03/explain/" itemprop="url">explain语句怎么用</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-03T10:18:40+08:00">
-                2018-04-03
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/DB/" itemprop="url" rel="index">
-                    <span itemprop="name">DB</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>看完《高性能MySQL》这本书之后，终于敢在自己的简历上写上一行”熟悉MySQL数据库，能够进行基本的调优工作”，不过MySQL对Web开发人员来说的确的是很重要的。<br>你说你会基本的调优，那么咱们先来分析一下最基本的SQL语句的调优工作吧？<br><code>explain</code>就这个时候闪亮登场了。<br>用法嘛，看一遍就记住了。<br><code>explain + select * from table_name where ........</code><br><img src="https://images2015.cnblogs.com/blog/763020/201604/763020-20160417142105895-121211600.png" alt="mysql"></p>
-<ul>
-<li>id: SELECT 查询的标识符. 每个 SELECT 都会自动分配一个唯一的标识符.</li>
-<li>select_type: SELECT 查询的类型.</li>
-<li>table: 查询的是哪个表</li>
-<li>partitions: 匹配的分区</li>
-<li>type: join 类型</li>
-<li>possible_keys: 此次查询中可能选用的索引</li>
-<li>key: 此次查询中确切使用到的索引.</li>
-<li>ref: 哪个字段或常数与 key 一起被使用</li>
-<li>rows: 显示此查询一共扫描了多少行. 这个是一个估计值.</li>
-<li>filtered: 表示此查询条件所过滤的数据的百分比</li>
-<li>extra: 额外的信息</li>
-</ul>
-<h2 id="id"><a href="#id" class="headerlink" title="id"></a>id</h2><p>id列数字越大越先执行，如果说数字一样大，那么就从上往下依次执行.</p>
-<h2 id="select-type字段-常见的就是-simple-primary"><a href="#select-type字段-常见的就是-simple-primary" class="headerlink" title="select_type字段,常见的就是 simple primary,"></a>select_type字段,常见的就是 simple primary,</h2><p>A：simple：表示不需要union操作或者不包含子查询的简单select查询。有连接查询时，外层的查询为simple，且只有一个<br>B：primary：一个需要union操作或者含有子查询的select，位于最外层的单位查询的select_type即为primary。且只有一个<br>C：union：union连接的两个select查询，第一个查询是dervied派生表，除了第一个表外，第二个以后的表select_type都是union<br>D：dependent union：与union一样，出现在union 或union all语句中，但是这个查询要受到外部查询的影响<br>E：union result：包含union的结果集，在union和union all语句中,因为它不需要参与查询，所以id字段为null<br>F：subquery：除了from字句中包含的子查询外，其他地方出现的子查询都可能是subquery<br>G：dependent subquery：与dependent union类似，表示这个subquery的查询要受到外部表查询的影响<br>H：derived：from字句中出现的子查询，也叫做派生表，其他数据库中可能叫做内联视图或嵌套select</p>
-<h2 id="table字段"><a href="#table字段" class="headerlink" title="table字段"></a>table字段</h2><p>大家一看就懂，从哪个表查的。</p>
-<h2 id="type-重要字段"><a href="#type-重要字段" class="headerlink" title="type  重要字段`"></a>type  重要字段`</h2><p>指的联合查询使用的类型  </p>
-<ol>
-<li>system：表中只有一行数据或者是空表，且只能用于myisam索引和memory索引表。如果是Innodb引擎表，type列在这个情况通常都是all或者index</li>
-<li>const：使用唯一索引或者主键，返回记录一定是1行记录的等值where条件时，通常type是const。</li>
-<li>eq_ref：出现在要连接过个表的查询计划中，驱动表只返回一行数据，且这行数据是第二个表的主键或者唯一索引，且必须为not null，唯一索引和主键是多列时，只有所有的列都用作比较时才会出现eq_ref</li>
-<li>ref：不像eq_ref那样要求连接顺序，也没有主键和唯一索引的要求，只要使用相等条件检索时就可能出现。</li>
-<li>fulltext：全文索引检索，全文索引的优先级很高，若全文索引和普通索引同时存在时，mysql不管代价，优先选择使用全文索引</li>
-<li>ref_or_null：与ref方法类似，只是增加了null值的比较。实际用的不多。</li>
-<li>unique_subquery：用于where中的in形式子查询，子查询返回不重复值唯一值</li>
-<li>index_subquery：用于in形式子查询使用到了辅助索引或者in常数列表，子查询可能返回重复值，可以使用索引将子查询去重。</li>
-<li>range：索引范围扫描，常见于使用&gt;,&lt;,is null,between ,in ,like等运算符的查询中。<br><code>--------------------&gt;&gt;&gt;华丽的分界线，type到达这里就可以了</code></li>
-<li>index_merge：表示查询使用了两个以上的索引，最后取交集或者并集，常见and ，or的条件使用了不同的索引，官方排序这个在ref_or_null之后，但是实际上由于要读取所个索引，性能可能大部分时间都不如range</li>
-<li>index：索引全表扫描，把索引从头到尾扫一遍，常见于使用索引列就可以处理不需要读取数据文件的查询、可以使用索引排序或者分组的查询。</li>
-<li>all：这个就是全表扫描数据文件，然后再在server层进行过滤返回符合要求的记录。最坏的情况。</li>
-</ol>
-<p><code>system &gt; const &gt; eq_ref &gt; ref &gt; fulltext &gt; ref_or_null &gt; index_merge &gt; unique_subquery &gt; index_subquery &gt; range &gt; index &gt; ALL
-一般来说，得保证查询至少达到range级别，最好能达到ref。</code></p>
-<h2 id="possible-keys"><a href="#possible-keys" class="headerlink" title="possible_keys"></a>possible_keys</h2><p>可能用到的索引</p>
-<h2 id="key"><a href="#key" class="headerlink" title="key"></a>key</h2><p>查询真正使用到的索引</p>
-<h2 id="key-len"><a href="#key-len" class="headerlink" title="key_len"></a>key_len</h2><p>用于处理查询的索引长度，如果是单列索引，那就整个索引长度算进去，如果是多列索引，那么查询不一定都能使用到所有的列，具体使用到了多少个列的索引，这里就会计算进去，没有使用到的列，这里不会计算进去。</p>
-<h2 id="ref"><a href="#ref" class="headerlink" title="ref"></a>ref</h2><p>如果是使用的常数等值查询，这里会显示const，如果是连接查询，被驱动表的执行计划这里会显示驱动表的关联字段，如果是条件使用了表达式或者函数，或者条件列发生了内部隐式转换，这里可能显示为func</p>
-<h2 id="rows"><a href="#rows" class="headerlink" title="rows"></a>rows</h2><p>执行查询估计的扫描行数，非精确</p>
-<h2 id="Extra"><a href="#Extra" class="headerlink" title="Extra"></a>Extra</h2><p>using where<br>using idex  </p>
-<p>再来一点优化方案的小例子。<br>add index idx_ABC on (a,b,c);<br>where a = 3 | 只用到了 a<br>where a = 3 and b = 5 | 只用到了 a,b<br>where a = 3 and b = 5 and c = 6| 用到了 a,b,c<br>where a = 3 od b = 5 od c = 6| 用不到索引<br>b line ‘kk%’ 可以用到<br>b line ‘%kk’ 用不到, 左值匹配  </p>
-<h3 id="EXIT-And-In的比较使用"><a href="#EXIT-And-In的比较使用" class="headerlink" title="EXIT And In的比较使用"></a>EXIT And In的比较使用</h3><p>in 是把外表和内表作hash 连接，而exists是对外表作loop循环，每次loop循环再对内表进行查询。<br>如果两张表的大小是差不多的，那么in 和 exit的效率的确是差不多的，可是如果是一个小表和一个大表关联查询的话，<br>select <em> from A where id in (select id from B)<br>应该尽可能的让B表比A表小，这样使用小表驱动大表增加效率。<br>相同的<br>select </em> from A where exists(select id from B where cc=A.id)<br>应该把外围的查询使用小表，因为会用到exits()内的索引。<br>总的来说，就是尽量小表驱动大表。</p>
-<h3 id="为使用排序而使用索引的规范"><a href="#为使用排序而使用索引的规范" class="headerlink" title="为使用排序而使用索引的规范"></a>为使用排序而使用索引的规范</h3><p>`KEY a_b_c (a,b,c)<br>order by 能使用索引最左前缀<br>order by a<br>order by a,b<br>order by a,b,c<br>order by a DESC,b DESC, c DESC # 全部升序，或者全部降序</p>
-<h1 id="如果where-使用索引最左前缀为const-orderby可以使用索引"><a href="#如果where-使用索引最左前缀为const-orderby可以使用索引" class="headerlink" title="如果where 使用索引最左前缀为const orderby可以使用索引"></a>如果where 使用索引最左前缀为const orderby可以使用索引</h1><p>where a = const order by b,c<br>where a = const and b = const order by c<br>where a = const and b &gt; const order by b,c</p>
-<h2 id="不可以的情况"><a href="#不可以的情况" class="headerlink" title="不可以的情况"></a>不可以的情况</h2><p>排序不一致，不可以使用<br>where g = const orderby b,c 丢失了a索引<br>where a = const orderby c 丢失了b索引<br>where a = const order by a,d d不是索引<br>where a in(…..) order by b,c带头的a索引是范围值，不知道是否能用上索引<br>`</p>
-<h3 id="Group-by关键字的优化"><a href="#Group-by关键字的优化" class="headerlink" title="Group by关键字的优化"></a>Group by关键字的优化</h3><p>其实group by实质就是先排序之后，在进行分组，同样遵循最左前缀<br>能在where限定条件之下，尽量不要使用having在进行限定  </p>
-<h3 id="profile的优化"><a href="#profile的优化" class="headerlink" title="profile的优化"></a>profile的优化</h3><p>慢查询无果后，可以使用show profile cpu, block io for query query_id<br>来诊断sql，一般出现数据库压力的也就几种情况。<br><code>converting HEAP to MyISAM 这是由于查询结果过大，内存会往次磁盘搬运  
-Creating tmp table 显而易见的创建了临时表，copy-&gt;remove   
-Coping to tmp table on dick 内存临时表复制到磁盘，磁盘IO影响较大  
-locked 加锁了。</code><br>Begin<br>select * from table_name where … for update 锁定一行  </p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2057,7 +2030,7 @@ locked 加锁了。</code><br>Begin<br>select * from table_name where … for up
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">115</span>
+                <span class="site-state-item-count">116</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
