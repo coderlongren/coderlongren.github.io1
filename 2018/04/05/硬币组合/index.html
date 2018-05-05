@@ -94,19 +94,19 @@
 
 
 
-<meta name="description" content="问题给定一个数值sum，假设我们有m种不同类型的硬币{V1, V2, …, Vm}，如果要组合成sum，求所有可能的组合数。给定一个数值sum，假设我们有m种不同类型的硬币{V1, V2, …, Vm}，如果要组合成sumsum = x1*v1 + x2*v2 + x3*v3 + ..... + xm*vm求所有可能的组合数，求满足所有等值的系数{x1,x2,x3,...xm} 暴力破解枚举，每个">
+<meta name="description" content="摘要：硬币组合问题">
 <meta name="keywords" content="algorithm">
 <meta property="og:type" content="article">
 <meta property="og:title" content="硬币组合">
 <meta property="og:url" content="https://coderlongren.github.io/2018/04/05/硬币组合/index.html">
 <meta property="og:site_name" content="coderlong的博客">
-<meta property="og:description" content="问题给定一个数值sum，假设我们有m种不同类型的硬币{V1, V2, …, Vm}，如果要组合成sum，求所有可能的组合数。给定一个数值sum，假设我们有m种不同类型的硬币{V1, V2, …, Vm}，如果要组合成sumsum = x1*v1 + x2*v2 + x3*v3 + ..... + xm*vm求所有可能的组合数，求满足所有等值的系数{x1,x2,x3,...xm} 暴力破解枚举，每个">
+<meta property="og:description" content="摘要：硬币组合问题">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://www.sciweavers.org/tex2img.php?eq=dp%5Bi%5D%5Bsum%5D%20%3D%20%5Csum_%7Bk%3D0%7D%5E%7Bsum%2FVm%7D%20dp%5Bi-1%5D%5Bsum%20-%20k%2AVm%5D&bc=White&fc=Black&im=png&fs=12&ff=arev&edit=0">
-<meta property="og:updated_time" content="2018-04-19T11:56:56.794Z">
+<meta property="og:updated_time" content="2018-05-04T13:18:52.415Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="硬币组合">
-<meta name="twitter:description" content="问题给定一个数值sum，假设我们有m种不同类型的硬币{V1, V2, …, Vm}，如果要组合成sum，求所有可能的组合数。给定一个数值sum，假设我们有m种不同类型的硬币{V1, V2, …, Vm}，如果要组合成sumsum = x1*v1 + x2*v2 + x3*v3 + ..... + xm*vm求所有可能的组合数，求满足所有等值的系数{x1,x2,x3,...xm} 暴力破解枚举，每个">
+<meta name="twitter:description" content="摘要：硬币组合问题">
 <meta name="twitter:image" content="http://www.sciweavers.org/tex2img.php?eq=dp%5Bi%5D%5Bsum%5D%20%3D%20%5Csum_%7Bk%3D0%7D%5E%7Bsum%2FVm%7D%20dp%5Bi-1%5D%5Bsum%20-%20k%2AVm%5D&bc=White&fc=Black&im=png&fs=12&ff=arev&edit=0">
 
 
@@ -397,7 +397,8 @@
       
 
       
-        <h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>给定一个数值sum，假设我们有m种不同类型的硬币{V1, V2, …, Vm}，如果要组合成sum，求所有可能的组合数。<br>给定一个数值sum，假设我们有m种不同类型的硬币{V1, V2, …, Vm}，如果要组合成sum<br><code>sum = x1*v1 + x2*v2 + x3*v3 + ..... + xm*vm</code><br>求所有可能的组合数，求满足所有等值的系数<code>{x1,x2,x3,...xm}</code></p>
+        <p>摘要：硬币组合问题<br><a id="more"></a></p>
+<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>给定一个数值sum，假设我们有m种不同类型的硬币{V1, V2, …, Vm}，如果要组合成sum，求所有可能的组合数。<br>给定一个数值sum，假设我们有m种不同类型的硬币{V1, V2, …, Vm}，如果要组合成sum<br><code>sum = x1*v1 + x2*v2 + x3*v3 + ..... + xm*vm</code><br>求所有可能的组合数，求满足所有等值的系数<code>{x1,x2,x3,...xm}</code></p>
 <h2 id="暴力破解"><a href="#暴力破解" class="headerlink" title="暴力破解"></a>暴力破解</h2><p>枚举，每个系数取值<br>    x1 = {0,1,2….sum/v1}<br>    x2 = {0,1,2….sum/v2}<br>    .<br>    .<br>    .<br>    .</p>
 <p>复杂度很高  </p>
 <h2 id="动态规划"><a href="#动态规划" class="headerlink" title="动态规划"></a>动态规划</h2><pre><code>设vm硬币取值 0-m  
@@ -571,7 +572,7 @@ dp[n] = min(dp[n], dp[n - coins[j]] + 1) : coins[j] &lt;= n;
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">116</span>
+                <span class="site-state-item-count">118</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -582,7 +583,7 @@ dp[n] = min(dp[n], dp[n - coins[j]] + 1) : coins[j] &lt;= n;
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">24</span>
+                <span class="site-state-item-count">26</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -593,7 +594,7 @@ dp[n] = min(dp[n], dp[n - coins[j]] + 1) : coins[j] &lt;= n;
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">51</span>
+                <span class="site-state-item-count">55</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

@@ -94,18 +94,18 @@
 
 
 
-<meta name="description" content="题目描述 在一个二维数组中，每一行都按照从左到右递增的顺序排序，每一列都按照从上到下递增的顺序排序。请完成一个函数，输入这样的一个二维数组和一个整数，判断数组中是否含有该整数。· 思路： 从右上角开始，若小，向下走，删除一行，若大，向左走，删除一列1234567891011121314151617181920212223242526272829303132333435/*** @author 作者">
+<meta name="description" content="题目描述 在一个二维数组中，每一行都按照从左到右递增的顺序排序，每一列都按照从上到下递增的顺序排序。请完成一个函数，输入这样的一个二维数组和一个整数，判断数组中是否含有该整数。· 思路： 从右上角开始，若小，向下走，删除一行，若大，向左走，删除一列1234567891011121314151617181920212223242526272829303132333435/*** @author 作">
 <meta name="keywords" content="Algorithm,剑指offer">
 <meta property="og:type" content="article">
 <meta property="og:title" content="二维数组查找">
 <meta property="og:url" content="https://coderlongren.github.io/2018/03/06/二维数组查找/index.html">
 <meta property="og:site_name" content="coderlong的博客">
-<meta property="og:description" content="题目描述 在一个二维数组中，每一行都按照从左到右递增的顺序排序，每一列都按照从上到下递增的顺序排序。请完成一个函数，输入这样的一个二维数组和一个整数，判断数组中是否含有该整数。· 思路： 从右上角开始，若小，向下走，删除一行，若大，向左走，删除一列1234567891011121314151617181920212223242526272829303132333435/*** @author 作者">
+<meta property="og:description" content="题目描述 在一个二维数组中，每一行都按照从左到右递增的顺序排序，每一列都按照从上到下递增的顺序排序。请完成一个函数，输入这样的一个二维数组和一个整数，判断数组中是否含有该整数。· 思路： 从右上角开始，若小，向下走，删除一行，若大，向左走，删除一列1234567891011121314151617181920212223242526272829303132333435/*** @author 作">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-03-08T10:58:47.800Z">
+<meta property="og:updated_time" content="2018-05-02T13:19:15.787Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="二维数组查找">
-<meta name="twitter:description" content="题目描述 在一个二维数组中，每一行都按照从左到右递增的顺序排序，每一列都按照从上到下递增的顺序排序。请完成一个函数，输入这样的一个二维数组和一个整数，判断数组中是否含有该整数。· 思路： 从右上角开始，若小，向下走，删除一行，若大，向左走，删除一列1234567891011121314151617181920212223242526272829303132333435/*** @author 作者">
+<meta name="twitter:description" content="题目描述 在一个二维数组中，每一行都按照从左到右递增的顺序排序，每一列都按照从上到下递增的顺序排序。请完成一个函数，输入这样的一个二维数组和一个整数，判断数组中是否含有该整数。· 思路： 从右上角开始，若小，向下走，删除一行，若大，向左走，删除一列1234567891011121314151617181920212223242526272829303132333435/*** @author 作">
 
 
 
@@ -395,7 +395,8 @@
       
 
       
-        <p><code>题目描述
+        <a id="more"></a>
+<p><code>题目描述
 在一个二维数组中，每一行都按照从左到右递增的顺序排序，每一列都按照从上到下递增的顺序排序。请完成一个函数，输入这样的一个二维数组和一个整数，判断数组中是否含有该整数。·</code></p>
 <p>思路： 从右上角开始，若小，向下走，删除一行，若大，向左走，删除一列<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line">* @author 作者 : coderlong</div><div class="line">* @version 创建时间：2018年2月8日 下午9:44:23</div><div class="line">* 类说明: /*</div><div class="line">利用二维数组由上到下，由左到右递增的规律，</div><div class="line">那么选取右上角或者左下角的元素a[row] [col]与target进行比较，</div><div class="line">当target小于元素a[row] [col]时，那么target必定在元素a所在行的左边,</div><div class="line">即col--；</div><div class="line">当target大于元素a[row][col]时，那么target必定在元素a所在列的下边,</div><div class="line">即row++；</div><div class="line">*/</div><div class="line">public class 二维数组查找 &#123;</div><div class="line"></div><div class="line">	public static void main(String[] args) &#123;</div><div class="line">		// TODO Auto-generated method stub</div><div class="line"></div><div class="line">	&#125;</div><div class="line">	public static boolean Find(int[][] array, int target) &#123;</div><div class="line">		int row = 0;</div><div class="line">		int col = array[0].length - 1;</div><div class="line">		while (row &lt; array.length &amp;&amp; col &gt;= 0) &#123;</div><div class="line">			if (target == array[row][col]) &#123;</div><div class="line">				return true;</div><div class="line">			&#125;</div><div class="line">			else if (target &gt; array[row][col]) &#123;</div><div class="line">				row++;</div><div class="line">			&#125;</div><div class="line">			else &#123;</div><div class="line">				col--;</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">		return false;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 
@@ -459,8 +460,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/03/06/重建二叉树/" rel="next" title="重建二叉树">
-                <i class="fa fa-chevron-left"></i> 重建二叉树
+              <a href="/2018/03/06/滑动窗口最大值/" rel="next" title="滑动窗口最大值">
+                <i class="fa fa-chevron-left"></i> 滑动窗口最大值
               </a>
             
           </div>
@@ -539,7 +540,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">116</span>
+                <span class="site-state-item-count">118</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -550,7 +551,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">24</span>
+                <span class="site-state-item-count">26</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -561,7 +562,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">51</span>
+                <span class="site-state-item-count">55</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

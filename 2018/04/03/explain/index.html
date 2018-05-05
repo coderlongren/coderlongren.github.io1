@@ -94,19 +94,19 @@
 
 
 
-<meta name="description" content="看完《高性能MySQL》这本书之后，终于敢在自己的简历上写上一行”熟悉MySQL数据库，能够进行基本的调优工作”，不过MySQL对Web开发人员来说的确的是很重要的。你说你会基本的调优，那么咱们先来分析一下最基本的SQL语句的调优工作吧？explain就这个时候闪亮登场了。用法嘛，看一遍就记住了。explain + select * from table_name where ........">
+<meta name="description" content="摘要：MySQL优化之 explain">
 <meta name="keywords" content="MySQL">
 <meta property="og:type" content="article">
 <meta property="og:title" content="explain语句怎么用">
 <meta property="og:url" content="https://coderlongren.github.io/2018/04/03/explain/index.html">
 <meta property="og:site_name" content="coderlong的博客">
-<meta property="og:description" content="看完《高性能MySQL》这本书之后，终于敢在自己的简历上写上一行”熟悉MySQL数据库，能够进行基本的调优工作”，不过MySQL对Web开发人员来说的确的是很重要的。你说你会基本的调优，那么咱们先来分析一下最基本的SQL语句的调优工作吧？explain就这个时候闪亮登场了。用法嘛，看一遍就记住了。explain + select * from table_name where ........">
+<meta property="og:description" content="摘要：MySQL优化之 explain">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://images2015.cnblogs.com/blog/763020/201604/763020-20160417142105895-121211600.png">
-<meta property="og:updated_time" content="2018-04-06T11:21:15.932Z">
+<meta property="og:updated_time" content="2018-05-04T13:20:17.268Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="explain语句怎么用">
-<meta name="twitter:description" content="看完《高性能MySQL》这本书之后，终于敢在自己的简历上写上一行”熟悉MySQL数据库，能够进行基本的调优工作”，不过MySQL对Web开发人员来说的确的是很重要的。你说你会基本的调优，那么咱们先来分析一下最基本的SQL语句的调优工作吧？explain就这个时候闪亮登场了。用法嘛，看一遍就记住了。explain + select * from table_name where ........">
+<meta name="twitter:description" content="摘要：MySQL优化之 explain">
 <meta name="twitter:image" content="https://images2015.cnblogs.com/blog/763020/201604/763020-20160417142105895-121211600.png">
 
 
@@ -397,7 +397,7 @@
       
 
       
-        <p>看完《高性能MySQL》这本书之后，终于敢在自己的简历上写上一行”熟悉MySQL数据库，能够进行基本的调优工作”，不过MySQL对Web开发人员来说的确的是很重要的。<br>你说你会基本的调优，那么咱们先来分析一下最基本的SQL语句的调优工作吧？<br><code>explain</code>就这个时候闪亮登场了。<br>用法嘛，看一遍就记住了。<br><code>explain + select * from table_name where ........</code><br><img src="https://images2015.cnblogs.com/blog/763020/201604/763020-20160417142105895-121211600.png" alt="mysql"></p>
+        <p>摘要：MySQL优化之 explain<br><a id="more"></a><br>看完《高性能MySQL》这本书之后，终于敢在自己的简历上写上一行”熟悉MySQL数据库，能够进行基本的调优工作”，不过MySQL对Web开发人员来说的确的是很重要的。<br>你说你会基本的调优，那么咱们先来分析一下最基本的SQL语句的调优工作吧？<br><code>explain</code>就这个时候闪亮登场了。<br>用法嘛，看一遍就记住了。<br><code>explain + select * from table_name where ........</code><br><img src="https://images2015.cnblogs.com/blog/763020/201604/763020-20160417142105895-121211600.png" alt="mysql"></p>
 <ul>
 <li>id: SELECT 查询的标识符. 每个 SELECT 都会自动分配一个唯一的标识符.</li>
 <li>select_type: SELECT 查询的类型.</li>
@@ -595,7 +595,7 @@ locked 加锁了。</code><br>Begin<br>select * from table_name where … for up
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">116</span>
+                <span class="site-state-item-count">118</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -606,7 +606,7 @@ locked 加锁了。</code><br>Begin<br>select * from table_name where … for up
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">24</span>
+                <span class="site-state-item-count">26</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -617,7 +617,7 @@ locked 加锁了。</code><br>Begin<br>select * from table_name where … for up
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">51</span>
+                <span class="site-state-item-count">55</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

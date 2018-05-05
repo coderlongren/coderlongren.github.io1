@@ -94,18 +94,18 @@
 
 
 
-<meta name="description" content="1.transient的作用以及用法我们都知道一个对象只要实现了Serilizable接口，这个对象就可以被序列化，java的这种序列化模式为开发者提供了很多便利，我们可以不必关系具体序列化的过程，只要这个类实现了Serilizable接口，这个类的所有属性和方法都会自动序列化。 然而在实际开发过程中，我们常常会遇到这样的问题，这个类的有些属性需要序列化，而其他属性不需要被序列化，打个比方，如果一">
+<meta name="description" content="1.transient的作用以及用法我们都知道一个对象只要实现了Serilizable接口，这个对象就可以被序列化，java的这种序列化模式为开发者提供了很多便利，我们可以不必关系具体序列化的过程，只要这个类实现了Serilizable接口，这个类的所有属性和方法都会自动序列化。 然而在实际开发过程中，我们常常会遇到这样的问题，这个类的有些属性需要序列化，而其他属性不需要被序列化，打个比方，如果">
 <meta name="keywords" content="JDK,个人,开发">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Transient">
 <meta property="og:url" content="https://coderlongren.github.io/2018/01/12/transient/index.html">
 <meta property="og:site_name" content="coderlong的博客">
-<meta property="og:description" content="1.transient的作用以及用法我们都知道一个对象只要实现了Serilizable接口，这个对象就可以被序列化，java的这种序列化模式为开发者提供了很多便利，我们可以不必关系具体序列化的过程，只要这个类实现了Serilizable接口，这个类的所有属性和方法都会自动序列化。 然而在实际开发过程中，我们常常会遇到这样的问题，这个类的有些属性需要序列化，而其他属性不需要被序列化，打个比方，如果一">
+<meta property="og:description" content="1.transient的作用以及用法我们都知道一个对象只要实现了Serilizable接口，这个对象就可以被序列化，java的这种序列化模式为开发者提供了很多便利，我们可以不必关系具体序列化的过程，只要这个类实现了Serilizable接口，这个类的所有属性和方法都会自动序列化。 然而在实际开发过程中，我们常常会遇到这样的问题，这个类的有些属性需要序列化，而其他属性不需要被序列化，打个比方，如果">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-01-12T05:36:40.060Z">
+<meta property="og:updated_time" content="2018-05-02T13:18:52.495Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Transient">
-<meta name="twitter:description" content="1.transient的作用以及用法我们都知道一个对象只要实现了Serilizable接口，这个对象就可以被序列化，java的这种序列化模式为开发者提供了很多便利，我们可以不必关系具体序列化的过程，只要这个类实现了Serilizable接口，这个类的所有属性和方法都会自动序列化。 然而在实际开发过程中，我们常常会遇到这样的问题，这个类的有些属性需要序列化，而其他属性不需要被序列化，打个比方，如果一">
+<meta name="twitter:description" content="1.transient的作用以及用法我们都知道一个对象只要实现了Serilizable接口，这个对象就可以被序列化，java的这种序列化模式为开发者提供了很多便利，我们可以不必关系具体序列化的过程，只要这个类实现了Serilizable接口，这个类的所有属性和方法都会自动序列化。 然而在实际开发过程中，我们常常会遇到这样的问题，这个类的有些属性需要序列化，而其他属性不需要被序列化，打个比方，如果">
 
 
 
@@ -395,7 +395,8 @@
       
 
       
-        <h2 id="1-transient的作用以及用法"><a href="#1-transient的作用以及用法" class="headerlink" title="1.transient的作用以及用法"></a>1.transient的作用以及用法</h2><p>我们都知道一个对象只要实现了Serilizable接口，这个对象就可以被序列化，java的这种序列化模式为开发者提供了很多便利，我们可以不必关系具体序列化的过程，只要这个类实现了Serilizable接口，这个类的所有属性和方法都会自动序列化。</p>
+        <a id="more"></a>
+<h2 id="1-transient的作用以及用法"><a href="#1-transient的作用以及用法" class="headerlink" title="1.transient的作用以及用法"></a>1.transient的作用以及用法</h2><p>我们都知道一个对象只要实现了Serilizable接口，这个对象就可以被序列化，java的这种序列化模式为开发者提供了很多便利，我们可以不必关系具体序列化的过程，只要这个类实现了Serilizable接口，这个类的所有属性和方法都会自动序列化。</p>
 <p>然而在实际开发过程中，我们常常会遇到这样的问题，这个类的有些属性需要序列化，而其他属性不需要被序列化，打个比方，如果一个用户有一些敏感信息（如密码，银行卡号等），为了安全起见，不希望在网络操作（主要涉及到序列化操作，本地序列化缓存也适用）中被传输，这些信息对应的变量就可以加上transient关键字。换句话说，这个字段的生命周期仅存于调用者的内存中而不会写到磁盘里持久化。</p>
 <p>总之，java 的transient关键字为我们提供了便利，你只需要实现Serilizable接口，将不需要序列化的属性前添加关键字transient，序列化对象的时候，这个属性就不会序列化到指定的目的地中。</p>
 <p>示例code如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div></pre></td><td class="code"><pre><div class="line">package 序列化;</div><div class="line"></div><div class="line">import java.io.FileInputStream;</div><div class="line">import java.io.FileNotFoundException;</div><div class="line">import java.io.FileOutputStream;</div><div class="line">import java.io.IOException;</div><div class="line">import java.io.ObjectInputStream;</div><div class="line">import java.io.ObjectOutputStream;</div><div class="line"></div><div class="line">/**</div><div class="line">* @author 作者 : coderlong</div><div class="line">* @version 创建时间：2018年1月12日 上午11:51:21</div><div class="line">* 类说明: </div><div class="line">*/</div><div class="line">public class TestTransient &#123;</div><div class="line"></div><div class="line">	public static void main(String[] args) throws FileNotFoundException, IOException &#123;</div><div class="line">		// TODO Auto-generated method stub</div><div class="line">		User user = new User();</div><div class="line">        user.setUsername(&quot;王雅珂&quot;);</div><div class="line">        user.setPasswd(&quot;123456&quot;);</div><div class="line"> </div><div class="line">        System.out.println(&quot;read before Serializable: &quot;);</div><div class="line">        System.out.println(&quot;username: &quot; + user.getUsername());</div><div class="line">        System.err.println(&quot;password: &quot; + user.getPasswd());</div><div class="line">        </div><div class="line">        ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(&quot;E:/Ehcache/user.txt&quot;));</div><div class="line">        os.writeObject(user); // 把user对象 序列化</div><div class="line">        os.flush();</div><div class="line">        os.close();</div><div class="line">        System.out.println(&quot;user对象已经序列化了&quot;);</div><div class="line">        ObjectInputStream in = new ObjectInputStream(new FileInputStream(&quot;E:/Ehcache/user.txt&quot;));</div><div class="line">        try &#123;</div><div class="line">			user = (User) in.readObject();</div><div class="line">		&#125; catch (ClassNotFoundException e) &#123;</div><div class="line">			// TODO Auto-generated catch block</div><div class="line">			e.printStackTrace();</div><div class="line">		&#125; // 从流中读取User的数据</div><div class="line">        </div><div class="line">        in.close();</div><div class="line"></div><div class="line">        System.out.println(&quot;\nread after Serializable: &quot;);</div><div class="line">        System.out.println(&quot;username: &quot; + user.getUsername());</div><div class="line">        System.err.println(&quot;password: &quot; + user.getPasswd());</div><div class="line">   </div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">read before Serializable: </div><div class="line">password: `123456`</div><div class="line">username: 王雅珂</div><div class="line">user对象已经序列化了</div><div class="line"></div><div class="line">read after Serializable: </div><div class="line">username: 王雅珂</div><div class="line">password: `null`</div></pre></td></tr></table></figure></p>
@@ -557,7 +558,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">116</span>
+                <span class="site-state-item-count">118</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -568,7 +569,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">24</span>
+                <span class="site-state-item-count">26</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -579,7 +580,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">51</span>
+                <span class="site-state-item-count">55</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

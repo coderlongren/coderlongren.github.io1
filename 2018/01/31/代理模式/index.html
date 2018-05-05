@@ -94,18 +94,18 @@
 
 
 
-<meta name="description" content="定义为其他对象提供一种代理以控制对这个对象的访问。在某些情况下，一个对象不适合或者不能直接引用另一个对象，而代理对象可以在客户端和目标对象之间起到中介的作用 角色 抽象角色 : 生命真实对象和代理对象的共同接口 代理角色 代理对象角色内部含有对真实对象的引用，从而可以操作真实对象，同时代理对象提 供与真实对象相同的接口以便在任何时刻都能代替真实对象。同时，代理对象可以在执行真实对象操作时，附加其他">
+<meta name="description" content="定义为其他对象提供一种代理以控制对这个对象的访问。在某些情况下，一个对象不适合或者不能直接引用另一个对象，而代理对象可以在客户端和目标对象之间起到中介的作用 角色 抽象角色 : 生命真实对象和代理对象的共同接口 代理角色 代理对象角色内部含有对真实对象的引用，从而可以操作真实对象，同时代理对象提 供与真实对象相同的接口以便在任何时刻都能代替真实对象。同时，代理对象可以在执行真实对象操作时，附加其">
 <meta name="keywords" content="代码重构,设计模式">
 <meta property="og:type" content="article">
 <meta property="og:title" content="代理模式">
 <meta property="og:url" content="https://coderlongren.github.io/2018/01/31/代理模式/index.html">
 <meta property="og:site_name" content="coderlong的博客">
-<meta property="og:description" content="定义为其他对象提供一种代理以控制对这个对象的访问。在某些情况下，一个对象不适合或者不能直接引用另一个对象，而代理对象可以在客户端和目标对象之间起到中介的作用 角色 抽象角色 : 生命真实对象和代理对象的共同接口 代理角色 代理对象角色内部含有对真实对象的引用，从而可以操作真实对象，同时代理对象提 供与真实对象相同的接口以便在任何时刻都能代替真实对象。同时，代理对象可以在执行真实对象操作时，附加其他">
+<meta property="og:description" content="定义为其他对象提供一种代理以控制对这个对象的访问。在某些情况下，一个对象不适合或者不能直接引用另一个对象，而代理对象可以在客户端和目标对象之间起到中介的作用 角色 抽象角色 : 生命真实对象和代理对象的共同接口 代理角色 代理对象角色内部含有对真实对象的引用，从而可以操作真实对象，同时代理对象提 供与真实对象相同的接口以便在任何时刻都能代替真实对象。同时，代理对象可以在执行真实对象操作时，附加其">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-04-07T14:07:58.390Z">
+<meta property="og:updated_time" content="2018-05-02T13:19:31.029Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="代理模式">
-<meta name="twitter:description" content="定义为其他对象提供一种代理以控制对这个对象的访问。在某些情况下，一个对象不适合或者不能直接引用另一个对象，而代理对象可以在客户端和目标对象之间起到中介的作用 角色 抽象角色 : 生命真实对象和代理对象的共同接口 代理角色 代理对象角色内部含有对真实对象的引用，从而可以操作真实对象，同时代理对象提 供与真实对象相同的接口以便在任何时刻都能代替真实对象。同时，代理对象可以在执行真实对象操作时，附加其他">
+<meta name="twitter:description" content="定义为其他对象提供一种代理以控制对这个对象的访问。在某些情况下，一个对象不适合或者不能直接引用另一个对象，而代理对象可以在客户端和目标对象之间起到中介的作用 角色 抽象角色 : 生命真实对象和代理对象的共同接口 代理角色 代理对象角色内部含有对真实对象的引用，从而可以操作真实对象，同时代理对象提 供与真实对象相同的接口以便在任何时刻都能代替真实对象。同时，代理对象可以在执行真实对象操作时，附加其">
 
 
 
@@ -395,7 +395,8 @@
       
 
       
-        <h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p>为其他对象提供一种代理以控制对这个对象的访问。在某些情况下，一个对象不适合或者不能直接引用另一个对象，而代理对象可以在客户端和目标对象之间起到中介的作用</p>
+        <a id="more"></a>
+<h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p>为其他对象提供一种代理以控制对这个对象的访问。在某些情况下，一个对象不适合或者不能直接引用另一个对象，而代理对象可以在客户端和目标对象之间起到中介的作用</p>
 <h2 id="角色"><a href="#角色" class="headerlink" title="角色"></a>角色</h2><ol>
 <li><em>抽象角色</em> : 生命真实对象和代理对象的共同接口</li>
 <li><em>代理角色</em> 代理对象角色内部含有对真实对象的引用，从而可以操作真实对象，同时代理对象提<br> 供与真实对象相同的接口以便在任何时刻都能代替真实对象。同时，代理对象可以在执行真实对象操作时，附加其他的操作，相当于对真实对象进行封装。</li>
@@ -587,7 +588,7 @@ CGlib动态代理是通过继承业务类，生成的动态代理类是业务类
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">116</span>
+                <span class="site-state-item-count">118</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -598,7 +599,7 @@ CGlib动态代理是通过继承业务类，生成的动态代理类是业务类
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">24</span>
+                <span class="site-state-item-count">26</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -609,7 +610,7 @@ CGlib动态代理是通过继承业务类，生成的动态代理类是业务类
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">51</span>
+                <span class="site-state-item-count">55</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

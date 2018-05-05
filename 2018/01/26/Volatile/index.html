@@ -94,18 +94,18 @@
 
 
 
-<meta name="description" content="操作系统语义计算机在运行程序时，每条指令都是在CPU中执行的，在执行过程中势必会涉及到数据的读写。我们知道程序运行的数据是存储在主存中，这时就会有一个问题，读写主存中的数据没有CPU中执行指令的速度快，如果任何的交互都需要与主存打交道则会大大影响效率，所以就有了CPU高速缓存。CPU高速缓存为某个CPU独有，只与在该CPU运行的线程有关。 有了CPU高速缓存虽然解决了效率问题，但是它会带来一个新的">
+<meta name="description" content="摘要： Volatile关键字解析">
 <meta name="keywords" content="concurrent">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Volatile关键字">
 <meta property="og:url" content="https://coderlongren.github.io/2018/01/26/Volatile/index.html">
 <meta property="og:site_name" content="coderlong的博客">
-<meta property="og:description" content="操作系统语义计算机在运行程序时，每条指令都是在CPU中执行的，在执行过程中势必会涉及到数据的读写。我们知道程序运行的数据是存储在主存中，这时就会有一个问题，读写主存中的数据没有CPU中执行指令的速度快，如果任何的交互都需要与主存打交道则会大大影响效率，所以就有了CPU高速缓存。CPU高速缓存为某个CPU独有，只与在该CPU运行的线程有关。 有了CPU高速缓存虽然解决了效率问题，但是它会带来一个新的">
+<meta property="og:description" content="摘要： Volatile关键字解析">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-04-06T12:07:24.592Z">
+<meta property="og:updated_time" content="2018-05-04T13:20:58.119Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Volatile关键字">
-<meta name="twitter:description" content="操作系统语义计算机在运行程序时，每条指令都是在CPU中执行的，在执行过程中势必会涉及到数据的读写。我们知道程序运行的数据是存储在主存中，这时就会有一个问题，读写主存中的数据没有CPU中执行指令的速度快，如果任何的交互都需要与主存打交道则会大大影响效率，所以就有了CPU高速缓存。CPU高速缓存为某个CPU独有，只与在该CPU运行的线程有关。 有了CPU高速缓存虽然解决了效率问题，但是它会带来一个新的">
+<meta name="twitter:description" content="摘要： Volatile关键字解析">
 
 
 
@@ -395,7 +395,8 @@
       
 
       
-        <h2 id="操作系统语义"><a href="#操作系统语义" class="headerlink" title="操作系统语义"></a>操作系统语义</h2><p>计算机在运行程序时，每条指令都是在CPU中执行的，在执行过程中势必会涉及到数据的读写。我们知道程序运行的数据是存储在主存中，这时就会有一个问题，读写主存中的数据没有CPU中执行指令的速度快，如果任何的交互都需要与主存打交道则会大大影响效率，所以就有了CPU高速缓存。CPU高速缓存为某个CPU独有，只与在该CPU运行的线程有关。</p>
+        <p>摘要： Volatile关键字解析<br><a id="more"></a></p>
+<h2 id="操作系统语义"><a href="#操作系统语义" class="headerlink" title="操作系统语义"></a>操作系统语义</h2><p>计算机在运行程序时，每条指令都是在CPU中执行的，在执行过程中势必会涉及到数据的读写。我们知道程序运行的数据是存储在主存中，这时就会有一个问题，读写主存中的数据没有CPU中执行指令的速度快，如果任何的交互都需要与主存打交道则会大大影响效率，所以就有了CPU高速缓存。CPU高速缓存为某个CPU独有，只与在该CPU运行的线程有关。</p>
 <p>有了CPU高速缓存虽然解决了效率问题，但是它会带来一个新的问题：数据一致性。在程序运行中，会将运行所需要的数据复制一份到CPU高速缓存中，在进行运算时CPU不再也主存打交道，而是直接从高速缓存中读写数据，只有当运行结束后才会将数据刷新到主存中。<br>两个线程从主存中读取i的值（1）到各自的高速缓存中，然后线程A执行+1操作并将结果写入高速缓存中，最后写入主存中，此时主存i==2,线程B做同样的操作，主存中的i仍然=2。所以最终结果为2并不是3。这种现象就是缓存一致性问题。<br>解决缓存一致性方案有两种：</p>
 <ol>
 <li>通过在总线加LOCK#锁的方式</li>
@@ -555,7 +556,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">116</span>
+                <span class="site-state-item-count">118</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -566,7 +567,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">24</span>
+                <span class="site-state-item-count">26</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -577,7 +578,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">51</span>
+                <span class="site-state-item-count">55</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

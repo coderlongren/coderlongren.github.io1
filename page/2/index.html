@@ -303,6 +303,485 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/04/05/硬币组合/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sailong Ren">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="coderlong的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/04/05/硬币组合/" itemprop="url">硬币组合</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-05T10:12:40+08:00">
+                2018-04-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/algorithm/" itemprop="url" rel="index">
+                    <span itemprop="name">algorithm</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>摘要：硬币组合问题<br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/04/05/硬币组合/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/04/04/leetcode300_Logest_increasing_Subswquences/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sailong Ren">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="coderlong的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/04/04/leetcode300_Logest_increasing_Subswquences/" itemprop="url">leetcode300. Longest Increasing Subsequence</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-04T22:18:40+08:00">
+                2018-04-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/algorithm/" itemprop="url" rel="index">
+                    <span itemprop="name">algorithm</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>Given an unsorted array of integers, find the length of longest increasing subsequence.</p>
+<p><em>For example</em>,<br>Given <code>[10, 9, 2, 5, 3, 7, 101, 18]</code>,<br>The longest increasing subsequence is <code>[2, 3, 7, 101]</code>, therefore the length is 4. Note that there may be more than one LIS combination, it is only necessary for you to return the length.</p>
+<p>Your algorithm should run in O(n2) complexity.</p>
+<p><em>Follow up</em>: Could you improve it to O(n log n) time complexity?<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 如果只是，求连续的递增子序列，下面的DP函数，就可以求出</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">lengthOfLIS</span><span class="params">(<span class="keyword">int</span>[] nums)</span> </span>&#123;</div><div class="line">	<span class="keyword">if</span> (nums == <span class="keyword">null</span> || nums.length == <span class="number">0</span>) &#123;</div><div class="line">		<span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">if</span> (nums.length == <span class="number">1</span>) &#123;</div><div class="line">		<span class="keyword">return</span> <span class="number">1</span>;</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">int</span>[] dp = <span class="keyword">new</span> <span class="keyword">int</span>[nums.length  + <span class="number">1</span>];</div><div class="line">	dp[<span class="number">0</span>] = <span class="number">1</span>;</div><div class="line">	<span class="keyword">int</span> res = Integer.MIN_VALUE;</div><div class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; nums.length; i++) &#123;</div><div class="line">		dp[i] = nums[i] &gt; nums[i - <span class="number">1</span>] ? dp[i - <span class="number">1</span>] + <span class="number">1</span> : <span class="number">1</span>;</div><div class="line">		res = Math.max(res, dp[i]);</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">return</span> res;</div><div class="line"> &#125;</div></pre></td></tr></table></figure></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 非连续的递增子序列, 控制在O(n^2)</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">lengthOfLIS2</span><span class="params">(<span class="keyword">int</span>[] nums)</span> </span>&#123;</div><div class="line">	<span class="keyword">if</span> (nums == <span class="keyword">null</span> || nums.length == <span class="number">0</span>) &#123;</div><div class="line">		<span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">if</span> (nums.length == <span class="number">1</span>) &#123;</div><div class="line">		<span class="keyword">return</span> <span class="number">1</span>;</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">int</span>[] dp = <span class="keyword">new</span> <span class="keyword">int</span>[nums.length  + <span class="number">1</span>];</div><div class="line">	dp[<span class="number">0</span>] = <span class="number">1</span>;</div><div class="line">	<span class="keyword">int</span> res = Integer.MIN_VALUE;</div><div class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; nums.length; i++) &#123;</div><div class="line">		<span class="keyword">int</span> temp = Integer.MIN_VALUE;</div><div class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; i; j++) &#123;</div><div class="line">			<span class="keyword">if</span> (nums[i] &gt; nums[j]) &#123;</div><div class="line">				temp = Math.max(temp, dp[j]);</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">		dp[i] = temp == Integer.MIN_VALUE ? <span class="number">1</span> : temp + <span class="number">1</span>;</div><div class="line">		res = Math.max(res, dp[i]);</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">return</span> res;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/04/03/Java并发四大组件/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sailong Ren">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="coderlong的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/04/03/Java并发四大组件/" itemprop="url">JUC的四大组件</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-03T21:18:40+08:00">
+                2018-04-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JUC/" itemprop="url" rel="index">
+                    <span itemprop="name">JUC</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="CyclicBarrier"><a href="#CyclicBarrier" class="headerlink" title="CyclicBarrier"></a>CyclicBarrier</h1><p>它允许一组线程互相等待，直到到达某个公共屏障点 (common barrier point)。在涉及一组固定大小的线程的程序中，这些线程必须不时地互相等待，此时 CyclicBarrier 很有用。因为该 barrier 在释放等待线程后可以重用，所以称它为循环 的 barrier。<br>提供了两个构造：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"> <span class="function"><span class="keyword">public</span> <span class="title">CyclicBarrier</span><span class="params">(<span class="keyword">int</span> parties)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>(parties, <span class="keyword">null</span>);</div><div class="line">    &#125;</div><div class="line"> ``` </div><div class="line"><span class="number">1</span>. CyclicBarrier(<span class="keyword">int</span> parties)：创建一个新的 CyclicBarrier，它将在给定数量的参与者（线程）处于等待状态时启动，但它不会在启动 barrier 时执行预定义的操作。</div><div class="line">```java</div><div class="line"> <span class="function"><span class="keyword">public</span> <span class="title">CyclicBarrier</span><span class="params">(<span class="keyword">int</span> parties, Runnable barrierAction)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (parties &lt;= <span class="number">0</span>) <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException();</div><div class="line">        <span class="keyword">this</span>.parties = parties;</div><div class="line">        <span class="keyword">this</span>.count = parties;</div><div class="line">        <span class="keyword">this</span>.barrierCommand = barrierAction;</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
+<ol>
+<li>CyclicBarrier(int parties, Runnable barrierAction) ：创建一个新的 CyclicBarrier，它将在给定数量的参与者（线程）处于等待状态时启动，并在启动 barrier 时执行给定的屏障操作，该操作由最后一个进入 barrier 的线程执行。</li>
+</ol>
+<h3 id="await"><a href="#await" class="headerlink" title="await()"></a>await()</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">await</span><span class="params">()</span> <span class="keyword">throws</span> InterruptedException, BrokenBarrierException </span>&#123;</div><div class="line">    <span class="keyword">try</span> &#123;</div><div class="line">        <span class="keyword">return</span> dowait(<span class="keyword">false</span>, <span class="number">0L</span>);</div><div class="line">    &#125; <span class="keyword">catch</span> (TimeoutException toe) &#123;</div><div class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> Error(toe); <span class="comment">// cannot happen</span></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>内部调用 dowait()<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">dowait</span><span class="params">(<span class="keyword">boolean</span> timed, <span class="keyword">long</span> nanos)</span></span></div><div class="line"><span class="function">            <span class="keyword">throws</span> InterruptedException, BrokenBarrierException,</span></div><div class="line"><span class="function">            TimeoutException </span>&#123;</div><div class="line">        <span class="comment">//获取锁</span></div><div class="line">        <span class="keyword">final</span> ReentrantLock lock = <span class="keyword">this</span>.lock;</div><div class="line">        lock.lock();</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            <span class="comment">//分代</span></div><div class="line">            <span class="keyword">final</span> Generation g = generation;</div><div class="line"></div><div class="line">            <span class="comment">//当前generation“已损坏”，抛出BrokenBarrierException异常</span></div><div class="line">            <span class="comment">//抛出该异常一般都是某个线程在等待某个处于“断开”状态的CyclicBarrie</span></div><div class="line">            <span class="keyword">if</span> (g.broken)</div><div class="line">                <span class="comment">//当某个线程试图等待处于断开状态的 barrier 时，或者 barrier 进入断开状态而线程处于等待状态时，抛出该异常</span></div><div class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> BrokenBarrierException();</div><div class="line"></div><div class="line">            <span class="comment">//如果线程中断，终止CyclicBarrier</span></div><div class="line">            <span class="keyword">if</span> (Thread.interrupted()) &#123;</div><div class="line">                breakBarrier();</div><div class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> InterruptedException();</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            <span class="comment">//进来一个线程 count - 1</span></div><div class="line">            <span class="keyword">int</span> index = --count;</div><div class="line">            <span class="comment">//count == 0 表示所有线程均已到位，触发Runnable任务</span></div><div class="line">            <span class="keyword">if</span> (index == <span class="number">0</span>) &#123;  <span class="comment">// tripped</span></div><div class="line">                <span class="keyword">boolean</span> ranAction = <span class="keyword">false</span>;</div><div class="line">                <span class="keyword">try</span> &#123;</div><div class="line">                    <span class="keyword">final</span> Runnable command = barrierCommand;</div><div class="line">                    <span class="comment">//触发任务</span></div><div class="line">                    <span class="keyword">if</span> (command != <span class="keyword">null</span>)</div><div class="line">                        command.run();</div><div class="line">                    ranAction = <span class="keyword">true</span>;</div><div class="line">                    <span class="comment">//唤醒所有等待线程，并更新generation</span></div><div class="line">                    nextGeneration();</div><div class="line">                    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">                &#125; <span class="keyword">finally</span> &#123;</div><div class="line">                    <span class="keyword">if</span> (!ranAction)</div><div class="line">                        breakBarrier();</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line"></div><div class="line"></div><div class="line">            <span class="keyword">for</span> (;;) &#123;</div><div class="line">                <span class="keyword">try</span> &#123;</div><div class="line">                    <span class="comment">//如果不是超时等待，则调用Condition.await()方法等待</span></div><div class="line">                    <span class="keyword">if</span> (!timed)</div><div class="line">                        trip.await();</div><div class="line">                    <span class="keyword">else</span> <span class="keyword">if</span> (nanos &gt; <span class="number">0L</span>)</div><div class="line">                        <span class="comment">//超时等待，调用Condition.awaitNanos()方法等待</span></div><div class="line">                        nanos = trip.awaitNanos(nanos);</div><div class="line">                &#125; <span class="keyword">catch</span> (InterruptedException ie) &#123;</div><div class="line">                    <span class="keyword">if</span> (g == generation &amp;&amp; ! g.broken) &#123;</div><div class="line">                        breakBarrier();</div><div class="line">                        <span class="keyword">throw</span> ie;</div><div class="line">                    &#125; <span class="keyword">else</span> &#123;</div><div class="line">                        <span class="comment">// We're about to finish waiting even if we had not</span></div><div class="line">                        <span class="comment">// been interrupted, so this interrupt is deemed to</span></div><div class="line">                        <span class="comment">// "belong" to subsequent execution.</span></div><div class="line">                        Thread.currentThread().interrupt();</div><div class="line">                    &#125;</div><div class="line">                &#125;</div><div class="line"></div><div class="line">                <span class="keyword">if</span> (g.broken)</div><div class="line">                    <span class="keyword">throw</span> <span class="keyword">new</span> BrokenBarrierException();</div><div class="line"></div><div class="line">                <span class="comment">//generation已经更新，返回index</span></div><div class="line">                <span class="keyword">if</span> (g != generation)</div><div class="line">                    <span class="keyword">return</span> index;</div><div class="line"></div><div class="line">                <span class="comment">//“超时等待”，并且时间已到,终止CyclicBarrier，并抛出异常</span></div><div class="line">                <span class="keyword">if</span> (timed &amp;&amp; nanos &lt;= <span class="number">0L</span>) &#123;</div><div class="line">                    breakBarrier();</div><div class="line">                    <span class="keyword">throw</span> <span class="keyword">new</span> TimeoutException();</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125; <span class="keyword">finally</span> &#123;</div><div class="line">            <span class="comment">//释放锁</span></div><div class="line">            lock.unlock();</div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
+<p>这里的await() 主要逻辑就是,如果次线程不是最后到达的，就处于等待状态：  </p>
+<ol>
+<li>最后一个线程到达时候，index = 0;  </li>
+<li>超时；</li>
+<li>其他的某个线程中断当前线程</li>
+<li>其他的某个线程中断另一个等待的线程</li>
+<li>其他的某个线程在等待barrier超时</li>
+<li>其他的某个线程在此barrier调用reset()方法。reset() 方法用于将屏障重置为初始状态。</li>
+</ol>
+<p>在CyclicBarrier中，同一批线程属于同一代。当有parties个线程到达barrier，generation就会被更新换代。其中broken标识该当前CyclicBarrier是否已经处于中断状态。<br>示例代码，开会协议：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> java.util.concurrent.CyclicBarrier;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"><span class="comment">* <span class="doctag">@author</span> 作者 : coderlong</span></div><div class="line"><span class="comment">* <span class="doctag">@version</span> 创建时间：2018年4月1日 下午10:06:51</span></div><div class="line"><span class="comment">* 类说明: </span></div><div class="line"><span class="comment">*/</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CyclicbarrierTest</span> </span>&#123;</div><div class="line">	<span class="keyword">private</span> <span class="keyword">static</span> CyclicBarrier cyclicBarrier;</div><div class="line">	<span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">CyclicBarrierThread</span> <span class="keyword">extends</span> <span class="title">Thread</span> </span>&#123;</div><div class="line">		<span class="meta">@Override</span></div><div class="line">		<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">			<span class="comment">// TODO Auto-generated method stub</span></div><div class="line">			System.out.println(<span class="string">"一个成员到达"</span>);</div><div class="line">			<span class="keyword">try</span> &#123;</div><div class="line">				cyclicBarrier.await(); <span class="comment">// 等待</span></div><div class="line">			&#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">				<span class="comment">// <span class="doctag">TODO:</span> handle exception</span></div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		<span class="comment">// TODO Auto-generated method stub</span></div><div class="line">		cyclicBarrier = <span class="keyword">new</span> CyclicBarrier(<span class="number">10</span>, <span class="keyword">new</span> Runnable() &#123;</div><div class="line">			</div><div class="line">			<span class="meta">@Override</span></div><div class="line">			<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">				<span class="comment">// TODO Auto-generated method stub</span></div><div class="line">				System.out.println(<span class="string">"人都到齐了，开会！"</span>);</div><div class="line">			&#125;</div><div class="line">		&#125;);</div><div class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;</div><div class="line">			<span class="keyword">new</span> CyclicBarrierThread().start();</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<pre><code>一个成员到达
+一个成员到达
+一个成员到达
+一个成员到达
+一个成员到达
+一个成员到达
+一个成员到达
+一个成员到达
+一个成员到达
+一个成员到达
+人都到齐了，开会！
+</code></pre><h1 id="CountDownLatch"><a href="#CountDownLatch" class="headerlink" title="CountDownLatch"></a>CountDownLatch</h1><p>CountDownLatch所描述的是”在完成一组正在其他线程中执行的操作之前，它允许一个或多个线程一直等待“。<br>教科书–》用给定的计数 初始化 CountDownLatch。由于调用了 countDown() 方法，所以在当前计数到达零之前，await 方法会一直受阻塞。之后，会释放所有等待的线程，await 的所有后续调用都将立即返回。这种现象只出现一次——计数无法被重置。如果需要重置计数，请考虑使用 CyclicBarrier。 </p>
+<h2 id="gouzaofangfa"><a href="#gouzaofangfa" class="headerlink" title="gouzaofangfa"></a>gouzaofangfa</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="title">CountDownLatch</span><span class="params">(<span class="keyword">int</span> count)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (count &lt; <span class="number">0</span>) <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"count &lt; 0"</span>);</div><div class="line">        <span class="keyword">this</span>.sync = <span class="keyword">new</span> Sync(count);</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>此处的sync就是前面说过那个鼎鼎大名的AQS同步器，所以学好AQS还是很有必要的。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">Sync</span> <span class="keyword">extends</span> <span class="title">AbstractQueuedSynchronizer</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">long</span> serialVersionUID = <span class="number">4982264981922014374L</span>;</div><div class="line"></div><div class="line">    Sync(<span class="keyword">int</span> count) &#123;</div><div class="line">        setState(count);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">//获取同步状态</span></div><div class="line">    <span class="function"><span class="keyword">int</span> <span class="title">getCount</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> getState();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">//获取同步状态</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">int</span> <span class="title">tryAcquireShared</span><span class="params">(<span class="keyword">int</span> acquires)</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> (getState() == <span class="number">0</span>) ? <span class="number">1</span> : -<span class="number">1</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">//释放同步状态</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">boolean</span> <span class="title">tryReleaseShared</span><span class="params">(<span class="keyword">int</span> releases)</span> </span>&#123;</div><div class="line">        <span class="keyword">for</span> (;;) &#123;</div><div class="line">            <span class="keyword">int</span> c = getState();</div><div class="line">            <span class="keyword">if</span> (c == <span class="number">0</span>)</div><div class="line">                <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">            <span class="keyword">int</span> nextc = c-<span class="number">1</span>;</div><div class="line">            <span class="keyword">if</span> (compareAndSetState(c, nextc))</div><div class="line">                <span class="keyword">return</span> nextc == <span class="number">0</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>await()方法，使当前线程在计数器至0之前，一直等待，除非发生中断<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">await</span><span class="params">()</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</div><div class="line">    sync.acquireSharedInterruptibly(<span class="number">1</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>内部调用sync的acquireSharedInterruptibly(int arg)<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">acquireSharedInterruptibly</span><span class="params">(<span class="keyword">int</span> arg)</span></span></div><div class="line"><span class="function">            <span class="keyword">throws</span> InterruptedException </span>&#123;</div><div class="line">        <span class="keyword">if</span> (Thread.interrupted())</div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> InterruptedException();</div><div class="line">        <span class="keyword">if</span> (tryAcquireShared(arg) &lt; <span class="number">0</span>)</div><div class="line">            doAcquireSharedInterruptibly(arg);</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
+<p>sync重写了tryAcquireShared(int arg)<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">int</span> <span class="title">tryAcquireShared</span><span class="params">(<span class="keyword">int</span> acquires)</span> </span>&#123;</div><div class="line">    <span class="keyword">return</span> (getState() == <span class="number">0</span>) ? <span class="number">1</span> : -<span class="number">1</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>CAS方法getState()获取同步状态，如果计数器值不等于0，则会调用doAcquireSharedInterruptibly(int arg)，该方法为一个自旋方法会尝试一直去获取同步状态<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">doAcquireSharedInterruptibly</span><span class="params">(<span class="keyword">int</span> arg)</span></span></div><div class="line"><span class="function">        <span class="keyword">throws</span> InterruptedException </span>&#123;</div><div class="line">    <span class="keyword">final</span> Node node = addWaiter(Node.SHARED);</div><div class="line">    <span class="keyword">boolean</span> failed = <span class="keyword">true</span>;</div><div class="line">    <span class="keyword">try</span> &#123;</div><div class="line">        <span class="keyword">for</span> (;;) &#123;</div><div class="line">            <span class="keyword">final</span> Node p = node.predecessor();</div><div class="line">            <span class="keyword">if</span> (p == head) &#123;</div><div class="line">                <span class="comment">/**</span></div><div class="line"><span class="comment">                 * 对于CountDownLatch而言，如果计数器值不等于0，那么r 会一直小于0</span></div><div class="line"><span class="comment">                 */</span></div><div class="line">                <span class="keyword">int</span> r = tryAcquireShared(arg);</div><div class="line">                <span class="keyword">if</span> (r &gt;= <span class="number">0</span>) &#123;</div><div class="line">                    setHeadAndPropagate(node, r);</div><div class="line">                    p.next = <span class="keyword">null</span>; <span class="comment">// help GC</span></div><div class="line">                    failed = <span class="keyword">false</span>;</div><div class="line">                    <span class="keyword">return</span>;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">            <span class="comment">//等待</span></div><div class="line">            <span class="keyword">if</span> (shouldParkAfterFailedAcquire(p, node) &amp;&amp;</div><div class="line">                    parkAndCheckInterrupt())</div><div class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> InterruptedException();</div><div class="line">        &#125;</div><div class="line">    &#125; <span class="keyword">finally</span> &#123;</div><div class="line">        <span class="keyword">if</span> (failed)</div><div class="line">            cancelAcquire(node);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="countDown"><a href="#countDown" class="headerlink" title="countDown()"></a>countDown()</h3><p>CountDownLatch提供countDown() 方法递减锁存器的计数，如果计数到达零，则释放所有等待的线程。</p>
+<h3 id="示例代码，开会"><a href="#示例代码，开会" class="headerlink" title="示例代码，开会"></a>示例代码，开会</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> java.util.concurrent.CountDownLatch;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"><span class="comment">* <span class="doctag">@author</span> 作者 : coderlong</span></div><div class="line"><span class="comment">* <span class="doctag">@version</span> 创建时间：2018年4月1日 下午10:26:19</span></div><div class="line"><span class="comment">* 类说明: </span></div><div class="line"><span class="comment">*/</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CountDownLatchTest</span> </span>&#123;</div><div class="line">	<span class="keyword">private</span> <span class="keyword">static</span> CountDownLatch countDownLatch;</div><div class="line">	</div><div class="line">	<span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Bossthread</span> <span class="keyword">extends</span> <span class="title">Thread</span> </span>&#123;</div><div class="line">		<span class="meta">@Override</span></div><div class="line">		<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">			<span class="comment">// TODO Auto-generated method stub</span></div><div class="line">			System.out.println(<span class="string">"老板在等待，本次会议需要"</span> + countDownLatch.getCount() + <span class="string">"位员工"</span>);</div><div class="line">			<span class="keyword">try</span> &#123;</div><div class="line">				countDownLatch.await();</div><div class="line">			&#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">				<span class="comment">// <span class="doctag">TODO:</span> handle exception</span></div><div class="line">			&#125;</div><div class="line">			System.out.println(<span class="string">"所有员工到达，开始开会"</span>);</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	<span class="comment">//员工到达会议室</span></div><div class="line">    <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">EmpleoyeeThread</span>  <span class="keyword">extends</span> <span class="title">Thread</span></span>&#123;</div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">            System.out.println(Thread.currentThread().getName() + <span class="string">"，到达会议室...."</span>);</div><div class="line">            <span class="comment">//员工到达会议室 count - 1</span></div><div class="line">            countDownLatch.countDown();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    </div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		<span class="comment">// TODO Auto-generated method stub</span></div><div class="line">		countDownLatch = <span class="keyword">new</span> CountDownLatch(<span class="number">5</span>);</div><div class="line">		<span class="keyword">new</span> Bossthread().start();</div><div class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">5</span>; i++) &#123;</div><div class="line">			<span class="keyword">new</span> EmpleoyeeThread().start();</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h1 id="Semaphore"><a href="#Semaphore" class="headerlink" title="Semaphore"></a>Semaphore</h1><p>信号量Semaphore是一个控制访问多个共享资源的计数器，和CountDownLatch一样，其本质上是一个“共享锁”。<br>Semaphore提供了两个构造函数：</p>
+<ol>
+<li>Semaphore(int permits) ：创建具有给定的许可数和非公平的公平设置的 Semaphore。</li>
+<li>Semaphore(int permits, boolean fair) ：创建具有给定的许可数和给定的公平设置的 Semaphore。<br>所以内部的sync有公平和非公平之分<br>当然 Semaphore默认选择非公平锁。绝大时候Java默认都是非公平<br>当信号量Semaphore = 1 时，它可以当作互斥锁使用。<br>信号量的获取  </li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">acquire</span><span class="params">()</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</div><div class="line">        sync.acquireSharedInterruptibly(<span class="number">1</span>);</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>调用AQS的acquireSharedInterruptibly(int arg)，该方法以共享模式获取同步状态：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">acquireSharedInterruptibly</span><span class="params">(<span class="keyword">int</span> arg)</span></span></div><div class="line"><span class="function">            <span class="keyword">throws</span> InterruptedException </span>&#123;</div><div class="line">        <span class="keyword">if</span> (Thread.interrupted())</div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> InterruptedException();</div><div class="line">        <span class="keyword">if</span> (tryAcquireShared(arg) &lt; <span class="number">0</span>)</div><div class="line">            doAcquireSharedInterruptibly(arg);</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
+<p>上面的这个方法一般都是交付给子类来完成的,而且分公平，非公平之说:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">int</span> <span class="title">tryAcquireShared</span><span class="params">(<span class="keyword">int</span> acquires)</span> </span>&#123;</div><div class="line">    <span class="keyword">for</span> (;;) &#123;</div><div class="line">        <span class="comment">//判断该线程是否位于CLH队列的列头</span></div><div class="line">        <span class="keyword">if</span> (hasQueuedPredecessors())</div><div class="line">            <span class="keyword">return</span> -<span class="number">1</span>;</div><div class="line">        <span class="comment">//获取当前的信号量许可</span></div><div class="line">        <span class="keyword">int</span> available = getState();</div><div class="line"></div><div class="line">        <span class="comment">//设置“获得acquires个信号量许可之后，剩余的信号量许可数”</span></div><div class="line">        <span class="keyword">int</span> remaining = available - acquires;</div><div class="line"></div><div class="line">        <span class="comment">//CAS设置信号量</span></div><div class="line">        <span class="keyword">if</span> (remaining &lt; <span class="number">0</span> ||</div><div class="line">                compareAndSetState(available, remaining))</div><div class="line">            <span class="keyword">return</span> remaining;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>非公平<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">final</span> <span class="keyword">int</span> <span class="title">nonfairTryAcquireShared</span><span class="params">(<span class="keyword">int</span> acquires)</span> </span>&#123;</div><div class="line">    <span class="keyword">for</span> (;;) &#123;</div><div class="line">        <span class="keyword">int</span> available = getState();</div><div class="line">        <span class="keyword">int</span> remaining = available - acquires;</div><div class="line">        <span class="keyword">if</span> (remaining &lt; <span class="number">0</span> ||</div><div class="line">            compareAndSetState(available, remaining))</div><div class="line">            <span class="keyword">return</span> remaining;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>用完之后释放就OK了。当然还是交给了内部的AQS来实现的</p>
+<h1 id="Exchanger"><a href="#Exchanger" class="headerlink" title="Exchanger"></a>Exchanger</h1><p>好吧，这个我并不是很懂。<br>API这样说：<br>可以在对中对元素进行配对和交换的线程的同步点。每个线程将条目上的某个方法呈现给 exchange 方法，与伙伴线程进行匹配，并且在返回时接收其伙伴的对象。Exchanger 可能被视为 SynchronousQueue 的双向形式。Exchanger 可能在应用程序（比如遗传算法和管道设计）中很有用。原谅我的算法渣渣，什么遗传算法，也只是听说过而已，从未动手写过。<br>可以去看<a href="http://brokendreams.iteye.com/blog/2253956" target="_blank" rel="external">这位大神的分析</a>。<br>四大组件，就到这里吧，杀死我N个脑细胞，不过使用JUC自带的并发结构，好处多多，自己体会吧。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/04/03/explain/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -395,59 +874,14 @@
 
       
         
-          
-            <p>看完《高性能MySQL》这本书之后，终于敢在自己的简历上写上一行”熟悉MySQL数据库，能够进行基本的调优工作”，不过MySQL对Web开发人员来说的确的是很重要的。<br>你说你会基本的调优，那么咱们先来分析一下最基本的SQL语句的调优工作吧？<br><code>explain</code>就这个时候闪亮登场了。<br>用法嘛，看一遍就记住了。<br><code>explain + select * from table_name where ........</code><br><img src="https://images2015.cnblogs.com/blog/763020/201604/763020-20160417142105895-121211600.png" alt="mysql"></p>
-<ul>
-<li>id: SELECT 查询的标识符. 每个 SELECT 都会自动分配一个唯一的标识符.</li>
-<li>select_type: SELECT 查询的类型.</li>
-<li>table: 查询的是哪个表</li>
-<li>partitions: 匹配的分区</li>
-<li>type: join 类型</li>
-<li>possible_keys: 此次查询中可能选用的索引</li>
-<li>key: 此次查询中确切使用到的索引.</li>
-<li>ref: 哪个字段或常数与 key 一起被使用</li>
-<li>rows: 显示此查询一共扫描了多少行. 这个是一个估计值.</li>
-<li>filtered: 表示此查询条件所过滤的数据的百分比</li>
-<li>extra: 额外的信息</li>
-</ul>
-<h2 id="id"><a href="#id" class="headerlink" title="id"></a>id</h2><p>id列数字越大越先执行，如果说数字一样大，那么就从上往下依次执行.</p>
-<h2 id="select-type字段-常见的就是-simple-primary"><a href="#select-type字段-常见的就是-simple-primary" class="headerlink" title="select_type字段,常见的就是 simple primary,"></a>select_type字段,常见的就是 simple primary,</h2><p>A：simple：表示不需要union操作或者不包含子查询的简单select查询。有连接查询时，外层的查询为simple，且只有一个<br>B：primary：一个需要union操作或者含有子查询的select，位于最外层的单位查询的select_type即为primary。且只有一个<br>C：union：union连接的两个select查询，第一个查询是dervied派生表，除了第一个表外，第二个以后的表select_type都是union<br>D：dependent union：与union一样，出现在union 或union all语句中，但是这个查询要受到外部查询的影响<br>E：union result：包含union的结果集，在union和union all语句中,因为它不需要参与查询，所以id字段为null<br>F：subquery：除了from字句中包含的子查询外，其他地方出现的子查询都可能是subquery<br>G：dependent subquery：与dependent union类似，表示这个subquery的查询要受到外部表查询的影响<br>H：derived：from字句中出现的子查询，也叫做派生表，其他数据库中可能叫做内联视图或嵌套select</p>
-<h2 id="table字段"><a href="#table字段" class="headerlink" title="table字段"></a>table字段</h2><p>大家一看就懂，从哪个表查的。</p>
-<h2 id="type-重要字段"><a href="#type-重要字段" class="headerlink" title="type  重要字段`"></a>type  重要字段`</h2><p>指的联合查询使用的类型  </p>
-<ol>
-<li>system：表中只有一行数据或者是空表，且只能用于myisam索引和memory索引表。如果是Innodb引擎表，type列在这个情况通常都是all或者index</li>
-<li>const：使用唯一索引或者主键，返回记录一定是1行记录的等值where条件时，通常type是const。</li>
-<li>eq_ref：出现在要连接过个表的查询计划中，驱动表只返回一行数据，且这行数据是第二个表的主键或者唯一索引，且必须为not null，唯一索引和主键是多列时，只有所有的列都用作比较时才会出现eq_ref</li>
-<li>ref：不像eq_ref那样要求连接顺序，也没有主键和唯一索引的要求，只要使用相等条件检索时就可能出现。</li>
-<li>fulltext：全文索引检索，全文索引的优先级很高，若全文索引和普通索引同时存在时，mysql不管代价，优先选择使用全文索引</li>
-<li>ref_or_null：与ref方法类似，只是增加了null值的比较。实际用的不多。</li>
-<li>unique_subquery：用于where中的in形式子查询，子查询返回不重复值唯一值</li>
-<li>index_subquery：用于in形式子查询使用到了辅助索引或者in常数列表，子查询可能返回重复值，可以使用索引将子查询去重。</li>
-<li>range：索引范围扫描，常见于使用&gt;,&lt;,is null,between ,in ,like等运算符的查询中。<br><code>--------------------&gt;&gt;&gt;华丽的分界线，type到达这里就可以了</code></li>
-<li>index_merge：表示查询使用了两个以上的索引，最后取交集或者并集，常见and ，or的条件使用了不同的索引，官方排序这个在ref_or_null之后，但是实际上由于要读取所个索引，性能可能大部分时间都不如range</li>
-<li>index：索引全表扫描，把索引从头到尾扫一遍，常见于使用索引列就可以处理不需要读取数据文件的查询、可以使用索引排序或者分组的查询。</li>
-<li>all：这个就是全表扫描数据文件，然后再在server层进行过滤返回符合要求的记录。最坏的情况。</li>
-</ol>
-<p><code>system &gt; const &gt; eq_ref &gt; ref &gt; fulltext &gt; ref_or_null &gt; index_merge &gt; unique_subquery &gt; index_subquery &gt; range &gt; index &gt; ALL
-一般来说，得保证查询至少达到range级别，最好能达到ref。</code></p>
-<h2 id="possible-keys"><a href="#possible-keys" class="headerlink" title="possible_keys"></a>possible_keys</h2><p>可能用到的索引</p>
-<h2 id="key"><a href="#key" class="headerlink" title="key"></a>key</h2><p>查询真正使用到的索引</p>
-<h2 id="key-len"><a href="#key-len" class="headerlink" title="key_len"></a>key_len</h2><p>用于处理查询的索引长度，如果是单列索引，那就整个索引长度算进去，如果是多列索引，那么查询不一定都能使用到所有的列，具体使用到了多少个列的索引，这里就会计算进去，没有使用到的列，这里不会计算进去。</p>
-<h2 id="ref"><a href="#ref" class="headerlink" title="ref"></a>ref</h2><p>如果是使用的常数等值查询，这里会显示const，如果是连接查询，被驱动表的执行计划这里会显示驱动表的关联字段，如果是条件使用了表达式或者函数，或者条件列发生了内部隐式转换，这里可能显示为func</p>
-<h2 id="rows"><a href="#rows" class="headerlink" title="rows"></a>rows</h2><p>执行查询估计的扫描行数，非精确</p>
-<h2 id="Extra"><a href="#Extra" class="headerlink" title="Extra"></a>Extra</h2><p>using where<br>using idex  </p>
-<p>再来一点优化方案的小例子。<br>add index idx_ABC on (a,b,c);<br>where a = 3 | 只用到了 a<br>where a = 3 and b = 5 | 只用到了 a,b<br>where a = 3 and b = 5 and c = 6| 用到了 a,b,c<br>where a = 3 od b = 5 od c = 6| 用不到索引<br>b line ‘kk%’ 可以用到<br>b line ‘%kk’ 用不到, 左值匹配  </p>
-<h3 id="EXIT-And-In的比较使用"><a href="#EXIT-And-In的比较使用" class="headerlink" title="EXIT And In的比较使用"></a>EXIT And In的比较使用</h3><p>in 是把外表和内表作hash 连接，而exists是对外表作loop循环，每次loop循环再对内表进行查询。<br>如果两张表的大小是差不多的，那么in 和 exit的效率的确是差不多的，可是如果是一个小表和一个大表关联查询的话，<br>select <em> from A where id in (select id from B)<br>应该尽可能的让B表比A表小，这样使用小表驱动大表增加效率。<br>相同的<br>select </em> from A where exists(select id from B where cc=A.id)<br>应该把外围的查询使用小表，因为会用到exits()内的索引。<br>总的来说，就是尽量小表驱动大表。</p>
-<h3 id="为使用排序而使用索引的规范"><a href="#为使用排序而使用索引的规范" class="headerlink" title="为使用排序而使用索引的规范"></a>为使用排序而使用索引的规范</h3><p>`KEY a_b_c (a,b,c)<br>order by 能使用索引最左前缀<br>order by a<br>order by a,b<br>order by a,b,c<br>order by a DESC,b DESC, c DESC # 全部升序，或者全部降序</p>
-<h1 id="如果where-使用索引最左前缀为const-orderby可以使用索引"><a href="#如果where-使用索引最左前缀为const-orderby可以使用索引" class="headerlink" title="如果where 使用索引最左前缀为const orderby可以使用索引"></a>如果where 使用索引最左前缀为const orderby可以使用索引</h1><p>where a = const order by b,c<br>where a = const and b = const order by c<br>where a = const and b &gt; const order by b,c</p>
-<h2 id="不可以的情况"><a href="#不可以的情况" class="headerlink" title="不可以的情况"></a>不可以的情况</h2><p>排序不一致，不可以使用<br>where g = const orderby b,c 丢失了a索引<br>where a = const orderby c 丢失了b索引<br>where a = const order by a,d d不是索引<br>where a in(…..) order by b,c带头的a索引是范围值，不知道是否能用上索引<br>`</p>
-<h3 id="Group-by关键字的优化"><a href="#Group-by关键字的优化" class="headerlink" title="Group by关键字的优化"></a>Group by关键字的优化</h3><p>其实group by实质就是先排序之后，在进行分组，同样遵循最左前缀<br>能在where限定条件之下，尽量不要使用having在进行限定  </p>
-<h3 id="profile的优化"><a href="#profile的优化" class="headerlink" title="profile的优化"></a>profile的优化</h3><p>慢查询无果后，可以使用show profile cpu, block io for query query_id<br>来诊断sql，一般出现数据库压力的也就几种情况。<br><code>converting HEAP to MyISAM 这是由于查询结果过大，内存会往次磁盘搬运  
-Creating tmp table 显而易见的创建了临时表，copy-&gt;remove   
-Coping to tmp table on dick 内存临时表复制到磁盘，磁盘IO影响较大  
-locked 加锁了。</code><br>Begin<br>select * from table_name where … for update 锁定一行  </p>
-
-          
+          <p>摘要：MySQL优化之 explain<br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/04/03/explain/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -728,7 +1162,8 @@ locked 加锁了。</code><br>Begin<br>select * from table_name where … for up
       
         
           
-            <p>Given a m x n grid filled with non-negative numbers, find a path from top left to bottom right which minimizes the sum of all numbers along its path.</p>
+            <a id="more"></a>
+<p>Given a m x n grid filled with non-negative numbers, find a path from top left to bottom right which minimizes the sum of all numbers along its path.</p>
 <ul>
 <li>Note *: You can only move either down or right at any point in time.</li>
 </ul>
@@ -1194,165 +1629,14 @@ locked 加锁了。</code><br>Begin<br>select * from table_name where … for up
 
       
         
-          
-            <h2 id="动态规划算法适用于解最优化问题。通常可按以下4个步骤设计："><a href="#动态规划算法适用于解最优化问题。通常可按以下4个步骤设计：" class="headerlink" title="动态规划算法适用于解最优化问题。通常可按以下4个步骤设计："></a>动态规划算法适用于解最优化问题。通常可按以下4个步骤设计：</h2><ol>
-<li>找出最优解的性质，并刻画其结构特征；</li>
-<li>递归地定义最优值；</li>
-<li>以自底向上的方式计算出最优值；</li>
-<li>根据计算最优值时得到的信息，构造最优解。<h2 id="动态规划算法的基本要素"><a href="#动态规划算法的基本要素" class="headerlink" title="动态规划算法的基本要素:"></a>动态规划算法的基本要素:</h2></li>
-<li>最优子结构<br>当问题的最优解包含了其子问题的最优解时，称该问题具有最优子结构性质。问题的最优子结构性质提供了该问题可用动态规划算法求解的重要线索。</li>
-<li>重叠子问题<br>可用动态规划算法求解的问题应具备的另一个基本要素是子问题的重叠性质。在用递归算法自顶向下解此问题时，每次产生的子问题并不总是新问题，有些子问题被反复计算多次。动态规划算法正是利用了这种子问题的重叠性质，对每一个子问题只解一次，而后将其解保存在一个表格里中，当再次需要解此子问题时，只是简单地用常数时间查看一下结果。通常，不同的子问题个数随问题的大小呈多项式增长。因此，用动态规划算法只需要多项式时间，从而获得较高的解题效率。</li>
-</ol>
-<p><code>层数塔</code> <code>记忆数组方法</code> <code>DP方法</code><br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">POJ121_Trangle_Max</span> </span>&#123;</div><div class="line">	<span class="comment">// 存储数组</span></div><div class="line">	<span class="keyword">static</span> <span class="keyword">int</span>[][] D = <span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">200</span>][<span class="number">200</span>];</div><div class="line">	<span class="comment">// 记忆数组</span></div><div class="line">	<span class="keyword">static</span> <span class="keyword">int</span>[][] max = <span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">200</span>][<span class="number">200</span>];</div><div class="line">	<span class="keyword">static</span> <span class="keyword">int</span> n = <span class="number">0</span>;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		<span class="comment">// TODO Auto-generated method stub</span></div><div class="line">		Scanner scanner = <span class="keyword">new</span> Scanner(System.in);</div><div class="line">		n = scanner.nextInt();</div><div class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; i++) &#123;</div><div class="line">			<span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt;= i; j++) &#123;</div><div class="line">				D[i][j] = scanner.nextInt();</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">		System.out.println(maxNum(<span class="number">0</span>, <span class="number">0</span>));</div><div class="line">	&#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">maxNum</span> <span class="params">(<span class="keyword">int</span> i, <span class="keyword">int</span> j)</span> </span>&#123;</div><div class="line">		<span class="keyword">if</span> (max[i][j] != <span class="number">0</span>) &#123;</div><div class="line">			<span class="keyword">return</span> max[i][j];</div><div class="line">		&#125;</div><div class="line">		<span class="comment">// 边界条件， 到达了最后一层， 就直接赋值了。</span></div><div class="line">		<span class="keyword">if</span> (i == n - <span class="number">1</span>) &#123;</div><div class="line">			max[i][j] = D[i][j];</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">else</span> &#123;</div><div class="line">			<span class="keyword">int</span> x = maxNum(i + <span class="number">1</span>, j);</div><div class="line">			<span class="keyword">int</span> y = maxNum(i + <span class="number">1</span>, j + <span class="number">1</span>);</div><div class="line">			max[i][j] = Math.max(x, y) + D[i][j];</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">return</span> max[i][j];</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>Dp<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">POJ121_Trangle_Max2</span> </span>&#123;</div><div class="line">	<span class="keyword">static</span> <span class="keyword">int</span>[][] D = <span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">200</span>][<span class="number">200</span>];</div><div class="line">	<span class="keyword">static</span> <span class="keyword">int</span>[][] dp = <span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">200</span>][<span class="number">200</span>];</div><div class="line">	<span class="keyword">static</span> <span class="keyword">int</span> n = <span class="number">0</span>;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">			Scanner scanner = <span class="keyword">new</span> Scanner(System.in);</div><div class="line">			n = scanner.nextInt();</div><div class="line">			<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; i++) &#123;</div><div class="line">				<span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt;= i; j++) &#123;</div><div class="line">					D[i][j] = scanner.nextInt();</div><div class="line">				&#125;</div><div class="line">			&#125;</div><div class="line">			<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; i++) &#123;</div><div class="line">				dp[n - <span class="number">1</span>][i] = D[n - <span class="number">1</span>][i]; <span class="comment">//最后一层 手动赋值</span></div><div class="line">			&#125;</div><div class="line">			System.out.println(maxNum());</div><div class="line">		&#125;</div><div class="line">	<span class="comment">// 列出Dp方程， dp[i][j] = dp[i + 1][j] + dp[i + 1][j + 1] </span></div><div class="line">		<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">maxNum</span> <span class="params">()</span> </span>&#123;</div><div class="line">			<span class="keyword">for</span> (<span class="keyword">int</span> i = n - <span class="number">2</span>; i &gt;= <span class="number">0</span>; i--) &#123;</div><div class="line">				<span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt;= i; j++) &#123;</div><div class="line">					dp[i][j] = Math.max(dp[i + <span class="number">1</span>][j], dp[i + <span class="number">1</span>][j + <span class="number">1</span>]) + D[i][j];</div><div class="line">				&#125;</div><div class="line">			&#125;</div><div class="line">			<span class="keyword">return</span> dp[<span class="number">0</span>][<span class="number">0</span>];</div><div class="line">		&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<hr>
-<p><code>最大字段和的 贪心算法，和 DP算法</code><br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">	<span class="comment">// TODO Auto-generated method stub</span></div><div class="line">	<span class="keyword">int</span>[] nums = &#123;-<span class="number">1</span>,-<span class="number">2</span>,<span class="number">5</span>,<span class="number">6</span>,-<span class="number">20</span>,<span class="number">100</span>&#125;;</div><div class="line">	System.out.println(maxSum2(nums));</div><div class="line">&#125;</div><div class="line"><span class="comment">// Greedy</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">maxSum</span><span class="params">(<span class="keyword">int</span>[] nums)</span></span>&#123;</div><div class="line">	<span class="keyword">int</span> sum = <span class="number">0</span>;</div><div class="line">	<span class="keyword">int</span> b = Integer.MIN_VALUE;</div><div class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; nums.length; i++)&#123;</div><div class="line">		<span class="keyword">if</span> (b &gt; <span class="number">0</span>)&#123;</div><div class="line">			b += nums[i];</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">else</span> &#123;</div><div class="line">			b = nums[i];</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">if</span> (b &gt; sum)&#123;</div><div class="line">			sum  = b;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">return</span> sum;</div><div class="line">&#125;</div><div class="line"><span class="comment">// Dp </span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">maxSum2</span><span class="params">(<span class="keyword">int</span>[] nums)</span></span>&#123;</div><div class="line">	<span class="keyword">int</span> n = nums.length;</div><div class="line">	<span class="keyword">int</span>[] DP = <span class="keyword">new</span> <span class="keyword">int</span>[n];</div><div class="line">	DP[<span class="number">0</span>] = nums[<span class="number">0</span>];</div><div class="line">	<span class="keyword">int</span> max = nums[<span class="number">0</span>];</div><div class="line">	</div><div class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; n; i++) &#123;</div><div class="line">		DP[i] = nums[i]  + (DP[i - <span class="number">1</span>] &gt; <span class="number">0</span> ? DP[i - <span class="number">1</span>] : <span class="number">0</span>);</div><div class="line">		max = Math.max(max, DP[i]);</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">return</span> max;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<h2 id="链家网笔试，-字符串最小变换问题"><a href="#链家网笔试，-字符串最小变换问题" class="headerlink" title="链家网笔试， 字符串最小变换问题"></a>链家网笔试， 字符串最小变换问题</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> 字符串变换 </span>&#123;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		<span class="comment">// TODO Auto-generated method stub</span></div><div class="line">		System.out.println(editDistance(<span class="string">"112"</span>, <span class="string">"012"</span>));</div><div class="line">	&#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">editDistance</span> <span class="params">(String s1, String s2)</span> </span>&#123;</div><div class="line">		<span class="keyword">int</span> len1 = s1.length();</div><div class="line">		<span class="keyword">int</span> len2 = s2.length();</div><div class="line">		<span class="keyword">int</span>[][] dp = <span class="keyword">new</span> <span class="keyword">int</span>[len1 + <span class="number">1</span>][len2 + <span class="number">1</span>];</div><div class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= len1; i++) &#123;</div><div class="line">			dp[i][<span class="number">0</span>] = i; <span class="comment">// 把长度为i的字符串变为空串</span></div><div class="line">		&#125;</div><div class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">1</span>; j &lt;= len2; j++) &#123;</div><div class="line">			dp[<span class="number">0</span>][j] = j; <span class="comment">// 把空川 变为长度为j的字符串</span></div><div class="line">		&#125;</div><div class="line">		</div><div class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= len1; i++) &#123;</div><div class="line">			<span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">1</span>; j &lt;= len2; j++) &#123;</div><div class="line">				<span class="comment">// 边界条件, s1[i] == s2[j],</span></div><div class="line">				<span class="keyword">if</span> (s1.charAt(i - <span class="number">1</span>) == s2.charAt(j - <span class="number">1</span>)) &#123;</div><div class="line">					dp[i][j] = dp[i - <span class="number">1</span>][j - <span class="number">1</span>];</div><div class="line">				&#125;</div><div class="line">				<span class="keyword">else</span> &#123;</div><div class="line">					dp[i][j] = Math.min(dp[i - <span class="number">1</span>][j - <span class="number">1</span>] + <span class="number">1</span>, Math.min(dp[i - <span class="number">1</span>][j] + <span class="number">1</span>, dp[i][j - <span class="number">1</span>] + <span class="number">1</span>));</div><div class="line">					</div><div class="line">				&#125;</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">return</span> dp[len1][len2];</div><div class="line">		</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h2 id="leetcode718-LongestSubstring，-其实和最长公共字符串是差不多的"><a href="#leetcode718-LongestSubstring，-其实和最长公共字符串是差不多的" class="headerlink" title="leetcode718_LongestSubstring， 其实和最长公共字符串是差不多的"></a>leetcode718_LongestSubstring， 其实和最长公共字符串是差不多的</h2><pre><code>public static  int findLength(int[] A, int[] B) {
-    //DP 思想 same idea of Long Common Substring
-
-    int len1 = A.length;
-    int len2 = B.length;
-    int[][] dp = new int[len1 + 1][len2 + 1];
-    int max = 0;
-    for (int i = 1;  i&lt;= A.length; i++){
-        for (int j = 1; j &lt;= B.length; j++){
-               if (A[i - 1] == B[j - 1]){
-                   dp[i][j] = dp[i - 1][j - 1] + 1;
-                   max = Math.max(max, dp[i][j]);
-               }
-           }
-    }
-   return max;
-
-}
-</code></pre><h2 id="Unique-Paths-I"><a href="#Unique-Paths-I" class="headerlink" title="Unique Paths I"></a>Unique Paths I</h2><p>给定一个二维数组， 从左上角走到右下角的路线数<br>穷举法的话，一般会超时<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span>  <span class="keyword">int</span> res = <span class="number">0</span>;</div><div class="line"><span class="function"><span class="keyword">public</span>  <span class="keyword">int</span> <span class="title">uniquePaths</span><span class="params">(<span class="keyword">int</span> m, <span class="keyword">int</span> n)</span> </span>&#123;</div><div class="line"> search(m, n, <span class="number">1</span>, <span class="number">1</span>);</div><div class="line"> <span class="keyword">return</span> res;</div><div class="line">&#125;</div><div class="line"><span class="comment">// 这样搜索的话，一下子就超时了</span></div><div class="line"><span class="function"><span class="keyword">public</span>  <span class="keyword">void</span> <span class="title">search</span><span class="params">(<span class="keyword">int</span> m, <span class="keyword">int</span> n, <span class="keyword">int</span> x, <span class="keyword">int</span> y)</span> </span>&#123;</div><div class="line"> <span class="keyword">if</span> (x == m &amp;&amp; y == n) &#123;</div><div class="line">	 res++;</div><div class="line"> &#125;</div><div class="line"> <span class="keyword">if</span> ((x + <span class="number">1</span>) &lt;= m) &#123;</div><div class="line">	 search(m, n, x + <span class="number">1</span>, y);</div><div class="line"> &#125;</div><div class="line"> <span class="keyword">if</span> ((y + <span class="number">1</span>) &lt;= n) &#123;</div><div class="line">	 search(m, n, x, y + <span class="number">1</span>);</div><div class="line"> &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>构造DP数组，<code>dp[i][j] = dp[i][j - 1] + dp[i - 1][j]</code>是显然的<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">search2</span><span class="params">(<span class="keyword">int</span> m, <span class="keyword">int</span> n)</span> </span>&#123;</div><div class="line"> <span class="keyword">int</span>[][] dp = <span class="keyword">new</span> <span class="keyword">int</span>[m][n];</div><div class="line"> dp[<span class="number">0</span>][<span class="number">0</span>] = <span class="number">1</span>;</div><div class="line"> <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; m; i++) &#123;</div><div class="line">	 dp[i][<span class="number">0</span>] = <span class="number">1</span>;</div><div class="line"> &#125;</div><div class="line"> <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; n; i++) &#123;</div><div class="line">	 dp[<span class="number">0</span>][i] = <span class="number">1</span>;</div><div class="line"> &#125;</div><div class="line"> <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; m; i++) &#123;</div><div class="line">	 <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">1</span>; j &lt; n; j++) &#123;</div><div class="line">		 dp[i][j] = dp[i][j - <span class="number">1</span>] + dp[i - <span class="number">1</span>][j];</div><div class="line">	 &#125;</div><div class="line"> &#125;</div><div class="line"> <span class="keyword">return</span> dp[m - <span class="number">1</span>][n - <span class="number">1</span>];</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<h2 id="Unique-Paths-II"><a href="#Unique-Paths-II" class="headerlink" title="Unique Paths II"></a>Unique Paths II</h2><p>和Path I相比，如果在二维数组的中间，放上一些障碍物的话，那么就不能再从这个点过了。抽象为<code>DP[i][j] = 0</code>,<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div></pre></td><td class="code"><pre><div class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">uniquePathsWithObstacles</span><span class="params">(<span class="keyword">int</span>[][] obstacleGrid)</span> </span>&#123;</div><div class="line">	 <span class="keyword">int</span> m = obstacleGrid.length;</div><div class="line">	 <span class="keyword">int</span> n = obstacleGrid[<span class="number">0</span>].length;</div><div class="line">	 <span class="keyword">int</span>[][] dp = <span class="keyword">new</span> <span class="keyword">int</span>[m][n];</div><div class="line">	 <span class="keyword">if</span> (obstacleGrid[<span class="number">0</span>][<span class="number">0</span>] == <span class="number">1</span>) &#123;</div><div class="line">		 dp[<span class="number">0</span>][<span class="number">0</span>] = <span class="number">0</span>;</div><div class="line">	 &#125;</div><div class="line">	 <span class="keyword">else</span> &#123;</div><div class="line">		 dp[<span class="number">0</span>][<span class="number">0</span>] = <span class="number">1</span>;</div><div class="line">	 &#125;</div><div class="line"><span class="comment">//		 for (int i = 0; i &lt; m; i++) &#123;</span></div><div class="line"><span class="comment">//			 for (int j = 0; j &lt; n; j++) &#123;</span></div><div class="line"><span class="comment">//				 // 障碍物， 直接DP[i][j] = 0</span></div><div class="line"><span class="comment">//				 if (obstacleGrid[i][j] == 1) &#123;</span></div><div class="line"><span class="comment">//					 dp[i][j] = 0;</span></div><div class="line"><span class="comment">//				 &#125;</span></div><div class="line"><span class="comment">//			 &#125;</span></div><div class="line"><span class="comment">//		 &#125;</span></div><div class="line">	 <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; m; i++) &#123;</div><div class="line">		 <span class="keyword">if</span> (obstacleGrid[i][<span class="number">0</span>] == <span class="number">1</span>) &#123;</div><div class="line">			 dp[i][<span class="number">0</span>] = <span class="number">0</span>;</div><div class="line">		 &#125;</div><div class="line">		 <span class="keyword">else</span> &#123;</div><div class="line">			 dp[i][<span class="number">0</span>] = dp[i - <span class="number">1</span>][<span class="number">0</span>];</div><div class="line">		 &#125;</div><div class="line">	 &#125;</div><div class="line">	 <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; n; i++) &#123;</div><div class="line">		 <span class="keyword">if</span> (obstacleGrid[<span class="number">0</span>][i] == <span class="number">1</span>) &#123;</div><div class="line">			 dp[<span class="number">0</span>][i] = <span class="number">0</span>;</div><div class="line">		 &#125;</div><div class="line">		 <span class="keyword">else</span> &#123;</div><div class="line">			 dp[<span class="number">0</span>][i] = dp[<span class="number">0</span>][i - <span class="number">1</span>];</div><div class="line">		 &#125;</div><div class="line">	 &#125;</div><div class="line">	 <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; m; i++) &#123;</div><div class="line">		 <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">1</span>; j &lt; n; j++) &#123;</div><div class="line">			 <span class="keyword">if</span> (obstacleGrid[i][j] == <span class="number">1</span>) &#123;</div><div class="line">				 dp[i][j] = <span class="number">0</span>;</div><div class="line">			 &#125;</div><div class="line">			 <span class="keyword">else</span> &#123;</div><div class="line">				 dp[i][j] = dp[i][j - <span class="number">1</span>] + dp[i - <span class="number">1</span>][j];</div><div class="line">			 &#125;</div><div class="line">		 &#125;</div><div class="line">	 &#125;</div><div class="line">	<span class="keyword">return</span> dp[m - <span class="number">1</span>][n - <span class="number">1</span>];</div><div class="line"> &#125;</div></pre></td></tr></table></figure></p>
-<!-- UY BEGIN -->
-<p><div id="uyan_frame"></div></p>
-<p><script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=2147299"></script><br><!-- UY END --></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/03/24/DP/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Sailong Ren">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="coderlong的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/03/24/DP/" itemprop="url">未命名</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-24T22:02:43+08:00">
-                2018-03-24
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            
-          
+          <p>摘要：三言两语之DP<br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/03/27/DP算法的一点总结/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1491,355 +1775,14 @@ locked 加锁了。</code><br>Begin<br>select * from table_name where … for up
 
       
         
-          
-            <h2 id="原始二分查找"><a href="#原始二分查找" class="headerlink" title="原始二分查找"></a>原始二分查找</h2><p>其中值得注意的就是 <code>mid = low + (high - low)/2</code>了， 我以前写了很久的<code>(low + high)/2</code> 知道写到一道溢出的题目，才知道。因为当low和high特别大时相加会发生Integer溢出，要么都转成long做完运算再转回来<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">searchInsert</span><span class="params">(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> target)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (nums.length == <span class="number">0</span>) &#123;</div><div class="line">            <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="comment">// MustBe(0,n-1)</span></div><div class="line">        <span class="keyword">int</span> low = <span class="number">0</span>, high = nums.length - <span class="number">1</span>;</div><div class="line"></div><div class="line">        <span class="comment">// MustBe(low,high): (1) Initialization: invariant holds</span></div><div class="line">        <span class="keyword">while</span> (low &lt;= high) &#123;</div><div class="line"></div><div class="line">            <span class="comment">// MustBe(low,high) and low &lt;= high</span></div><div class="line">            <span class="keyword">int</span> mid = low + (high - low) / <span class="number">2</span>;</div><div class="line"></div><div class="line">            <span class="comment">// MustBe(low,high) and low &lt;= mid &lt;= high</span></div><div class="line">            <span class="keyword">if</span> (nums[mid] &lt; target) &#123;</div><div class="line"></div><div class="line">                <span class="comment">// MustBe(low,high) and num[mid] &lt; target &lt;= num[high]</span></div><div class="line">                <span class="comment">// MustBe(mid+1,high)</span></div><div class="line">                low = mid + <span class="number">1</span>;</div><div class="line"></div><div class="line">                <span class="comment">// MustBe(low,high): (2) Preservation: invariant holds</span></div><div class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (nums[mid] &gt; target) &#123;</div><div class="line"></div><div class="line">                <span class="comment">// MustBe(low,high) and num[low] &lt;= target &lt; num[mid]</span></div><div class="line">                <span class="comment">// MustBe(low,mid-1)</span></div><div class="line">                high = mid - <span class="number">1</span>;</div><div class="line"></div><div class="line">                <span class="comment">// MustBe(low,high)</span></div><div class="line">            &#125; <span class="keyword">else</span> &#123;</div><div class="line">                <span class="keyword">return</span> mid;</div><div class="line">            &#125;</div><div class="line">        &#125; <span class="comment">// (3) Termination: range shrinks, so it must terminate</span></div><div class="line"></div><div class="line">        <span class="comment">// low &gt; high, so it was low = high = mid (it's impossible to get low &gt; high if low &lt; high)</span></div><div class="line">        <span class="comment">// 1) target &lt; num[mid], low=mid, high=mid-1, low is the insert position</span></div><div class="line">        <span class="comment">// 2) target &gt; num[mid], high=mid, low=mid+1, low is the insert position too!</span></div><div class="line">        <span class="keyword">return</span> low;</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
-<h2 id="旋转排序数组"><a href="#旋转排序数组" class="headerlink" title="旋转排序数组"></a>旋转排序数组</h2><p>二分查找的变种，我们一直写得都是有序数组的二分查找， 那么旋转之后的数组，你还会写吗？</p>
-<pre><code>1 2 3 4 5 6 7
-| | | | | | |  
-4 5 6 7 1 2 3
-</code></pre><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="comment">// 就是寻找扰乱部分</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">search2</span><span class="params">(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> target)</span> </span>&#123;</div><div class="line">    <span class="keyword">int</span> low = <span class="number">0</span>, high = nums.length - <span class="number">1</span>;</div><div class="line">    <span class="keyword">while</span> (low &lt;= high) &#123;</div><div class="line">        <span class="keyword">int</span> mid = low + (high - low) / <span class="number">2</span>;</div><div class="line">        <span class="keyword">if</span> (nums[mid] == target) &#123;</div><div class="line">            <span class="keyword">return</span> mid;</div><div class="line">        &#125;</div><div class="line">        <span class="comment">// 后半部分是有序的</span></div><div class="line">        <span class="keyword">if</span> (nums[mid] &lt; nums[high]) &#123;</div><div class="line">        	<span class="comment">// target 在这个有序范围之内</span></div><div class="line">            <span class="keyword">if</span> (nums[mid] &lt; target &amp;&amp; target &lt;= nums[high]) &#123;</div><div class="line">                low = mid + <span class="number">1</span>;</div><div class="line">            &#125; <span class="keyword">else</span> &#123;</div><div class="line">                high = mid - <span class="number">1</span>;</div><div class="line">            &#125;</div><div class="line">            </div><div class="line">        &#125;</div><div class="line">        <span class="comment">// 前半部分不是有序的</span></div><div class="line">        <span class="keyword">else</span> &#123;</div><div class="line">        	<span class="comment">// target 在前半部分 （里面的） 有序范围之后， 因为前半部分的前半部分是有序的</span></div><div class="line">            <span class="keyword">if</span> (nums[low] &lt;= target &amp;&amp; target &lt; nums[mid]) &#123;</div><div class="line">                high = mid - <span class="number">1</span>;</div><div class="line">            &#125; <span class="keyword">else</span> &#123;</div><div class="line">                low = mid + <span class="number">1</span>;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> -<span class="number">1</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h2 id="duplicate元素的影响"><a href="#duplicate元素的影响" class="headerlink" title="duplicate元素的影响"></a>duplicate元素的影响</h2><p>前面的那段程序，是不能处理重复元素的，0,0,0,1,0<br>因为duplicate导致low、mid、high三者有相等情况，从而无法知道目标值在左半部分还是右半部分，<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 处理duplicate元素</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">search3</span><span class="params">(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> target)</span> </span>&#123;</div><div class="line">    <span class="keyword">int</span> low = <span class="number">0</span>, high = nums.length - <span class="number">1</span>;</div><div class="line">    <span class="keyword">while</span> (low &lt;= high) &#123;</div><div class="line">        <span class="keyword">int</span> mid = low + (high - low) / <span class="number">2</span>;</div><div class="line">        <span class="keyword">if</span> (nums[mid] == target) &#123;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">if</span> (nums[mid] &lt; nums[high]) &#123; <span class="comment">// 后半部分是有序的</span></div><div class="line">            <span class="keyword">if</span> (nums[mid] &lt; target &amp;&amp; target &lt;= nums[high]) &#123;</div><div class="line">                low = mid + <span class="number">1</span>;</div><div class="line">            &#125; <span class="keyword">else</span> &#123;</div><div class="line">                high = mid - <span class="number">1</span>;</div><div class="line">            &#125;</div><div class="line">        &#125; </div><div class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (nums[mid] &gt; nums[high]) &#123;<span class="comment">// First half may be sorted eg.[0,1,4,5,0] or all the same eg.[4,4,4,5,0]</span></div><div class="line">            <span class="keyword">if</span> (nums[low] &lt;= target &amp;&amp; target &lt; nums[mid]) &#123;</div><div class="line">                high = mid - <span class="number">1</span>;</div><div class="line">            &#125; <span class="keyword">else</span> &#123;</div><div class="line">                low = mid + <span class="number">1</span>;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="comment">// 华丽的 地方，</span></div><div class="line">        <span class="keyword">else</span> &#123;   <span class="comment">// A[mid] = A[high] and A[mid]&lt;&gt;target, so it's safe to shrink from high bound</span></div><div class="line">            high--;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>是不是给上一题解题过程一样的？ 不一样的地方就是那个<code>high--</code>, 对现有的数组进行shink,</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/03/23/NIO/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Sailong Ren">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="coderlong的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/03/23/NIO/" itemprop="url">三言两语之 NIO</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-23T23:02:17+08:00">
-                2018-03-23
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Java/" itemprop="url" rel="index">
-                    <span itemprop="name">Java</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="老是说，异步非阻塞，同步非阻塞，异步IO，NIO，同学你能分清吗？"><a href="#老是说，异步非阻塞，同步非阻塞，异步IO，NIO，同学你能分清吗？" class="headerlink" title="老是说，异步非阻塞，同步非阻塞，异步IO，NIO，同学你能分清吗？"></a>老是说，异步非阻塞，同步非阻塞，异步IO，NIO，同学你能分清吗？</h2><p>NIO的selector是NIO实现非阻塞的关键之处。<br>仅用单个线程来处理多个Channels的好处是，只需要更少的线程来处理通道。事实上，可以只用一个线程处理所有的通道。对于操作系统来说，线程之间上下文切换的开销很大，而且每个线程都要占用系统的一些资源（如内存）。因此，使用的线程越少越好。</p>
-<h2 id="Selector的创建"><a href="#Selector的创建" class="headerlink" title="Selector的创建"></a>Selector的创建</h2><pre><code>Selector selector = Selector.open();
-</code></pre><h2 id="向selector注册通道channel"><a href="#向selector注册通道channel" class="headerlink" title="向selector注册通道channel"></a>向selector注册通道channel</h2><pre><code>channel.configureBlocking(false);
-SelectionKey key = channel.register(selector,
-Selectionkey.OP_READ);
-</code></pre><p>通道触发了一个事件意思是该事件已经就绪。<br>这四种事件用SelectionKey的四个常量来表示：<br>    SelectionKey.OP_CONNECT<br>    SelectionKey.OP_ACCEPT<br>    SelectionKey.OP_READ<br>    SelectionKey.OP_WRITE</p>
-<p>当向Selector注册Channel时，register()方法会返回一个SelectionKey对象。这个对象包含了一些你感兴趣的属性：</p>
-<pre><code>interest集合
-ready集合
-Channel
-Selector
-</code></pre><h3 id="interest集合"><a href="#interest集合" class="headerlink" title="interest集合"></a>interest集合</h3><pre><code>int interestSet = selectionKey.interestOps();
-</code></pre><h3 id="ready集合"><a href="#ready集合" class="headerlink" title="ready集合"></a>ready集合</h3><p>eady 集合是通道已经准备就绪的操作的集合。在一次选择(Selection)之后，你会首先访问这个ready set。可以这样访问ready集合：<br>    int readySet = selectionKey.readyOps();<br>可以用像检测interest集合那样的方法，来检测channel中什么事件或操作已经就绪。但是，也可以使用以下四个方法，它们都会返回一个布尔类型：</p>
-<ol>
-<li>selectionKey.isAcceptable();</li>
-<li>selectionKey.isConnectable();</li>
-<li>selectionKey.isReadable();</li>
-<li>selectionKey.isWritable();<h3 id="通过selectionKey来访问-channel-和-selector"><a href="#通过selectionKey来访问-channel-和-selector" class="headerlink" title="通过selectionKey来访问 channel 和 selector"></a>通过selectionKey来访问 channel 和 selector</h3> Channel  channel  = selectionKey.channel();<br> Selector selector = selectionKey.selector();</li>
-</ol>
-<p>还可以通过Selector选择通道<br>一旦向selector注册一个或多个channel 就可以调用重载的seclect()方法，返回你感兴趣的事件，<br>select()阻塞到至少有一个通道在你注册的事件上就绪了。<br>select(long timeout)和select()一样，除了最长会阻塞timeout毫秒(参数)。<br>selectNow()不会阻塞，不管什么通道就绪都立刻返回</p>
-<p>selectedKeys() 一旦调用了select()方法，并且返回值表明有一个或更多个通道就绪了，然后可以通过调用selector的selectedKeys()方法，访问已选择键集中的就绪通道。<br>Set selectedKeus = selector.selectedKeys();</p>
-<p>用完selector之后调用他的close（）方法即可关闭此通道。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">Selector selector = Selector.open();</div><div class="line">channel.configureBlocking(<span class="keyword">false</span>);</div><div class="line">SelectionKey key = channel.register(selector, SelectionKey.OP_READ);</div><div class="line"><span class="keyword">while</span>(<span class="keyword">true</span>) &#123;</div><div class="line">  <span class="keyword">int</span> readyChannels = selector.select();</div><div class="line">  <span class="keyword">if</span>(readyChannels == <span class="number">0</span>) <span class="keyword">continue</span>;</div><div class="line">  Set selectedKeys = selector.selectedKeys();</div><div class="line">  Iterator keyIterator = selectedKeys.iterator();</div><div class="line">  <span class="keyword">while</span>(keyIterator.hasNext()) &#123;</div><div class="line">    SelectionKey key = keyIterator.next();</div><div class="line">    <span class="keyword">if</span>(key.isAcceptable()) &#123;</div><div class="line">        <span class="comment">// a connection was accepted by a ServerSocketChannel.</span></div><div class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (key.isConnectable()) &#123;</div><div class="line">        <span class="comment">// a connection was established with a remote server.</span></div><div class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (key.isReadable()) &#123;</div><div class="line">        <span class="comment">// a channel is ready for reading</span></div><div class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (key.isWritable()) &#123;</div><div class="line">        <span class="comment">// a channel is ready for writing</span></div><div class="line">    &#125;</div><div class="line">    keyIterator.remove();</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<h2 id="Java-NIO和IO的主要差别"><a href="#Java-NIO和IO的主要差别" class="headerlink" title="Java NIO和IO的主要差别"></a>Java NIO和IO的主要差别</h2><pre><code>IO         |      NIO
-面向流     |      面向缓冲
-阻塞IO     |      非阻塞IO
-无         |      选择器
-</code></pre><h3 id="面向流和面向缓冲有什么区别啊？"><a href="#面向流和面向缓冲有什么区别啊？" class="headerlink" title="面向流和面向缓冲有什么区别啊？"></a>面向流和面向缓冲有什么区别啊？</h3><p>IO面向流，就是说每次从流中读取一个或者多个字节， 一直到都区所有的字节，他们没有被缓存在任何地方，而且不能前后移动流里面的数据，如果要实现前后移动数据，还是需要缓存到一个缓冲区。<br>NIO呢， 就是每次读取，就读取到一个缓冲区中(buffer), 他有position, limit,等属性，所以我们可以前后移动数据，还可以转换读写模式，岂不是很方便。</p>
-<h3 id="阻塞和非阻塞IO到底什么区别？"><a href="#阻塞和非阻塞IO到底什么区别？" class="headerlink" title="阻塞和非阻塞IO到底什么区别？"></a>阻塞和非阻塞IO到底什么区别？</h3><p>IO流是阻塞的，每当他调用read（） 或者write（）方法是，该线程会被阻塞，直到她读到了数据，或者数据完全写入了，这个线程在此期间什么都不能干，即被阻塞了。  NIO使一个线程从某通道发送请求读取数据，但是它仅能得到目前可用的数据，如果目前没有数据可用时，就什么都不会获取。而不是保持线程阻塞，所以直至数据变的可以读取之前，该线程可以继续做其他的事情。 非阻塞写也是如此。一个线程请求写入一些数据到某通道，但不需要等待它完全写入，这个线程同时可以去做别的事情。 线程通常将非阻塞IO的空闲时间用于在其它通道上执行IO操作，所以一个单独的线程现在可以管理多个输入和输出通道（channel）。</p>
-<h3 id="Selector"><a href="#Selector" class="headerlink" title="Selector"></a>Selector</h3><p>selector允许一个单独的线程来监视多个输入通道，你可以注册多个通道使用一个选择器，然后使用一个单独的线程来“选择”通道：这些通道里已经有可以处理的输入，或者选择已准备写入的通道。这种选择机制，使得一个单独的线程很容易来管理多个通道。</p>
-<h3 id="对数据处理有什么不同呢？"><a href="#对数据处理有什么不同呢？" class="headerlink" title="对数据处理有什么不同呢？"></a>对数据处理有什么不同呢？</h3><p>IO的话，估计会一行一行的读向下面这样的代码:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">BufferedReader reader = <span class="keyword">new</span> BufferedReader(<span class="keyword">new</span> InputStreamReader(input));</div><div class="line">String nameLine   = reader.readLine();</div><div class="line">String ageLine    = reader.readLine();</div><div class="line">String emailLine  = reader.readLine();</div><div class="line">String phoneLine  = reader.readLine();</div></pre></td></tr></table></figure></p>
-<p>很多人和我一样，看到这个程序，觉得没什么问题啊，第一行读到了什么，第二行读到了什么。。。。。。<br>可是正式如此准确的预测，你每次都知道每一步都读到了什么数据，所以在多线程中造成了IO的致命弱点—一旦，中间的某一个操作阻塞了，那么你不得不等待他完成，才能继续执行，那么百万级别以上的服务器肯定是不成立的。<br>NIO的处理方式：  </p>
-<pre><code>ByteBuffer buffer = ByteBuffer.allocate(48);
-int bytesRead = inChannel.read(buffer);
-</code></pre><p>你不能确定的直到每一次read之后，buffer里面究竟读取了多少字符，也不知道是否已经读取完了，好吧，你的确不不知道，所以：<br>NIO可让您只使用一个（或几个）单线程管理多个通道（网络连接或文件），但付出的代价是解析数据可能会比从一个阻塞流中读取数据更复杂。<br>如果需要管理同时打开的成千上万个连接，这些连接每次只是发送少量的数据，例如聊天服务器，实现NIO的服务器可能是一个优势。<br>OK，那么接下来的几天，我打算模仿Netty(NIO的一个框架，对NIO繁琐的API进行了很好的封装)，自己实现一个NIO的聊天服务器. 造一个好一点的轮子。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/03/21/数据库特性以及隔离级别/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Sailong Ren">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="coderlong的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/03/21/数据库特性以及隔离级别/" itemprop="url">数据库的特性以及隔离级别</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-21T20:18:40+08:00">
-                2018-03-21
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/MySQL/" itemprop="url" rel="index">
-                    <span itemprop="name">MySQL</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="数据库四大特性"><a href="#数据库四大特性" class="headerlink" title="数据库四大特性"></a>数据库四大特性</h2><ol>
-<li>原子性  (Atomicity)<br>原子性是指事务包含的所有操作要么全部成功，要么全部失败回滚，这和前面两篇博客介绍事务的功能是一样的概念，因此事务的操作如果成功就必须要完全应用到数据库，如果操作失败则不能对数据库有任何影响。</li>
-<li>一致性 (Consistency)<br>一致性是指事务必须使数据库从一个一致性状态变换到另一个一致性状态，也就是说一个事务执行之前和执行之后都必须处于一致性状态。</li>
-<li>隔离性 (Isolation)<br>隔离性是当多个用户并发访问数据库时，比如操作同一张表时，数据库为每一个用户开启的事务，不能被其他事务的操作所干扰，多个并发事务之间要相互隔离。</li>
-<li>持久性 (Durability)<br>持久性是指一个事务一旦被提交了，那么对数据库中的数据的改变就是永久性的，即便是在数据库系统遇到故障的情况下也不会丢失提交事务的操作。</li>
-</ol>
-<p>当多个线程都开启事务操作数据库中的数据时，数据库系统要能进行隔离操作，以保证各个线程获取数据的准确性，在介绍数据库提供的各种隔离级别之前，我们先看看如果不考虑事务的隔离性，会发生的几种问题：</p>
-<ol>
-<li><p>脏读<br>脏读是指在一个事务处理过程里读取了另一个未提交的事务中的数据。<br>update account set money=money+100 where name=’B’;  (此时A通知B)<br>update account set money=money - 100 where name=’A’;<br>当只执行第一条SQL时，A通知B查看账户，B发现确实钱已到账（此时即发生了脏读），而之后无论第二条SQL是否执行，只要该事务不提交，则所有操作都将回滚，那么当B以后再次查看账户时就会发现钱其实并没有转。</p>
-</li>
-<li><p>不可重复读<br>不可重复读是指在对于数据库中的某个数据，一个事务范围内多次查询却返回了不同的数据值，这是由于在查询间隔，被另一个事务修改并提交了。<br>不可重复读和脏读的区别是，脏读是某一事务读取了另一个事务未提交的脏数据，而不可重复读则是读取了前一事务提交的数据。</p>
-</li>
-<li><p>幻读 (虚读)<br>幻读是事务非独立执行时发生的一种现象。例如事务T1对一个表中所有的行的某个数据项做了从“1”修改为“2”的操作，这时事务T2又对这个表中插入了一行数据项，而这个数据项的数值还是为“1”并且提交给数据库。而操作事务T1的用户如果再查看刚刚修改的数据，会发现还有一行没有修改，其实这行是从事务T2中添加的，就好像产生幻觉一样，这就是发生了幻读。</p>
-</li>
-</ol>
-<p>幻读和不可重复读都是读取了另一条已经提交的事务（这点就脏读不同），所不同的是不可重复读查询的都是同一个数据项，而幻读针对的是一批数据整体（比如数据的个数）。<br>MySQL的四种隔离级别：  </p>
-<ol>
-<li>Serializable (串行化)：可避免脏读、不可重复读、幻读的发生。</li>
-<li>Repeatable read (可重复读)：可避免脏读、不可重复读的发生。</li>
-<li>Read committed (读已提交)：可避免脏读的发生。</li>
-<li>Read uncommitted (读未提交)：最低级别，任何情况都无法保证。<br>以上四种隔离级别最高的是Serializable级别，最低的是Read uncommitted级别，当然级别越高，执行效率就越低。像Serializable这样的级别，就是以锁表的方式(类似于Java多线程中的锁)使得其他的线程只能在锁外等待，所以平时选用何种隔离级别应该根据实际情况。在MySQL数据库中默认的隔离级别为Repeatable read (可重复读)。<br>在MySQL数据库中，支持上面四种隔离级别，默认的为Repeatable read (可重复读)；而在Oracle数据库中，只支持Serializable (串行化)级别和Read committed (读已提交)这两种级别，其中默认的为Read committed级别。</li>
-</ol>
-
-          
+          <p>摘要：二分查找的一些问题<br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/03/24/二分查找的一点问题/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1923,7 +1866,7 @@ int bytesRead = inChannel.read(buffer);
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">116</span>
+                <span class="site-state-item-count">118</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1934,7 +1877,7 @@ int bytesRead = inChannel.read(buffer);
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">24</span>
+                <span class="site-state-item-count">26</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -1945,7 +1888,7 @@ int bytesRead = inChannel.read(buffer);
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">51</span>
+                <span class="site-state-item-count">55</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

@@ -94,18 +94,18 @@
 
 
 
-<meta name="description" content="原始二分查找其中值得注意的就是 mid = low + (high - low)/2了， 我以前写了很久的(low + high)/2 知道写到一道溢出的题目，才知道。因为当low和high特别大时相加会发生Integer溢出，要么都转成long做完运算再转回来123456789101112131415161718192021222324252627282930313233343536373839">
+<meta name="description" content="摘要：二分查找的一些问题">
 <meta name="keywords" content="Algorithm,leetcode">
 <meta property="og:type" content="article">
 <meta property="og:title" content="二分查找的一点问题">
 <meta property="og:url" content="https://coderlongren.github.io/2018/03/24/二分查找的一点问题/index.html">
 <meta property="og:site_name" content="coderlong的博客">
-<meta property="og:description" content="原始二分查找其中值得注意的就是 mid = low + (high - low)/2了， 我以前写了很久的(low + high)/2 知道写到一道溢出的题目，才知道。因为当low和high特别大时相加会发生Integer溢出，要么都转成long做完运算再转回来123456789101112131415161718192021222324252627282930313233343536373839">
+<meta property="og:description" content="摘要：二分查找的一些问题">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-03-24T07:52:39.359Z">
+<meta property="og:updated_time" content="2018-05-04T13:21:31.021Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="二分查找的一点问题">
-<meta name="twitter:description" content="原始二分查找其中值得注意的就是 mid = low + (high - low)/2了， 我以前写了很久的(low + high)/2 知道写到一道溢出的题目，才知道。因为当low和high特别大时相加会发生Integer溢出，要么都转成long做完运算再转回来123456789101112131415161718192021222324252627282930313233343536373839">
+<meta name="twitter:description" content="摘要：二分查找的一些问题">
 
 
 
@@ -395,7 +395,8 @@
       
 
       
-        <h2 id="原始二分查找"><a href="#原始二分查找" class="headerlink" title="原始二分查找"></a>原始二分查找</h2><p>其中值得注意的就是 <code>mid = low + (high - low)/2</code>了， 我以前写了很久的<code>(low + high)/2</code> 知道写到一道溢出的题目，才知道。因为当low和high特别大时相加会发生Integer溢出，要么都转成long做完运算再转回来<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">searchInsert</span><span class="params">(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> target)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (nums.length == <span class="number">0</span>) &#123;</div><div class="line">            <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="comment">// MustBe(0,n-1)</span></div><div class="line">        <span class="keyword">int</span> low = <span class="number">0</span>, high = nums.length - <span class="number">1</span>;</div><div class="line"></div><div class="line">        <span class="comment">// MustBe(low,high): (1) Initialization: invariant holds</span></div><div class="line">        <span class="keyword">while</span> (low &lt;= high) &#123;</div><div class="line"></div><div class="line">            <span class="comment">// MustBe(low,high) and low &lt;= high</span></div><div class="line">            <span class="keyword">int</span> mid = low + (high - low) / <span class="number">2</span>;</div><div class="line"></div><div class="line">            <span class="comment">// MustBe(low,high) and low &lt;= mid &lt;= high</span></div><div class="line">            <span class="keyword">if</span> (nums[mid] &lt; target) &#123;</div><div class="line"></div><div class="line">                <span class="comment">// MustBe(low,high) and num[mid] &lt; target &lt;= num[high]</span></div><div class="line">                <span class="comment">// MustBe(mid+1,high)</span></div><div class="line">                low = mid + <span class="number">1</span>;</div><div class="line"></div><div class="line">                <span class="comment">// MustBe(low,high): (2) Preservation: invariant holds</span></div><div class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (nums[mid] &gt; target) &#123;</div><div class="line"></div><div class="line">                <span class="comment">// MustBe(low,high) and num[low] &lt;= target &lt; num[mid]</span></div><div class="line">                <span class="comment">// MustBe(low,mid-1)</span></div><div class="line">                high = mid - <span class="number">1</span>;</div><div class="line"></div><div class="line">                <span class="comment">// MustBe(low,high)</span></div><div class="line">            &#125; <span class="keyword">else</span> &#123;</div><div class="line">                <span class="keyword">return</span> mid;</div><div class="line">            &#125;</div><div class="line">        &#125; <span class="comment">// (3) Termination: range shrinks, so it must terminate</span></div><div class="line"></div><div class="line">        <span class="comment">// low &gt; high, so it was low = high = mid (it's impossible to get low &gt; high if low &lt; high)</span></div><div class="line">        <span class="comment">// 1) target &lt; num[mid], low=mid, high=mid-1, low is the insert position</span></div><div class="line">        <span class="comment">// 2) target &gt; num[mid], high=mid, low=mid+1, low is the insert position too!</span></div><div class="line">        <span class="keyword">return</span> low;</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
+        <p>摘要：二分查找的一些问题<br><a id="more"></a></p>
+<h2 id="原始二分查找"><a href="#原始二分查找" class="headerlink" title="原始二分查找"></a>原始二分查找</h2><p>其中值得注意的就是 <code>mid = low + (high - low)/2</code>了， 我以前写了很久的<code>(low + high)/2</code> 知道写到一道溢出的题目，才知道。因为当low和high特别大时相加会发生Integer溢出，要么都转成long做完运算再转回来<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">searchInsert</span><span class="params">(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> target)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (nums.length == <span class="number">0</span>) &#123;</div><div class="line">            <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="comment">// MustBe(0,n-1)</span></div><div class="line">        <span class="keyword">int</span> low = <span class="number">0</span>, high = nums.length - <span class="number">1</span>;</div><div class="line"></div><div class="line">        <span class="comment">// MustBe(low,high): (1) Initialization: invariant holds</span></div><div class="line">        <span class="keyword">while</span> (low &lt;= high) &#123;</div><div class="line"></div><div class="line">            <span class="comment">// MustBe(low,high) and low &lt;= high</span></div><div class="line">            <span class="keyword">int</span> mid = low + (high - low) / <span class="number">2</span>;</div><div class="line"></div><div class="line">            <span class="comment">// MustBe(low,high) and low &lt;= mid &lt;= high</span></div><div class="line">            <span class="keyword">if</span> (nums[mid] &lt; target) &#123;</div><div class="line"></div><div class="line">                <span class="comment">// MustBe(low,high) and num[mid] &lt; target &lt;= num[high]</span></div><div class="line">                <span class="comment">// MustBe(mid+1,high)</span></div><div class="line">                low = mid + <span class="number">1</span>;</div><div class="line"></div><div class="line">                <span class="comment">// MustBe(low,high): (2) Preservation: invariant holds</span></div><div class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (nums[mid] &gt; target) &#123;</div><div class="line"></div><div class="line">                <span class="comment">// MustBe(low,high) and num[low] &lt;= target &lt; num[mid]</span></div><div class="line">                <span class="comment">// MustBe(low,mid-1)</span></div><div class="line">                high = mid - <span class="number">1</span>;</div><div class="line"></div><div class="line">                <span class="comment">// MustBe(low,high)</span></div><div class="line">            &#125; <span class="keyword">else</span> &#123;</div><div class="line">                <span class="keyword">return</span> mid;</div><div class="line">            &#125;</div><div class="line">        &#125; <span class="comment">// (3) Termination: range shrinks, so it must terminate</span></div><div class="line"></div><div class="line">        <span class="comment">// low &gt; high, so it was low = high = mid (it's impossible to get low &gt; high if low &lt; high)</span></div><div class="line">        <span class="comment">// 1) target &lt; num[mid], low=mid, high=mid-1, low is the insert position</span></div><div class="line">        <span class="comment">// 2) target &gt; num[mid], high=mid, low=mid+1, low is the insert position too!</span></div><div class="line">        <span class="keyword">return</span> low;</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
 <h2 id="旋转排序数组"><a href="#旋转排序数组" class="headerlink" title="旋转排序数组"></a>旋转排序数组</h2><p>二分查找的变种，我们一直写得都是有序数组的二分查找， 那么旋转之后的数组，你还会写吗？</p>
 <pre><code>1 2 3 4 5 6 7
 | | | | | | |  
@@ -474,8 +475,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/03/24/DP/" rel="prev" title="">
-                 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/03/27/DP算法的一点总结/" rel="prev" title="DP的一点总结">
+                DP的一点总结 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -553,7 +554,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">116</span>
+                <span class="site-state-item-count">118</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -564,7 +565,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">24</span>
+                <span class="site-state-item-count">26</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -575,7 +576,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">51</span>
+                <span class="site-state-item-count">55</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
