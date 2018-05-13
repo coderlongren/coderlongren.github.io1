@@ -94,18 +94,18 @@
 
 
 
-<meta name="description" content="获取所有员工当前的manager，如果当前的manager是自己的话结果不显示，当前表示to_date=’9999-01-01’。结果第一列给出当前员工的emp_no,第二列给出其manager对应的manager_no。CREATE TABLE dept_emp ( emp_no int(11) NOT NULL, dept_no char(4) NOT NULL, from_date dat">
+<meta name="description" content="摘要：NEWCODER SQL">
 <meta name="keywords" content="MySQL">
 <meta property="og:type" content="article">
 <meta property="og:title" content="NOWCODER_SQL题目">
 <meta property="og:url" content="https://coderlongren.github.io/2018/04/23/NOWCODER_SQL2/index.html">
 <meta property="og:site_name" content="coderlong的博客">
-<meta property="og:description" content="获取所有员工当前的manager，如果当前的manager是自己的话结果不显示，当前表示to_date=’9999-01-01’。结果第一列给出当前员工的emp_no,第二列给出其manager对应的manager_no。CREATE TABLE dept_emp ( emp_no int(11) NOT NULL, dept_no char(4) NOT NULL, from_date dat">
+<meta property="og:description" content="摘要：NEWCODER SQL">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-04-25T02:17:27.867Z">
+<meta property="og:updated_time" content="2018-05-06T03:01:51.504Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="NOWCODER_SQL题目">
-<meta name="twitter:description" content="获取所有员工当前的manager，如果当前的manager是自己的话结果不显示，当前表示to_date=’9999-01-01’。结果第一列给出当前员工的emp_no,第二列给出其manager对应的manager_no。CREATE TABLE dept_emp ( emp_no int(11) NOT NULL, dept_no char(4) NOT NULL, from_date dat">
+<meta name="twitter:description" content="摘要：NEWCODER SQL">
 
 
 
@@ -395,7 +395,8 @@
       
 
       
-        <ol>
+        <p>摘要：NEWCODER SQL<br><a id="more"></a></p>
+<ol>
 <li>获取所有员工当前的manager，如果当前的manager是自己的话结果不显示，当前表示to_date=’9999-01-01’。<br>结果第一列给出当前员工的emp_no,第二列给出其manager对应的manager_no。<br>CREATE TABLE <code>dept_emp</code> (<br> <code>emp_no</code> int(11) NOT NULL,<br> <code>dept_no</code> char(4) NOT NULL,<br> <code>from_date</code> date NOT NULL,<br> <code>to_date</code> date NOT NULL,<br> PRIMARY KEY (<code>emp_no</code>,<code>dept_no</code>));<br> CREATE TABLE <code>dept_manager</code> (<br> <code>dept_no</code> char(4) NOT NULL,<br> <code>emp_no</code> int(11) NOT NULL,<br> <code>from_date</code> date NOT NULL,<br> <code>to_date</code> date NOT NULL,<br> PRIMARY KEY (<code>emp_no</code>,<code>dept_no</code>));</li>
 </ol>
 <p><code>select dept_emp.emp_no,dept_manager.emp_no as manager_no from dept_emp,dept_manager 
@@ -575,7 +576,7 @@ as growth;</code></p>
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">118</span>
+                <span class="site-state-item-count">120</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>

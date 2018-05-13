@@ -303,7 +303,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/03/06/重建二叉树/">
+    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/03/06/二进制中1的个数/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Sailong Ren">
@@ -322,7 +322,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/06/重建二叉树/" itemprop="url">重建二叉树</a></h1>
+                <a class="post-title-link" href="/2018/03/06/二进制中1的个数/" itemprop="url">二进制中1的个数</a></h1>
         
 
         <div class="post-meta">
@@ -396,8 +396,297 @@
       
         
           
-            <h2 id="重建二叉树"><a href="#重建二叉树" class="headerlink" title="重建二叉树"></a>重建二叉树</h2><p><code>题目描述：已知中序和前序，请重建二叉树</code></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> 二叉树重建 </span>&#123;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		<span class="comment">// TODO Auto-generated method stub</span></div><div class="line">		</div><div class="line">	&#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> TreeNode <span class="title">reConstructBinaryTree</span><span class="params">(<span class="keyword">int</span>[] pre, <span class="keyword">int</span>[] in)</span> </span>&#123;</div><div class="line">		<span class="comment">// 前序遍历&#123;1,2,4,7,3,5,6,8&#125;</span></div><div class="line">		<span class="comment">// 中序遍历 &#123;4,7,2,1,5,3,8,6&#125;</span></div><div class="line">		TreeNode root =  reConstruct(pre, <span class="number">0</span>, pre.length - <span class="number">1</span>, in, <span class="number">0</span>, in.length - <span class="number">1</span>);</div><div class="line">		<span class="keyword">return</span> root;</div><div class="line">	&#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> TreeNode <span class="title">reConstruct</span><span class="params">(<span class="keyword">int</span>[] pre, <span class="keyword">int</span> startPre, <span class="keyword">int</span> endPre, <span class="keyword">int</span>[] in, <span class="keyword">int</span> startIn, <span class="keyword">int</span> endIn)</span> </span>&#123;</div><div class="line">		<span class="comment">// 如果起始坐标大于结束下标， 无效的输入</span></div><div class="line">		<span class="keyword">if</span> (startPre &gt; endPre || startIn &gt; endIn) &#123;</div><div class="line">			<span class="keyword">return</span> <span class="keyword">null</span>; <span class="comment">// 无效</span></div><div class="line">		&#125;</div><div class="line">		</div><div class="line">		TreeNode root = <span class="keyword">new</span> TreeNode(pre[<span class="number">0</span>]);<span class="comment">// 前序遍历第一个数，即根节点</span></div><div class="line">		</div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i = startIn; i &lt;= endIn; i++) &#123;</div><div class="line">			<span class="comment">// 在中序遍历中找到 中根节点</span></div><div class="line">			<span class="keyword">if</span> (in[i] == pre[startPre]) &#123;</div><div class="line">				<span class="comment">//i-startIn是左子树节点的个数，前序遍历起始值加上这个就是终点值</span></div><div class="line">                <span class="comment">//i-1就是中序遍历左子树的终点，起始值是从0一直都是从0开始</span></div><div class="line">				root.left = reConstruct(pre, startPre + <span class="number">1</span>, startPre + i - startIn, in, startIn, i - <span class="number">1</span>);</div><div class="line">				<span class="comment">//前序右子树遍历的起始值:startPre+i-startIn+1 前序右子树遍历的终点值:endPre</span></div><div class="line">                <span class="comment">//中序遍历右子树的起始值:i+1,endIn</span></div><div class="line">				root.right = reConstruct(pre, startPre + i - startIn + <span class="number">1</span>, endPre, in, i + <span class="number">1</span>, endIn);</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">return</span> root;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+            <a id="more"></a>
+<h2 id="二进制中1的个数"><a href="#二进制中1的个数" class="headerlink" title="二进制中1的个数"></a>二进制中1的个数</h2><p><code>题目描述
+输入一个整数，输出该数二进制表示中1的个数。其中负数用补码表示。</code><br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> 二进制1的个数 </span>&#123;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		<span class="comment">// TODO Auto-generated method stub</span></div><div class="line">		String string = Integer.toBinaryString(<span class="number">5</span>);</div><div class="line">		string = Integer.toBinaryString(Integer.valueOf(<span class="string">"111"</span>,<span class="number">2</span>));</div><div class="line">		string = Integer.toBinaryString(-<span class="number">16</span>);</div><div class="line"><span class="comment">//		System.out.println(string);</span></div><div class="line">		System.out.println(NumberOf2(-<span class="number">4</span>));</div><div class="line">	&#125;</div><div class="line">	<span class="comment">// 改进的算法，可以应对负数情况</span></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span>  <span class="title">NumberOf2</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</div><div class="line">        <span class="keyword">int</span> count= <span class="number">0</span>;</div><div class="line">        <span class="keyword">int</span> flag = <span class="number">1</span>;</div><div class="line">        <span class="keyword">while</span> (flag != <span class="number">0</span>)&#123;</div><div class="line">            <span class="keyword">if</span> ((n &amp; flag) != <span class="number">0</span>)&#123;</div><div class="line">                count++;      </div><div class="line">            &#125;</div><div class="line">            flag  = flag &lt;&lt; <span class="number">1</span>;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> count;</div><div class="line">	&#125;</div><div class="line">	<span class="comment">// 负数，会造成死循环</span></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span>  <span class="title">NumberOf1</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</div><div class="line">        <span class="keyword">int</span> count= <span class="number">0</span>;</div><div class="line">        <span class="keyword">int</span> flag = <span class="number">1</span>;</div><div class="line">        <span class="keyword">while</span> (n!= <span class="number">0</span>)&#123;</div><div class="line">            <span class="keyword">if</span> ((n &amp; <span class="number">1</span>) != <span class="number">0</span>)&#123;</div><div class="line">                count++;      </div><div class="line">            &#125;</div><div class="line">            n = n&gt;&gt;<span class="number">1</span>;</div><div class="line">        &#125;</div><div class="line">         <span class="keyword">return</span> count;</div><div class="line">     &#125;  </div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/03/06/二维数组查找/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sailong Ren">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="coderlong的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/03/06/二维数组查找/" itemprop="url">二维数组查找</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-06T14:18:40+08:00">
+                2018-03-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/剑指offer/" itemprop="url" rel="index">
+                    <span itemprop="name">剑指offer</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <a id="more"></a>
+<p><code>题目描述
+在一个二维数组中，每一行都按照从左到右递增的顺序排序，每一列都按照从上到下递增的顺序排序。请完成一个函数，输入这样的一个二维数组和一个整数，判断数组中是否含有该整数。·</code></p>
+<p>思路： 从右上角开始，若小，向下走，删除一行，若大，向左走，删除一列<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line">* @author 作者 : coderlong</div><div class="line">* @version 创建时间：2018年2月8日 下午9:44:23</div><div class="line">* 类说明: /*</div><div class="line">利用二维数组由上到下，由左到右递增的规律，</div><div class="line">那么选取右上角或者左下角的元素a[row] [col]与target进行比较，</div><div class="line">当target小于元素a[row] [col]时，那么target必定在元素a所在行的左边,</div><div class="line">即col--；</div><div class="line">当target大于元素a[row][col]时，那么target必定在元素a所在列的下边,</div><div class="line">即row++；</div><div class="line">*/</div><div class="line">public class 二维数组查找 &#123;</div><div class="line"></div><div class="line">	public static void main(String[] args) &#123;</div><div class="line">		// TODO Auto-generated method stub</div><div class="line"></div><div class="line">	&#125;</div><div class="line">	public static boolean Find(int[][] array, int target) &#123;</div><div class="line">		int row = 0;</div><div class="line">		int col = array[0].length - 1;</div><div class="line">		while (row &lt; array.length &amp;&amp; col &gt;= 0) &#123;</div><div class="line">			if (target == array[row][col]) &#123;</div><div class="line">				return true;</div><div class="line">			&#125;</div><div class="line">			else if (target &gt; array[row][col]) &#123;</div><div class="line">				row++;</div><div class="line">			&#125;</div><div class="line">			else &#123;</div><div class="line">				col--;</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">		return false;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/03/06/滑动窗口最大值/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sailong Ren">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="coderlong的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/03/06/滑动窗口最大值/" itemprop="url">滑动窗口最大值</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-06T14:18:40+08:00">
+                2018-03-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/剑指offer/" itemprop="url" rel="index">
+                    <span itemprop="name">剑指offer</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>给定一个数组和滑动窗口的大小，请找出所有滑动窗口里的最大值。</p>
+<h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> 滑动窗口的最大值 </span>&#123;</div><div class="line">	<span class="function"><span class="keyword">public</span> ArrayList&lt;Integer&gt; <span class="title">maxInWindows</span><span class="params">(<span class="keyword">int</span> [] num, <span class="keyword">int</span> size)</span> </span>&#123;</div><div class="line">		ArrayList&lt;Integer&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line">		<span class="keyword">if</span> (num == <span class="keyword">null</span>) &#123;</div><div class="line">			<span class="keyword">return</span> list;</div><div class="line">		&#125;</div><div class="line">		</div><div class="line">		<span class="keyword">if</span> (num.length &lt; size || size &lt; <span class="number">1</span>) &#123;</div><div class="line">			<span class="keyword">return</span> list;</div><div class="line">		&#125;</div><div class="line">		</div><div class="line">		<span class="comment">// 用来保存可能是滑动窗口最大值的数字的下标</span></div><div class="line">		LinkedList&lt;Integer&gt; indexDeque = <span class="keyword">new</span> LinkedList&lt;&gt;();</div><div class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; size - <span class="number">1</span>; i++) &#123;</div><div class="line">			<span class="comment">// 如果已有数字小于代存入的数据</span></div><div class="line">		&#125;</div><div class="line">		<span class="keyword">return</span> list;</div><div class="line">	&#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> ArrayList&lt;Integer&gt; <span class="title">maxInWindows2</span><span class="params">(<span class="keyword">int</span> [] num, <span class="keyword">int</span> size)</span> </span>&#123;</div><div class="line">		ArrayList&lt;Integer&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line">		ArrayList&lt;Integer&gt; data = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i : num) &#123;</div><div class="line">			data.add(i);</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">if</span> (num == <span class="keyword">null</span>) &#123;</div><div class="line">			<span class="keyword">return</span> list;</div><div class="line">		&#125;</div><div class="line">		</div><div class="line">		<span class="keyword">if</span> (num.length &lt; size || size &lt; <span class="number">1</span>) &#123;</div><div class="line">			<span class="keyword">return</span> list;</div><div class="line">		&#125;</div><div class="line">		Deque&lt;Integer&gt; idx = <span class="keyword">new</span> LinkedList&lt;&gt;();</div><div class="line">		<span class="comment">// 窗口还没有填满的时候，找最大的索引</span></div><div class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; size &amp;&amp; i &lt; num.length; i++) &#123;</div><div class="line">			<span class="keyword">while</span> (!idx.isEmpty() &amp;&amp; data.get(i) &gt; idx.getLast()) &#123;</div><div class="line">				idx.removeLast(); <span class="comment">// 移除队尾保存的索引</span></div><div class="line">			&#125;</div><div class="line">			<span class="comment">// 添加索引</span></div><div class="line">			idx.addLast(i); <span class="comment">// 在队尾添加索引</span></div><div class="line">		&#125;</div><div class="line">		</div><div class="line">		<span class="comment">// 当窗口被填满了时候</span></div><div class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = size; i &lt; data.size(); i++) &#123;</div><div class="line">			<span class="comment">// 第一个窗口用来保存最大值</span></div><div class="line">			list.add(idx.getFirst()); <span class="comment">// 队首元素 永远是最大的</span></div><div class="line">			</div><div class="line">			<span class="comment">// 如果索引对应的 值 比之前的索引值对应的值大或者相等，就删除之前存储的值</span></div><div class="line">			<span class="keyword">while</span> (!idx.isEmpty() &amp;&amp; data.get(i) &gt; data.get(idx.getLast())) &#123;</div><div class="line">				idx.removeLast();</div><div class="line">			&#125;</div><div class="line">			<span class="comment">// 删除已经滑出 窗口的数据对应的下标</span></div><div class="line">			<span class="keyword">while</span> (!idx.isEmpty() &amp;&amp; idx.getFirst() &lt;= (i - size)) &#123;</div><div class="line">				idx.removeFirst();</div><div class="line">			&#125;</div><div class="line">			</div><div class="line">			idx.addLast(i);</div><div class="line">		&#125;</div><div class="line">		</div><div class="line">		<span class="keyword">return</span> list;</div><div class="line">		</div><div class="line">	&#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		<span class="keyword">int</span>[] nums = &#123;<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">2</span>,<span class="number">6</span>,<span class="number">2</span>,<span class="number">5</span>,<span class="number">1</span>&#125;;</div><div class="line">		System.out.println(maxInWindows2(nums, <span class="number">3</span>));</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
           
         
       
@@ -1551,329 +1840,6 @@ AbstractQueuedSynchronizer : compareAndSetState(int expect, int update)
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/03/01/红黑树详解/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Sailong Ren">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="coderlong的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/03/01/红黑树详解/" itemprop="url">红黑树，B树， B+树，B*树</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-01T21:02:17+08:00">
-                2018-03-01
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index">
-                    <span itemprop="name">java</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="B树"><a href="#B树" class="headerlink" title="B树"></a>B树</h2><p>B树是一种多路搜索树<br>一棵m阶B树(balanced tree of order m)是一棵平衡的m路搜索树。它或者是空树，或者是满足下列性质的树：</p>
-<ul>
-<li>根节点至少有两个子女</li>
-<li>每个非根节点所包含的关键字个数j满足 [m/2] - 1 &lt;= j &lt;= m - 1</li>
-<li>除根结点以外的所有结点（不包括叶子结点）的度数正好是关键字总数加1，故内部子树个数 k 满足：[m/2] &lt;= k &lt;= m ；</li>
-<li>所有的叶子结点都位于同一层。</li>
-</ul>
-<ol>
-<li>关键字集合分布在整棵树中</li>
-<li>任何一个关键字只出现在一个节点中</li>
-<li>搜索可能在非叶子节点中结束</li>
-<li>搜索性能相当于多二叉搜索</li>
-<li>自动层次控制</li>
-</ol>
-<h1 id="B-树"><a href="#B-树" class="headerlink" title="B+树"></a>B+树</h1><p>B+ 树是一种树数据结构，是一个n叉树，每个节点通常有多个孩子，一棵B+树包含根节点、内部节点和叶子节点。根节点可能是一个叶子节点，也可能是一个包含两个或两个以上孩子节点的节点。<br>B+ 树元素自底向上插入。</p>
-<h2 id="许多文件系统都是用B-树，MySQL里面的索引引擎-InnoDB就是使用的B-树"><a href="#许多文件系统都是用B-树，MySQL里面的索引引擎-InnoDB就是使用的B-树" class="headerlink" title="许多文件系统都是用B+树，MySQL里面的索引引擎 InnoDB就是使用的B+树"></a>许多文件系统都是用B+树，MySQL里面的索引引擎 InnoDB就是使用的B+树</h2><ol>
-<li><p>有n棵子树的结点中含有n个关键字，每个关键字不保存数据，只用来索引，所有数据都保存在叶子节点。</p>
-</li>
-<li><p>所有的叶子结点中包含了全部关键字的信息，及指向含这些关键字记录的指针，且叶子结点本身依关键字的大小自小而大顺序链接。</p>
-</li>
-<li><p>所有的非终端结点可以看成是索引部分，结点中仅含其子树（根结点）中的最大（或最小）关键字。<br>通常在B+树上有两个头指针，一个指向根结点，一个指向关键字最小的叶子结点。</p>
-</li>
-<li><p>B+树内节点不存储数据，所有 data 存储在叶节点导致查询时间复杂度固定为 log n。而B-树查询时间复杂度不固定，与 key 在树中的位置有关，最好为O(1)。<br>由于B+树所有的 data 域都在根节点，所以查询 key 为 50的节点必须从根节点索引到叶节点，时间复杂度固定为 O(log n)。</p>
-</li>
-<li><p>B+树叶节点两两相连可大大增加区间访问性，可使用在范围查询等，而B-树每个节点 key 和 data 在一起，则无法区间查找。<br>2.B+树叶节点两两相连可大大增加区间访问性，可使用在范围查询等，而B-树每个节点 key 和 data 在一起，则无法区间查找。</p>
-</li>
-</ol>
-<h1 id="红黑树"><a href="#红黑树" class="headerlink" title="红黑树"></a>红黑树</h1><p>两个最重要的特征</p>
-<ol>
-<li>节点都有颜色；</li>
-<li>在插入和删除的过程中，要遵循保持这些颜色的不同排列的规则。</li>
-</ol>
-<h2 id="红黑树主要规则呢-？"><a href="#红黑树主要规则呢-？" class="headerlink" title="红黑树主要规则呢 ？"></a>红黑树主要规则呢 ？</h2><ol>
-<li>每个节点不是红色就是黑色的</li>
-<li>根节点总是黑色的</li>
-<li>如果一个节点是红色的，那么他的子节点一定是黑色的<br>从根节点到叶子节点的每条路径，含有相同数目的黑色节点</li>
-</ol>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/03/01/交换两个数组元素使sum之差最小/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Sailong Ren">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="coderlong的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/03/01/交换两个数组元素使sum之差最小/" itemprop="url">交换两个数组中的元素，使连个数组SUM之差最小</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-01T14:18:40+08:00">
-                2018-03-01
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/algorithm/" itemprop="url" rel="index">
-                    <span itemprop="name">algorithm</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <a id="more"></a>
-<p>没事在CSDN算法论坛上看到的一道题，估计好老了，是以前的华为OJ，觉得和我刚刚做过的一道leetcodeContest57 上面的一道数组交换，很像，就记录下来了。</p>
-<p>基本是背包问题的变种，浮点数 我也不会处理了，<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></div><div class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>; </div><div class="line"></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">process</span><span class="params">(<span class="keyword">int</span> a[],<span class="keyword">int</span> b[],<span class="keyword">int</span> n)</span></span></div><div class="line"><span class="function"></span>&#123;    </div><div class="line">	<span class="keyword">int</span> temp[<span class="number">10</span>];</div><div class="line">	<span class="keyword">int</span> i;</div><div class="line">    <span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;n;i++)</div><div class="line">	&#123;</div><div class="line">		temp[i]=a[i];</div><div class="line">		temp[i+n]=b[i];</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">    sort(temp,temp+n*<span class="number">2</span>);<span class="comment">//对数组进行排序，默认升序，从小到大</span></div><div class="line">	</div><div class="line">	<span class="built_in">cout</span>&lt;&lt;<span class="built_in">endl</span>;</div><div class="line">	<span class="keyword">int</span> cura=<span class="number">0</span>,curb=<span class="number">0</span>,suma,sumb=<span class="number">0</span>;</div><div class="line">	</div><div class="line">	<span class="comment">//算法基本思想：将排序后的数组，按从大到小顺序放入a，b数组中，规则是先放a，再放b，</span></div><div class="line">	<span class="comment">//直到b中的元素总和大于等于a后，再放a中，以此类推。</span></div><div class="line">	</div><div class="line">	a[cura++]=suma=temp[<span class="number">9</span>];  <span class="comment">//先将最大元素放入a中</span></div><div class="line">	</div><div class="line">	<span class="keyword">for</span>(i=<span class="number">2</span>*n<span class="number">-2</span>;i&gt;=<span class="number">0</span>;i--)</div><div class="line">	&#123;</div><div class="line">		<span class="keyword">if</span>((suma&gt;sumb&amp;&amp;curb &lt; n))</div><div class="line">		&#123; </div><div class="line">			</div><div class="line">           	b[curb]=temp[i];</div><div class="line">			sumb+=b[curb++];		</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">else</span> <span class="keyword">if</span>(cura&lt;n)  <span class="comment">//数组b中元素总和大于a中元素总和情况</span></div><div class="line">		&#123; </div><div class="line">			</div><div class="line">			a[cura]=temp[i];</div><div class="line">			suma+=a[cura++];</div><div class="line">		&#125; </div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></div><div class="line"><span class="function"></span>&#123;</div><div class="line">	<span class="keyword">int</span> a[<span class="number">5</span>];</div><div class="line">	<span class="keyword">int</span> b[<span class="number">5</span>];</div><div class="line">	</div><div class="line">    <span class="keyword">int</span> i;</div><div class="line">	<span class="built_in">cout</span>&lt;&lt;<span class="string">"a数组："</span>;</div><div class="line">	<span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;<span class="number">5</span>;i++)</div><div class="line">	&#123;</div><div class="line">		<span class="built_in">cin</span>&gt;&gt;a[i];	</div><div class="line">	&#125;</div><div class="line">	<span class="built_in">cout</span>&lt;&lt;<span class="string">"b数组："</span>;</div><div class="line">	<span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;<span class="number">5</span>;i++)</div><div class="line">	&#123;</div><div class="line">		<span class="built_in">cin</span>&gt;&gt;b[i];</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	process(a,b,<span class="number">5</span>);</div><div class="line"></div><div class="line">	<span class="built_in">cout</span>&lt;&lt;<span class="string">"交换元素后a数组："</span>;</div><div class="line">	<span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;<span class="number">5</span>;i++)</div><div class="line">		<span class="built_in">cout</span>&lt;&lt;a[i]&lt;&lt;<span class="string">" "</span>;</div><div class="line">	<span class="built_in">cout</span>&lt;&lt;<span class="built_in">endl</span>;</div><div class="line"></div><div class="line">	<span class="built_in">cout</span>&lt;&lt;<span class="string">"交换元素后b数组："</span>;</div><div class="line">	<span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;<span class="number">5</span>;i++)</div><div class="line">		<span class="built_in">cout</span>&lt;&lt;b[i]&lt;&lt;<span class="string">" "</span>;</div><div class="line">	</div><div class="line">	<span class="built_in">cout</span>&lt;&lt;<span class="built_in">endl</span>;</div><div class="line">	<span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">	</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p><code>Java版</code><br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">twoArray</span> </span>&#123;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">process</span><span class="params">(<span class="keyword">int</span>[] a, <span class="keyword">int</span> [] b, <span class="keyword">int</span> n)</span> </span>&#123;</div><div class="line">		<span class="keyword">int</span>[] temp = <span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">2</span>*n];</div><div class="line">		<span class="keyword">int</span> i;</div><div class="line">		<span class="comment">// 把两个数组复制到一个数组中去</span></div><div class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> index = <span class="number">0</span>; index &lt; n; index++) &#123;</div><div class="line">			temp[index] = a[index];</div><div class="line">			temp[index + n] = b[index];</div><div class="line">		&#125;</div><div class="line">		 <span class="comment">// 从小到大 排序</span></div><div class="line">		Arrays.sort(temp);</div><div class="line">		<span class="comment">// 将排序后的数组，按从大到小顺序放入a，b数组中，规则是先放a，再放b，</span></div><div class="line">		<span class="comment">//直到b中的元素总和大于等于a后，再放a中，以此类推</span></div><div class="line">		<span class="keyword">int</span> curA = <span class="number">0</span>; </div><div class="line">		<span class="keyword">int</span> curB = <span class="number">0</span>;</div><div class="line">		<span class="keyword">int</span> sumA = <span class="number">0</span>; </div><div class="line">		<span class="keyword">int</span> sumB = <span class="number">0</span>;</div><div class="line">		<span class="comment">// 最大元素 先放入a中</span></div><div class="line">		a[curA++] = sumA = temp[<span class="number">2</span>*n - <span class="number">1</span>];</div><div class="line">		</div><div class="line">		<span class="keyword">for</span> (i = <span class="number">2</span>*n - <span class="number">2</span>; i &gt;= <span class="number">0</span>; i--) &#123;</div><div class="line">			<span class="comment">// 第二大的放进b里面</span></div><div class="line">			<span class="keyword">if</span> (sumA &gt; sumB &amp;&amp; curB &lt; n) &#123;</div><div class="line">				b[curB] = temp[i];</div><div class="line">				sumB += b[curB++];</div><div class="line">			&#125;</div><div class="line">			<span class="keyword">else</span> <span class="keyword">if</span> (curA &lt; n) &#123;</div><div class="line">				a[curA] = temp[i];</div><div class="line">				sumA += a[curA++];</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">			</div><div class="line">		</div><div class="line">	&#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		<span class="keyword">int</span>[] a = &#123;<span class="number">1</span>,<span class="number">3</span>,<span class="number">5</span>,<span class="number">7</span>,<span class="number">8</span>&#125;;</div><div class="line">		<span class="keyword">int</span>[] b = &#123;<span class="number">2</span>,<span class="number">3</span>,<span class="number">5</span>,<span class="number">4</span>,<span class="number">10</span>&#125;;</div><div class="line">		process(a, b, a.length);</div><div class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i : a) &#123;</div><div class="line">			System.out.print(i + <span class="string">" "</span>);</div><div class="line">		&#125;</div><div class="line">		System.out.println();</div><div class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i : b) &#123;</div><div class="line">			System.out.print(i + <span class="string">" "</span>);</div><div class="line">		&#125;</div><div class="line"></div><div class="line">		<span class="comment">/*** result</span></div><div class="line"><span class="comment">		*10 5 5 3 1 </span></div><div class="line"><span class="comment">		*8 7 4 3 2</span></div><div class="line"><span class="comment">		**/</span> </div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1924,7 +1890,7 @@ AbstractQueuedSynchronizer : compareAndSetState(int expect, int update)
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">118</span>
+                <span class="site-state-item-count">120</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
