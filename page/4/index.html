@@ -303,6 +303,500 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/03/15/Mysql索引/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sailong Ren">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="coderlong的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/03/15/Mysql索引/" itemprop="url">Mysql索引以及优化笔记</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-15T21:18:40+08:00">
+                2018-03-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/MySQL/" itemprop="url" rel="index">
+                    <span itemprop="name">MySQL</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="MySQL索引"><a href="#MySQL索引" class="headerlink" title="MySQL索引"></a>MySQL索引</h2><p>主要有BTree索引、Hash索引、full-text全文索引、R-Tree索引。  </p>
+<p>BTree性质<br>    索引字段要尽量的小<br>    索引的最左匹配特性<br>BTree是Innodb默认的索引<br>B+树是一个平衡的多叉树，从根节点到每个叶子节点的高度差值不超过1，而且同层级的节点间有指针相互链接。</p>
+<p>B+树是一个平衡的多叉树，从根节点到每个叶子节点的高度差值不超过1，而且同层级的节点间有指针相互链接。<br>　　在B+树上的常规检索，从根节点到叶子节点的搜索效率基本相当，不会出现大幅波动，而且基于索引的顺序扫描时，也可以利用双向指针快速左右移动，效率非常高。</p>
+<h2 id="hash索引"><a href="#hash索引" class="headerlink" title="hash索引"></a>hash索引</h2><p>hash就是一种（key=&gt;value）形式的键值对,允许多个key对应相同的value，但不允许一个key对应多个value,为某一列或几列建立hash索引，就会利用这一列或几列的值通过一定的算法计算出一个hash值，对应一行或几行数据. hash索引可以一次定位，不需要像树形索引那样逐层查找,因此具有极高的效率.<br>HASH与BTREE比较:<br>    hash类型的索引：查找单条快，查询范围慢<br>    bree类型的索引：范围查询和随机查询快（innodb默认索引类型）</p>
+<h2 id="butong的索引引擎区别"><a href="#butong的索引引擎区别" class="headerlink" title="butong的索引引擎区别"></a>butong的索引引擎区别</h2><ul>
+<li>InnoDB 支持事务，支持行级别锁定，支持 Btree、Hash 等索引，不支持Full-text 索引；</li>
+<li>MyISAM 不支持事务，支持表级别锁定，支持 Btree、Full-text 等索引，不支持 Hash 索引；</li>
+<li>Memory 不支持事务，支持表级别锁定，支持 Btree、Hash 等索引，不支持 Full-text 索引</li>
+<li>NDB 支持事务，支持行级别锁定，支持 Hash 索引，不支持 Btree、Full-text 等索引；</li>
+</ul>
+<h2 id="聚促索引"><a href="#聚促索引" class="headerlink" title="聚促索引"></a>聚促索引</h2><p>InnoDB存储引擎表示索引组织表，即表中数据按照主键顺序存放。而聚集索引（clustered index）就是按照每张表的主键构造一棵B+树，同时叶子结点存放的即为整张表的行记录数据，也将聚集索引的叶子结点称为数据页。聚集索引的这个特性决定了索引组织表中数据也是索引的一部分。同B+树数据结构一样，每个数据页都通过一个双向链表来进行链接。<br>如果未定义主键，MySQL取第一个唯一索引（unique）而且只含非空列（NOT NULL）作为主键，InnoDB使用它作为聚簇索引。<br>如果没有这样的列，InnoDB就自己产生一个这样的ID值，它有六个字节，而且是隐藏的，使其作为聚簇索引。</p>
+<h1 id="由于实际的数据页只能按照一棵B-树进行排序，因此每张表只能拥有一个聚集索引。在多少情况下，查询优化器倾向于采用聚集索引。因为聚集索引能够在B-树索引的叶子节点上直接找到数据。此外由于定义了数据的逻辑顺序，聚集索引能够特别快地访问针对范围值得查询。"><a href="#由于实际的数据页只能按照一棵B-树进行排序，因此每张表只能拥有一个聚集索引。在多少情况下，查询优化器倾向于采用聚集索引。因为聚集索引能够在B-树索引的叶子节点上直接找到数据。此外由于定义了数据的逻辑顺序，聚集索引能够特别快地访问针对范围值得查询。" class="headerlink" title="由于实际的数据页只能按照一棵B+树进行排序，因此每张表只能拥有一个聚集索引。在多少情况下，查询优化器倾向于采用聚集索引。因为聚集索引能够在B+树索引的叶子节点上直接找到数据。此外由于定义了数据的逻辑顺序，聚集索引能够特别快地访问针对范围值得查询。"></a>由于实际的数据页只能按照一棵B+树进行排序，因此每张表只能拥有一个聚集索引。在多少情况下，查询优化器倾向于采用聚集索引。因为聚集索引能够在B+树索引的叶子节点上直接找到数据。此外由于定义了数据的逻辑顺序，聚集索引能够特别快地访问针对范围值得查询。</h1><h2 id="Explain查询优化"><a href="#Explain查询优化" class="headerlink" title="Explain查询优化"></a>Explain查询优化</h2><ol>
+<li>id id列数字越大越先执行，如果说数字一样大，那么就从上往下依次执行  </li>
+<li>select_type<br>A：simple：表示不需要union操作或者不包含子查询的简单select查询。有连接查询时，外层的查询为simple，且只有一个<br>B：primary<br>C：union：union连接的两个select查询，第一个查询是dervied派生表，除了第一个表外，第二个以后的表select_type都是union<br>D：dependent union：与union一样，出现在union 或union all语句中，但是这个查询要受到外部查询的影响<br>E：union result：包含union的结果集，在union和union all语句中,因为它不需要参与查询，所以id字段为null<br>F：subquery：除了from字句中包含的子查询外，其他地方出现的子查询都可能是subquery<br>G：dependent subquery：与dependent union类似，表示这个subquery的查询要受到外部表查询的影响<br>H：derived：from字句中出现的子查询，也叫做派生表，其他数据库中可能叫做内联视图或嵌套select </li>
+<li>table 显示的查询表的名字</li>
+<li>type<br>const 表示一次通过索引就找到了<br>primary 使用主键<br>all 全表扫描，性能极差<br>null 未使用索引<br>ref 联合查询<br>system &gt; const &gt; eq_ref &gt; ref &gt; fulltext &gt; ref_or_null &gt; index_merge &gt; unique_subquery &gt; index_subquery &gt; range &gt; index &gt; ALL</li>
+<li>possible_keys<br>指出MySQL能使用哪个索引在该表中找到行。如果是空的，没有相关的索引。这时要提高性能，可通过检验where子句，看是否引用某些字段，或者检查字段不是适合索引。</li>
+<li>key<br>显示MySQL实际决定使用的键。如果没有索引被选择，键是null。</li>
+<li>key_len<br>显示MySQL决定使用的键长度。如果键是null，长度就是null。文档提示特别注意这个值可以得出一个多重主键里MySQL实际使用了哪一部分。</li>
+<li><p>ref<br>显示哪个字段或常数与key一起被使用。</p>
+</li>
+<li><p>rows<br>这个数表示MySQL要遍历多少数据才能找到，在InnoDB上是不准确的。</p>
+</li>
+<li><p>Extra<br>如果是only index，这意味着信息只用索引树中的信息检索出的，这比扫描整个表要快。<br>如果是where used，就是使用上了where限制。<br>如果是impossible where 表示用不着where，一般就是没查出来啥。<br>如果此信息显示using filesort或者using temporary的话会很吃力，where和order by的索引经常无法兼顾，如果按照where来确定索引，那么在order by时，就必然会引起using filesort，这就要看是先过滤再排序划算，还是先排序再过滤划算。</p>
+</li>
+</ol>
+<p>数据库的优化（一条sql中能使用一个索引，多个索引会自动选择最优的索引,从sql语句优化和索引两个部分回答）<br>原则</p>
+<ol>
+<li>sql尽量使用索引</li>
+<li>对sql语句优化<br>子查询变成left join<br>limit 分布优化，先利用ID定位，再分页<br>or条件优化，多个or条件可以用union all对结果进行合并（union all结果可能重复）<br>不必要的排序<br>where代替having,having 检索完所有记录，才进行过滤<br>避免嵌套查询<br>对多个字段进行等值查询时，联合索引</li>
+</ol>
+<h2 id="Sql-面试题"><a href="#Sql-面试题" class="headerlink" title="Sql 面试题"></a>Sql 面试题</h2><ul>
+<li>库表结构  *<br>  Student(S#,Sname,Sage,Ssex)学生表<br>  S#：学号<br>  Sname：学生姓名<br>  Sage：学生年龄<br>  Ssex：学生性别<br>  Course(C#,Cname,T#)课程表<br>  C#：课程编号<br>  Cname：课程名称<br>  T#：教师编号<br>  SC(S#,C#,score)成绩表<br>  S#：学号<br>  C#：课程编号<br>  score：成绩<br>  Teacher(T#,Tname)教师表<br>  T#：教师编号：<br>  Tname：教师名字</li>
+</ul>
+<ol>
+<li><p>查询 001课程比002课程成绩高的所有学生的学号<br>select a.S# from (select S#,score from SC where C#=’001’)a, (select s#,score from SC where c#=’002’)b Where a.score&gt;b.score and a.s# = b.s#;</p>
+</li>
+<li><p>查询平均成绩大于60分的同学的学号和平均成绩<br>select s#, avg(score) from sc group by s# having avg(score)&gt;60;</p>
+</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">public void say(String paramString) &#123;</div><div class="line">        String str = paramString;</div><div class="line">        int i = -1;</div><div class="line">        switch (str.hashCode()) &#123;</div><div class="line">        case 3254818:</div><div class="line">            if (str.equals(&quot;java&quot;))</div><div class="line">                i = 0;</div><div class="line">            break;</div><div class="line">        case 109250886:</div><div class="line">            if (str.equals(&quot;scala&quot;))</div><div class="line">                i = 1;</div><div class="line">        &#125;</div><div class="line">        switch (i) &#123;</div><div class="line">        case 0:</div><div class="line">            System.out.println(&quot;hello java!&quot;);</div><div class="line">            break;</div><div class="line">        case 1:</div><div class="line">            System.out.println(&quot;hello scala!&quot;);</div><div class="line">            break;</div><div class="line">        default:</div><div class="line">            System.out.println(&quot;no match!&quot;);</div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/03/13/几种排序算法/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sailong Ren">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="coderlong的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/03/13/几种排序算法/" itemprop="url">几种排序算法</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-13T19:18:40+08:00">
+                2018-03-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Algorithm/" itemprop="url" rel="index">
+                    <span itemprop="name">Algorithm</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><code>插入排序</code><br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> 插入排序 </span>&#123;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		<span class="comment">// TODO Auto-generated method stub</span></div><div class="line">		<span class="keyword">int</span>[] a = &#123;<span class="number">4</span>,<span class="number">2</span>,<span class="number">1</span>,<span class="number">3</span>,<span class="number">5</span>&#125;;</div><div class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i : a) &#123;</div><div class="line">			System.out.print(i  + <span class="string">" "</span>);</div><div class="line">		&#125;</div><div class="line">		InsertSort(a);</div><div class="line">		System.out.println();</div><div class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i : a) &#123;</div><div class="line">			System.out.print(i  + <span class="string">" "</span>);</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">InsertSort</span><span class="params">(<span class="keyword">int</span>[] a)</span></span>&#123;</div><div class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">1</span>;j &lt; a.length; j++)&#123;</div><div class="line">			<span class="comment">// 从待插入数组中取出第一个元素</span></div><div class="line">			<span class="keyword">int</span> key = a[j];</div><div class="line">			<span class="comment">// i - 1 为有序数组最后一个元素，</span></div><div class="line">			<span class="keyword">int</span> i = j - <span class="number">1</span>;</div><div class="line">			</div><div class="line">			<span class="comment">// 第一个条件为边界限制，第二个为插入判断条件</span></div><div class="line">			<span class="keyword">while</span> (i &gt;= <span class="number">0</span> &amp;&amp; a[i] &gt; key)&#123;</div><div class="line">				a[i + <span class="number">1</span>] = a[i];<span class="comment">// 若不是合适位置，有序数组向后移动</span></div><div class="line">				i--;</div><div class="line">			&#125;</div><div class="line">			a[i + <span class="number">1</span>] = key; <span class="comment">// 找到合适位置，将元素插入</span></div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><code>优化的冒泡</code><br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> 优化的冒泡排序 </span>&#123;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		<span class="comment">// TODO Auto-generated method stub</span></div><div class="line">		<span class="keyword">int</span>[] a = &#123;<span class="number">4</span>,<span class="number">2</span>,<span class="number">1</span>,<span class="number">3</span>,<span class="number">5</span>,-<span class="number">1</span>,<span class="number">100</span>&#125;;</div><div class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i : a) &#123;</div><div class="line">			System.out.print(i  + <span class="string">" "</span>);</div><div class="line">		&#125;</div><div class="line">		sort(a);</div><div class="line">		System.out.println();</div><div class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i : a) &#123;</div><div class="line">			System.out.print(i  + <span class="string">" "</span>);</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">sort</span><span class="params">(<span class="keyword">int</span>[] a)</span> </span>&#123;</div><div class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; a.length - <span class="number">1</span>; i++)&#123;</div><div class="line">			<span class="keyword">boolean</span> flag = <span class="keyword">false</span>; <span class="comment">// 如果flag = true 则证明是一次也没有交换，已经排好序了 直接break</span></div><div class="line">			<span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; a.length - <span class="number">1</span> - i; j++)&#123;</div><div class="line">				<span class="keyword">if</span> (a[j] &gt; a[j + <span class="number">1</span>])&#123;</div><div class="line">					<span class="keyword">int</span> temp = a[j];</div><div class="line">					a[j] = a[j + <span class="number">1</span>];</div><div class="line">					a[j + <span class="number">1</span>] = temp;</div><div class="line">					flag = <span class="keyword">true</span>;</div><div class="line">				&#125;</div><div class="line">			&#125;</div><div class="line">			<span class="keyword">if</span> (!flag)&#123;</div><div class="line">				<span class="keyword">break</span>;</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><code>快排</code><br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> 快速排序 </span>&#123;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</div><div class="line">		<span class="keyword">int</span>[] a = &#123;<span class="number">4</span>,<span class="number">2</span>,<span class="number">1</span>,<span class="number">3</span>,<span class="number">5</span>,-<span class="number">1</span>,<span class="number">100</span>&#125;;</div><div class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i : a) &#123;</div><div class="line">			System.out.print(i  + <span class="string">" "</span>);</div><div class="line">		&#125;</div><div class="line">		sort(a, <span class="number">0</span>, a.length - <span class="number">1</span>);</div><div class="line">		System.out.println();</div><div class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i : a) &#123;</div><div class="line">			System.out.print(i  + <span class="string">" "</span>);</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">partition</span><span class="params">(<span class="keyword">int</span> []array,<span class="keyword">int</span> lo,<span class="keyword">int</span> hi)</span></span>&#123;</div><div class="line">        <span class="comment">//固定的切分方式</span></div><div class="line">        <span class="keyword">int</span> key = array[lo];</div><div class="line">        <span class="keyword">while</span>(lo &lt; hi)&#123;</div><div class="line">            <span class="keyword">while</span>(array[hi] &gt;= key &amp;&amp; hi &gt; lo)&#123; <span class="comment">// 从后向前，找到第一个比key小的元素</span></div><div class="line">                hi--;</div><div class="line">            &#125;</div><div class="line">            array[lo] = array[hi]; <span class="comment">// 交换 </span></div><div class="line">            <span class="keyword">while</span>(array[lo] &lt;= key &amp;&amp; hi &gt; lo)&#123;<span class="comment">// 从前往后，找到一个比key大的元素</span></div><div class="line">                lo++;</div><div class="line">            &#125;</div><div class="line">            array[hi] = array[lo]; <span class="comment">// 交换</span></div><div class="line">        &#125;</div><div class="line">        array[lo] = key;</div><div class="line">        <span class="keyword">return</span> lo; <span class="comment">// lo之前的  和 之后的 已经有序了。</span></div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">sort</span><span class="params">(<span class="keyword">int</span>[] array,<span class="keyword">int</span> lo ,<span class="keyword">int</span> hi)</span></span>&#123;</div><div class="line">        <span class="keyword">if</span>(lo &gt;= hi)&#123;</div><div class="line">            <span class="keyword">return</span> ;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">int</span> index=partition(array,lo,hi);</div><div class="line">        sort(array,lo,index-<span class="number">1</span>);</div><div class="line">        sort(array,index+<span class="number">1</span>,hi); </div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/03/11/Java内存区域溢出/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sailong Ren">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="coderlong的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/03/11/Java内存区域溢出/" itemprop="url">内存区域与内存溢出</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-11T19:18:40+08:00">
+                2018-03-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JVM/" itemprop="url" rel="index">
+                    <span itemprop="name">JVM</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>转载请注明出处：<a href="http://blog.csdn.net/ns_code/article/details/17565503" target="_blank" rel="external">http://blog.csdn.net/ns_code/article/details/17565503</a></p>
+<h2 id="Java堆-如何内存溢出"><a href="#Java堆-如何内存溢出" class="headerlink" title="Java堆 如何内存溢出"></a>Java堆 如何内存溢出</h2><p>无限循环new对象，在List里面保存对象，以至于不被GC回收</p>
+<h2 id="方法区溢出"><a href="#方法区溢出" class="headerlink" title="方法区溢出"></a>方法区溢出</h2><p>先上一段代码：：：</p>
+<p>不断生成大量的动态类，或者无限调用String 的intern()方法<br>产生不同的String对象实例。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 测试方法区溢出</span></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">testFangfaqu</span><span class="params">()</span> </span>&#123;</div><div class="line">		<span class="comment">// 使用List保持对常量池引用，避免了 Full GC回收常量池行为</span></div><div class="line">		List&lt;String&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line">		<span class="keyword">int</span> i = <span class="number">0</span>;</div><div class="line">		<span class="keyword">while</span> (<span class="keyword">true</span>) &#123;</div><div class="line">			list.add(String.valueOf(i++).intern());</div><div class="line">		&#125;</div><div class="line">	&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="堆溢出"><a href="#堆溢出" class="headerlink" title="堆溢出"></a>堆溢出</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 测试 堆溢出</span></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Heap</span><span class="params">()</span> </span>&#123;</div><div class="line">		List&lt;Object&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line">		<span class="keyword">while</span> (<span class="keyword">true</span>) &#123;</div><div class="line">			list.add(<span class="keyword">new</span> StackOverFlow());</div><div class="line">		&#125;</div><div class="line">	&#125;</div></pre></td></tr></table></figure>
+<h2 id="内存区域"><a href="#内存区域" class="headerlink" title="内存区域"></a>内存区域</h2><p>Java虚拟机在执行Java程序的过程中会把他所管理的内存划分为若干个不同的数据区域。Java虚拟机规范将JVM所管理的内存分为以下几个运行时数据区：<code>程序计数器、Java虚拟机栈、本地方法栈、Java堆、方法区。</code>下面详细阐述各数据区所存储的数据类型。</p>
+<p><img src="http://img.blog.csdn.net/20131226151744250" alt=""></p>
+<ul>
+<li><p>程序计数器（Program Counter Register）<br>一块较小的内存空间，它是当前线程所执行的字节码的行号指示器，字节码解释器工作时通过改变该计数器的值来选择下一条需要执行的字节码指令，分支、跳转、循环等基础功能都要依赖它来实现。每条线程都有一个独立的的程序计数器，各线程间的计数器互不影响，因此该区域是线程私有的。</p>
+<p>  当线程在执行一个Java方法时，该计数器记录的是正在执行的虚拟机字节码指令的地址，当线程在执行的是Native方法（调用本地操作系统方法）时，该计数器的值为空。另外，该内存区域是唯一一个在Java虚拟机规范中么有规定任何OOM（内存溢出：OutOfMemoryError）情况的区域。</p>
+</li>
+<li>Java虚拟机栈（Java Virtual Machine Stacks）<br>该区域也是线程私有的，它的生命周期也与线程相同。虚拟机栈描述的是Java方法执行的内存模型：每个方法被执行的时候都会同时创建一个栈帧，栈它是用于支持续虚拟机进行方法调用和方法执行的数据结构。对于执行引擎来讲，活动线程中，只有栈顶的栈帧是有效的，称为当前栈帧，这个栈帧所关联的方法称为当前方法，执行引擎所运行的所有字节码指令都只针对当前栈帧进行操作。栈帧用于存储局部变量表、操作数栈、动态链接、方法返回地址和一些额外的附加信息。在编译程序代码时，栈帧中需要多大的局部变量表、多深的操作数栈都已经完全确定了，并且写入了方法表的Code属性之中。因此，一个栈帧需要分配多少内存，不会受到程序运行期变量数据的影响，而仅仅取决于具体的虚拟机实现。</li>
+</ul>
+<ol>
+<li>局部变量表<br>局部变量表是一组变量值存储空间，用于存放方法参数和方法内部定义的局部变量，其中存放的数据的类型是编译期可知的各种基本数据类型、对象引用（reference）和returnAddress类型（它指向了一条字节码指令的地址）。局部变量表所需的内存空间在编译期间完成分配，即在Java程序被编译成Class文件时，就确定了所需分配的最大局部变量表的容量。当进入一个方法时，这个方法需要在栈中分配多大的局部变量空间是完全确定的，在方法运行期间不会改变局部变量表的大小。<br>2、操作数栈</li>
+<li>动态链接</li>
+<li><p>方法返回地址</p>
+<h2 id="本地方法栈"><a href="#本地方法栈" class="headerlink" title="本地方法栈"></a>本地方法栈</h2><h2 id="Java堆"><a href="#Java堆" class="headerlink" title="Java堆"></a>Java堆</h2><p>Java Heap是Java虚拟机所管理的内存中最大的一块，它是所有线程共享的一块内存区域。几乎所有的对象实例和数组都在这类分配内存。Java Heap是垃圾收集器管理的主要区域，因此很多时候也被称为“GC堆”。</p>
+<p> 根据Java虚拟机规范的规定，Java堆可以处在物理上不连续的内存空间中，只要逻辑上是连续的即可。如果在堆中没有内存可分配时，并且堆也无法扩展时，将会抛出OutOfMemoryError异常。   </p>
+<h2 id="方法区"><a href="#方法区" class="headerlink" title="方法区"></a>方法区</h2><p>方法区也是各个线程共享的内存区域，它用于存储已经被虚拟机加载的类信息、常量、静态变量、即时编译器编译后的代码等数据。方法区域又被称为“永久代”<br>这段代码的执行会涉及java栈、Java堆、方法区三个最重要的内存区域。假设该语句出现在方法体中，及时对JVM虚拟机不了解的Java使用这，应该也知道obj会作为引用类型（reference）的数据保存在Java栈的本地变量表中，而会在Java堆中保存该引用的实例化对象，但可能并不知道，Java堆中还必须包含能查找到此对象类型数据的地址信息（如对象类型、父类、实现的接口、方法等），这些类型数据则保存在方法区中。<br>有 句柄池访问 和 直接指针访问两种方法</p>
+<h1 id="类的初始化"><a href="#类的初始化" class="headerlink" title="类的初始化"></a>类的初始化</h1></li>
+</ol>
+<ul>
+<li>遇到new、getstatic、putstatic、invokestatic这四条字节码指令时，如果类还没有进行过初始化，则需要先触发其初始化。生成这四条指令最常见的Java代码场景是：使用new关键字实例化对象时、读取或设置一个类的静态字段（static）时（被static修饰又被final修饰的，已在编译期把结果放入常量池的静态字段除外）、以及调用一个类的静态方法时。</li>
+<li>使用Java.lang.refect包的方法对类进行反射调用时，如果类还没有进行过初始化，则需要先触发其初始化。</li>
+<li>当初始化一个类的时候，如果发现其父类还没有进行初始化，则需要先触发其父类的初始化。</li>
+<li>当虚拟机启动时，用户需要指定一个要执行的主类，虚拟机会先执行该主类。<br>对于静态字段，只有直接定义这个字段的类才会被初始化，因此，通过其子类来引用父类中定义的静态字段，只会触发父类的初始化而不会触发子类的初始化。<br>常量在编译阶段会存入调用它的类的常量池中，本质上没有直接引用到定义该常量的类，因此不会触发定义常量的类的初始化</li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/03/11/深入理解JVM-Java垃圾回收机制/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1237,149 +1731,6 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/03/06/用两个栈实现队列/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Sailong Ren">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="coderlong的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/03/06/用两个栈实现队列/" itemprop="url">用两个栈实现队列</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-06T14:18:40+08:00">
-                2018-03-06
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/剑指offer/" itemprop="url" rel="index">
-                    <span itemprop="name">剑指offer</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="用两个栈实现队列"><a href="#用两个栈实现队列" class="headerlink" title="用两个栈实现队列"></a>用两个栈实现队列</h2><p><code>题目描述
-用两个栈来实现一个队列，完成队列的Push和Pop操作。 队列中的元素为int类型。</code></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> 两个栈实现队列 </span>&#123;</div><div class="line">	</div><div class="line">	Stack&lt;Integer&gt; stack1 = <span class="keyword">new</span> Stack&lt;&gt;();</div><div class="line">	Stack&lt;Integer&gt; stack2 = <span class="keyword">new</span> Stack&lt;&gt;();</div><div class="line">	</div><div class="line">	<span class="comment">// 入队，就是每一次就push()进 stack1中</span></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">push</span><span class="params">(<span class="keyword">int</span> node)</span> </span>&#123;</div><div class="line">		stack1.push(node);</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="comment">// 出队操作： 把stack2全部清空，然后把stack1里面的所有元素都出栈，再进栈 stack2，返回的就是stack2.pop()</span></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">pop</span><span class="params">()</span> </span>&#123;</div><div class="line">		<span class="keyword">while</span> (!stack2.isEmpty()) &#123;</div><div class="line">			<span class="keyword">return</span> stack2.pop();</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">while</span> (!stack1.isEmpty()) &#123;</div><div class="line">			stack2.push(stack1.pop());</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">return</span> stack2.pop();</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/03/06/旋转数组的最小数字/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1513,297 +1864,11 @@ NOTE：给出的所有元素都大于0，若数组大小为0，请返回0。</co
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/03/06/替换空格/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Sailong Ren">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="coderlong的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/03/06/替换空格/" itemprop="url">替换空格</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-06T14:18:40+08:00">
-                2018-03-06
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/剑指offer/" itemprop="url" rel="index">
-                    <span itemprop="name">剑指offer</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><code>题目描述
-请实现一个函数，将一个字符串中的空格替换成“%20”。例如，当字符串为We Are Happy.则经过替换之后的字符串为We%20Are%20Happy。</code></p>
-<p>先遍历一遍字符，统计空格数，由此计算替换之后的总长度。然后从后往前加载字符串，如果发现空格，就替换20%<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"><span class="comment">* <span class="doctag">@author</span> 作者 : coderlong</span></div><div class="line"><span class="comment">* <span class="doctag">@version</span> 创建时间：2018年2月8日 下午9:43:50</span></div><div class="line"><span class="comment">* 类说明:</span></div><div class="line"><span class="comment">* /*</span></div><div class="line"><span class="comment">问题1：替换字符串，是在原来的字符串上做替换，还是新开辟一个字符串做替换！</span></div><div class="line"><span class="comment">问题2：在当前字符串替换，怎么替换才更有效率（不考虑java里现有的replace方法）。</span></div><div class="line"><span class="comment">      从前往后替换，后面的字符要不断往后移动，要多次移动，所以效率低下</span></div><div class="line"><span class="comment">      从后往前，先计算需要多少空间，然后从后往前移动，则每个字符只为移动一次，这样效率更高一点。 </span></div><div class="line"><span class="comment">*/</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> 替换空格 </span>&#123;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		<span class="comment">// TODO Auto-generated method stub</span></div><div class="line">		StringBuffer stringBuffer = <span class="keyword">new</span> StringBuffer(<span class="string">"a b s "</span>);</div><div class="line">		System.out.println(replaceSpace(stringBuffer));</div><div class="line">	&#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">replaceSpace</span><span class="params">(StringBuffer str)</span> </span>&#123;</div><div class="line">		<span class="keyword">int</span> spaceNum = <span class="number">0</span>; <span class="comment">// SpaceNum为计算空格数</span></div><div class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; str.length(); i++) &#123;</div><div class="line">			<span class="keyword">if</span> (str.charAt(i) == <span class="string">' '</span>) &#123;</div><div class="line">				spaceNum++;</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">int</span> indexold = str.length() - <span class="number">1</span>;</div><div class="line">		<span class="keyword">int</span> newlength = str.length() + spaceNum*<span class="number">2</span>;<span class="comment">// 替换之后的长度</span></div><div class="line">		<span class="keyword">int</span> indexnew = newlength - <span class="number">1</span>;</div><div class="line">		str.setLength(newlength);</div><div class="line">		</div><div class="line">		<span class="keyword">for</span> (;indexold &gt;= <span class="number">0</span>; indexold--) &#123;</div><div class="line">			<span class="keyword">if</span> (str.charAt(indexold) == <span class="string">' '</span>) &#123;</div><div class="line">				str.setCharAt(indexnew--, <span class="string">'0'</span>);</div><div class="line">				str.setCharAt(indexnew--, <span class="string">'2'</span>);</div><div class="line">				str.setCharAt(indexnew--, <span class="string">'%'</span>);</div><div class="line">			&#125;</div><div class="line">			<span class="keyword">else</span> &#123;</div><div class="line">				str.setCharAt(indexnew--, str.charAt(indexold));</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">		</div><div class="line">		<span class="keyword">return</span> str.toString();</div><div class="line">	&#125;</div><div class="line">	</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/03/06/重建二叉树/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Sailong Ren">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="coderlong的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/03/06/重建二叉树/" itemprop="url">重建二叉树</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-06T14:18:40+08:00">
-                2018-03-06
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/剑指offer/" itemprop="url" rel="index">
-                    <span itemprop="name">剑指offer</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="重建二叉树"><a href="#重建二叉树" class="headerlink" title="重建二叉树"></a>重建二叉树</h2><p><code>题目描述：已知中序和前序，请重建二叉树</code></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> 二叉树重建 </span>&#123;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		<span class="comment">// TODO Auto-generated method stub</span></div><div class="line">		</div><div class="line">	&#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> TreeNode <span class="title">reConstructBinaryTree</span><span class="params">(<span class="keyword">int</span>[] pre, <span class="keyword">int</span>[] in)</span> </span>&#123;</div><div class="line">		<span class="comment">// 前序遍历&#123;1,2,4,7,3,5,6,8&#125;</span></div><div class="line">		<span class="comment">// 中序遍历 &#123;4,7,2,1,5,3,8,6&#125;</span></div><div class="line">		TreeNode root =  reConstruct(pre, <span class="number">0</span>, pre.length - <span class="number">1</span>, in, <span class="number">0</span>, in.length - <span class="number">1</span>);</div><div class="line">		<span class="keyword">return</span> root;</div><div class="line">	&#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> TreeNode <span class="title">reConstruct</span><span class="params">(<span class="keyword">int</span>[] pre, <span class="keyword">int</span> startPre, <span class="keyword">int</span> endPre, <span class="keyword">int</span>[] in, <span class="keyword">int</span> startIn, <span class="keyword">int</span> endIn)</span> </span>&#123;</div><div class="line">		<span class="comment">// 如果起始坐标大于结束下标， 无效的输入</span></div><div class="line">		<span class="keyword">if</span> (startPre &gt; endPre || startIn &gt; endIn) &#123;</div><div class="line">			<span class="keyword">return</span> <span class="keyword">null</span>; <span class="comment">// 无效</span></div><div class="line">		&#125;</div><div class="line">		</div><div class="line">		TreeNode root = <span class="keyword">new</span> TreeNode(pre[<span class="number">0</span>]);<span class="comment">// 前序遍历第一个数，即根节点</span></div><div class="line">		</div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i = startIn; i &lt;= endIn; i++) &#123;</div><div class="line">			<span class="comment">// 在中序遍历中找到 中根节点</span></div><div class="line">			<span class="keyword">if</span> (in[i] == pre[startPre]) &#123;</div><div class="line">				<span class="comment">//i-startIn是左子树节点的个数，前序遍历起始值加上这个就是终点值</span></div><div class="line">                <span class="comment">//i-1就是中序遍历左子树的终点，起始值是从0一直都是从0开始</span></div><div class="line">				root.left = reConstruct(pre, startPre + <span class="number">1</span>, startPre + i - startIn, in, startIn, i - <span class="number">1</span>);</div><div class="line">				<span class="comment">//前序右子树遍历的起始值:startPre+i-startIn+1 前序右子树遍历的终点值:endPre</span></div><div class="line">                <span class="comment">//中序遍历右子树的起始值:i+1,endIn</span></div><div class="line">				root.right = reConstruct(pre, startPre + i - startIn + <span class="number">1</span>, endPre, in, i + <span class="number">1</span>, endIn);</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">return</span> root;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/3/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/5/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/3/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/5/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1849,7 +1914,7 @@ NOTE：给出的所有元素都大于0，若数组大小为0，请返回0。</co
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">120</span>
+                <span class="site-state-item-count">122</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1860,7 +1925,7 @@ NOTE：给出的所有元素都大于0，若数组大小为0，请返回0。</co
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">26</span>
+                <span class="site-state-item-count">27</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>

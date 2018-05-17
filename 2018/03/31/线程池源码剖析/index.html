@@ -94,15 +94,18 @@
 
 
 
+<meta name="description" content="摘要： 线程池源码剖析">
 <meta name="keywords" content="JDK,代码重构,源码学习">
 <meta property="og:type" content="article">
 <meta property="og:title" content="线程池源码剖析">
 <meta property="og:url" content="https://coderlongren.github.io/2018/03/31/线程池源码剖析/index.html">
 <meta property="og:site_name" content="coderlong的博客">
+<meta property="og:description" content="摘要： 线程池源码剖析">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-04-06T11:53:48.999Z">
+<meta property="og:updated_time" content="2018-05-16T13:32:41.653Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="线程池源码剖析">
+<meta name="twitter:description" content="摘要： 线程池源码剖析">
 
 
 
@@ -392,7 +395,10 @@
       
 
       
-        
+        <p>摘要： 线程池源码剖析</p>
+<a id="more"></a>
+<h2 id="多线程编程中，为每一个任务分配一个线程是不可行的。那么，如何来管理我们的线程，减少系统的性能开销就是我们研究线程池的动力。"><a href="#多线程编程中，为每一个任务分配一个线程是不可行的。那么，如何来管理我们的线程，减少系统的性能开销就是我们研究线程池的动力。" class="headerlink" title="多线程编程中，为每一个任务分配一个线程是不可行的。那么，如何来管理我们的线程，减少系统的性能开销就是我们研究线程池的动力。"></a>多线程编程中，为每一个任务分配一个线程是不可行的。那么，如何来管理我们的线程，减少系统的性能开销就是我们研究线程池的动力。</h2><p><code>JDK1.8</code></p>
+<h3 id="生命周期的"><a href="#生命周期的" class="headerlink" title="生命周期的"></a>生命周期的</h3>
       
     </div>
     
@@ -519,8 +525,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.png"
@@ -535,7 +550,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">120</span>
+                <span class="site-state-item-count">122</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -546,7 +561,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">26</span>
+                <span class="site-state-item-count">27</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -628,6 +643,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#多线程编程中，为每一个任务分配一个线程是不可行的。那么，如何来管理我们的线程，减少系统的性能开销就是我们研究线程池的动力。"><span class="nav-number">1.</span> <span class="nav-text">多线程编程中，为每一个任务分配一个线程是不可行的。那么，如何来管理我们的线程，减少系统的性能开销就是我们研究线程池的动力。</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#生命周期的"><span class="nav-number">1.1.</span> <span class="nav-text">生命周期的</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       

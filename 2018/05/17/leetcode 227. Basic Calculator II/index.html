@@ -78,7 +78,7 @@
 <link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="java,concurrent,JDK源码," />
+  <meta name="keywords" content="leetcode," />
 
 
 
@@ -94,18 +94,18 @@
 
 
 
-<meta name="description" content="Comparable 自然排序Comparable 在 java.lang 包下，是一个接口，内部只有一个方法 compareTo()：123public interface Comparable&amp;lt;T&amp;gt; &amp;#123;    public int compareTo(T o);&amp;#125; Comparable 可以让实现它的类的对象进行比较，具体的比较规则是按照 compareTo 方">
-<meta name="keywords" content="java,concurrent,JDK源码">
+<meta name="description" content="摘要：简易表达式求值">
+<meta name="keywords" content="leetcode">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Comparable与Comparator的区别">
-<meta property="og:url" content="https://coderlongren.github.io/2018/01/26/comparable&comparator/index.html">
+<meta property="og:title" content="leetcode 227. Basic Calculator II">
+<meta property="og:url" content="https://coderlongren.github.io/2018/05/17/leetcode 227. Basic Calculator II/index.html">
 <meta property="og:site_name" content="coderlong的博客">
-<meta property="og:description" content="Comparable 自然排序Comparable 在 java.lang 包下，是一个接口，内部只有一个方法 compareTo()：123public interface Comparable&amp;lt;T&amp;gt; &amp;#123;    public int compareTo(T o);&amp;#125; Comparable 可以让实现它的类的对象进行比较，具体的比较规则是按照 compareTo 方">
+<meta property="og:description" content="摘要：简易表达式求值">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-01-26T14:04:47.536Z">
+<meta property="og:updated_time" content="2018-05-17T15:08:31.951Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Comparable与Comparator的区别">
-<meta name="twitter:description" content="Comparable 自然排序Comparable 在 java.lang 包下，是一个接口，内部只有一个方法 compareTo()：123public interface Comparable&amp;lt;T&amp;gt; &amp;#123;    public int compareTo(T o);&amp;#125; Comparable 可以让实现它的类的对象进行比较，具体的比较规则是按照 compareTo 方">
+<meta name="twitter:title" content="leetcode 227. Basic Calculator II">
+<meta name="twitter:description" content="摘要：简易表达式求值">
 
 
 
@@ -134,13 +134,13 @@
 
 
 
-  <link rel="canonical" href="https://coderlongren.github.io/2018/01/26/comparable&comparator/"/>
+  <link rel="canonical" href="https://coderlongren.github.io/2018/05/17/leetcode 227. Basic Calculator II/"/>
 
 
 
 
 
-  <title>Comparable与Comparator的区别 | coderlong的博客</title>
+  <title>leetcode 227. Basic Calculator II | coderlong的博客</title>
   
 
 
@@ -306,7 +306,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/01/26/comparable&comparator/">
+    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/05/17/leetcode 227. Basic Calculator II/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Sailong Ren">
@@ -323,7 +323,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Comparable与Comparator的区别</h1>
+          <h1 class="post-title" itemprop="name headline">leetcode 227. Basic Calculator II</h1>
         
 
         <div class="post-meta">
@@ -335,8 +335,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-26T12:50:17+08:00">
-                2018-01-26
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-17T21:18:40+08:00">
+                2018-05-17
               </time>
             
 
@@ -358,8 +358,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/concurrent/" itemprop="url" rel="index">
-                    <span itemprop="name">concurrent</span>
+                  <a href="/categories/leetcode/" itemprop="url" rel="index">
+                    <span itemprop="name">leetcode</span>
                   </a>
                 </span>
 
@@ -395,22 +395,18 @@
       
 
       
-        <h3 id="Comparable-自然排序"><a href="#Comparable-自然排序" class="headerlink" title="Comparable 自然排序"></a>Comparable 自然排序</h3><p>Comparable 在 java.lang 包下，是一个接口，内部只有一个方法 compareTo()：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">public interface Comparable&lt;T&gt; &#123;</div><div class="line">    public int compareTo(T o);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>Comparable 可以让实现它的类的对象进行比较，具体的比较规则是按照 compareTo 方法中的规则进行。这种顺序称为 自然顺序。<br>compareTo方法有三种返回值</p>
-<ul>
-<li>e1.compareTo(e2) &gt; 0 即 e1 &gt; e2</li>
-<li>e1.compareTo(e2) = 0 即 e1 = e2</li>
-<li>e1.compareTo(e2) &lt; 0 即 e1 &lt; e2</li>
-</ul>
-<p>一个简单的例子<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line">public class Domain implements Comparable&lt;Domain&gt;</div><div class="line">&#123;</div><div class="line">    private String str;</div><div class="line"></div><div class="line">    public Domain(String str)</div><div class="line">    &#123;</div><div class="line">        this.str = str;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public int compareTo(Domain domain)</div><div class="line">    &#123;</div><div class="line">        if (this.str.compareTo(domain.str) &gt; 0)</div><div class="line">            return 1;</div><div class="line">        else if (this.str.compareTo(domain.str) == 0)</div><div class="line">            return 0;</div><div class="line">        else </div><div class="line">            return -1;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    public String getStr()</div><div class="line">    &#123;</div><div class="line">        return str;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">public static void main(String[] args)</div><div class="line">    &#123;</div><div class="line">        Domain d1 = new Domain(&quot;c&quot;);</div><div class="line">        Domain d2 = new Domain(&quot;c&quot;);</div><div class="line">        Domain d3 = new Domain(&quot;b&quot;);</div><div class="line">        Domain d4 = new Domain(&quot;d&quot;);</div><div class="line">        System.out.println(d1.compareTo(d2));</div><div class="line">        System.out.println(d1.compareTo(d3));</div><div class="line">        System.out.println(d1.compareTo(d4));</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
-<h2 id="comparator"><a href="#comparator" class="headerlink" title="comparator"></a>comparator</h2><p>如果我们想对一个整形数组，比价绝对值？</p>
-<ol>
-<li><p>首先写一个自己想要的实现comparator的比较器</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">// AbsComparator.java     </div><div class="line">import   java.util.*;</div><div class="line"> </div><div class="line">public   class   AbsComparator   implements   Comparator   &#123;     </div><div class="line">    public   int   compare(Object   o1,   Object   o2)   &#123;     </div><div class="line">      int   v1   =   Math.abs(((Integer)o1).intValue());     </div><div class="line">      int   v2   =   Math.abs(((Integer)o2).intValue());     </div><div class="line">      return   v1   &gt;   v2   ?   1   :   (v1   ==   v2   ?   0   :   -1);     </div><div class="line">    &#125;     </div><div class="line">&#125;</div></pre></td></tr></table></figure>
-</li>
-<li><p>然后在调用JDK比较函数，Arrays.sort(), 或者 Collections.sort()时，传入自己的比较器即可。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">import   java.util.*;     </div><div class="line"> </div><div class="line">public   class   Test   &#123;     </div><div class="line">    public   static   void   main(String[]   args)   &#123;     </div><div class="line"> </div><div class="line">      //产生一个20个随机整数的数组（有正有负）     </div><div class="line">      Random   rnd   =   new   Random();     </div><div class="line">      Integer[]   integers   =   new   Integer[20];     </div><div class="line">      for(int   i   =   0;   i   &lt;   integers.length;   i++)     </div><div class="line">      integers[i]   =   new   Integer(rnd.nextInt(100)   *   (rnd.nextBoolean()   ?   1   :   -1));     </div><div class="line"> </div><div class="line">      System.out.println(&quot;用Integer内置方法排序：&quot;);     </div><div class="line">      Arrays.sort(integers);     </div><div class="line">      System.out.println(Arrays.asList(integers));     </div><div class="line"> </div><div class="line">      System.out.println(&quot;用AbsComparator排序：&quot;);     </div><div class="line">      Arrays.sort(integers,   new   AbsComparator());     </div><div class="line">      System.out.println(Arrays.asList(integers));     </div><div class="line">    &#125;     </div><div class="line">&#125;</div></pre></td></tr></table></figure></li>
-</ol>
+        <p>摘要：简易表达式求值<br><a id="more"></a></p>
+<p>Implement a basic calculator to evaluate a simple expression string.</p>
+<p>The expression string contains only non-negative integers, <code>+, -, *, /</code>operators and empty spaces . The integer division should truncate toward zero.</p>
+<p><strong>Example 1:</strong></p>
+<p>Input: <code>&quot;3+2*2&quot;</code><br><strong>Output</strong>: <code>7</code></p>
+<p><strong>Example 2:</strong></p>
+<p>Input: <code>&quot; 3/2 &quot;</code><br><strong>Output:</strong><code>1</code></p>
+<p><strong>Example 3:</strong></p>
+<p>Input:<code>&quot; 3+5 / 2 &quot;</code><br><strong>Output:</strong> <code>5</code></p>
+<p>我们在上数据结构课程的时候，都学过用后缀表达式来计算 字符串表达式的值。<br>这道题目，就是字符串求值的简易版本，明确的告诉了我们，只会出现 <code>+</code> <code>-</code> <code>*</code> <code>/</code>四种计算符号，不会出现 <code>( )</code> ，这就降低了我们难度，直接来写后缀表达式的算法，还是挺长的。<br>LeetCode一向以面试算法为主，如何在短时间内写出一个计算值得算法呢？<br>可以利用 <code>Stack</code>先行标记<code>sing = &#39;+&#39;</code>, 数字全都进栈，遇到了<code>* /</code>,我们就把栈顶元素出栈，计算之后在进栈。最后<code>Stack</code>里面的所有的数，都是 + - 自然计算顺序的数字，直接求和就行了。<br><code>c++版本</code><br><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></div><div class="line"><span class="keyword">public</span>:</div><div class="line">    <span class="function"><span class="keyword">int</span> <span class="title">calculate</span><span class="params">(<span class="built_in">string</span> s)</span> </span>&#123;</div><div class="line">        <span class="built_in">stack</span>&lt;<span class="keyword">int</span>&gt; myStack;</div><div class="line">        <span class="keyword">char</span> sign = <span class="string">'+'</span>;</div><div class="line">        <span class="keyword">int</span> res = <span class="number">0</span>, tmp = <span class="number">0</span>;</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">unsigned</span> <span class="keyword">int</span> i = <span class="number">0</span>; i &lt; s.size(); i++) &#123;</div><div class="line">            <span class="keyword">if</span> (<span class="built_in">isdigit</span>(s[i]))</div><div class="line">                tmp = <span class="number">10</span>*tmp + s[i]-<span class="string">'0'</span>;</div><div class="line">            <span class="keyword">if</span> (!<span class="built_in">isdigit</span>(s[i]) &amp;&amp; !<span class="built_in">isspace</span>(s[i]) || i == s.size()<span class="number">-1</span>) &#123;</div><div class="line">                <span class="keyword">if</span> (sign == <span class="string">'-'</span>)</div><div class="line">                    myStack.push(-tmp);</div><div class="line">                <span class="keyword">else</span> <span class="keyword">if</span> (sign == <span class="string">'+'</span>)</div><div class="line">                    myStack.push(tmp);</div><div class="line">                <span class="keyword">else</span> &#123;</div><div class="line">                    <span class="keyword">int</span> num;</div><div class="line">                    <span class="keyword">if</span> (sign == <span class="string">'*'</span> )</div><div class="line">                        num = myStack.top()*tmp;</div><div class="line">                    <span class="keyword">else</span></div><div class="line">                        num = myStack.top()/tmp;</div><div class="line">                    myStack.pop();</div><div class="line">                    myStack.push(num);</div><div class="line">                &#125; </div><div class="line">                sign = s[i];</div><div class="line">                tmp = <span class="number">0</span>;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">while</span> (!myStack.empty()) &#123;</div><div class="line">            res += myStack.top();</div><div class="line">            myStack.pop();</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> res;</div><div class="line">    &#125;</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
+<p><code>Java版本</code><br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">calculate</span><span class="params">(String s)</span> </span>&#123;</div><div class="line">        <span class="keyword">char</span>[] chars = s.toCharArray();</div><div class="line">        <span class="keyword">int</span> res = <span class="number">0</span>;</div><div class="line">        Stack&lt;Integer&gt; stack = <span class="keyword">new</span> Stack&lt;&gt;();</div><div class="line">        <span class="keyword">char</span> sign = <span class="string">'+'</span>;</div><div class="line">        <span class="keyword">int</span> temp = <span class="number">0</span>;</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; chars.length; i++) &#123;</div><div class="line">        	<span class="keyword">if</span> (Character.isDigit(chars[i])) &#123; <span class="comment">// 数字入栈</span></div><div class="line">        		temp = <span class="number">10</span>*temp + (chars[i] - <span class="string">'0'</span>);</div><div class="line">        	&#125;</div><div class="line">        	<span class="keyword">if</span> (!Character.isDigit(chars[i]) &amp;&amp; chars[i] != <span class="string">' '</span> || i == chars.length - <span class="number">1</span>) &#123;</div><div class="line">        		<span class="keyword">boolean</span> flag = <span class="keyword">false</span>;</div><div class="line">        		<span class="keyword">if</span> (sign == <span class="string">'+'</span>) &#123;</div><div class="line">        			stack.push(temp);</div><div class="line">        		&#125;</div><div class="line">        		<span class="keyword">if</span> (sign == <span class="string">'-'</span>) &#123;</div><div class="line">        			stack.push(-temp);</div><div class="line">        		&#125;</div><div class="line">        		<span class="keyword">if</span> (sign == <span class="string">'*'</span>) &#123;</div><div class="line">        			<span class="keyword">int</span> num = stack.pop();</div><div class="line">        			num = num * temp;</div><div class="line">        			stack.push(num);</div><div class="line">        		&#125;</div><div class="line">        		<span class="keyword">if</span> (sign == <span class="string">'/'</span>) &#123;</div><div class="line">        			<span class="keyword">int</span> num = stack.pop();</div><div class="line">        			num = num/temp;</div><div class="line">        			stack.push(num);</div><div class="line">        		&#125;</div><div class="line"></div><div class="line">        		sign = chars[i]; <span class="comment">// sign 始终记录上一个符号位</span></div><div class="line">        		temp = <span class="number">0</span>; <span class="comment">// temp 复位0</span></div><div class="line">        	&#125;</div><div class="line">        &#125;</div><div class="line">        </div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i : stack) &#123;</div><div class="line">        	res += i;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> res;</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
+<p><code>python版本</code></p>
 
       
     </div>
@@ -457,11 +453,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/java/" rel="tag"># java</a>
-          
-            <a href="/tags/concurrent/" rel="tag"># concurrent</a>
-          
-            <a href="/tags/JDK源码/" rel="tag"># JDK源码</a>
+            <a href="/tags/leetcode/" rel="tag"># leetcode</a>
           
         </div>
       
@@ -474,8 +466,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/01/25/CAS算法/" rel="next" title="CAS算法">
-                <i class="fa fa-chevron-left"></i> CAS算法
+              <a href="/2018/05/13/LeetcodeContest84/" rel="next" title="LeetcodeContest-84">
+                <i class="fa fa-chevron-left"></i> LeetcodeContest-84
               </a>
             
           </div>
@@ -484,8 +476,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/01/26/Volatile/" rel="prev" title="Volatile关键字">
-                Volatile关键字 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/05/17/leetcode165. Compare Version Numbers /" rel="prev" title="leetcode 165. Compare Version Numbers">
+                leetcode 165. Compare Version Numbers <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -538,17 +530,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview sidebar-panel">
+      <section class="site-overview sidebar-panel sidebar-panel-active">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.png"
@@ -563,7 +546,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">120</span>
+                <span class="site-state-item-count">122</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -574,7 +557,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">26</span>
+                <span class="site-state-item-count">27</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -656,22 +639,6 @@
 
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Comparable-自然排序"><span class="nav-number">1.</span> <span class="nav-text">Comparable 自然排序</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#comparator"><span class="nav-number"></span> <span class="nav-text">comparator</span></a></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       

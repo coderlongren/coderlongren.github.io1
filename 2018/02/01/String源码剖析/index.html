@@ -102,7 +102,7 @@
 <meta property="og:site_name" content="coderlong的博客">
 <meta property="og:description" content="#String源码分析12345public void stringTest()&amp;#123;    String a = &quot;a&quot;+&quot;b&quot;+1;    String b = &quot;ab1&quot;;    System.out.println(a == b);&amp;#125; 结果是 true 12345public void stringTest()&amp;#123;    String a = new String(">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-02-01T13:48:21.066Z">
+<meta property="og:updated_time" content="2018-05-14T12:34:36.915Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="String源码剖析">
 <meta name="twitter:description" content="#String源码分析12345public void stringTest()&amp;#123;    String a = &quot;a&quot;+&quot;b&quot;+1;    String b = &quot;ab1&quot;;    System.out.println(a == b);&amp;#125; 结果是 true 12345public void stringTest()&amp;#123;    String a = new String(">
@@ -414,10 +414,6 @@
 <li>从后往前，判断String类中char数组value的单个字符是否相等，有不相等则为假。如果一直相等直到第一个数，则返回真。</li>
 </ol>
 <p>equals方法经常用得到，它用来判断两个对象从实际意义上是否相等，String对象判断规则：</p>
-<p>内存地址相同，则为真。</p>
-<p>如果对象类型不是String类型，则为假。否则继续判断。</p>
-<p>如果对象长度不相等，则为假。否则继续判断。</p>
-<p>从后往前，判断String类中char数组value的单个字符是否相等，有不相等则为假。如果一直相等直到第一个数，则返回真。</p>
 <p>由此可以看出，如果对两个超长的字符串进行比较还是非常费时间的。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">compareTo</span><span class="params">(String anotherString)</span></span></div><div class="line"><span class="function"></span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">compareTo</span><span class="params">(String anotherString)</span> </span>&#123;</div><div class="line">    <span class="comment">//自身对象字符串长度len1</span></div><div class="line">    <span class="keyword">int</span> len1 = value.length;</div><div class="line">    <span class="comment">//被比较对象字符串长度len2</span></div><div class="line">    <span class="keyword">int</span> len2 = anotherString.value.length;</div><div class="line">    <span class="comment">//取两个字符串长度的最小值lim</span></div><div class="line">    <span class="keyword">int</span> lim = Math.min(len1, len2);</div><div class="line">    <span class="keyword">char</span> v1[] = value;</div><div class="line">    <span class="keyword">char</span> v2[] = anotherString.value;</div><div class="line"></div><div class="line">    <span class="keyword">int</span> k = <span class="number">0</span>;</div><div class="line">    <span class="comment">//从value的第一个字符开始到最小长度lim处为止，如果字符不相等，返回自身（对象不相等处字符-被比较对象不相等字符）</span></div><div class="line">    <span class="keyword">while</span> (k &lt; lim) &#123;</div><div class="line">        <span class="keyword">char</span> c1 = v1[k];</div><div class="line">        <span class="keyword">char</span> c2 = v2[k];</div><div class="line">        <span class="keyword">if</span> (c1 != c2) &#123;</div><div class="line">            <span class="keyword">return</span> c1 - c2;</div><div class="line">        &#125;</div><div class="line">        k++;</div><div class="line">    &#125;</div><div class="line">    <span class="comment">//如果前面都相等，则返回（自身长度-被比较对象长度）</span></div><div class="line">    <span class="keyword">return</span> len1 - len2;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>这个方法写的很巧妙，先从0开始判断字符大小。如果两个对象能比较字符的地方比较完了还相等，就直接返回自身长度减被比较对象长度，如果两个字符串长度相等，则返回的是0，巧妙地判断了三种情况。</p>
@@ -598,7 +594,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">120</span>
+                <span class="site-state-item-count">122</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -609,7 +605,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">26</span>
+                <span class="site-state-item-count">27</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
