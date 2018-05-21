@@ -94,18 +94,18 @@
 
 
 
-<meta name="description" content="AQS，AbstractQueuedSynchronizer，即队列同步器。它是构建锁或者其他同步组件的基础框架（如ReentrantLock、ReentrantReadWriteLock、Semaphore等），JUC并发包的作者（Doug Lea）期望它能够成为实现大部分同步需求的基础。它是JUC并发包中的核心基础组件。AQS解决了子啊实现同步器时涉及当的大量细节问题，例如获取同步状态、FIF">
+<meta name="description" content="摘要: 并发编程 - AQS同步器">
 <meta name="keywords" content="java,concurrent,JDK源码">
 <meta property="og:type" content="article">
 <meta property="og:title" content="AQS阻塞队列">
-<meta property="og:url" content="https://coderlongren.github.io/2018/01/15/AQS阻塞队列/index.html">
+<meta property="og:url" content="https://coderlongren.github.io/2018/05/17/AQS阻塞队列/index.html">
 <meta property="og:site_name" content="coderlong的博客">
-<meta property="og:description" content="AQS，AbstractQueuedSynchronizer，即队列同步器。它是构建锁或者其他同步组件的基础框架（如ReentrantLock、ReentrantReadWriteLock、Semaphore等），JUC并发包的作者（Doug Lea）期望它能够成为实现大部分同步需求的基础。它是JUC并发包中的核心基础组件。AQS解决了子啊实现同步器时涉及当的大量细节问题，例如获取同步状态、FIF">
+<meta property="og:description" content="摘要: 并发编程 - AQS同步器">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-04-08T01:17:59.033Z">
+<meta property="og:updated_time" content="2018-05-21T13:54:29.665Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="AQS阻塞队列">
-<meta name="twitter:description" content="AQS，AbstractQueuedSynchronizer，即队列同步器。它是构建锁或者其他同步组件的基础框架（如ReentrantLock、ReentrantReadWriteLock、Semaphore等），JUC并发包的作者（Doug Lea）期望它能够成为实现大部分同步需求的基础。它是JUC并发包中的核心基础组件。AQS解决了子啊实现同步器时涉及当的大量细节问题，例如获取同步状态、FIF">
+<meta name="twitter:description" content="摘要: 并发编程 - AQS同步器">
 
 
 
@@ -134,7 +134,7 @@
 
 
 
-  <link rel="canonical" href="https://coderlongren.github.io/2018/01/15/AQS阻塞队列/"/>
+  <link rel="canonical" href="https://coderlongren.github.io/2018/05/17/AQS阻塞队列/"/>
 
 
 
@@ -306,7 +306,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/01/15/AQS阻塞队列/">
+    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/05/17/AQS阻塞队列/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Sailong Ren">
@@ -335,8 +335,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-15T12:50:17+08:00">
-                2018-01-15
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-17T12:50:17+08:00">
+                2018-05-17
               </time>
             
 
@@ -395,7 +395,8 @@
       
 
       
-        <p>AQS，AbstractQueuedSynchronizer，即队列同步器。它是构建锁或者其他同步组件的基础框架（如ReentrantLock、ReentrantReadWriteLock、Semaphore等），JUC并发包的作者（Doug Lea）期望它能够成为实现大部分同步需求的基础。它是JUC并发包中的核心基础组件。<br>AQS解决了子啊实现同步器时涉及当的大量细节问题，例如获取同步状态、FIFO同步队列。基于AQS来构建同步器可以带来很多好处。它不仅能够极大地减少实现工作，而且也不必处理在多个位置上发生的竞争问题。AQS的主要使用方式是继承，子类通过继承同步器并实现它的抽象方法来管理同步状态。<br>AQS的主要使用方式是继承，子类通过继承同步器并实现它的抽象方法来管理同步状态。</p>
+        <p>摘要: 并发编程 - AQS同步器<br><a id="more"></a></p>
+<p>AQS，AbstractQueuedSynchronizer，即队列同步器。它是构建锁或者其他同步组件的基础框架（如ReentrantLock、ReentrantReadWriteLock、Semaphore等），JUC并发包的作者（Doug Lea）期望它能够成为实现大部分同步需求的基础。它是JUC并发包中的核心基础组件。<br>AQS解决了子啊实现同步器时涉及当的大量细节问题，例如获取同步状态、FIFO同步队列。基于AQS来构建同步器可以带来很多好处。它不仅能够极大地减少实现工作，而且也不必处理在多个位置上发生的竞争问题。AQS的主要使用方式是继承，子类通过继承同步器并实现它的抽象方法来管理同步状态。<br>AQS的主要使用方式是继承，子类通过继承同步器并实现它的抽象方法来管理同步状态。</p>
 <p>AQS使用一个int类型的成员变量state来表示同步状态，当state&gt;0时表示已经获取了锁，当state = 0时表示释放了锁。它提供了三个方法（getState()、setState(int newState)、compareAndSetState(int expect,int update)）来对同步状态state进行操作，当然AQS可以确保对state的操作是安全的。</p>
 <p>AQS通过内置的FIFO同步队列来完成资源获取线程的排队工作，如果当前线程获取同步状态失败（锁）时，AQS则会将当前线程以及等待状态等信息构造成一个节点（Node）并将其加入同步队列，同时会阻塞当前线程，当同步状态释放时，则会把节点中的线程唤醒，使其再次尝试获取同步状态。<br>AQS的一些主要方法：  </p>
 <ol>
@@ -511,8 +512,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/01/14/SlidingWindow/" rel="next" title="Sliding Window Algorithm">
-                <i class="fa fa-chevron-left"></i> Sliding Window Algorithm
+              <a href="/2018/05/13/LeetcodeContest84/" rel="next" title="LeetcodeContest-84">
+                <i class="fa fa-chevron-left"></i> LeetcodeContest-84
               </a>
             
           </div>
@@ -521,8 +522,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/01/16/ArrayList源码解析/" rel="prev" title="ArrayList源码剖析">
-                ArrayList源码剖析 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/05/17/leetcode 227. Basic Calculator II/" rel="prev" title="leetcode 227. Basic Calculator II">
+                leetcode 227. Basic Calculator II <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
