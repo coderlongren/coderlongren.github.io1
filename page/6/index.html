@@ -303,6 +303,152 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/03/04/Lettter_Case_Permutation/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sailong Ren">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="coderlong的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/03/04/Lettter_Case_Permutation/" itemprop="url">784. Letter Case Permutation</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-04T21:18:40+08:00">
+                2018-03-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Algorithm/" itemprop="url" rel="index">
+                    <span itemprop="name">Algorithm</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>Given a string S, we can transform every letter individually to be lowercase or uppercase to create another string.  Return a list of all possible strings we could create.<br>`<br>Examples:<br>Input: S = “a1b2”<br>Output: [“a1b2”, “a1B2”, “A1b2”, “A1B2”]</p>
+<p>Input: S = “3z4”<br>Output: [“3z4”, “3Z4”]</p>
+<p>Input: S = “12345”<br>Output: [“12345”]<br>`<br>abc<br>abc Abc 0<br>abc aBc Abc ABc 1  </p>
+<h2 id="abc-abC-aBc-aBC-Abc-AbC-ABc-ABC-2"><a href="#abc-abC-aBc-aBC-Abc-AbC-ABc-ABC-2" class="headerlink" title="abc abC aBc aBC Abc AbC ABc ABC 2  "></a>abc abC aBc aBC Abc AbC ABc ABC 2  </h2><p>Let’s go!<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// BFS solution</span></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> List&lt;String&gt; <span class="title">letterCasePermutation</span><span class="params">(String S)</span> </span>&#123;</div><div class="line"><span class="comment">//		Set&lt;String&gt; set = new HashSet&lt;&gt;();</span></div><div class="line">		LinkedList&lt;String&gt; list = <span class="keyword">new</span> LinkedList&lt;&gt;();</div><div class="line">		<span class="keyword">char</span>[] chars = S.toCharArray();</div><div class="line">		list.add(S);</div><div class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; S.length(); i++) &#123;</div><div class="line">			<span class="keyword">if</span> (Character.isDigit(S.charAt(i))) &#123;</div><div class="line">				<span class="keyword">continue</span>;</div><div class="line">			&#125;</div><div class="line">			<span class="keyword">int</span> size = list.size();</div><div class="line">			<span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; size; j++) &#123;</div><div class="line">				String cur = list.get(j);</div><div class="line">				<span class="keyword">char</span>[] temp = cur.toCharArray();</div><div class="line">				temp[i] = Character.toLowerCase(temp[i]);</div><div class="line">				list.addLast(String.valueOf(temp));</div><div class="line">				temp[i] = Character.toUpperCase(temp[i]);</div><div class="line">				list.addLast(String.valueOf(temp));</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">		Set&lt;String&gt; set = <span class="keyword">new</span> HashSet&lt;&gt;(list);</div><div class="line">		<span class="keyword">return</span> <span class="keyword">new</span> LinkedList&lt;&gt;(set);</div><div class="line">	&#125;</div></pre></td></tr></table></figure></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// DFS solution</span></div><div class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> List&lt;String&gt; <span class="title">letterCasePermutation2</span><span class="params">(String S)</span> </span>&#123;</div><div class="line">	  <span class="keyword">if</span> (S == <span class="keyword">null</span>) &#123;</div><div class="line">		  <span class="keyword">return</span> <span class="keyword">new</span> LinkedList&lt;&gt;();</div><div class="line">	  &#125;</div><div class="line">	  List&lt;String&gt; res = <span class="keyword">new</span> LinkedList&lt;&gt;();</div><div class="line">	  helper(S,res,<span class="number">0</span>);</div><div class="line">	  <span class="keyword">return</span> res;</div><div class="line">  &#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">helper</span><span class="params">(String s, List&lt;String&gt; res, <span class="keyword">int</span> pos)</span> </span>&#123;</div><div class="line">	<span class="keyword">if</span> (pos == s.length()) &#123;</div><div class="line">		res.add(s);</div><div class="line">		<span class="keyword">return</span>;</div><div class="line">	&#125;</div><div class="line">	<span class="comment">// 是数字</span></div><div class="line">	<span class="keyword">if</span> (s.charAt(pos) &gt;= <span class="string">'0'</span> &amp;&amp; s.charAt(pos) &lt;= <span class="string">'9'</span>) &#123;</div><div class="line">		helper(s, res, pos + <span class="number">1</span>);</div><div class="line">		<span class="keyword">return</span>;</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">char</span>[] chs = s.toCharArray();</div><div class="line">       chs[pos] = Character.toLowerCase(chs[pos]);</div><div class="line">       helper(String.valueOf(chs), res, pos + <span class="number">1</span>);</div><div class="line">       </div><div class="line">       chs[pos] = Character.toUpperCase(chs[pos]);</div><div class="line">       helper(String.valueOf(chs), res, pos + <span class="number">1</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/03/03/PriorityQueue And Queue/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1132,7 +1278,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/03/01/在O(1)时间删除链表结点/">
+    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/03/01/打印1到最大的n位数/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Sailong Ren">
@@ -1151,7 +1297,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/01/在O(1)时间删除链表结点/" itemprop="url">在O(1)时间删除链表结点</a></h1>
+                <a class="post-title-link" href="/2018/03/01/打印1到最大的n位数/" itemprop="url">打印1到最大的n位数</a></h1>
         
 
         <div class="post-meta">
@@ -1225,10 +1371,8 @@
       
         
           
-            <a id="more"></a>
-<h2 id="在O-1-时间删除链表结点"><a href="#在O-1-时间删除链表结点" class="headerlink" title="在O(1)时间删除链表结点"></a>在O(1)时间删除链表结点</h2><p><code>题目描述：
-给定单向链表头指针和一个节点指针，在O(1)时间删除链表结点</code></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"><span class="comment">* <span class="doctag">@author</span> 作者 : coderlong</span></div><div class="line"><span class="comment">* <span class="doctag">@version</span> 创建时间：2018年2月9日 下午9:43:30</span></div><div class="line"><span class="comment">* 类说明: </span></div><div class="line"><span class="comment">*/</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> 在<span class="title">O1</span>时间删除链表节点 </span>&#123;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        <span class="comment">// TODO Auto-generated method stub</span></div><div class="line">        <span class="comment">// test</span></div><div class="line">        ListNode head = <span class="keyword">new</span> ListNode(<span class="number">1</span>);</div><div class="line">        head.next = <span class="keyword">new</span> ListNode(<span class="number">2</span>);</div><div class="line">        head.next.next = <span class="keyword">new</span> ListNode(<span class="number">3</span>);</div><div class="line">        delete(head, head.next);</div><div class="line">        <span class="keyword">while</span> (head != <span class="keyword">null</span>) &#123;</div><div class="line">            System.out.println(head.val);</div><div class="line">            head = head.next;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">     <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">delete</span><span class="params">(ListNode head, ListNode toDelete)</span></span>&#123;</div><div class="line">            <span class="keyword">if</span>(toDelete == <span class="keyword">null</span>)&#123;</div><div class="line">                <span class="keyword">return</span> ;</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">if</span>(toDelete.next != <span class="keyword">null</span>)&#123;<span class="comment">//删除的节点不是尾节点,让现在节点变为下一个节点，最为精妙</span></div><div class="line">                toDelete.val = toDelete.next.val;</div><div class="line">                toDelete.next = toDelete.next.next;</div><div class="line">            &#125;<span class="keyword">else</span> <span class="keyword">if</span>(head == toDelete)&#123;<span class="comment">//链表只有一个节点，删除头结点也是尾节点</span></div><div class="line">                head = <span class="keyword">null</span>;</div><div class="line">            &#125;<span class="keyword">else</span>&#123; <span class="comment">//删除的节点是尾节点的情况</span></div><div class="line">                ListNode node = head;</div><div class="line">                <span class="keyword">while</span>(node.next != toDelete)&#123;<span class="comment">//找到倒数第二个节点</span></div><div class="line">                    node = node.next;</div><div class="line">                &#125;</div><div class="line">                node.next = <span class="keyword">null</span>;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+            <h2 id="打印1到最大的n位数"><a href="#打印1到最大的n位数" class="headerlink" title="打印1到最大的n位数"></a>打印1到最大的n位数</h2><p><code>题目描述：如n=3,则从1打印到999</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> 打印1到最大的<span class="title">N</span>位数 </span>&#123;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Print1ToMaxOfNDigits</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (n &lt;= <span class="number">0</span>)</div><div class="line">            <span class="keyword">return</span>;</div><div class="line"></div><div class="line">        <span class="keyword">char</span>[] number = <span class="keyword">new</span> <span class="keyword">char</span>[n];</div><div class="line"></div><div class="line">        <span class="comment">//每一个字符设为0</span></div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; i++) &#123;</div><div class="line">            number[i] = <span class="string">'0'</span>;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">while</span> (!Increment(number)) &#123;<span class="comment">//如果加法溢出，则退出，否则打印数字</span></div><div class="line">            PrintNumber(number);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">    &#125;</div><div class="line"></div><div class="line">	<span class="comment">// 字符串number表示一个数字，在 number上增加1</span></div><div class="line">	 <span class="comment">// 如果做加法溢出，则返回true；否则为false</span></div><div class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">Increment</span><span class="params">(<span class="keyword">char</span>[] number)</span> </span>&#123;</div><div class="line">		<span class="keyword">boolean</span> isOverflow = <span class="keyword">false</span>;<span class="comment">//溢出标志</span></div><div class="line">        <span class="keyword">int</span> nTakeOver = <span class="number">0</span>;<span class="comment">//进位</span></div><div class="line">        <span class="keyword">int</span> nLength = number.length;</div><div class="line"></div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = nLength - <span class="number">1</span>; i &gt;= <span class="number">0</span>; i--) &#123;<span class="comment">//从后向前，最后一位数字加1</span></div><div class="line">            <span class="keyword">int</span> nSum = number[i] - <span class="string">'0'</span> + nTakeOver;</div><div class="line">            <span class="keyword">if</span> (i == nLength - <span class="number">1</span>)</div><div class="line">                nSum++;</div><div class="line"></div><div class="line">            <span class="keyword">if</span> (nSum &gt;= <span class="number">10</span>) &#123;</div><div class="line">                <span class="keyword">if</span> (i == <span class="number">0</span>)</div><div class="line">                    isOverflow = <span class="keyword">true</span>;</div><div class="line">                <span class="keyword">else</span> &#123;</div><div class="line">                    nSum -= <span class="number">10</span>;</div><div class="line">                    nTakeOver = <span class="number">1</span>;</div><div class="line">                    number[i] = (<span class="keyword">char</span>) (<span class="string">'0'</span> + nSum);</div><div class="line">                &#125;</div><div class="line">            &#125; <span class="keyword">else</span> &#123;</div><div class="line">                number[i] = (<span class="keyword">char</span>) (<span class="string">'0'</span> + nSum);</div><div class="line">                <span class="keyword">break</span>;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">            <span class="keyword">return</span> isOverflow;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	 <span class="comment">// 字符串number表示一个数字，数字有若干个0开头</span></div><div class="line">    <span class="comment">// 打印出这个数字，并忽略开头的0</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">PrintNumber</span><span class="params">(<span class="keyword">char</span>[] number)</span> </span>&#123;</div><div class="line">        <span class="keyword">boolean</span> isBeginning0 = <span class="keyword">true</span>;</div><div class="line">        <span class="keyword">int</span> nLength = number.length;</div><div class="line"></div><div class="line">        <span class="comment">//标志位的思想，从第一位不为0的数字开始打印，如000123，打印123</span></div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; nLength; ++i) &#123;</div><div class="line">            <span class="keyword">if</span> (isBeginning0 &amp;&amp; number[i] != <span class="string">'0'</span>)</div><div class="line">                isBeginning0 = <span class="keyword">false</span>;</div><div class="line"></div><div class="line">            <span class="keyword">if</span> (!isBeginning0) &#123;</div><div class="line">                System.out.print(number[i]);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        System.out.println();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
           
         
       
@@ -1420,7 +1564,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/03/01/从尾到头打印链表/">
+    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/03/01/在O(1)时间删除链表结点/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Sailong Ren">
@@ -1439,7 +1583,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/01/从尾到头打印链表/" itemprop="url">从尾到头打印链表</a></h1>
+                <a class="post-title-link" href="/2018/03/01/在O(1)时间删除链表结点/" itemprop="url">在O(1)时间删除链表结点</a></h1>
         
 
         <div class="post-meta">
@@ -1514,9 +1658,9 @@
         
           
             <a id="more"></a>
-<h2 id="从尾到头打印链表"><a href="#从尾到头打印链表" class="headerlink" title="从尾到头打印链表"></a>从尾到头打印链表</h2><p><code>题目描述：
-输入一个链表，从尾到头打印链表每个节点的值。</code></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> 从尾到头打印链表 </span>&#123;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		<span class="comment">// TODO Auto-generated method stub</span></div><div class="line"></div><div class="line">	&#125;</div><div class="line">	<span class="comment">// 使用堆栈 来逆转打印</span></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> ArrayList&lt;Integer&gt; <span class="title">printListFromTailToHead</span><span class="params">(ListNode head)</span> </span>&#123;</div><div class="line">		<span class="keyword">if</span> (head == <span class="keyword">null</span>) &#123;</div><div class="line">			ArrayList&lt;Integer&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line">			<span class="keyword">return</span> list;</div><div class="line">		&#125;</div><div class="line">		</div><div class="line">		Stack&lt;Integer&gt; stack = <span class="keyword">new</span> Stack&lt;&gt;();</div><div class="line">		<span class="keyword">while</span> (head != <span class="keyword">null</span> ) &#123;</div><div class="line">			stack.push(head.val);</div><div class="line">			head = head.next;</div><div class="line">		&#125;</div><div class="line">		</div><div class="line">		ArrayList&lt;Integer&gt; res = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line">		<span class="keyword">while</span> (!stack.isEmpty()) &#123;</div><div class="line">			Integer item = stack.pop();</div><div class="line">			System.out.println(item); <span class="comment">// 打印</span></div><div class="line">			res.add(item);</div><div class="line">		&#125;</div><div class="line">		</div><div class="line">		<span class="keyword">return</span> res;</div><div class="line">	&#125;</div><div class="line">	<span class="comment">// 递归的方法</span></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">printListFromTailToHead2</span><span class="params">(ListNode head)</span> </span>&#123;</div><div class="line">		<span class="keyword">if</span> (head != <span class="keyword">null</span>) &#123;</div><div class="line">			<span class="keyword">if</span> (head.next != <span class="keyword">null</span>) &#123;</div><div class="line">				printListFromTailToHead2(head.next);</div><div class="line">			&#125;</div><div class="line">			System.out.println(head.val);</div><div class="line">		&#125;</div><div class="line">		</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="在O-1-时间删除链表结点"><a href="#在O-1-时间删除链表结点" class="headerlink" title="在O(1)时间删除链表结点"></a>在O(1)时间删除链表结点</h2><p><code>题目描述：
+给定单向链表头指针和一个节点指针，在O(1)时间删除链表结点</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"><span class="comment">* <span class="doctag">@author</span> 作者 : coderlong</span></div><div class="line"><span class="comment">* <span class="doctag">@version</span> 创建时间：2018年2月9日 下午9:43:30</span></div><div class="line"><span class="comment">* 类说明: </span></div><div class="line"><span class="comment">*/</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> 在<span class="title">O1</span>时间删除链表节点 </span>&#123;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        <span class="comment">// TODO Auto-generated method stub</span></div><div class="line">        <span class="comment">// test</span></div><div class="line">        ListNode head = <span class="keyword">new</span> ListNode(<span class="number">1</span>);</div><div class="line">        head.next = <span class="keyword">new</span> ListNode(<span class="number">2</span>);</div><div class="line">        head.next.next = <span class="keyword">new</span> ListNode(<span class="number">3</span>);</div><div class="line">        delete(head, head.next);</div><div class="line">        <span class="keyword">while</span> (head != <span class="keyword">null</span>) &#123;</div><div class="line">            System.out.println(head.val);</div><div class="line">            head = head.next;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">     <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">delete</span><span class="params">(ListNode head, ListNode toDelete)</span></span>&#123;</div><div class="line">            <span class="keyword">if</span>(toDelete == <span class="keyword">null</span>)&#123;</div><div class="line">                <span class="keyword">return</span> ;</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">if</span>(toDelete.next != <span class="keyword">null</span>)&#123;<span class="comment">//删除的节点不是尾节点,让现在节点变为下一个节点，最为精妙</span></div><div class="line">                toDelete.val = toDelete.next.val;</div><div class="line">                toDelete.next = toDelete.next.next;</div><div class="line">            &#125;<span class="keyword">else</span> <span class="keyword">if</span>(head == toDelete)&#123;<span class="comment">//链表只有一个节点，删除头结点也是尾节点</span></div><div class="line">                head = <span class="keyword">null</span>;</div><div class="line">            &#125;<span class="keyword">else</span>&#123; <span class="comment">//删除的节点是尾节点的情况</span></div><div class="line">                ListNode node = head;</div><div class="line">                <span class="keyword">while</span>(node.next != toDelete)&#123;<span class="comment">//找到倒数第二个节点</span></div><div class="line">                    node = node.next;</div><div class="line">                &#125;</div><div class="line">                node.next = <span class="keyword">null</span>;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
           
         
       
@@ -1564,7 +1708,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/03/01/打印1到最大的n位数/">
+    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/03/01/JDK注解的理解/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Sailong Ren">
@@ -1583,7 +1727,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/01/打印1到最大的n位数/" itemprop="url">打印1到最大的n位数</a></h1>
+                <a class="post-title-link" href="/2018/03/01/JDK注解的理解/" itemprop="url">JDK注解的理解与使用</a></h1>
         
 
         <div class="post-meta">
@@ -1618,8 +1762,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/剑指offer/" itemprop="url" rel="index">
-                    <span itemprop="name">剑指offer</span>
+                  <a href="/categories/JDK/" itemprop="url" rel="index">
+                    <span itemprop="name">JDK</span>
                   </a>
                 </span>
 
@@ -1657,151 +1801,56 @@
       
         
           
-            <h2 id="打印1到最大的n位数"><a href="#打印1到最大的n位数" class="headerlink" title="打印1到最大的n位数"></a>打印1到最大的n位数</h2><p><code>题目描述：如n=3,则从1打印到999</code></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> 打印1到最大的<span class="title">N</span>位数 </span>&#123;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Print1ToMaxOfNDigits</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (n &lt;= <span class="number">0</span>)</div><div class="line">            <span class="keyword">return</span>;</div><div class="line"></div><div class="line">        <span class="keyword">char</span>[] number = <span class="keyword">new</span> <span class="keyword">char</span>[n];</div><div class="line"></div><div class="line">        <span class="comment">//每一个字符设为0</span></div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; i++) &#123;</div><div class="line">            number[i] = <span class="string">'0'</span>;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">while</span> (!Increment(number)) &#123;<span class="comment">//如果加法溢出，则退出，否则打印数字</span></div><div class="line">            PrintNumber(number);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">    &#125;</div><div class="line"></div><div class="line">	<span class="comment">// 字符串number表示一个数字，在 number上增加1</span></div><div class="line">	 <span class="comment">// 如果做加法溢出，则返回true；否则为false</span></div><div class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">Increment</span><span class="params">(<span class="keyword">char</span>[] number)</span> </span>&#123;</div><div class="line">		<span class="keyword">boolean</span> isOverflow = <span class="keyword">false</span>;<span class="comment">//溢出标志</span></div><div class="line">        <span class="keyword">int</span> nTakeOver = <span class="number">0</span>;<span class="comment">//进位</span></div><div class="line">        <span class="keyword">int</span> nLength = number.length;</div><div class="line"></div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = nLength - <span class="number">1</span>; i &gt;= <span class="number">0</span>; i--) &#123;<span class="comment">//从后向前，最后一位数字加1</span></div><div class="line">            <span class="keyword">int</span> nSum = number[i] - <span class="string">'0'</span> + nTakeOver;</div><div class="line">            <span class="keyword">if</span> (i == nLength - <span class="number">1</span>)</div><div class="line">                nSum++;</div><div class="line"></div><div class="line">            <span class="keyword">if</span> (nSum &gt;= <span class="number">10</span>) &#123;</div><div class="line">                <span class="keyword">if</span> (i == <span class="number">0</span>)</div><div class="line">                    isOverflow = <span class="keyword">true</span>;</div><div class="line">                <span class="keyword">else</span> &#123;</div><div class="line">                    nSum -= <span class="number">10</span>;</div><div class="line">                    nTakeOver = <span class="number">1</span>;</div><div class="line">                    number[i] = (<span class="keyword">char</span>) (<span class="string">'0'</span> + nSum);</div><div class="line">                &#125;</div><div class="line">            &#125; <span class="keyword">else</span> &#123;</div><div class="line">                number[i] = (<span class="keyword">char</span>) (<span class="string">'0'</span> + nSum);</div><div class="line">                <span class="keyword">break</span>;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">            <span class="keyword">return</span> isOverflow;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	 <span class="comment">// 字符串number表示一个数字，数字有若干个0开头</span></div><div class="line">    <span class="comment">// 打印出这个数字，并忽略开头的0</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">PrintNumber</span><span class="params">(<span class="keyword">char</span>[] number)</span> </span>&#123;</div><div class="line">        <span class="keyword">boolean</span> isBeginning0 = <span class="keyword">true</span>;</div><div class="line">        <span class="keyword">int</span> nLength = number.length;</div><div class="line"></div><div class="line">        <span class="comment">//标志位的思想，从第一位不为0的数字开始打印，如000123，打印123</span></div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; nLength; ++i) &#123;</div><div class="line">            <span class="keyword">if</span> (isBeginning0 &amp;&amp; number[i] != <span class="string">'0'</span>)</div><div class="line">                isBeginning0 = <span class="keyword">false</span>;</div><div class="line"></div><div class="line">            <span class="keyword">if</span> (!isBeginning0) &#123;</div><div class="line">                System.out.print(number[i]);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        System.out.println();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-    
-    
-    
+            <h1 id="一，什么是注解"><a href="#一，什么是注解" class="headerlink" title="一，什么是注解"></a>一，什么是注解</h1><p>我们大家都知道Java代码中使用注释是为了向以后阅读这份代码的人解释说明一些事情，注解是注释的升级版，它可以向编译器、虚拟机等解释说明一些事情。比如我们非常熟悉的@Override就是一种元注解，它的作用是告诉编译器它所注解的方法是重写父类的方法，这样编译器就会去检查父类是否存在这个方法，以及这个方法的签名与父类是否相同。</p>
+<p>也就是说，注解是描述Java代码的代码，它能够被编译器解析，注解处理工具在运行时也能够解析注解。我们在Java源文件中使用注释，是为了以后我们或他人再来读这段代码时，能够更好地理解它。Javadoc工具可以解析我们在源代码中为类、方法、变量等添加的描述信息，并根据这些描述信息自动生成一个HTML文档，这些自动生成的文档即可作为API帮助文档。只要我们为类、方法等添加的描述信息符合Javadoc要求的语法，我们就能够使用Javadoc工具根据我们的描述信息自动生成一个帮助文档。而注解比java注释和Javadoc要强大得多，它们三者之间的重大的区别在于，Java注释和Javadoc描述所发挥的作用仅仅到编译时就止步了，而注解直到运行时都能够发挥作用。</p>
+<p>我们知道，使用“transient”关键字可以告诉编译器这个域不可序列化。相比于用”transient“这样的关键字修饰一个属性，注解为我们提供了为类/方法/属性/变量添加描述信息的更通用的方式，而这些描述信息对于开发者、自动化工具、Java编译器和Java运行时来说都是有意义的，也就是说他们都能“读懂”注解信息。”transient“关键字是一个修饰符，而注解也是一种修饰符。除了传递信息，我们也可以使用注解生成代码。我们可以使用注解，然后让注解解析工具来解析它们，以此来生成一些”模板化“的代码。比如Hibernate、Spring、Axis这些框架大量使用了注解，来避免一些重复的工作。</p>
+<h1 id="元注解"><a href="#元注解" class="headerlink" title="元注解"></a>元注解</h1><p>元注解即用来描述注解的注解，比如以下代码中我们使用“@Target”元注解来说明MethodInfo这个注解只能应用于对方法进行注解：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Target</span>(ElementType.METHOD)</div><div class="line"><span class="keyword">public</span> <span class="meta">@interface</span> MethodInfo &#123; </div><div class="line">    ...</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="1-Docemented"><a href="#1-Docemented" class="headerlink" title="1 Docemented"></a>1 Docemented</h2><p>当一个注解类型被@Documented元注解所描述时，那么无论在哪里使用这个注解，都会被Javadoc工具文档化。我们来看一下它的定义：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Documented</span></div><div class="line"><span class="meta">@Retention</span>(RetentionPolicy.RUNTIME)</div><div class="line"><span class="meta">@Target</span>(ElementType.ANNOTATION_TYPE)</div><div class="line"><span class="keyword">public</span> <span class="meta">@interface</span> Documented &#123;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>定义注解使用@interface关键字<br>这个元注解被@Documented修饰，表示它本身也会被文档化。  @Retention元注解的值RetentionPolicy.RUNTIME表示@Documented这个注解能保留到运行时；@Target元注解的值ElementType.ANNOTATION_TYPE表示@Documented这个注解只能够用来描述注解类型。</p>
+<h2 id="2-Inherited"><a href="#2-Inherited" class="headerlink" title="2. Inherited"></a>2. Inherited</h2><p>表明被修饰的注解类型是自动继承的。具体解释如下：若一个注解类型被Inherited元注解所修饰，则当用户在一个类声明中查询该注解类型时，若发现这个类声明中不包含这个注解类型，则会自动在这个类的父类中查询相应的注解类型，这个过程会被重复，直到该注解类型被找到或是查找完了Object类还未找到。这个元注解的定义如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">@Documented</div><div class="line">@Retention(RetentionPolicy.RUNTIME)</div><div class="line">@Target(ElementType.ANNOTATION_TYPE)</div><div class="line">public @interface Inherited &#123;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>这个元注解类型被@Documented所注解，能够保留到运行时，只能用来描述注解类型。</p>
+<h2 id="3-Retention"><a href="#3-Retention" class="headerlink" title="3. Retention"></a>3. Retention</h2><p>它表示一个注解类型会被保留到什么时候，比如以下代码表示Developer注解会被保留到运行时：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">@Retention(RetentionPolicy.RUNTIME)</div><div class="line">public @interface Developer &#123;</div><div class="line">    String value();</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">@Documented</div><div class="line">@Retention(RetentionPolicy.RUNTIME)</div><div class="line">@Target(ElementType.ANNOTATION_TYPE)</div><div class="line">public @interface Retention &#123;</div><div class="line">    RetentionPolicy value();</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>我们在使用@Retention时，后面括号里的内容即表示他的取值，从以上定义我们可以看到，取值的类型为RetentionPolicy，这是一个枚举类型，它可以取以下值：</p>
+<ul>
+<li>SOURCE：表示在编译时这个注解会被移除，不会包含在编译后产生的class文件中；</li>
+<li>CLASS：表示这个注解会被包含在class文件中，但在运行时会被移除；</li>
+<li>RUNTIME：表示这个注解会被保留到运行时，在运行时可以JVM访问到，我们可以在运行时通过反射解析这个注解。</li>
+</ul>
+<h2 id="4-Target"><a href="#4-Target" class="headerlink" title="4 Target"></a>4 Target</h2><p>这个元注解说明了被修饰的注解的应用范围，也就是被修饰的注解可以用来注解哪些程序元素，它的定义如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">@Documented</div><div class="line">@Retention(RetentionPolicy.RUNTIME)</div><div class="line">@Target(ElementType.ANNOTATION_TYPE)</div><div class="line">public @interface Target &#123;</div><div class="line">    ElementType[] value();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>看到它也会保留到运行时，而且它的取值是为ElementType[]类型（一个数组，意思是可以指定多个值），ElementType是一个枚举类型，它可以取以下值：</p>
+<ul>
+<li>TYPE：表示可以用来注解类、接口、注解类型或枚举类型；</li>
+<li>PACKAGE：可以用来注解包；</li>
+<li>PARAMETER：可以用来注解参数；</li>
+<li>ANNOTATION_TYPE：可以用来注解 注解类型；</li>
+<li>METHOD：可以用来注解方法；</li>
+<li>FIELD：可以用来注解属性（包括枚举常量）；</li>
+<li>CONSTRUCTOR：可以用来注解构造器；</li>
+<li>LOCAL_VARIABLE：可用来注解局部变量。</li>
+</ul>
+<h1 id="三、常见内建注解"><a href="#三、常见内建注解" class="headerlink" title="三、常见内建注解"></a>三、常见内建注解</h1><p>Java本身内建了一些注解，下面我们来介绍一下我们在日常开发中比较常见的注解：@Override、@Deprecated、@SuppressWarnings。相信我们大家或多或少都使用过这三个注解</p>
+<h2 id="Override注解"><a href="#Override注解" class="headerlink" title="@Override注解"></a>@Override注解</h2><p>先看一下定义<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">@Target(ElementType.METHOD)</div><div class="line">@Retention(RetentionPolicy.SOURCE)</div><div class="line">public @interface Override &#123;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>从它的定义我们可以看到，这个注解可以被用来修饰方法，并且它只在编译时有效，在编译后的class文件中便不再存在。这个注解的作用我们大家都不陌生，那就是告诉编译器被修饰的方法是重写的父类的中的相同签名的方法，编译器会对此做出检查，若发现父类中不存在这个方法或是存在的方法签名不同，则会报错。</p>
+<h2 id="Deprecated"><a href="#Deprecated" class="headerlink" title="@Deprecated"></a>@Deprecated</h2><p>定义如下:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">@Documented</div><div class="line">@Retention(RetentionPolicy.RUNTIME)</div><div class="line">@Target(value=&#123;CONSTRUCTOR, FIELD, LOCAL_VARIABLE, METHOD, PACKAGE, PARAMETER, TYPE&#125;)</div><div class="line">public @interface Deprecated &#123;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>从它的定义我们可以知道，它会被文档化，能够保留到运行时，能够修饰构造方法、属性、局部变量、方法、包、参数、类型。这个注解的作用是告诉编译器被修饰的程序元素已被“废弃”，不再建议用户使用。</p>
+<h2 id="SuppressWarnings"><a href="#SuppressWarnings" class="headerlink" title="@SuppressWarnings"></a>@SuppressWarnings</h2><p>这个注解我们也比较常用到，先来看下它的定义：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Target</span>(&#123;TYPE, FIELD, METHOD, PARAMETER, CONSTRUCTOR, LOCAL_VARIABLE&#125;)</div><div class="line"><span class="meta">@Retention</span>(RetentionPolicy.SOURCE)</div><div class="line"><span class="keyword">public</span> <span class="meta">@interface</span> SuppressWarnings &#123;</div><div class="line">    String[] value();</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>它能够修饰的程序元素包括类型、属性、方法、参数、构造器、局部变量，只能存活在源码时，取值为String[]。它的作用是告诉编译器忽略指定的警告信息，它可以取的值如下所示：</p>
+<ul>
+<li>deprecation：忽略使用了废弃的类或方法时的警告；</li>
+<li>unchecked：执行了未检查的转换</li>
+<li>fallthrough：swich语句款中case忘加break从而直接“落入”下一个case；</li>
+<li>path：类路径或原文件路径等不存在；</li>
+<li>all：以上所有情况产生的警告均忽略。</li>
+</ul>
+<p>这个注解如何使用呢？<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">@SuppressWarning(value=&#123;&quot;deprecation&quot;, &quot;unchecked&quot;&#125;)</div><div class="line">public void myMethos() &#123;...&#125;</div><div class="line">// 通过使用以上注解，我们告诉编译器忽略myMethod方法中由于使用了废弃的类或方法或是做了未检查的转换而产生的警告。</div></pre></td></tr></table></figure></p>
+<h1 id="四、自定义注解"><a href="#四、自定义注解" class="headerlink" title="四、自定义注解"></a>四、自定义注解</h1><p>我们可以创建我们自己的注解类型并使用它。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">Documented</div><div class="line"><span class="meta">@Retention</span>(RetentionPolicy.RUNTIME)</div><div class="line"><span class="meta">@Target</span>(ElementType.METHOD)</div><div class="line"><span class="meta">@Inherited</span></div><div class="line"><span class="keyword">public</span> <span class="meta">@interface</span> MethodInfo &#123;</div><div class="line">    <span class="function">String <span class="title">author</span><span class="params">()</span> <span class="keyword">default</span> "coderlong"</span>;</div><div class="line">    <span class="function">String <span class="title">date</span><span class="params">()</span></span>;</div><div class="line">    <span class="function"><span class="keyword">int</span> <span class="title">version</span><span class="params">()</span> <span class="keyword">default</span> 1</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<ul>
+<li>注解类型是通过 @interface关键字定义的</li>
+<li>在”注解体“中，所有的方法均没有方法体且只允许public和abstract这两种修饰符号（不加修饰符缺省为public），注解方法不允许有throws子句；</li>
+<li>注解方法的返回值只能为以下几种：原始数据类型）, String, Class, 枚举类型, 注解和它们的一维数组，可以为方法指定默认返回值。</li>
+</ul>
 
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/03/01/数值的整数次方/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Sailong Ren">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="coderlong的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/03/01/数值的整数次方/" itemprop="url">数值的整数次方</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-01T14:18:40+08:00">
-                2018-03-01
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/剑指offer/" itemprop="url" rel="index">
-                    <span itemprop="name">剑指offer</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="数值的整数次方"><a href="#数值的整数次方" class="headerlink" title="数值的整数次方"></a>数值的整数次方</h2><p><code>题目描述：
-输入一个链表，从尾到头打印链表每个节点的值。</code></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> 从尾到头打印链表 </span>&#123;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		<span class="comment">// TODO Auto-generated method stub</span></div><div class="line"></div><div class="line">	&#125;</div><div class="line">	<span class="comment">// 使用堆栈 来逆转打印</span></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> ArrayList&lt;Integer&gt; <span class="title">printListFromTailToHead</span><span class="params">(ListNode head)</span> </span>&#123;</div><div class="line">		<span class="keyword">if</span> (head == <span class="keyword">null</span>) &#123;</div><div class="line">			ArrayList&lt;Integer&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line">			<span class="keyword">return</span> list;</div><div class="line">		&#125;</div><div class="line">		</div><div class="line">		Stack&lt;Integer&gt; stack = <span class="keyword">new</span> Stack&lt;&gt;();</div><div class="line">		<span class="keyword">while</span> (head != <span class="keyword">null</span> ) &#123;</div><div class="line">			stack.push(head.val);</div><div class="line">			head = head.next;</div><div class="line">		&#125;</div><div class="line">		</div><div class="line">		ArrayList&lt;Integer&gt; res = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line">		<span class="keyword">while</span> (!stack.isEmpty()) &#123;</div><div class="line">			Integer item = stack.pop();</div><div class="line">			System.out.println(item); <span class="comment">// 打印</span></div><div class="line">			res.add(item);</div><div class="line">		&#125;</div><div class="line">		</div><div class="line">		<span class="keyword">return</span> res;</div><div class="line">	&#125;</div><div class="line">	<span class="comment">// 递归的方法</span></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">printListFromTailToHead2</span><span class="params">(ListNode head)</span> </span>&#123;</div><div class="line">		<span class="keyword">if</span> (head != <span class="keyword">null</span>) &#123;</div><div class="line">			<span class="keyword">if</span> (head.next != <span class="keyword">null</span>) &#123;</div><div class="line">				printListFromTailToHead2(head.next);</div><div class="line">			&#125;</div><div class="line">			System.out.println(head.val);</div><div class="line">		&#125;</div><div class="line">		</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
           
         
       
@@ -1886,7 +1935,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">122</span>
+                <span class="site-state-item-count">123</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1897,7 +1946,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">27</span>
+                <span class="site-state-item-count">28</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -1908,7 +1957,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">55</span>
+                <span class="site-state-item-count">56</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
