@@ -303,6 +303,336 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/01/31/代理模式/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sailong Ren">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="coderlong的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/01/31/代理模式/" itemprop="url">代理模式</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-31T14:18:40+08:00">
+                2018-01-31
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/设计模式/" itemprop="url" rel="index">
+                    <span itemprop="name">设计模式</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <a id="more"></a>
+<h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p>为其他对象提供一种代理以控制对这个对象的访问。在某些情况下，一个对象不适合或者不能直接引用另一个对象，而代理对象可以在客户端和目标对象之间起到中介的作用</p>
+<h2 id="角色"><a href="#角色" class="headerlink" title="角色"></a>角色</h2><ol>
+<li><em>抽象角色</em> : 生命真实对象和代理对象的共同接口</li>
+<li><em>代理角色</em> 代理对象角色内部含有对真实对象的引用，从而可以操作真实对象，同时代理对象提<br> 供与真实对象相同的接口以便在任何时刻都能代替真实对象。同时，代理对象可以在执行真实对象操作时，附加其他的操作，相当于对真实对象进行封装。</li>
+<li><em>真实角色</em> 代理角色所代表的真实对象，是我们最终要引用的对象。<h2 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h2>静态代理： 静态代理也就是在程序运行前就已经存在代理类的字节码文件，代理类和委托类的关系在运行前就确定了。</li>
+</ol>
+<h3 id="示例代码"><a href="#示例代码" class="headerlink" title="示例代码"></a>示例代码</h3><p>抽象角色，真实对象，和代理对象共同的接口<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">public interface UserInfo&#123;    </div><div class="line">       public void queryUser ();    </div><div class="line">       public void updateUser ();      </div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>真实角色<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">public class UserImpl implementsUserInfo&#123;    </div><div class="line"></div><div class="line">       @Override    </div><div class="line">       public void queryUser() &#123;    </div><div class="line">           //查询方法略...          </div><div class="line">       &#125;    </div><div class="line"></div><div class="line">       @Override    </div><div class="line">       public void updateUser() &#123;    </div><div class="line">            //修改方法略...          </div><div class="line">       &#125;    </div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>代理对象<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">public class UserProxy implementsUserInfo&#123;    </div><div class="line">   private UserInfo userImpl;    </div><div class="line"></div><div class="line">   public AccountProxy(UserInfo userImpl) &#123;    </div><div class="line">       this.userImpl = userImpl;    </div><div class="line">   &#125;    </div><div class="line"></div><div class="line">   @Override    </div><div class="line">   public void queryUser() &#123; </div><div class="line">         //这里可以扩展，增加一些查询之前需要执行的方法   </div><div class="line">       //查询方法略...   </div><div class="line">         //这里可以扩展，增加一些查询之后需要执行的方法         </div><div class="line">   &#125;    </div><div class="line"></div><div class="line">   @Override    </div><div class="line">   public void updateUser() &#123;  </div><div class="line">         //这里可以扩展，增加一些修改之前需要执行的方法    </div><div class="line">       //修改方法略...   </div><div class="line">         //这里可以扩展，增加一些修改之后需要执行的方法         </div><div class="line">   &#125;  </div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>如何使用代理类？<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">public class Test &#123;    </div><div class="line">   public static void main(String[] args) &#123;    </div><div class="line">       UserInfo userImpl = new UserImpl();     </div><div class="line">       UserInfo userProxy = new UserProxy(userImpl);     </div><div class="line">             userProxy.queryUser(); </div><div class="line">       userProxy.updateUser();        </div><div class="line">   &#125;    </div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>如果要想为多个类进行代理，则需要建立多个代理类，维护难度加大。</p>
+<p>仔细想想，为什么静态代理会有这些问题，是因为代理在编译期就已经决定，如果代理哪个发生在运行期，这些问题解决起来就比较简单，所以动态代理的存在就很有必要了。</p>
+<p>静态代理的缺点很明显：一个代理类只能对一个业务接口的实现类进行包装，如果有多个业务接口的话就要定义很多实现类和代理类才行。而且，如果代理类对业务方法的预处理、调用后操作都是一样的（比如：调用前输出提示、调用后自动关闭连接），则多个代理类就会有很多重复代码。这时我们可以定义这样一个代理类，它能代理所有实现类的方法调用：根据传进来的业务实现类和方法名进行具体调用。——那就是动态代理。</p>
+<hr>
+<p>##动态代理<br>动态代理类的源码是程序在运行期间由JVM根据反射等机制动态生成的，所以不存在代理类的字节码文件。代理角色和真实角色的联系在程序运行时确定。<br>抽象角色，真实对象，和代理对象共同的接口<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">public interface Hosee &#123;</div><div class="line">	String sayhi();</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>真实角色<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">public class HoseeDynamicimpl implements Hosee &#123;</div><div class="line"></div><div class="line">	@Override</div><div class="line">	public String sayhi() &#123;</div><div class="line">		// TODO Auto-generated method stub</div><div class="line">		return &quot;Welcome to coderlong&apos;s blog&quot;;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>代理几角色处理器<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">public class MyProxy implements InvocationHandler &#123;</div><div class="line"></div><div class="line">	Object obj;</div><div class="line">	public Object bind(Object obj) &#123;</div><div class="line">		this.obj = obj;</div><div class="line">		return Proxy.newProxyInstance(obj.getClass().getClassLoader(), obj.getClass().getInterfaces(), this);</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	</div><div class="line">	@Override</div><div class="line">	public Object invoke(Object proxy, Method method, Object[] args) throws Throwable &#123;</div><div class="line">		System.out.println(&quot; l am a proxy&quot;);// 代理类对之进行的预处理</div><div class="line">		Object res = method.invoke(obj, args);</div><div class="line">		return res;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>测试一下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">public class DynamicPeoxy &#123;</div><div class="line"></div><div class="line">	public static void main(String[] args) &#123;</div><div class="line">		// TODO Auto-generated method stub</div><div class="line">		MyProxy myProxy = new MyProxy();</div><div class="line">		HoseeDynamicimpl hoseeDynamicimpl = new HoseeDynamicimpl();</div><div class="line">		Hosee hosee = (Hosee) myProxy.bind(hoseeDynamicimpl);</div><div class="line">		System.out.println(hosee.sayhi());</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>类比静态代理，可以发现，代理类不需要实现原接口了，而是实现InvocationHandler。通过<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Proxy.newProxyInstance(obj.getClass().getClassLoader(), obj</div><div class="line">                .getClass().getInterfaces(), this);</div></pre></td></tr></table></figure></p>
+<p>来动态生成一个代理类，该类的类加载器与被代理类相同，实现的接口与被代理类相同。</p>
+<p>通过上述方法生成的代理类相当于静态代理中的代理类。</p>
+<p>这样就实现了在运行期才决定代理对象是怎么样的，解决了静态代理的弊端。</p>
+<p>当动态生成的代理类调用方法时，会触发invoke方法，在invoke方法中可以对被代理类的方法进行增强。</p>
+<p>通过动态代理可以很明显的看到它的好处，在使用静态代理时，如果不同接口的某些类想使用代理模式来实现相同的功能，将要实现多个代理类，但在动态代理中，只需要一个代理类就好了。</p>
+<p>除了省去了编写代理类的工作量，动态代理实现了可以在原始类和接口还未知的时候，就确定代理类的代理行为，当代理类与原始类脱离直接联系后，就可以很灵活地重用于不同的应用场景中。</p>
+<h3 id="动态代理的弊端"><a href="#动态代理的弊端" class="headerlink" title="动态代理的弊端"></a>动态代理的弊端</h3><p>代理类和委托类需要都实现同一个接口。也就是说只有实现了某个接口的类可以使用Java动态代理机制。但是，事实上使用中并不是遇到的所有类都会给你实现一个接口。因此，对于没有实现接口的类，就不能使用该机制。</p>
+<p>而CGLIB则可以实现对类的动态代理<br><em>cglib是针对类来实现代理的，原理是对指定的业务类生成一个子类，并覆盖其中业务方法实现代理。因为采用的是继承，所以不能对final修饰的类进行代理。</em></p>
+<ol>
+<li><p>业务类 （这里也可以不实现接口）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BookFacadeImpl1</span> </span>&#123;  </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addBook</span><span class="params">()</span> </span>&#123;  </div><div class="line">        System.out.println(<span class="string">"新增图书..."</span>);  </div><div class="line">    &#125;  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>实现 MethodInterceptor方法代理接口，创建代理类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BookFacadeCglib</span> <span class="keyword">implements</span> <span class="title">MethodInterceptor</span> </span>&#123;  </div><div class="line">    <span class="keyword">private</span> Object target;<span class="comment">//业务类对象，供代理方法中进行真正的业务方法调用</span></div><div class="line">  </div><div class="line">    <span class="comment">//相当于JDK动态代理中的绑定</span></div><div class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">getInstance</span><span class="params">(Object target)</span> </span>&#123;  </div><div class="line">        <span class="keyword">this</span>.target = target;  <span class="comment">//给业务对象赋值</span></div><div class="line">        Enhancer enhancer = <span class="keyword">new</span> Enhancer(); <span class="comment">//创建加强器，用来创建动态代理类</span></div><div class="line">        enhancer.setSuperclass(<span class="keyword">this</span>.target.getClass());  <span class="comment">//为加强器指定要代理的业务类（即：为下面生成的代理类指定父类）</span></div><div class="line">        <span class="comment">//设置回调：对于代理类上所有方法的调用，都会调用CallBack，而Callback则需要实现intercept()方法进行拦</span></div><div class="line">        enhancer.setCallback(<span class="keyword">this</span>); </div><div class="line">       <span class="comment">// 创建动态代理类对象并返回  </span></div><div class="line">       <span class="keyword">return</span> enhancer.create(); </div><div class="line">    &#125;</div><div class="line">    <span class="comment">// 实现回调方法 </span></div><div class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">intercept</span><span class="params">(Object obj, Method method, Object[] args, MethodProxy proxy)</span> <span class="keyword">throws</span> Throwable </span>&#123; </div><div class="line">        System.out.println(<span class="string">"预处理——————"</span>);</div><div class="line">        proxy.invokeSuper(obj, args); <span class="comment">//调用业务类（父类中）的方法</span></div><div class="line">        System.out.println(<span class="string">"调用后操作——————"</span>);</div><div class="line">        <span class="keyword">return</span> <span class="keyword">null</span>; </div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>创建业务类和代理类对象，然后通过  代理类对象.getInstance(业务类对象)  返回一个动态代理类对象（它是业务类的子类，可以用业务类引用指向它）。最后通过动态代理类对象进行方法调用。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">public static void main(String[] args) &#123;      </div><div class="line">        BookFacadeImpl1 bookFacade=new BookFacadeImpl1()；</div><div class="line">        BookFacadeCglib  cglib=new BookFacadeCglib();  </div><div class="line">        BookFacadeImpl1 bookCglib=(BookFacadeImpl1)cglib.getInstance(bookFacade);  </div><div class="line">        bookCglib.addBook();  </div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>静态代理是通过在代码中显式定义一个业务实现类一个代理，在代理类中对同名的业务方法进行包装，用户通过代理类调用被包装过的业务方法；</p>
+<pre><code>JDK动态代理是通过接口中的方法名，在动态生成的代理类中调用业务实现类的同名方法；
+
+CGlib动态代理是通过继承业务类，生成的动态代理类是业务类的子类，通过重写业务方法进行代理；
+</code></pre>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/01/26/Volatile/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sailong Ren">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="coderlong的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/01/26/Volatile/" itemprop="url">Volatile关键字</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-26T12:50:17+08:00">
+                2018-01-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/concurrent/" itemprop="url" rel="index">
+                    <span itemprop="name">concurrent</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>摘要： Volatile关键字解析<br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/01/26/Volatile/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/01/25/CAS算法/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1609,314 +1939,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/01/12/transient/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Sailong Ren">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="coderlong的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/01/12/transient/" itemprop="url">Transient</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-12T20:18:40+08:00">
-                2018-01-12
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index">
-                    <span itemprop="name">java</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <a id="more"></a>
-<h2 id="1-transient的作用以及用法"><a href="#1-transient的作用以及用法" class="headerlink" title="1.transient的作用以及用法"></a>1.transient的作用以及用法</h2><p>我们都知道一个对象只要实现了Serilizable接口，这个对象就可以被序列化，java的这种序列化模式为开发者提供了很多便利，我们可以不必关系具体序列化的过程，只要这个类实现了Serilizable接口，这个类的所有属性和方法都会自动序列化。</p>
-<p>然而在实际开发过程中，我们常常会遇到这样的问题，这个类的有些属性需要序列化，而其他属性不需要被序列化，打个比方，如果一个用户有一些敏感信息（如密码，银行卡号等），为了安全起见，不希望在网络操作（主要涉及到序列化操作，本地序列化缓存也适用）中被传输，这些信息对应的变量就可以加上transient关键字。换句话说，这个字段的生命周期仅存于调用者的内存中而不会写到磁盘里持久化。</p>
-<p>总之，java 的transient关键字为我们提供了便利，你只需要实现Serilizable接口，将不需要序列化的属性前添加关键字transient，序列化对象的时候，这个属性就不会序列化到指定的目的地中。</p>
-<p>示例code如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div></pre></td><td class="code"><pre><div class="line">package 序列化;</div><div class="line"></div><div class="line">import java.io.FileInputStream;</div><div class="line">import java.io.FileNotFoundException;</div><div class="line">import java.io.FileOutputStream;</div><div class="line">import java.io.IOException;</div><div class="line">import java.io.ObjectInputStream;</div><div class="line">import java.io.ObjectOutputStream;</div><div class="line"></div><div class="line">/**</div><div class="line">* @author 作者 : coderlong</div><div class="line">* @version 创建时间：2018年1月12日 上午11:51:21</div><div class="line">* 类说明: </div><div class="line">*/</div><div class="line">public class TestTransient &#123;</div><div class="line"></div><div class="line">	public static void main(String[] args) throws FileNotFoundException, IOException &#123;</div><div class="line">		// TODO Auto-generated method stub</div><div class="line">		User user = new User();</div><div class="line">        user.setUsername(&quot;王雅珂&quot;);</div><div class="line">        user.setPasswd(&quot;123456&quot;);</div><div class="line"> </div><div class="line">        System.out.println(&quot;read before Serializable: &quot;);</div><div class="line">        System.out.println(&quot;username: &quot; + user.getUsername());</div><div class="line">        System.err.println(&quot;password: &quot; + user.getPasswd());</div><div class="line">        </div><div class="line">        ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(&quot;E:/Ehcache/user.txt&quot;));</div><div class="line">        os.writeObject(user); // 把user对象 序列化</div><div class="line">        os.flush();</div><div class="line">        os.close();</div><div class="line">        System.out.println(&quot;user对象已经序列化了&quot;);</div><div class="line">        ObjectInputStream in = new ObjectInputStream(new FileInputStream(&quot;E:/Ehcache/user.txt&quot;));</div><div class="line">        try &#123;</div><div class="line">			user = (User) in.readObject();</div><div class="line">		&#125; catch (ClassNotFoundException e) &#123;</div><div class="line">			// TODO Auto-generated catch block</div><div class="line">			e.printStackTrace();</div><div class="line">		&#125; // 从流中读取User的数据</div><div class="line">        </div><div class="line">        in.close();</div><div class="line"></div><div class="line">        System.out.println(&quot;\nread after Serializable: &quot;);</div><div class="line">        System.out.println(&quot;username: &quot; + user.getUsername());</div><div class="line">        System.err.println(&quot;password: &quot; + user.getPasswd());</div><div class="line">   </div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">read before Serializable: </div><div class="line">password: `123456`</div><div class="line">username: 王雅珂</div><div class="line">user对象已经序列化了</div><div class="line"></div><div class="line">read after Serializable: </div><div class="line">username: 王雅珂</div><div class="line">password: `null`</div></pre></td></tr></table></figure></p>
-<h2 id="2-transient使用小结"><a href="#2-transient使用小结" class="headerlink" title="2. transient使用小结"></a>2. transient使用小结</h2><p>1）一旦变量被transient修饰，变量将不再是对象持久化的一部分，该变量内容在序列化后无法获得访问。</p>
-<p>2）transient关键字只能修饰变量，而不能修饰方法和类。注意，本地变量是不能被transient关键字修饰的。变量如果是用户自定义类变量，则该类需要实现Serializable接口。</p>
-<p>3）被transient关键字修饰的变量不再能被序列化，一个静态变量不管是否被transient修饰，均不能被序列化。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div></pre></td><td class="code"><pre><div class="line">package 序列化;</div><div class="line"></div><div class="line">import java.io.FileInputStream;</div><div class="line">import java.io.FileNotFoundException;</div><div class="line">import java.io.FileOutputStream;</div><div class="line">import java.io.IOException;</div><div class="line">import java.io.ObjectInputStream;</div><div class="line">import java.io.ObjectOutputStream;</div><div class="line"></div><div class="line">/**</div><div class="line">* @author 作者 : coderlong</div><div class="line">* @version 创建时间：2018年1月12日 下午1:08:49</div><div class="line">* 类说明: </div><div class="line">*/</div><div class="line">public class TestTransient2 &#123;</div><div class="line"></div><div class="line">	public static void main(String[] args) throws FileNotFoundException, IOException &#123;</div><div class="line">		// TODO Auto-generated method stub</div><div class="line">		// TODO Auto-generated method stub</div><div class="line">				User user = new User();</div><div class="line">		        user.setUsername(&quot;王雅珂&quot;);</div><div class="line">		        user.setPasswd(&quot;123456&quot;);</div><div class="line">		 </div><div class="line">		        System.out.println(&quot;read before Serializable: &quot;);</div><div class="line">		        System.out.println(&quot;username: &quot; + user.getUsername());</div><div class="line">		        System.err.println(&quot;password: &quot; + user.getPasswd());</div><div class="line">		        </div><div class="line">		        ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(&quot;E:/Ehcache/user.txt&quot;));</div><div class="line">		        os.writeObject(user); // 把user对象 序列化</div><div class="line">		        os.flush();</div><div class="line">		        os.close();</div><div class="line">		        System.out.println(&quot;user对象已经序列化了&quot;);</div><div class="line">		        user.setUsername(&quot;wangyake&quot;);</div><div class="line">		        ObjectInputStream in = new ObjectInputStream(new FileInputStream(&quot;E:/Ehcache/user.txt&quot;));</div><div class="line">		        try &#123;</div><div class="line">					user = (User) in.readObject();</div><div class="line">				&#125; catch (ClassNotFoundException e) &#123;</div><div class="line">					// TODO Auto-generated catch block</div><div class="line">					e.printStackTrace();</div><div class="line">				&#125; // 从流中读取User的数据</div><div class="line">		        </div><div class="line">		        in.close();</div><div class="line"></div><div class="line">		        System.out.println(&quot;\nread after Serializable: &quot;);</div><div class="line">		        System.out.println(&quot;username: &quot; + user.getUsername());</div><div class="line">		        System.err.println(&quot;password: &quot; + user.getPasswd());</div><div class="line"></div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div><div class="line">//  运行结果</div><div class="line">password: `123456`</div><div class="line">read before Serializable: </div><div class="line">username: 王雅珂</div><div class="line">user对象已经序列化了</div><div class="line"></div><div class="line">read after Serializable: </div><div class="line">username: wangyake</div><div class="line">password: `null`</div></pre></td></tr></table></figure>
-<h2 id="3-transient使用细节——被transient关键字修饰的变量真的不能被序列化吗？"><a href="#3-transient使用细节——被transient关键字修饰的变量真的不能被序列化吗？" class="headerlink" title="3. transient使用细节——被transient关键字修饰的变量真的不能被序列化吗？"></a>3. transient使用细节——被transient关键字修饰的变量真的不能被序列化吗？</h2><p>在上一段代码 ：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div></pre></td><td class="code"><pre><div class="line">package 序列化;</div><div class="line"></div><div class="line">import java.io.Externalizable;</div><div class="line">import java.io.FileInputStream;</div><div class="line">import java.io.FileOutputStream;</div><div class="line">import java.io.IOException;</div><div class="line">import java.io.ObjectInput;</div><div class="line">import java.io.ObjectInputStream;</div><div class="line">import java.io.ObjectOutput;</div><div class="line">import java.io.ObjectOutputStream;</div><div class="line">import java.io.ObjectStreamException;</div><div class="line">import java.util.jar.Attributes.Name;</div><div class="line"></div><div class="line">import org.junit.experimental.theories.Theories;</div><div class="line"></div><div class="line">/**</div><div class="line">* @author 作者 : coderlong</div><div class="line">* @version 创建时间：2018年1月12日 下午1:26:25</div><div class="line">* 类说明: </div><div class="line">*/</div><div class="line">public class ExternalizableTest implements Externalizable &#123;</div><div class="line">	private transient String Name = &quot;是的，我也将会被序列化&quot;;</div><div class="line">	@Override</div><div class="line">	public void writeExternal(ObjectOutput out) throws IOException &#123;</div><div class="line">		// TODO Auto-generated method stub</div><div class="line">		out.writeObject(Name);</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	@Override</div><div class="line">	public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException &#123;</div><div class="line">		// TODO Auto-generated method stub</div><div class="line">		Name = (String)in.readObject();</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	</div><div class="line">	 public static void main(String[] args) throws Exception &#123;</div><div class="line">		 ExternalizableTest ex = new ExternalizableTest();</div><div class="line">		 ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(&quot;E:/Ehcache/user.txt&quot;));</div><div class="line">		 out.writeObject(ex);</div><div class="line">		 out.flush();</div><div class="line">		 out.close();</div><div class="line">		 </div><div class="line">		 ObjectInputStream in = new ObjectInputStream(new FileInputStream(&quot;E:/Ehcache/user.txt&quot;));</div><div class="line">		 ex = (ExternalizableTest) in.readObject();</div><div class="line">	     System.out.println(ex.Name);</div><div class="line">	     in.close();</div><div class="line">		 </div><div class="line">		 </div><div class="line">	 &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>输出结果是 <code>是的，我也将会被序列化</code><br>为什么呢？不是说类的变量被transient关键字修饰以后将不能序列化了吗？<br>在Java中，对象的序列化可以通过实现两种接口来实现，若实现的是Serializable接口，则所有的序列化将会自动进行，若实现的是Externalizable接口，则没有任何东西可以自动序列化，需要在writeExternal方法中进行手工指定所要序列化的变量，这与是否被transient修饰无关。<br>所以 Name依旧被序列化之后反序列化了。:blush:</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/01/11/leetcode797_all_paths_from_source_to_target/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Sailong Ren">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="coderlong的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/01/11/leetcode797_all_paths_from_source_to_target/" itemprop="url">leetcode797_all_paths_from_source_to_target</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-11T14:48:38+08:00">
-                2018-01-11
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/leetcode/" itemprop="url" rel="index">
-                    <span itemprop="name">leetcode</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>Given a directed, acyclic graph of <code>N</code> nodes.  Find all possible paths from node <code>0</code> to node <code>N-1</code>, and return them in any order.</p>
-<p>The graph is given as follows:  the nodes are 0, 1, …, graph.length - 1.  graph[i] is a list of all nodes j for which the edge (i, j) exists.</p>
-<pre><code>Example:
-Input: [[1,2], [3], [3], []] 
-Output: [[0,1,3],[0,2,3]] 
-Explanation: The graph looks like this:
-0---&gt;1
-|    |
-v    v
-2---&gt;3
-There are two paths: 0 -&gt; 1 -&gt; 3 and 0 -&gt; 2 -&gt; 3
-</code></pre><p>刚开始根本没有思路，因为那个二维数组来表示图就没看懂，<br>告诉自己，还是要学好英文啊！！！</p>
-<p><code>graph[i] is a list of all nodes j for which the edge (i, j) exists</code><br>每个list代表的是edge(i,j)存在， 那就是有一条路径i – &gt; j喽<br>参考二叉树路径，回溯解决<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">leetcode797_all_paths_from_source_to_target</span> </span>&#123;</div><div class="line">	 <span class="comment">// 让我们用回溯法 来解决此题</span></div><div class="line">	 <span class="keyword">public</span> <span class="keyword">static</span> List&lt;List&lt;Integer&gt;&gt; allPathsSourceTarget(<span class="keyword">int</span>[][] graph) &#123;</div><div class="line">	        List&lt;List&lt;Integer&gt;&gt; res = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line">	        <span class="keyword">if</span> (graph == <span class="keyword">null</span>) &#123;</div><div class="line">	        	<span class="keyword">return</span> res;</div><div class="line">	        &#125;</div><div class="line">	        ArrayList&lt;Integer&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line">	        backtrack(res, list, <span class="number">0</span>, graph.length - <span class="number">1</span>,graph);</div><div class="line">	        <span class="keyword">return</span> res;</div><div class="line">	  &#125;</div><div class="line">	 <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">backtrack</span><span class="params">(List&lt;List&lt;Integer&gt;&gt; res, ArrayList&lt;Integer&gt; list, <span class="keyword">int</span> start, <span class="keyword">int</span> end,<span class="keyword">int</span>[][] graph)</span> </span>&#123;</div><div class="line">		 <span class="comment">// 找打了一条到达终点的路径</span></div><div class="line">		 <span class="keyword">if</span> (start == end) &#123;</div><div class="line">			 list.add(start);</div><div class="line">			 res.add(<span class="keyword">new</span> ArrayList&lt;&gt;(list));</div><div class="line">			 list.remove(list.size() - <span class="number">1</span>); </div><div class="line">			 <span class="keyword">return</span>;</div><div class="line">		 &#125;</div><div class="line">		 <span class="keyword">for</span> (<span class="keyword">int</span> next:graph[start]) &#123;</div><div class="line">			 list.add(start);</div><div class="line">			 backtrack(res, list, next, end, graph);</div><div class="line">			 list.remove(list.size() - <span class="number">1</span>);</div><div class="line">		 &#125;</div><div class="line">	 &#125;</div><div class="line">	 <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		<span class="keyword">int</span>[][] graph = &#123;&#123;<span class="number">1</span>,<span class="number">2</span>&#125;,&#123;<span class="number">3</span>&#125;,&#123;<span class="number">3</span>&#125;,&#123;&#125;&#125;;</div><div class="line">		System.out.println(allPathsSourceTarget(graph));</div><div class="line">		<span class="comment">//[[0, 1, 3], [0, 2, 3]]</span></div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p><code>Python</code>代码</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">allPathsSourceTarget</span><span class="params">(self, graph)</span>:</span></div><div class="line">        <span class="string">"""</span></div><div class="line"><span class="string">        :type graph: List[List[int]]</span></div><div class="line"><span class="string">        :rtype: List[List[int]]</span></div><div class="line"><span class="string">        """</span></div><div class="line">        </div><div class="line">        res = []</div><div class="line">        dic = collections.defaultdict(list)</div><div class="line">        <span class="keyword">for</span> index <span class="keyword">in</span> range(len(graph)<span class="number">-1</span>):</div><div class="line">            <span class="keyword">if</span> len(graph[index]) &gt; <span class="number">1</span>:</div><div class="line">                <span class="keyword">for</span> each <span class="keyword">in</span> graph[index]:</div><div class="line">                    <span class="comment">#print each</span></div><div class="line">                    dic[each].append(index)</div><div class="line">            <span class="keyword">else</span>:</div><div class="line">                dic[graph[index][<span class="number">0</span>]].append(index)</div><div class="line">                </div><div class="line">        <span class="function"><span class="keyword">def</span> <span class="title">dfs</span><span class="params">(node, temp)</span>:</span></div><div class="line">            <span class="keyword">if</span> temp <span class="keyword">and</span> temp[<span class="number">-1</span>] == <span class="number">0</span>:</div><div class="line">                res.append((list(temp[::<span class="number">-1</span>])))</div><div class="line">                <span class="keyword">return</span></div><div class="line">            <span class="keyword">for</span> n <span class="keyword">in</span> dic[node]:</div><div class="line">                temp.append(n)</div><div class="line">                dfs(n,temp)</div><div class="line">                temp.pop()</div><div class="line">        dfs(len(graph)<span class="number">-1</span>, [len(graph)<span class="number">-1</span>])</div><div class="line">        <span class="keyword">return</span> res</div></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1967,7 +1989,7 @@ There are two paths: 0 -&gt; 1 -&gt; 3 and 0 -&gt; 2 -&gt; 3
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">124</span>
+                <span class="site-state-item-count">126</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1978,7 +2000,7 @@ There are two paths: 0 -&gt; 1 -&gt; 3 and 0 -&gt; 2 -&gt; 3
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">29</span>
+                <span class="site-state-item-count">30</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -1989,7 +2011,7 @@ There are two paths: 0 -&gt; 1 -&gt; 3 and 0 -&gt; 2 -&gt; 3
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">57</span>
+                <span class="site-state-item-count">58</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
