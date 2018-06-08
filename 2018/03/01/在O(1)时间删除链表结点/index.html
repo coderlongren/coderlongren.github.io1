@@ -102,7 +102,7 @@
 <meta property="og:site_name" content="coderlong的博客">
 <meta property="og:description" content="在O(1)时间删除链表结点题目描述： 给定单向链表头指针和一个节点指针，在O(1)时间删除链表结点 1234567891011121314151617181920212223242526272829303132333435363738/*** @author 作者 : coderlong* @version 创建时间：2018年2月9日 下午9:43:30* 类说明: */public clas">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-05-02T13:19:42.022Z">
+<meta property="og:updated_time" content="2018-06-08T15:07:27.364Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="在O(1)时间删除链表结点">
 <meta name="twitter:description" content="在O(1)时间删除链表结点题目描述： 给定单向链表头指针和一个节点指针，在O(1)时间删除链表结点 1234567891011121314151617181920212223242526272829303132333435363738/*** @author 作者 : coderlong* @version 创建时间：2018年2月9日 下午9:43:30* 类说明: */public clas">
@@ -399,6 +399,7 @@
 <h2 id="在O-1-时间删除链表结点"><a href="#在O-1-时间删除链表结点" class="headerlink" title="在O(1)时间删除链表结点"></a>在O(1)时间删除链表结点</h2><p><code>题目描述：
 给定单向链表头指针和一个节点指针，在O(1)时间删除链表结点</code></p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"><span class="comment">* <span class="doctag">@author</span> 作者 : coderlong</span></div><div class="line"><span class="comment">* <span class="doctag">@version</span> 创建时间：2018年2月9日 下午9:43:30</span></div><div class="line"><span class="comment">* 类说明: </span></div><div class="line"><span class="comment">*/</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> 在<span class="title">O1</span>时间删除链表节点 </span>&#123;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        <span class="comment">// TODO Auto-generated method stub</span></div><div class="line">        <span class="comment">// test</span></div><div class="line">        ListNode head = <span class="keyword">new</span> ListNode(<span class="number">1</span>);</div><div class="line">        head.next = <span class="keyword">new</span> ListNode(<span class="number">2</span>);</div><div class="line">        head.next.next = <span class="keyword">new</span> ListNode(<span class="number">3</span>);</div><div class="line">        delete(head, head.next);</div><div class="line">        <span class="keyword">while</span> (head != <span class="keyword">null</span>) &#123;</div><div class="line">            System.out.println(head.val);</div><div class="line">            head = head.next;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">     <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">delete</span><span class="params">(ListNode head, ListNode toDelete)</span></span>&#123;</div><div class="line">            <span class="keyword">if</span>(toDelete == <span class="keyword">null</span>)&#123;</div><div class="line">                <span class="keyword">return</span> ;</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">if</span>(toDelete.next != <span class="keyword">null</span>)&#123;<span class="comment">//删除的节点不是尾节点,让现在节点变为下一个节点，最为精妙</span></div><div class="line">                toDelete.val = toDelete.next.val;</div><div class="line">                toDelete.next = toDelete.next.next;</div><div class="line">            &#125;<span class="keyword">else</span> <span class="keyword">if</span>(head == toDelete)&#123;<span class="comment">//链表只有一个节点，删除头结点也是尾节点</span></div><div class="line">                head = <span class="keyword">null</span>;</div><div class="line">            &#125;<span class="keyword">else</span>&#123; <span class="comment">//删除的节点是尾节点的情况</span></div><div class="line">                ListNode node = head;</div><div class="line">                <span class="keyword">while</span>(node.next != toDelete)&#123;<span class="comment">//找到倒数第二个节点</span></div><div class="line">                    node = node.next;</div><div class="line">                &#125;</div><div class="line">                node.next = <span class="keyword">null</span>;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
       
     </div>
     
@@ -459,8 +460,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/03/01/交换两个数组元素使sum之差最小/" rel="next" title="交换两个数组中的元素，使连个数组SUM之差最小">
-                <i class="fa fa-chevron-left"></i> 交换两个数组中的元素，使连个数组SUM之差最小
+              <a href="/2018/03/01/数值的整数次方/" rel="next" title="数值的整数次方">
+                <i class="fa fa-chevron-left"></i> 数值的整数次方
               </a>
             
           </div>
@@ -469,8 +470,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/03/01/从尾到头打印链表/" rel="prev" title="从尾到头打印链表">
-                从尾到头打印链表 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/03/01/红黑树详解/" rel="prev" title="红黑树，B树， B+树，B*树">
+                红黑树，B树， B+树，B*树 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -548,7 +549,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">126</span>
+                <span class="site-state-item-count">127</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
