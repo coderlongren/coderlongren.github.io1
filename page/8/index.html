@@ -303,6 +303,166 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/02/25/Mybatis源码学习/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sailong Ren">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="coderlong的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/02/25/Mybatis源码学习/" itemprop="url">Mybatis源码学习</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-25T21:02:17+08:00">
+                2018-02-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Mybatis/" itemprop="url" rel="index">
+                    <span itemprop="name">Mybatis</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="Mybatis的初始化"><a href="#Mybatis的初始化" class="headerlink" title="Mybatis的初始化"></a>Mybatis的初始化</h2><p>× configuration 配置<br>    × properties 属性<br>    × settings 设置<br>   × typeAliases 类型命名<br>   × typeHandlers 类型处理器<br>   × objectFactory 对象工厂<br>   × plugins 插件<br>   × environments 环境<br>       ×environment 环境变量<br>       × transactionManager 事务管理器<br>       ×dataSource 数据源<br>×映射器<br>MyBatis采用了一个非常直白和简单的方式—使用 org.apache.ibatis.session.Configuration 对象作为一个所有配置信息的容器</p>
+<ul>
+<li>mybatis的初始化的过程，就是创建Configration对象的过程 *</li>
+</ul>
+<ol>
+<li>基于XML配置文件：基于XML配置文件的方式是将MyBatis的所有配置信息放在XML文件中，MyBatis通过加载并XML配置文件，将配置文信息组装成内部的Configuration对象</li>
+<li>基于Java API：这种方式不使用XML配置文件，需要MyBatis使用者在Java代码中，手动创建Configuration对象，然后将配置参数set 进入Configuration对象中</li>
+</ol>
+<h3 id="基于xml配置文件创建Configration对象的过程"><a href="#基于xml配置文件创建Configration对象的过程" class="headerlink" title="基于xml配置文件创建Configration对象的过程"></a>基于xml配置文件创建Configration对象的过程</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">String resource = <span class="string">"mybatis-config.xml"</span>;</div><div class="line">InputStream inputStream = Resources.getResourceAsStream(resource);</div><div class="line">SqlSessionFactory sqlSessionFactory = <span class="keyword">new</span> SqlSessionFactoryBuilder().build(inputStream);</div><div class="line">SqlSession sqlSession = sqlSessionFactory.openSession();</div><div class="line">List list = sqlSession.selectList(<span class="string">"com.foo.bean.BlogMapper.queryAllBlogInfo"</span>);</div></pre></td></tr></table></figure>
+<p>上面就是 执行 queryAllBloginfo()的过程<br>经历了mybatis初始化 –&gt;创建SqlSession –&gt;执行SQL语句 返回结果三个过程。<br>真实创建就是那一句 <code>SqlSessionFactoryBuilder().build(inputStream);</code><br>SqlSessionFactoryBuilder根据传入的数据流生成Configuration对象，然后根据Configuration对象创建默认的SqlSessionFactory实例。<br><img src="http://img.blog.csdn.net/20140718131020765" alt=""><br>`</p>
+<ol>
+<li>调用 SqlSessionFactoryBuilder对象的build(inputStream)方法</li>
+<li>SqlSessionFactoryBuilder会根据inputStream流创建XMLConfigBuilder对象</li>
+<li>SqlSessionFactoryBuilder调用XMLConfigBuilder的parse（）方法解析</li>
+<li>XMLConfigBuilder对象返回 Configration对象</li>
+<li>SqlSessionFactoryBuilder根据Configuration对象创建一个DefaultSessionFactory对象</li>
+<li>SqlSessionFactoryBuilder返回DefaultSessionFactory对象给Client，供Client使用。<br>`<br>SqlSessionFactoryBuilder的构造方法<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> SqlSessionFactory <span class="title">build</span><span class="params">(InputStream inputStream)</span></span></div><div class="line"><span class="function"></span>&#123;</div><div class="line">    <span class="keyword">return</span> build(inputStream, <span class="keyword">null</span>, <span class="keyword">null</span>);</div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">public</span> SqlSessionFactory <span class="title">build</span><span class="params">(InputStream inputStream, String environment, Properties properties)</span></span></div><div class="line"><span class="function"></span>&#123;</div><div class="line">    <span class="keyword">try</span></div><div class="line">    &#123;</div><div class="line">        <span class="comment">//2. 创建XMLConfigBuilder对象用来解析XML配置文件，生成Configuration对象</span></div><div class="line">        XMLConfigBuilder parser = <span class="keyword">new</span> XMLConfigBuilder(inputStream, environment, properties);</div><div class="line">        <span class="comment">//3. 将XML配置文件内的信息解析成Java对象Configuration对象</span></div><div class="line">        Configuration config = parser.parse();</div><div class="line">        <span class="comment">//4. 根据Configuration对象创建出SqlSessionFactory对象</span></div><div class="line">        <span class="keyword">return</span> build(config);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">catch</span> (Exception e)</div><div class="line">    &#123;</div><div class="line">        <span class="keyword">throw</span> ExceptionFactory.wrapException(<span class="string">"Error building SqlSession."</span>, e);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">finally</span></div><div class="line">    &#123;</div><div class="line">        ErrorContext.instance().reset();</div><div class="line">        <span class="keyword">try</span></div><div class="line">        &#123;</div><div class="line">            inputStream.close();</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">catch</span> (IOException e)</div><div class="line">        &#123;</div><div class="line">            <span class="comment">// Intentionally ignore. Prefer previous error.</span></div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">public</span> SqlSessionFactory <span class="title">build</span><span class="params">(Configuration config)</span></span></div><div class="line"><span class="function"></span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">new</span> DefaultSqlSessionFactory(config);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/02/21/异或去重/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1726,156 +1886,6 @@ You may assume that row1 ≤ row2 and col1 ≤ col2.
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/02/01/Arrays.copyof()&&System.arraycopy()/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Sailong Ren">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="coderlong的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/02/01/Arrays.copyof()&&System.arraycopy()/" itemprop="url">Arrays.copyof()&&System.arraycopy()</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-01T16:18:40+08:00">
-                2018-02-01
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/有趣的API/" itemprop="url" rel="index">
-                    <span itemprop="name">有趣的API</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>System.arraycopy()的声明<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">native</span> <span class="keyword">void</span> <span class="title">arraycopy</span><span class="params">(Object src,<span class="keyword">int</span> srcPos, Object dest, <span class="keyword">int</span> destPos,<span class="keyword">int</span> length)</span></span>;</div></pre></td></tr></table></figure></p>
-<p>一个native方法 ，说明是调用的其他语言的底层函数<br>src - 源数组。<br>srcPos - 源数组中的起始位置。<br>dest - 目标数组。<br>destPos - 目标数据中的起始位置。<br>length - 要复制的数组元素的数量。  </p>
-<hr>
-<p>Arrays.copyof()的声明呢？</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> &lt;T,U&gt; T[] copyOf(U[] original, <span class="keyword">int</span> newLength, Class&lt;? extends T[]&gt; newType) &#123;</div><div class="line">        <span class="meta">@SuppressWarnings</span>(<span class="string">"unchecked"</span>)</div><div class="line">        T[] copy = ((Object)newType == (Object)Object[].class)</div><div class="line">            ? (T[]) <span class="keyword">new</span> Object[newLength]</div><div class="line">            : (T[]) Array.newInstance(newType.getComponentType(), newLength);</div><div class="line">        System.arraycopy(original, <span class="number">0</span>, copy, <span class="number">0</span>,</div><div class="line">                         Math.min(original.length, newLength));</div><div class="line">        <span class="keyword">return</span> copy;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
-<p>original - 要复制的数组<br>newLength - 要返回的副本的长度<br>newType - 要返回的副本的类型  </p>
-<hr>
-<p>copyof内部调用了system.arraycopy()方法<br>arraycopy()需要目标数组，将原数组拷贝到你自己定义的数组里，而且可以选择拷贝的起点和长度以及放入新数组中的位置   </p>
-<p>copyOf()是系统自动在内部新建一个数组，调用arraycopy()<br>将original内容复制到copy中去，并且长度为newLength。返回copy;<br>即将原数组拷贝到一个长度为newLength的新数组中，并返回该数组。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1926,7 +1936,7 @@ You may assume that row1 ≤ row2 and col1 ≤ col2.
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">127</span>
+                <span class="site-state-item-count">128</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1937,7 +1947,7 @@ You may assume that row1 ≤ row2 and col1 ≤ col2.
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">30</span>
+                <span class="site-state-item-count">31</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
