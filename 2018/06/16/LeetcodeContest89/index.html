@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Algorithm," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="摘要: 排名，第785">
+<meta name="keywords" content="Algorithm">
+<meta property="og:type" content="article">
+<meta property="og:title" content="LeetcodeContest89">
+<meta property="og:url" content="https://coderlongren.github.io/2018/06/16/LeetcodeContest89/index.html">
+<meta property="og:site_name" content="coderlong的博客">
+<meta property="og:description" content="摘要: 排名，第785">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-06-17T07:19:32.666Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="LeetcodeContest89">
+<meta name="twitter:description" content="摘要: 排名，第785">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'coderlong'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://coderlongren.github.io/2018/06/16/LeetcodeContest89/"/>
+
+
+
+
+
+  <title>LeetcodeContest89 | coderlong的博客</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?b36fb048041f31d8aab6a5184644789e";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband">
+      <a href="https://github.com/coderlongren"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"></a>  
+  
+    </div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">coderlong的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">正是江南好风景，落花时节又逢君</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于我
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/06/16/LeetcodeContest89/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sailong Ren">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="coderlong的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">LeetcodeContest89</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-16T12:43:00+08:00">
+                2018-06-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/leetcode/" itemprop="url" rel="index">
+                    <span itemprop="name">leetcode</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>摘要: 排名，第785<br><a id="more"></a></p>
+<h2 id="1-山脉顶峰索引"><a href="#1-山脉顶峰索引" class="headerlink" title="1 山脉顶峰索引"></a>1 山脉顶峰索引</h2><p>我们把符合下列属性的数组 A 称作山脉：<br>    <code>A.length &gt;= 3</code><br>    存在 <code>0 &lt; i &lt; A.length - 1</code>使得<code>A[0] &lt; A[1] &lt; ... A[i-1] &lt; A[i] &gt; A[i+1] &gt; ... &gt; A[A.length - 1]</code></p>
+<p>给定一个确定为山脉的数组，返回任何满足 <code>A[0] &lt; A[1] &lt; ... A[i-1] &lt; A[i] &gt; A[i+1] &gt; ... &gt; A[A.length - 1]</code>的<code>i</code>的值。</p>
+<p>It is a joke.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">peakIndexInMountainArray</span><span class="params">(<span class="keyword">int</span>[] A)</span> </span>&#123;</div><div class="line">        Map&lt;Integer, Integer&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();</div><div class="line">        <span class="keyword">int</span> max = Integer.MIN_VALUE;</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; A.length; i++) &#123;</div><div class="line">        	map.put(A[i], i);</div><div class="line">        	max = Math.max(max, A[i]);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> map.get(max);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="2-车队"><a href="#2-车队" class="headerlink" title="2 车队"></a>2 车队</h2><p><code>N</code>  辆车沿着一条车道驶向位于 target 英里之外的共同目的地。</p>
+<p>每辆车 <code>i</code>以恒定的速度 <code>speed[i]</code>（英里/小时），从初始位置<code>position[i]</code> （英里） 沿车道驶向目的地。</p>
+<p>一辆车永远不会超过前面的另一辆车，但它可以追上去，并与前车以相同的速度紧接着行驶。</p>
+<p>此时，我们会忽略这两辆车之间的距离，也就是说，它们被假定处于相同的位置。</p>
+<p>车队 是一些由行驶在相同位置、具有相同速度的车组成的非空集合。注意，一辆车也可以是一个车队。</p>
+<p>即便一辆车在目的地才赶上了一个车队，它们仍然会被视作是同一个车队。<br>会有多少车队到达目的地?<br><code>示例：</code></p>
+<p>输入：<code>target = 12, position = [10,8,0,5,3], speed = [2,4,1,1,3]</code><br>输出：<code>3</code><br>解释：<br>从 <code>10</code> 和<code>8</code>开始的车会组成一个车队，它们在 <code>12</code>处相遇。<br>从<code>0</code>处开始的车无法追上其它车，所以它自己就是一个车队。<br>从 <code>5</code>和 <code>3</code>开始的车会组成一个车队，它们在 <code>6</code> 处相遇。<br>请注意，在到达目的地之前没有其它车会遇到这些车队，所以答案是 3。</p>
+<h3 id="解释"><a href="#解释" class="headerlink" title="解释"></a>解释</h3><ol>
+<li>我们可以先把位置position[i], speed[i]做一次hash映射。</li>
+<li>position数组排序，排序之后从尾部开始计算车队数目。</li>
+<li>如何判断其他的车辆能够追上第一辆top车呢? (target - position[top])<em>1.0/top_speed</em>upSpeed &gt;= (float)(position[top] - position[i]))<br>能够一起到达的车辆归于一个车队，设置标志位visit = true</li>
+<li>尾部—》 头部遍历，遍历标志位false的车辆，计算出所有的车队。<br><code>java</code>代码<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">carFleet</span><span class="params">(<span class="keyword">int</span> target, <span class="keyword">int</span>[] position, <span class="keyword">int</span>[] speed)</span> </span>&#123;</div><div class="line">      Map&lt;Integer, Integer&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();</div><div class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; position.length; i++) &#123;</div><div class="line">			map.put(position[i], speed[i]);</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">int</span> size_left = position.length;</div><div class="line">		<span class="keyword">boolean</span>[] visit = <span class="keyword">new</span> <span class="keyword">boolean</span>[size_left];</div><div class="line">		Arrays.sort(position);</div><div class="line">		<span class="keyword">int</span> count = <span class="number">0</span>;</div><div class="line">		<span class="keyword">while</span> (size_left &gt; <span class="number">0</span>) &#123;</div><div class="line">			<span class="keyword">int</span> top = Integer.MAX_VALUE;</div><div class="line">			<span class="keyword">for</span> (<span class="keyword">int</span> i = position.length - <span class="number">1</span>; i &gt;= <span class="number">0</span>; i--) &#123;</div><div class="line">				<span class="keyword">if</span> (!visit[i]) &#123;</div><div class="line">					top = i;</div><div class="line">					size_left--;</div><div class="line">					<span class="keyword">break</span>;</div><div class="line">				&#125;</div><div class="line">			&#125;</div><div class="line">			visit[top] = <span class="keyword">true</span>; <span class="comment">//</span></div><div class="line">			<span class="keyword">int</span> top_speed = map.get(position[top]);</div><div class="line">			<span class="keyword">for</span> (<span class="keyword">int</span> i = top - <span class="number">1</span>; i &gt;= <span class="number">0</span>; i--) &#123;</div><div class="line">				<span class="keyword">if</span> (!visit[i] &amp;&amp; map.get(position[i]) &gt; top_speed) &#123;</div><div class="line">					<span class="keyword">int</span> left = target - position[top];</div><div class="line">					<span class="keyword">int</span> upSpeed = map.get(position[i]) - top_speed;</div><div class="line">					<span class="keyword">if</span> ((target - position[top])*<span class="number">1.0</span>/top_speed*upSpeed &gt;= (<span class="keyword">float</span>)(position[top] - position[i])) &#123;</div><div class="line">						visit[i] = <span class="keyword">true</span>;</div><div class="line">						size_left--;</div><div class="line">					&#125;</div><div class="line">				&#125;</div><div class="line">			&#125;</div><div class="line">			count++;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">return</span> count;</div><div class="line">		</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="考场就坐，-不会写"><a href="#考场就坐，-不会写" class="headerlink" title="考场就坐， 不会写"></a>考场就坐， 不会写</h2><ol>
+<li>考场就座<br>用户通过次数 7<br>用户尝试次数 22<br>通过次数 7<br>提交次数 43<br>题目难度 Medium</li>
+</ol>
+<p>在考场里，一排有 N 个座位，分别编号为 0, 1, 2, …, N-1 。</p>
+<p>当学生进入考场后，他必须坐在能够使他与离他最近的人之间的距离达到最大化的座位上。如果有多个这样的座位，他会坐在编号最小的座位上。(另外，如果考场里没有人，那么学生就坐在 0 号座位上。)</p>
+<p>返回 ExamRoom(int N) 类，它有两个公开的函数：其中，函数 ExamRoom.seat() 会返回一个 int （整型数据），代表学生坐的位置；函数 ExamRoom.leave(int p) 代表坐在座位 p 上的学生现在离开了考场。请确保每次调用 ExamRoom.leave(p) 时都有学生坐在座位 p 上。<br>示例：</p>
+<p>输入：[“ExamRoom”,”seat”,”seat”,”seat”,”seat”,”leave”,”seat”], [[10],[],[],[],[],[4],[]]<br>输出：[null,0,9,4,2,null,5]<br>解释：<br>ExamRoom(10) -&gt; null<br>seat() -&gt; 0，没有人在考场里，那么学生坐在 0 号座位上。<br>seat() -&gt; 9，学生最后坐在 9 号座位上。<br>seat() -&gt; 4，学生最后坐在 4 号座位上。<br>seat() -&gt; 2，学生最后坐在 2 号座位上。<br>leave(4) -&gt; null<br>seat() -&gt; 5，学生最后坐在 5 号座位上。</p>
+<h2 id="4-给两个字符串求出-A字符串最小的交换次数，变为B字符串"><a href="#4-给两个字符串求出-A字符串最小的交换次数，变为B字符串" class="headerlink" title="4 给两个字符串求出 A字符串最小的交换次数，变为B字符串"></a>4 给两个字符串求出 A字符串最小的交换次数，变为B字符串</h2><p><code>Example 1:</code><br>Input: A = “ab”, B = “ba”<br>Output: 1</p>
+<p><code>Example 2:</code>  </p>
+<p>Input: A = “abc”, B = “bca”<br>Output: 2  </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> leetcodeContest89;</div><div class="line"><span class="comment">/**</span></div><div class="line"><span class="comment">* <span class="doctag">@author</span> 作者 : coderlong</span></div><div class="line"><span class="comment">* <span class="doctag">@version</span> 创建时间：2018年6月17日 下午1:27:11</span></div><div class="line"><span class="comment">* 类说明: </span></div><div class="line"><span class="comment">*/</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">leetcode854_K_Similar_Strings</span> </span>&#123;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		<span class="comment">// TODO Auto-generated method stub</span></div><div class="line">		String A = <span class="string">"abac"</span>;</div><div class="line">		String B = <span class="string">"baca"</span>;</div><div class="line">		System.out.println(kSimilarity(A, B));</div><div class="line">	&#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">kSimilarity</span><span class="params">(String A, String B)</span> </span>&#123;</div><div class="line">		<span class="keyword">char</span>[] a = A.toCharArray();</div><div class="line">		<span class="keyword">char</span>[] b = B.toCharArray();</div><div class="line">		<span class="keyword">return</span> search(a, b, <span class="number">0</span>, <span class="number">0</span>); </div><div class="line">	&#125;</div><div class="line">	<span class="comment">// 简单的搜索问题，也可以BFS </span></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">search</span><span class="params">(<span class="keyword">char</span>[] now, <span class="keyword">char</span>[] target, <span class="keyword">int</span> i, <span class="keyword">int</span> swap)</span> </span>&#123;</div><div class="line">		<span class="comment">// search 到了最后</span></div><div class="line">		<span class="keyword">if</span> (i &gt;= target.length) &#123;</div><div class="line">			<span class="keyword">return</span> swap;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">if</span> (now[i] == target[i]) &#123;</div><div class="line">			<span class="keyword">return</span> search(now, target, i + <span class="number">1</span>, swap);</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">int</span> min = Integer.MAX_VALUE;</div><div class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> j = i + <span class="number">1</span>; j &lt; target.length; j++) &#123;</div><div class="line">			<span class="keyword">if</span> (now[j] != target[i]) &#123; <span class="comment">// </span></div><div class="line">				<span class="keyword">continue</span>; <span class="comment">// 继续search</span></div><div class="line">			&#125;</div><div class="line">			<span class="comment">//在i 后找到了第一个 == target[i]的char</span></div><div class="line">			swap(now, i, j);</div><div class="line">			min = Math.min(min, search(now, target, i + <span class="number">1</span>, swap + <span class="number">1</span>)); <span class="comment">// 交换了一次</span></div><div class="line">			swap(now, j, i);</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">return</span> min;</div><div class="line">	&#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">swap</span><span class="params">(<span class="keyword">char</span>[] a, <span class="keyword">int</span> i, <span class="keyword">int</span> j)</span></span>&#123;</div><div class="line">		<span class="keyword">char</span> temp = a[i];</div><div class="line">		a[i] = a[j];</div><div class="line">		a[j] = temp;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>做一次广度优先搜索也可以得出答案。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</div><div class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">kSimilarity</span><span class="params">(String A, String B)</span> </span>&#123;</div><div class="line">		HashSet&lt;String&gt; visited = <span class="keyword">new</span> HashSet&lt;&gt;();</div><div class="line"></div><div class="line">		Queue&lt;String&gt; queue = <span class="keyword">new</span> LinkedList&lt;&gt;();</div><div class="line">		queue.offer(A);</div><div class="line">		visited.add(A);</div><div class="line"></div><div class="line">		<span class="keyword">int</span> steps = <span class="number">0</span>;</div><div class="line">		<span class="keyword">while</span> (!queue.isEmpty()) &#123;</div><div class="line">			<span class="keyword">int</span> size = queue.size();</div><div class="line">			<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; size; i++) &#123;</div><div class="line">				String node = queue.poll();</div><div class="line">				<span class="comment">//visit(node)</span></div><div class="line">				<span class="keyword">if</span> (node.equals(B))</div><div class="line">					<span class="keyword">return</span> steps;</div><div class="line"></div><div class="line">				<span class="comment">//extend new node</span></div><div class="line">				<span class="keyword">int</span> j = <span class="number">0</span>, k = <span class="number">0</span>;</div><div class="line">				<span class="keyword">for</span> (j = <span class="number">0</span>; j &lt; node.length() &amp;&amp; node.charAt(j) == B.charAt(j); j++)</div><div class="line">					;</div><div class="line">				<span class="keyword">for</span> (k = j + <span class="number">1</span>; k &lt; node.length(); k++)</div><div class="line">					<span class="keyword">if</span> (node.charAt(k) != B.charAt(k) &amp;&amp; B.charAt(j) == node.charAt(k)) &#123;</div><div class="line">						String nextNode = swap(node, j, k);</div><div class="line">						<span class="keyword">if</span> (visited.add(nextNode))</div><div class="line">							queue.add(nextNode);</div><div class="line">					&#125;</div><div class="line">			&#125;</div><div class="line">			steps++;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">private</span> String <span class="title">swap</span><span class="params">(String s, <span class="keyword">int</span> j, <span class="keyword">int</span> k)</span> </span>&#123;</div><div class="line">		StringBuilder sb = <span class="keyword">new</span> StringBuilder(s);</div><div class="line">		<span class="keyword">char</span> c = sb.charAt(j);</div><div class="line">		sb.setCharAt(j, sb.charAt(k));</div><div class="line">		sb.setCharAt(k, c);</div><div class="line">		<span class="keyword">return</span> sb.toString();</div><div class="line">	&#125;</div></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>Donate</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="Sailong Ren WeChat Pay"/>
+        <p>WeChat Pay</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="Sailong Ren Alipay"/>
+        <p>Alipay</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Algorithm/" rel="tag"># Algorithm</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/06/09/Bugfree/" rel="next" title="原来的加载图片的BUG终于被解决了">
+                <i class="fa fa-chevron-left"></i> 原来的加载图片的BUG终于被解决了
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/06/17/SkipList引发的一点对泛型的思考/" rel="prev" title="实现跳跃表引发的一点对泛型的思考">
+                实现跳跃表引发的一点对泛型的思考 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="Sailong Ren" />
+          <p class="site-author-name" itemprop="name">Sailong Ren</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">130</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">31</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">58</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/coderlongren" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://blog.csdn.net/qq_33797928?ref=toolbar" target="_blank" title="CSDN博客">
+                  
+                    <i class="fa fa-fw fa-crosshairs"></i>
+                  
+                    
+                      CSDN博客
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="862983319@qq.com" target="_blank" title="E-Mail">
+                  
+                    <i class="fa fa-fw fa-envelope"></i>
+                  
+                    
+                      E-Mail
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/coderlongren/activities" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                    
+                      知乎
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-山脉顶峰索引"><span class="nav-number">1.</span> <span class="nav-text">1 山脉顶峰索引</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-车队"><span class="nav-number">2.</span> <span class="nav-text">2 车队</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#解释"><span class="nav-number">2.1.</span> <span class="nav-text">解释</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#考场就坐，-不会写"><span class="nav-number">3.</span> <span class="nav-text">考场就坐， 不会写</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-给两个字符串求出-A字符串最小的交换次数，变为B字符串"><span class="nav-number">4.</span> <span class="nav-text">4 给两个字符串求出 A字符串最小的交换次数，变为B字符串</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sailong Ren</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Gemini
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</body>
+</html>
