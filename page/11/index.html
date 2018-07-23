@@ -303,6 +303,459 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/01/13/责任链模式/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sailong Ren">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="coderlong的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/01/13/责任链模式/" itemprop="url">责任链模式</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-13T22:18:40+08:00">
+                2018-01-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/设计模式/" itemprop="url" rel="index">
+                    <span itemprop="name">设计模式</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="责任链模式"><a href="#责任链模式" class="headerlink" title="责任链模式"></a>责任链模式</h1><h2 id="定义："><a href="#定义：" class="headerlink" title="定义："></a>定义：</h2><p>使多个对象都有机会处理请求，从而避免了请求的发送者和接收者之间的耦合关系。将这些对象连成一条链，并沿着这条链传递该请求，直到有对象处理它为止。</p>
+<h2 id="类型："><a href="#类型：" class="headerlink" title="类型："></a>类型：</h2><p>行为类模型<br>如果不用责任链模式的话，代码应该是这样的写的<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">public void test(int i, Request request)&#123;  </div><div class="line">   if(i==1)&#123;  </div><div class="line">       Handler1.response(request);  </div><div class="line">   &#125;else if(i == 2)&#123;  </div><div class="line">       Handler2.response(request);  </div><div class="line">   &#125;else if(i == 3)&#123;  </div><div class="line">       Handler3.response(request);  </div><div class="line">   &#125;else if(i == 4)&#123;  </div><div class="line">       Handler4.response(request);  </div><div class="line">   &#125;else&#123;  </div><div class="line">       Handler5.response(request);  </div><div class="line">   &#125;  </div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><em>代码臃肿</em><br><em>耦合度高</em><br><em>责任链模式的结构</em>  </p>
+<p>责任链模式的类图非常简单，它由一个抽象地处理类和它的一组实现类组成：<br>抽象处理类：抽象处理类中主要包含一个指向下一处理类的成员变量nextHandler和一个处理请求的方法handRequest，handRequest方法的主要主要思想是，如果满足处理的条件，则有本处理类来进行处理，否则由nextHandler来处理。<br>具体处理类：具体处理类主要是对具体的处理逻辑和处理的适用条件进行实现。</p>
+<p>以下代码转载自： <a href="https://mp.weixin.qq.com/s/uaVQjUu2CgVo-yL3r3RPcw" target="_blank" rel="external">https://mp.weixin.qq.com/s/uaVQjUu2CgVo-yL3r3RPcw</a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div></pre></td><td class="code"><pre><div class="line">class Level &#123;  </div><div class="line">       private int level = 0;  </div><div class="line">       public Level(int level)&#123;  </div><div class="line">           this.level = level;  </div><div class="line">       &#125;;  </div><div class="line">         </div><div class="line">       public boolean above(Level level)&#123;  </div><div class="line">           if(this.level &gt;= level.level)&#123;  </div><div class="line">               return true;  </div><div class="line">           &#125;  </div><div class="line">           return false;  </div><div class="line">       &#125;  </div><div class="line">   &#125;  </div><div class="line">     </div><div class="line">   class Request &#123;  </div><div class="line">       Level level;  </div><div class="line">       public Request(Level level)&#123;  </div><div class="line">           this.level = level;  </div><div class="line">       &#125;  </div><div class="line">         </div><div class="line">       public Level getLevel()&#123;  </div><div class="line">           return level;  </div><div class="line">       &#125;  </div><div class="line">   &#125;  </div><div class="line">     </div><div class="line">   class Response &#123;  </div><div class="line">     </div><div class="line">   &#125;  </div><div class="line">    // 抽象类Handler</div><div class="line">   abstract class Handler &#123;  </div><div class="line">       private Handler nextHandler;      </div><div class="line">       public final Response handleRequest(Request request)&#123;  </div><div class="line">           Response response = null;  </div><div class="line">             </div><div class="line">           if(this.getHandlerLevel().above(request.getLevel()))&#123;  </div><div class="line">               response = this.response(request);  </div><div class="line">           &#125;else&#123;  </div><div class="line">               if(this.nextHandler != null)&#123;  </div><div class="line">                   this.nextHandler.handleRequest(request);  </div><div class="line">               &#125;else&#123;  </div><div class="line">                   System.out.println(&quot;-----没有合适的处理器-----&quot;);  </div><div class="line">               &#125;  </div><div class="line">           &#125;  </div><div class="line">           return response;  </div><div class="line">       &#125;  </div><div class="line">       public void setNextHandler(Handler handler)&#123;  </div><div class="line">           this.nextHandler = handler;  </div><div class="line">       &#125;  </div><div class="line">       protected abstract Level getHandlerLevel();  </div><div class="line">       public abstract Response response(Request request);  </div><div class="line">   &#125;  </div><div class="line">     </div><div class="line">   class ConcreteHandler1 extends Handler &#123;  </div><div class="line">       protected Level getHandlerLevel() &#123;  </div><div class="line">           return new Level(1);  </div><div class="line">       &#125;  </div><div class="line">       public Response response(Request request) &#123;  </div><div class="line">           System.out.println(&quot;-----请求由处理器1进行处理-----&quot;);  </div><div class="line">           return null;  </div><div class="line">       &#125;  </div><div class="line">   &#125;  </div><div class="line">     </div><div class="line">   class ConcreteHandler2 extends Handler &#123;  </div><div class="line">       protected Level getHandlerLevel() &#123;  </div><div class="line">           return new Level(3);  </div><div class="line">       &#125;  </div><div class="line">       public Response response(Request request) &#123;  </div><div class="line">           System.out.println(&quot;-----请求由处理器2进行处理-----&quot;);  </div><div class="line">           return null;  </div><div class="line">       &#125;  </div><div class="line">   &#125;  </div><div class="line">     </div><div class="line">   class ConcreteHandler3 extends Handler &#123;  </div><div class="line">       protected Level getHandlerLevel() &#123;  </div><div class="line">           return new Level(5);  </div><div class="line">       &#125;  </div><div class="line">       public Response response(Request request) &#123;  </div><div class="line">           System.out.println(&quot;-----请求由处理器3进行处理-----&quot;);  </div><div class="line">           return null;  </div><div class="line">       &#125;  </div><div class="line">   &#125;  </div><div class="line">     </div><div class="line">   public class Client &#123;  </div><div class="line">       public static void main(String[] args)&#123;  </div><div class="line">           Handler handler1 = new ConcreteHandler1();  </div><div class="line">           Handler handler2 = new ConcreteHandler2();  </div><div class="line">           Handler handler3 = new ConcreteHandler3();  </div><div class="line">     </div><div class="line">           handler1.setNextHandler(handler2);  </div><div class="line">           handler2.setNextHandler(handler3);  </div><div class="line">             </div><div class="line">           Response response = handler1.handleRequest(new Request(new Level(4)));  </div><div class="line">       &#125;  </div><div class="line">   &#125;</div></pre></td></tr></table></figure></p>
+<p>代码中Level类是模拟判定条件；Request，Response分别对应请求和响应；抽象类Handler中主要进行条件的判断，这里模拟一个处理等级，只有处理类的处理等级高于Request的等级才能处理，否则交给下一个处理者处理。  </p>
+<p>在Client类中设置好链的前后执行关系，执行时将请求交给第一个处理类，这就是责任链模式，它完成的功能与前文中的if…else…语句是一样的。  </p>
+<h3 id="责任链模式的优缺点"><a href="#责任链模式的优缺点" class="headerlink" title="责任链模式的优缺点"></a>责任链模式的优缺点</h3><p>责任链模式与if…else…相比，他的耦合性要低一些，因为它把条件判定都分散到了各个处理类中，并且这些处理类的优先处理顺序可以随意设定。责任链模式也有缺点，这与if…else…语句的缺点是一样的，那就是在找到正确的处理类之前，所有的判定条件都要被执行一遍，当责任链比较长时，性能问题比较严重。</p>
+<h3 id="责任链模式的使用场景"><a href="#责任链模式的使用场景" class="headerlink" title="责任链模式的使用场景"></a>责任链模式的使用场景</h3><p> 就像开始的例子那样，假如使用if…else…语句来组织一个责任链时感到力不从心，代码看上去很糟糕时，就可以使用责任链模式来进行重构。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>  责任链模式其实就是一个灵活版的if…else…语句，它就是将这些判定条件的语句放到了各个处理类中，这样做的优点是比较灵活了，但同样也带来了风险，比如设置处理类前后关系时，一定要特别仔细，搞对处理类前后逻辑的条件判断关系，并且注意不要在链中出现循环引用的问题。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/01/12/transient/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sailong Ren">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="coderlong的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/01/12/transient/" itemprop="url">Transient</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-12T20:18:40+08:00">
+                2018-01-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>重新<br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/01/12/transient/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/01/11/leetcode797_all_paths_from_source_to_target/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sailong Ren">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="coderlong的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/01/11/leetcode797_all_paths_from_source_to_target/" itemprop="url">leetcode797_all_paths_from_source_to_target</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-11T14:48:38+08:00">
+                2018-01-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/leetcode/" itemprop="url" rel="index">
+                    <span itemprop="name">leetcode</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>Given a directed, acyclic graph of <code>N</code> nodes.  Find all possible paths from node <code>0</code> to node <code>N-1</code>, and return them in any order.</p>
+<p>The graph is given as follows:  the nodes are 0, 1, …, graph.length - 1.  graph[i] is a list of all nodes j for which the edge (i, j) exists.</p>
+<pre><code>Example:
+Input: [[1,2], [3], [3], []] 
+Output: [[0,1,3],[0,2,3]] 
+Explanation: The graph looks like this:
+0---&gt;1
+|    |
+v    v
+2---&gt;3
+There are two paths: 0 -&gt; 1 -&gt; 3 and 0 -&gt; 2 -&gt; 3
+</code></pre><p>刚开始根本没有思路，因为那个二维数组来表示图就没看懂，<br>告诉自己，还是要学好英文啊！！！</p>
+<p><code>graph[i] is a list of all nodes j for which the edge (i, j) exists</code><br>每个list代表的是edge(i,j)存在， 那就是有一条路径i – &gt; j喽<br>参考二叉树路径，回溯解决<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">leetcode797_all_paths_from_source_to_target</span> </span>&#123;</div><div class="line">	 <span class="comment">// 让我们用回溯法 来解决此题</span></div><div class="line">	 <span class="keyword">public</span> <span class="keyword">static</span> List&lt;List&lt;Integer&gt;&gt; allPathsSourceTarget(<span class="keyword">int</span>[][] graph) &#123;</div><div class="line">	        List&lt;List&lt;Integer&gt;&gt; res = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line">	        <span class="keyword">if</span> (graph == <span class="keyword">null</span>) &#123;</div><div class="line">	        	<span class="keyword">return</span> res;</div><div class="line">	        &#125;</div><div class="line">	        ArrayList&lt;Integer&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line">	        backtrack(res, list, <span class="number">0</span>, graph.length - <span class="number">1</span>,graph);</div><div class="line">	        <span class="keyword">return</span> res;</div><div class="line">	  &#125;</div><div class="line">	 <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">backtrack</span><span class="params">(List&lt;List&lt;Integer&gt;&gt; res, ArrayList&lt;Integer&gt; list, <span class="keyword">int</span> start, <span class="keyword">int</span> end,<span class="keyword">int</span>[][] graph)</span> </span>&#123;</div><div class="line">		 <span class="comment">// 找打了一条到达终点的路径</span></div><div class="line">		 <span class="keyword">if</span> (start == end) &#123;</div><div class="line">			 list.add(start);</div><div class="line">			 res.add(<span class="keyword">new</span> ArrayList&lt;&gt;(list));</div><div class="line">			 list.remove(list.size() - <span class="number">1</span>); </div><div class="line">			 <span class="keyword">return</span>;</div><div class="line">		 &#125;</div><div class="line">		 <span class="keyword">for</span> (<span class="keyword">int</span> next:graph[start]) &#123;</div><div class="line">			 list.add(start);</div><div class="line">			 backtrack(res, list, next, end, graph);</div><div class="line">			 list.remove(list.size() - <span class="number">1</span>);</div><div class="line">		 &#125;</div><div class="line">	 &#125;</div><div class="line">	 <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		<span class="keyword">int</span>[][] graph = &#123;&#123;<span class="number">1</span>,<span class="number">2</span>&#125;,&#123;<span class="number">3</span>&#125;,&#123;<span class="number">3</span>&#125;,&#123;&#125;&#125;;</div><div class="line">		System.out.println(allPathsSourceTarget(graph));</div><div class="line">		<span class="comment">//[[0, 1, 3], [0, 2, 3]]</span></div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><code>Python</code>代码</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">allPathsSourceTarget</span><span class="params">(self, graph)</span>:</span></div><div class="line">        <span class="string">"""</span></div><div class="line"><span class="string">        :type graph: List[List[int]]</span></div><div class="line"><span class="string">        :rtype: List[List[int]]</span></div><div class="line"><span class="string">        """</span></div><div class="line">        </div><div class="line">        res = []</div><div class="line">        dic = collections.defaultdict(list)</div><div class="line">        <span class="keyword">for</span> index <span class="keyword">in</span> range(len(graph)<span class="number">-1</span>):</div><div class="line">            <span class="keyword">if</span> len(graph[index]) &gt; <span class="number">1</span>:</div><div class="line">                <span class="keyword">for</span> each <span class="keyword">in</span> graph[index]:</div><div class="line">                    <span class="comment">#print each</span></div><div class="line">                    dic[each].append(index)</div><div class="line">            <span class="keyword">else</span>:</div><div class="line">                dic[graph[index][<span class="number">0</span>]].append(index)</div><div class="line">                </div><div class="line">        <span class="function"><span class="keyword">def</span> <span class="title">dfs</span><span class="params">(node, temp)</span>:</span></div><div class="line">            <span class="keyword">if</span> temp <span class="keyword">and</span> temp[<span class="number">-1</span>] == <span class="number">0</span>:</div><div class="line">                res.append((list(temp[::<span class="number">-1</span>])))</div><div class="line">                <span class="keyword">return</span></div><div class="line">            <span class="keyword">for</span> n <span class="keyword">in</span> dic[node]:</div><div class="line">                temp.append(n)</div><div class="line">                dfs(n,temp)</div><div class="line">                temp.pop()</div><div class="line">        dfs(len(graph)<span class="number">-1</span>, [len(graph)<span class="number">-1</span>])</div><div class="line">        <span class="keyword">return</span> res</div></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/01/11/常用的Git操作/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1314,444 +1767,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2017/12/31/redis-first/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Sailong Ren">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="coderlong的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/12/31/redis-first/" itemprop="url">redis_first</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-31T16:11:59+08:00">
-                2017-12-31
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Redis/" itemprop="url" rel="index">
-                    <span itemprop="name">Redis</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>摘要：redis<br>摘要：没有摘要<br><img src="/images/redis.jpg" alt=""><br>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/12/31/redis-first/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2017/12/27/ArrayList/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Sailong Ren">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="coderlong的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/12/27/ArrayList/" itemprop="url">ArrayList</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-27T12:50:17+08:00">
-                2017-12-27
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Java/" itemprop="url" rel="index">
-                    <span itemprop="name">Java</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>摘要：没有摘要<br><img src="/images/collection.jpg" alt=""><br>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/12/27/ArrayList/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2017/12/27/Collections/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Sailong Ren">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="coderlong的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/12/27/Collections/" itemprop="url">Collections工具类使用</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-27T12:49:59+08:00">
-                2017-12-27
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Java/" itemprop="url" rel="index">
-                    <span itemprop="name">Java</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>摘要：没有摘要<br><img src="/images/collection.jpg" alt=""><br>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/12/27/Collections/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1802,7 +1817,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">132</span>
+                <span class="site-state-item-count">135</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1813,7 +1828,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">31</span>
+                <span class="site-state-item-count">32</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -1824,7 +1839,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">58</span>
+                <span class="site-state-item-count">59</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

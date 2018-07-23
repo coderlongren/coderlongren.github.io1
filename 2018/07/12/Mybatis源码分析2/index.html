@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Mybatis," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="摘要：Mybatis源码学习2">
+<meta name="keywords" content="Mybatis">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Mybatis源码分析2">
+<meta property="og:url" content="https://coderlongren.github.io/2018/07/12/Mybatis源码分析2/index.html">
+<meta property="og:site_name" content="coderlong的博客">
+<meta property="og:description" content="摘要：Mybatis源码学习2">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://coderlongren.github.io/images/mybatis.png">
+<meta property="og:updated_time" content="2018-07-12T00:50:08.575Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Mybatis源码分析2">
+<meta name="twitter:description" content="摘要：Mybatis源码学习2">
+<meta name="twitter:image" content="https://coderlongren.github.io/images/mybatis.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'coderlong'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://coderlongren.github.io/2018/07/12/Mybatis源码分析2/"/>
+
+
+
+
+
+  <title>Mybatis源码分析2 | coderlong的博客</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?b36fb048041f31d8aab6a5184644789e";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband">
+      <a href="https://github.com/coderlongren"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"></a>  
+  
+    </div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">coderlong的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">正是江南好风景，落花时节又逢君</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于我
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/07/12/Mybatis源码分析2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sailong Ren">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="coderlong的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Mybatis源码分析2</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-12T23:48:40+08:00">
+                2018-07-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Mybatis/" itemprop="url" rel="index">
+                    <span itemprop="name">Mybatis</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>摘要：Mybatis源码学习2<br><a id="more"></a></p>
+<ul>
+<li>Executor 执行器，来调度StatementHandle， ParameterHandle，resultHandle，来执行相应的SQL</li>
+<li>StatementHandle是核心，使用数据库的Statement来操作</li>
+<li>parameterHandle SQL参数处理</li>
+<li>ResultHandle 对结果集进行封装处理<h3 id="执行器-Executot-，执行Java和数据库交互的东西，存在三种执行器，可以再配置文件中进行选择。"><a href="#执行器-Executot-，执行Java和数据库交互的东西，存在三种执行器，可以再配置文件中进行选择。" class="headerlink" title="执行器(Executot)，执行Java和数据库交互的东西，存在三种执行器，可以再配置文件中进行选择。"></a>执行器(Executot)，执行Java和数据库交互的东西，存在三种执行器，可以再配置文件中进行选择。</h3></li>
+<li>SIMPLE 简单执行器，默认的</li>
+<li>REUSE 重用预处理</li>
+<li>BATCH 批量更新的执行器</li>
+</ul>
+<p>简单的执行器SimpleExecutor的执行过程<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Override</span></div><div class="line"> <span class="keyword">public</span> &lt;E&gt; <span class="function">List&lt;E&gt; <span class="title">doQuery</span><span class="params">(MappedStatement ms, Object parameter, RowBounds rowBounds, ResultHandler resultHandler, BoundSql boundSql)</span> <span class="keyword">throws</span> SQLException </span>&#123;</div><div class="line">   Statement stmt = <span class="keyword">null</span>;</div><div class="line">   <span class="keyword">try</span> &#123;</div><div class="line">     Configuration configuration = ms.getConfiguration();</div><div class="line">     StatementHandler handler = configuration.newStatementHandler(wrapper, ms, parameter, rowBounds, resultHandler, boundSql);</div><div class="line">     stmt = prepareStatement(handler, ms.getStatementLog());</div><div class="line">     <span class="keyword">return</span> handler.&lt;E&gt;query(stmt, resultHandler);</div><div class="line">   &#125; <span class="keyword">finally</span> &#123;</div><div class="line">     closeStatement(stmt);</div><div class="line">   &#125;</div><div class="line"> &#125;</div></pre></td></tr></table></figure></p>
+<p>里面的prepareStatement方法<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">private</span> Statement <span class="title">prepareStatement</span><span class="params">(StatementHandler handler, Log statementLog)</span> <span class="keyword">throws</span> SQLException </span>&#123;</div><div class="line">   Statement stmt;</div><div class="line">   Connection connection = getConnection(statementLog);</div><div class="line">   stmt = handler.prepare(connection, transaction.getTimeout());</div><div class="line">   handler.parameterize(stmt);</div><div class="line">   <span class="keyword">return</span> stmt;</div><div class="line"> &#125;</div></pre></td></tr></table></figure></p>
+<p>进过Cnofigration构建StatementHandle，然后再经过里面的prepareStatement方法，<br>对SQL进行编译处理，他调用了StatementHandle的prepare（）进行编译和基础设置，在通过parameterrize()设置参数，<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">stmt = handler.prepare(connection, transaction.getTimeout());</div><div class="line">handler.parameterize(stmt);</div></pre></td></tr></table></figure></p>
+<h4 id="StatementHandle"><a href="#StatementHandle" class="headerlink" title="StatementHandle"></a>StatementHandle</h4><p>完成参数的设置之后，跟着就是执行查询，update也是这样的，如果需要结果，再用ParameterHandle和resultHandle在包装结果集。</p>
+<h4 id="parameterHandle"><a href="#parameterHandle" class="headerlink" title="parameterHandle"></a>parameterHandle</h4><p>前面看到了StatementHandle使用ParameterHandle进行编译和参数设置<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">ParameterHandler</span> </span>&#123;</div><div class="line"></div><div class="line">  <span class="function">Object <span class="title">getParameterObject</span><span class="params">()</span></span>;</div><div class="line"></div><div class="line">  <span class="function"><span class="keyword">void</span> <span class="title">setParameters</span><span class="params">(PreparedStatement ps)</span></span></div><div class="line"><span class="function">      <span class="keyword">throws</span> SQLException</span>;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>getParameterObject是获取参书，setParameters设置参数，这两个方法都留给默认实现类DefaultParameterHandler去完成。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DefaultParameterHandler</span> <span class="keyword">implements</span> <span class="title">ParameterHandler</span> </span>&#123;</div><div class="line"></div><div class="line">  .......</div><div class="line">  <span class="meta">@Override</span></div><div class="line">  <span class="function"><span class="keyword">public</span> Object <span class="title">getParameterObject</span><span class="params">()</span> </span>&#123;</div><div class="line">    <span class="keyword">return</span> parameterObject;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="meta">@Override</span></div><div class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setParameters</span><span class="params">(PreparedStatement ps)</span> </span>&#123;</div><div class="line">    ErrorContext.instance().activity(<span class="string">"setting parameters"</span>).object(mappedStatement.getParameterMap().getId());</div><div class="line">    List&lt;ParameterMapping&gt; parameterMappings = boundSql.getParameterMappings();</div><div class="line">    <span class="keyword">if</span> (parameterMappings != <span class="keyword">null</span>) &#123;</div><div class="line">      <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; parameterMappings.size(); i++) &#123;</div><div class="line">        ParameterMapping parameterMapping = parameterMappings.get(i);</div><div class="line">        <span class="keyword">if</span> (parameterMapping.getMode() != ParameterMode.OUT) &#123;</div><div class="line">          Object value;</div><div class="line">          String propertyName = parameterMapping.getProperty();</div><div class="line">          <span class="keyword">if</span> (boundSql.hasAdditionalParameter(propertyName)) &#123; <span class="comment">// issue #448 ask first for additional params</span></div><div class="line">            value = boundSql.getAdditionalParameter(propertyName);</div><div class="line">          &#125; <span class="keyword">else</span> <span class="keyword">if</span> (parameterObject == <span class="keyword">null</span>) &#123;</div><div class="line">            value = <span class="keyword">null</span>;</div><div class="line">          &#125; <span class="keyword">else</span> <span class="keyword">if</span> (typeHandlerRegistry.hasTypeHandler(parameterObject.getClass())) &#123;</div><div class="line">            value = parameterObject;</div><div class="line">          &#125; <span class="keyword">else</span> &#123;</div><div class="line">            MetaObject metaObject = configuration.newMetaObject(parameterObject);</div><div class="line">            value = metaObject.getValue(propertyName);</div><div class="line">          &#125;</div><div class="line">          TypeHandler typeHandler = parameterMapping.getTypeHandler();</div><div class="line">          JdbcType jdbcType = parameterMapping.getJdbcType();</div><div class="line">          <span class="keyword">if</span> (value == <span class="keyword">null</span> &amp;&amp; jdbcType == <span class="keyword">null</span>) &#123;</div><div class="line">            jdbcType = configuration.getJdbcTypeForNull();</div><div class="line">          &#125;</div><div class="line">          <span class="keyword">try</span> &#123;</div><div class="line">            typeHandler.setParameter(ps, i + <span class="number">1</span>, value, jdbcType);</div><div class="line">          &#125; <span class="keyword">catch</span> (TypeException e) &#123;</div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> TypeException(<span class="string">"Could not set parameters for mapping: "</span> + parameterMapping + <span class="string">". Cause: "</span> + e, e);</div><div class="line">          &#125; <span class="keyword">catch</span> (SQLException e) &#123;</div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> TypeException(<span class="string">"Could not set parameters for mapping: "</span> + parameterMapping + <span class="string">". Cause: "</span> + e, e);</div><div class="line">          &#125;</div><div class="line">        &#125;</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="SqlSession运行总结"><a href="#SqlSession运行总结" class="headerlink" title="SqlSession运行总结"></a>SqlSession运行总结</h3><p><img src="/images/mybatis.png" alt="mybatis"></p>
+<p>SqlSession通过Executor创建StatementHandle开始，<br>Statement需要经过散步来进行SQL语句的处理：</p>
+<ul>
+<li>prepared预编译SQL</li>
+<li>parameterrize设置参数</li>
+<li>query/update执行SQL<br>其中的parameterrize调用parameterHandle的方法设置的，参数是根据类型处理器typeHandle处理的。query/update是通过resultHandle进行结果封装。</li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>Donate</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="Sailong Ren WeChat Pay"/>
+        <p>WeChat Pay</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="Sailong Ren Alipay"/>
+        <p>Alipay</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Mybatis/" rel="tag"># Mybatis</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/07/09/Mybatis源码分析/" rel="next" title="Mybatis源码分析1">
+                <i class="fa fa-chevron-left"></i> Mybatis源码分析1
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/07/18/阿里内推面试题/" rel="prev" title="ali的内推笔试算法题目">
+                ali的内推笔试算法题目 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="Sailong Ren" />
+          <p class="site-author-name" itemprop="name">Sailong Ren</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">135</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">32</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">59</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/coderlongren" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://blog.csdn.net/qq_33797928?ref=toolbar" target="_blank" title="CSDN博客">
+                  
+                    <i class="fa fa-fw fa-crosshairs"></i>
+                  
+                    
+                      CSDN博客
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="862983319@qq.com" target="_blank" title="E-Mail">
+                  
+                    <i class="fa fa-fw fa-envelope"></i>
+                  
+                    
+                      E-Mail
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/coderlongren/activities" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                    
+                      知乎
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#执行器-Executot-，执行Java和数据库交互的东西，存在三种执行器，可以再配置文件中进行选择。"><span class="nav-number">1.</span> <span class="nav-text">执行器(Executot)，执行Java和数据库交互的东西，存在三种执行器，可以再配置文件中进行选择。</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#StatementHandle"><span class="nav-number">1.1.</span> <span class="nav-text">StatementHandle</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#parameterHandle"><span class="nav-number">1.2.</span> <span class="nav-text">parameterHandle</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SqlSession运行总结"><span class="nav-number">2.</span> <span class="nav-text">SqlSession运行总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sailong Ren</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Gemini
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</body>
+</html>

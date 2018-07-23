@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Algorithm," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="摘要: 做的最简单的一次周比赛">
+<meta name="keywords" content="Algorithm">
+<meta property="og:type" content="article">
+<meta property="og:title" content="LeetcodeContest94">
+<meta property="og:url" content="https://coderlongren.github.io/2018/07/22/LeetcodeContest94/index.html">
+<meta property="og:site_name" content="coderlong的博客">
+<meta property="og:description" content="摘要: 做的最简单的一次周比赛">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://coderlongren.github.io/images/tree5.png">
+<meta property="og:updated_time" content="2018-07-23T03:38:08.691Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="LeetcodeContest94">
+<meta name="twitter:description" content="摘要: 做的最简单的一次周比赛">
+<meta name="twitter:image" content="https://coderlongren.github.io/images/tree5.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'coderlong'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://coderlongren.github.io/2018/07/22/LeetcodeContest94/"/>
+
+
+
+
+
+  <title>LeetcodeContest94 | coderlong的博客</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?b36fb048041f31d8aab6a5184644789e";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband">
+      <a href="https://github.com/coderlongren"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"></a>  
+  
+    </div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">coderlong的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">正是江南好风景，落花时节又逢君</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于我
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/07/22/LeetcodeContest94/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sailong Ren">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="coderlong的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">LeetcodeContest94</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-22T23:43:00+08:00">
+                2018-07-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/leetcode/" itemprop="url" rel="index">
+                    <span itemprop="name">leetcode</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>摘要: 做的最简单的一次周比赛</p>
+<a id="more"></a>
+<h2 id="872-Leaf-Similar-Trees左相似的树"><a href="#872-Leaf-Similar-Trees左相似的树" class="headerlink" title="872 Leaf-Similar Trees左相似的树"></a>872 Leaf-Similar Trees左相似的树</h2><p>Consider all the leaves of a binary tree.  From left to right order, the values of those leaves form a leaf value sequence.<br><img src="/images/tree5.png" alt=""><br>For example, in the given tree above, the <code>leaf value sequence</code> is <code>(6, 7, 4, 9, 8)</code>.</p>
+<p>Two binary trees are considered leaf-similar if their leaf value sequence is the same.</p>
+<p>Return true <code>if</code> and <code>only if</code> the two given trees with head nodes <code>root1</code> and <code>root2</code> are <code>leaf-similar</code>.</p>
+<p>左相似的定义是只要叶子节点序列，从左往右是一样的就符合了。<br>那么，我们就可以中序遍历访问整棵树，把所有的叶子节点保存起来，最后判断是否相同就OK了。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">leetcode872_Leaf_Similar_trees</span> </span>&#123;</div><div class="line"></div><div class="line">	<span class="keyword">public</span> <span class="keyword">static</span> List&lt;Integer&gt; list1 = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line">	<span class="keyword">public</span> <span class="keyword">static</span> List&lt;Integer&gt; list2 = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">leafSimilar</span><span class="params">(TreeNode root1, TreeNode root2)</span> </span>&#123;</div><div class="line">		bottom_sequence(root1, list1);</div><div class="line">		bottom_sequence(root2, list2);</div><div class="line">		<span class="keyword">if</span> (list1.size() == list2.size()) &#123;</div><div class="line">			<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; list1.size(); i++) &#123;</div><div class="line">				<span class="keyword">if</span> (list1.get(i) != list2.get(i)) &#123;</div><div class="line">					<span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">				&#125;</div><div class="line">			&#125;</div><div class="line">			<span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">		</div><div class="line">    &#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">bottom_sequence</span><span class="params">(TreeNode root, List&lt;Integer&gt; list)</span> </span>&#123;</div><div class="line">		<span class="keyword">if</span> (root == <span class="keyword">null</span>) &#123;</div><div class="line">			<span class="keyword">return</span>;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">if</span> (root.left == <span class="keyword">null</span> &amp;&amp; root.right == <span class="keyword">null</span>) &#123;</div><div class="line">			list.add(root.val);</div><div class="line">		&#125;</div><div class="line">		bottom_sequence(root.left, list);</div><div class="line">		bottom_sequence(root.right, list);</div><div class="line">	&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="874Walking-Robot-Simulation-模拟机器人行走路线"><a href="#874Walking-Robot-Simulation-模拟机器人行走路线" class="headerlink" title="874Walking Robot Simulation 模拟机器人行走路线"></a>874Walking Robot Simulation 模拟机器人行走路线</h2><p>A robot on an infinite grid starts at point (0, 0) and faces north.  The robot can receive one of three possible types of commands:</p>
+<pre><code>`-2`: turn left 90 degrees
+`-1`: turn right 90 degrees
+`1 &lt;= x &lt;= 9`: move forward x units
+</code></pre><p>Some of the grid squares are obstacles. </p>
+<p>The <code>i-th</code> obstacle is at grid point (<code>obstacles[i][0]</code>, obstacles[i][1])</p>
+<p>If the robot would try to move onto them, the robot stays on the previous grid square instead (but still continues following the rest of the route.)</p>
+<p>Return the square of the maximum Euclidean distance that the robot will be from the origin.<br>问题已经很明确，<br>给定行走的路线一维数组，和障碍路二维数组。<br>对于commands:  </p>
+<ul>
+<li>-1 右旋转90度路线</li>
+<li>-2 左旋转90度路线</li>
+<li>1-9 就按照机器人方向行走<br>但是在遇到障碍物的时候，立即停止，直到下一个可执行的command到来。最后求，机器人所能到达的最远的 <code>max = i * i + j * j</code></li>
+</ul>
+<p>我在这里用了两个map来保存机器人的方向前进 度量dir, 和转向的map turn<br>再把所有的obstacle用字符串拼接的方式保存起来，转向的时候，就正常转向，每次前进一个度量的时候，判断是否会遇到 障碍物，如果遇到了就停止command的循环，否则继续前进。max一直记录，所能到达的最远记录即可。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">robotSim</span><span class="params">(<span class="keyword">int</span>[] commands, <span class="keyword">int</span>[][] obstacles)</span> </span>&#123;</div><div class="line">      	<span class="keyword">int</span> max = <span class="number">0</span>;</div><div class="line">        Map&lt;Integer, <span class="keyword">int</span>[]&gt; dir = <span class="keyword">new</span> HashMap&lt;&gt;();</div><div class="line">        Map&lt;Integer, <span class="keyword">int</span>[]&gt; turn = <span class="keyword">new</span> HashMap&lt;&gt;();</div><div class="line">        dir.put(<span class="number">0</span>, <span class="keyword">new</span> <span class="keyword">int</span>[]&#123;<span class="number">0</span>,<span class="number">1</span>&#125;);</div><div class="line">        dir.put(<span class="number">1</span>, <span class="keyword">new</span> <span class="keyword">int</span>[]&#123;<span class="number">1</span>,<span class="number">0</span>&#125;);</div><div class="line">        dir.put(<span class="number">2</span>, <span class="keyword">new</span> <span class="keyword">int</span>[]&#123;<span class="number">0</span>,-<span class="number">1</span>&#125;);</div><div class="line">        dir.put(<span class="number">3</span>, <span class="keyword">new</span> <span class="keyword">int</span>[]&#123;-<span class="number">1</span>,<span class="number">0</span>&#125;);</div><div class="line">        turn.put(<span class="number">0</span>, <span class="keyword">new</span> <span class="keyword">int</span>[]&#123;<span class="number">3</span>,<span class="number">1</span>&#125;);</div><div class="line">        turn.put(<span class="number">1</span>, <span class="keyword">new</span> <span class="keyword">int</span>[]&#123;<span class="number">0</span>,<span class="number">2</span>&#125;);</div><div class="line">        turn.put(<span class="number">2</span>, <span class="keyword">new</span> <span class="keyword">int</span>[]&#123;<span class="number">1</span>,<span class="number">3</span>&#125;);</div><div class="line">        turn.put(<span class="number">3</span>, <span class="keyword">new</span> <span class="keyword">int</span>[]&#123;<span class="number">2</span>,<span class="number">0</span>&#125;);</div><div class="line">        Set&lt;String&gt; set = <span class="keyword">new</span> HashSet&lt;&gt;();</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span>[] o : obstacles) &#123;</div><div class="line">        	set.add(o[<span class="number">0</span>] + <span class="string">"+"</span> + o[<span class="number">1</span>]);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">int</span> face = <span class="number">0</span>;</div><div class="line">        <span class="keyword">int</span>[] start = <span class="keyword">new</span> <span class="keyword">int</span>[]&#123;<span class="number">0</span>,<span class="number">0</span>&#125;;</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> command : commands) &#123;</div><div class="line">        	<span class="keyword">if</span> (command == -<span class="number">2</span>) &#123;</div><div class="line">        		face = turn.get(face)[<span class="number">0</span>];</div><div class="line">        	&#125;</div><div class="line">        	<span class="keyword">else</span> <span class="keyword">if</span> (command == -<span class="number">1</span>) &#123;</div><div class="line">        		face = turn.get(face)[<span class="number">1</span>];</div><div class="line">        	&#125;</div><div class="line">        	<span class="keyword">else</span> &#123;</div><div class="line">        		<span class="keyword">int</span> len = command;</div><div class="line">        		<span class="keyword">while</span> (len &gt; <span class="number">0</span>) &#123;</div><div class="line">        			<span class="keyword">int</span> x = start[<span class="number">0</span>] + dir.get(face)[<span class="number">0</span>]; </div><div class="line">        			<span class="keyword">int</span> y = start[<span class="number">1</span>] + dir.get(face)[<span class="number">1</span>];</div><div class="line">        			<span class="keyword">if</span> (!set.contains(x + <span class="string">"+"</span> + y)) &#123;</div><div class="line">        				start[<span class="number">0</span>] += dir.get(face)[<span class="number">0</span>];</div><div class="line">        				start[<span class="number">1</span>] += dir.get(face)[<span class="number">1</span>];</div><div class="line">        				max = Math.max(max, start[<span class="number">0</span>]*start[<span class="number">0</span>] + start[<span class="number">1</span>]*start[<span class="number">1</span>]);</div><div class="line">        			&#125;</div><div class="line">        			<span class="keyword">else</span> &#123;</div><div class="line">        				<span class="keyword">break</span>;</div><div class="line">        			&#125;</div><div class="line">        			len--;</div><div class="line">        		&#125;</div><div class="line">        	&#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> max;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="875-Koko-Eating-Bananas-珂珂吃香蕉"><a href="#875-Koko-Eating-Bananas-珂珂吃香蕉" class="headerlink" title="875. Koko Eating Bananas 珂珂吃香蕉"></a>875. Koko Eating Bananas 珂珂吃香蕉</h2><p>Koko loves to eat bananas.  There are <code>N</code> piles of bananas, the <code>i-th</code> pile has <code>piles[i]</code> bananas.  The guards have gone and will come back in <code>H</code>hours.</p>
+<p>Koko can decide her bananas-per-hour eating speed of <code>K</code>.  Each hour, she chooses some pile of bananas, and eats <code>K</code> bananas from that pile.  If the pile has less than <code>K</code> bananas, she eats all of them instead, and won’t eat any more bananas during this hour.</p>
+<p>Koko likes to eat <code>slowly</code>, but still wants to finish eating all the bananas before the guards come back.</p>
+<p>Return the <code>minimum integer K</code>such that she can eat all the bananas within <code>H</code> hours.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span>  <span class="keyword">int</span> <span class="title">minEatingSpeed</span><span class="params">(<span class="keyword">int</span>[] piles, <span class="keyword">int</span> H)</span> </span>&#123;</div><div class="line">        <span class="keyword">int</span> min = <span class="number">1</span>; <span class="comment">// 最小，就是每小时吃一根把</span></div><div class="line">        <span class="keyword">int</span> max = <span class="number">1</span>; <span class="comment">// 最大为， 每小时吃完最大的那堆香蕉</span></div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> pile : piles) &#123;</div><div class="line">        	max = Math.max(max, pile);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">while</span> (min &lt; max) &#123;</div><div class="line">        	<span class="keyword">int</span> mid = (min + max)/<span class="number">2</span>;</div><div class="line">        	<span class="keyword">if</span> (can_finished(piles, mid, H)) &#123;</div><div class="line">        		max = mid;</div><div class="line">        	&#125; <span class="keyword">else</span> &#123;</div><div class="line">        		min = mid + <span class="number">1</span>;</div><div class="line">        	&#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> min;</div><div class="line">    &#125;</div><div class="line">	<span class="comment">// 每小时吃pir个香蕉，能在H小时内吃完所有的香蕉</span></div><div class="line">	<span class="function"><span class="keyword">public</span>  <span class="keyword">boolean</span> <span class="title">can_finished</span><span class="params">(<span class="keyword">int</span>[] piles, <span class="keyword">int</span> pir, <span class="keyword">int</span> H)</span> </span>&#123;</div><div class="line">		<span class="keyword">int</span> sum = <span class="number">0</span>;</div><div class="line">		<span class="keyword">int</span> count = <span class="number">0</span>;</div><div class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> pile : piles) &#123;</div><div class="line">			<span class="keyword">if</span> (pile &lt;= pir) &#123;</div><div class="line">				count++;</div><div class="line">			&#125; </div><div class="line">			<span class="keyword">else</span> &#123;</div><div class="line">				<span class="keyword">if</span> (pile%pir == <span class="number">0</span>) &#123;</div><div class="line">					count += (pile/pir);</div><div class="line">				&#125;</div><div class="line">				<span class="keyword">else</span> &#123;</div><div class="line">					count += (pile/pir + <span class="number">1</span>);</div><div class="line">				&#125;</div><div class="line">			&#125;</div><div class="line">			<span class="keyword">if</span> (count &gt; H) &#123;</div><div class="line">				<span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">return</span> count &lt;= H;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="873-Length-of-Longest-Fibonacci-Subsequence-最长的fib序列"><a href="#873-Length-of-Longest-Fibonacci-Subsequence-最长的fib序列" class="headerlink" title="873. Length of Longest Fibonacci Subsequence 最长的fib序列"></a>873. Length of Longest Fibonacci Subsequence 最长的fib序列</h2><p>A sequence <code>X_1, X_2, ..., X_n</code>is fibonacci-like if:<br>    <code>n &gt;= 3</code><br>    <code>X_i + X_{i+1} = X_{i+2} for all i + 2 &lt;= n</code></p>
+<p>Given a strictly increasing array A of positive integers forming a sequence, find the length of the longest fibonacci-like subsequence of A.  If one does not exist, return 0.</p>
+<p>(Recall that a subsequence is derived from another sequence A by deleting any number of elements (including none) from A, without changing the order of the remaining elements.  For example, [3, 5, 8] is a subsequence of <code>[3, 4, 5, 6, 7, 8]</code>.)</p>
+<p>Example 1:</p>
+<p>Input: <code>[1,2,3,4,5,6,7,8]</code><br>Output:<code>5</code><br>Explanation:<br>The longest subsequence that is fibonacci-like: <code>[1,2,3,5,8].</code></p>
+<p>Example 2:</p>
+<p>Input: <code>[1,3,7,11,12,14,18]</code><br>Output: <code>3</code><br>Explanation:<br>The longest subsequence that is fibonacci-like:<br><code>[1,11,12]</code>, <code>[3,11,14]</code> or<code>[7,11,18].</code></p>
+<p>simple brute force喽<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">lenLongestFibSubseq</span><span class="params">(self, A)</span>:</span></div><div class="line">    <span class="string">"""</span></div><div class="line"><span class="string">    :type A: List[int]</span></div><div class="line"><span class="string">    :rtype: int</span></div><div class="line"><span class="string">    """</span></div><div class="line">    max_ = <span class="number">0</span></div><div class="line">    </div><div class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>, len(A)):</div><div class="line">        <span class="keyword">if</span> i &gt; max_:</div><div class="line">            <span class="keyword">return</span> max_</div><div class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> range(i+<span class="number">1</span>, len(A)):</div><div class="line">            a = A[i]</div><div class="line">            b = A[j]</div><div class="line">            list_ = [a,b]</div><div class="line">            <span class="keyword">for</span> k <span class="keyword">in</span> range(j+<span class="number">1</span>, len(A)):</div><div class="line">                c = a + b</div><div class="line">                <span class="keyword">if</span> c == A[k]:</div><div class="line">                    a = b</div><div class="line">                    b = c</div><div class="line">                    list_.append(c)</div><div class="line">                    max_ = max(max_, len(list_))</div><div class="line">                <span class="keyword">if</span>  A[k] &gt; c:</div><div class="line">                    <span class="keyword">break</span></div><div class="line">    <span class="keyword">return</span> max_</div></pre></td></tr></table></figure></p>
+<hr>
+<p><code>Java Code</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">lenLongestFibSubseq</span><span class="params">(<span class="keyword">int</span>[] A)</span> </span>&#123;</div><div class="line">        <span class="keyword">int</span> max = <span class="number">0</span>;</div><div class="line"><span class="comment">//        Set&lt;Integer&gt; set = new HashSet&lt;&gt;();</span></div><div class="line"><span class="comment">//        for (int num : A) &#123;</span></div><div class="line"><span class="comment">//        	set.add(num);</span></div><div class="line"><span class="comment">//        &#125;</span></div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; A.length; i++) &#123;</div><div class="line">        	<span class="keyword">int</span> start = A[i];</div><div class="line">        	<span class="keyword">if</span> (i &gt; max) &#123;</div><div class="line">        		<span class="keyword">return</span> max;</div><div class="line">        	&#125;</div><div class="line">        	<span class="keyword">for</span> (<span class="keyword">int</span> j = i + <span class="number">1</span>; j &lt; A.length; j++) &#123;</div><div class="line">        		List&lt;Integer&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line">        		<span class="keyword">int</span> a = start;</div><div class="line">        		<span class="keyword">int</span> b = A[j];</div><div class="line">        		list.add(a);</div><div class="line">        		list.add(b);</div><div class="line">        		<span class="keyword">for</span> (<span class="keyword">int</span> k = j + <span class="number">1</span>; k &lt; A.length; k++) &#123;</div><div class="line">        			<span class="keyword">int</span> c = a + b;</div><div class="line">        			<span class="keyword">if</span> (A[k] == c) &#123;</div><div class="line">        				list.add(c);</div><div class="line">        				a = b;</div><div class="line">        				b = c;</div><div class="line">        				max = Math.max(max, list.size());</div><div class="line">        			&#125;</div><div class="line">        		&#125;</div><div class="line">        	&#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> max;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>Donate</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="Sailong Ren WeChat Pay"/>
+        <p>WeChat Pay</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="Sailong Ren Alipay"/>
+        <p>Alipay</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Algorithm/" rel="tag"># Algorithm</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/07/18/阿里内推面试题/" rel="next" title="ali的内推笔试算法题目">
+                <i class="fa fa-chevron-left"></i> ali的内推笔试算法题目
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="Sailong Ren" />
+          <p class="site-author-name" itemprop="name">Sailong Ren</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">135</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">32</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">59</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/coderlongren" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://blog.csdn.net/qq_33797928?ref=toolbar" target="_blank" title="CSDN博客">
+                  
+                    <i class="fa fa-fw fa-crosshairs"></i>
+                  
+                    
+                      CSDN博客
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="862983319@qq.com" target="_blank" title="E-Mail">
+                  
+                    <i class="fa fa-fw fa-envelope"></i>
+                  
+                    
+                      E-Mail
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/coderlongren/activities" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                    
+                      知乎
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#872-Leaf-Similar-Trees左相似的树"><span class="nav-number">1.</span> <span class="nav-text">872 Leaf-Similar Trees左相似的树</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#874Walking-Robot-Simulation-模拟机器人行走路线"><span class="nav-number">2.</span> <span class="nav-text">874Walking Robot Simulation 模拟机器人行走路线</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#875-Koko-Eating-Bananas-珂珂吃香蕉"><span class="nav-number">3.</span> <span class="nav-text">875. Koko Eating Bananas 珂珂吃香蕉</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#873-Length-of-Longest-Fibonacci-Subsequence-最长的fib序列"><span class="nav-number">4.</span> <span class="nav-text">873. Length of Longest Fibonacci Subsequence 最长的fib序列</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sailong Ren</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Gemini
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</body>
+</html>
