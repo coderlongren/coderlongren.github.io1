@@ -102,7 +102,7 @@
 <meta property="og:site_name" content="coderlong的博客">
 <meta property="og:description" content="一，什么是注解我们大家都知道Java代码中使用注释是为了向以后阅读这份代码的人解释说明一些事情，注解是注释的升级版，它可以向编译器、虚拟机等解释说明一些事情。比如我们非常熟悉的@Override就是一种元注解，它的作用是告诉编译器它所注解的方法是重写父类的方法，这样编译器就会去检查父类是否存在这个方法，以及这个方法的签名与父类是否相同。 也就是说，注解是描述Java代码的代码，它能够被编译器解析，">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-03-01T14:54:53.772Z">
+<meta property="og:updated_time" content="2018-07-24T07:52:50.640Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JDK注解的理解与使用">
 <meta name="twitter:description" content="一，什么是注解我们大家都知道Java代码中使用注释是为了向以后阅读这份代码的人解释说明一些事情，注解是注释的升级版，它可以向编译器、虚拟机等解释说明一些事情。比如我们非常熟悉的@Override就是一种元注解，它的作用是告诉编译器它所注解的方法是重写父类的方法，这样编译器就会去检查父类是否存在这个方法，以及这个方法的签名与父类是否相同。 也就是说，注解是描述Java代码的代码，它能够被编译器解析，">
@@ -399,11 +399,12 @@
 <p>也就是说，注解是描述Java代码的代码，它能够被编译器解析，注解处理工具在运行时也能够解析注解。我们在Java源文件中使用注释，是为了以后我们或他人再来读这段代码时，能够更好地理解它。Javadoc工具可以解析我们在源代码中为类、方法、变量等添加的描述信息，并根据这些描述信息自动生成一个HTML文档，这些自动生成的文档即可作为API帮助文档。只要我们为类、方法等添加的描述信息符合Javadoc要求的语法，我们就能够使用Javadoc工具根据我们的描述信息自动生成一个帮助文档。而注解比java注释和Javadoc要强大得多，它们三者之间的重大的区别在于，Java注释和Javadoc描述所发挥的作用仅仅到编译时就止步了，而注解直到运行时都能够发挥作用。</p>
 <p>我们知道，使用“transient”关键字可以告诉编译器这个域不可序列化。相比于用”transient“这样的关键字修饰一个属性，注解为我们提供了为类/方法/属性/变量添加描述信息的更通用的方式，而这些描述信息对于开发者、自动化工具、Java编译器和Java运行时来说都是有意义的，也就是说他们都能“读懂”注解信息。”transient“关键字是一个修饰符，而注解也是一种修饰符。除了传递信息，我们也可以使用注解生成代码。我们可以使用注解，然后让注解解析工具来解析它们，以此来生成一些”模板化“的代码。比如Hibernate、Spring、Axis这些框架大量使用了注解，来避免一些重复的工作。</p>
 <h1 id="元注解"><a href="#元注解" class="headerlink" title="元注解"></a>元注解</h1><p>元注解即用来描述注解的注解，比如以下代码中我们使用“@Target”元注解来说明MethodInfo这个注解只能应用于对方法进行注解：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Target</span>(ElementType.METHOD)</div><div class="line"><span class="keyword">public</span> <span class="meta">@interface</span> MethodInfo &#123; </div><div class="line">    ...</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<h2 id="1-Docemented"><a href="#1-Docemented" class="headerlink" title="1 Docemented"></a>1 Docemented</h2><p>当一个注解类型被@Documented元注解所描述时，那么无论在哪里使用这个注解，都会被Javadoc工具文档化。我们来看一下它的定义：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Documented</span></div><div class="line"><span class="meta">@Retention</span>(RetentionPolicy.RUNTIME)</div><div class="line"><span class="meta">@Target</span>(ElementType.ANNOTATION_TYPE)</div><div class="line"><span class="keyword">public</span> <span class="meta">@interface</span> Documented &#123;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="1-Docemented"><a href="#1-Docemented" class="headerlink" title="1 Docemented"></a>1 Docemented</h2><p>当一个注解类型被@Documented元注解所描述时，那么无论在哪里使用这个注解，都会被Javadoc工具文档化。我们来看一下它的定义：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Documented</span></div><div class="line"><span class="meta">@Retention</span>(RetentionPolicy.RUNTIME)</div><div class="line"><span class="meta">@Target</span>(ElementType.ANNOTATION_TYPE)</div><div class="line"><span class="keyword">public</span> <span class="meta">@interface</span> Documented &#123;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p>定义注解使用@interface关键字<br>这个元注解被@Documented修饰，表示它本身也会被文档化。  @Retention元注解的值RetentionPolicy.RUNTIME表示@Documented这个注解能保留到运行时；@Target元注解的值ElementType.ANNOTATION_TYPE表示@Documented这个注解只能够用来描述注解类型。</p>
 <h2 id="2-Inherited"><a href="#2-Inherited" class="headerlink" title="2. Inherited"></a>2. Inherited</h2><p>表明被修饰的注解类型是自动继承的。具体解释如下：若一个注解类型被Inherited元注解所修饰，则当用户在一个类声明中查询该注解类型时，若发现这个类声明中不包含这个注解类型，则会自动在这个类的父类中查询相应的注解类型，这个过程会被重复，直到该注解类型被找到或是查找完了Object类还未找到。这个元注解的定义如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">@Documented</div><div class="line">@Retention(RetentionPolicy.RUNTIME)</div><div class="line">@Target(ElementType.ANNOTATION_TYPE)</div><div class="line">public @interface Inherited &#123;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p>这个元注解类型被@Documented所注解，能够保留到运行时，只能用来描述注解类型。</p>
-<h2 id="3-Retention"><a href="#3-Retention" class="headerlink" title="3. Retention"></a>3. Retention</h2><p>它表示一个注解类型会被保留到什么时候，比如以下代码表示Developer注解会被保留到运行时：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">@Retention(RetentionPolicy.RUNTIME)</div><div class="line">public @interface Developer &#123;</div><div class="line">    String value();</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">@Documented</div><div class="line">@Retention(RetentionPolicy.RUNTIME)</div><div class="line">@Target(ElementType.ANNOTATION_TYPE)</div><div class="line">public @interface Retention &#123;</div><div class="line">    RetentionPolicy value();</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="3-Retention"><a href="#3-Retention" class="headerlink" title="3. Retention"></a>3. Retention</h2><p>它表示一个注解类型会被保留到什么时候，比如以下代码表示Developer注解会被保留到运行时：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">@Retention(RetentionPolicy.RUNTIME)</div><div class="line">public @interface Developer &#123;</div><div class="line">    String value();</div><div class="line">&#125;</div><div class="line"></div><div class="line">@Documented</div><div class="line">@Retention(RetentionPolicy.RUNTIME)</div><div class="line">@Target(ElementType.ANNOTATION_TYPE)</div><div class="line">public @interface Retention &#123;</div><div class="line">    RetentionPolicy value();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>我们在使用@Retention时，后面括号里的内容即表示他的取值，从以上定义我们可以看到，取值的类型为RetentionPolicy，这是一个枚举类型，它可以取以下值：</p>
 <ul>
 <li>SOURCE：表示在编译时这个注解会被移除，不会包含在编译后产生的class文件中；</li>
@@ -505,8 +506,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/03/01/从尾到头打印链表/" rel="next" title="从尾到头打印链表">
-                <i class="fa fa-chevron-left"></i> 从尾到头打印链表
+              <a href="/2018/03/01/在O(1)时间删除链表结点/" rel="next" title="在O(1)时间删除链表结点">
+                <i class="fa fa-chevron-left"></i> 在O(1)时间删除链表结点
               </a>
             
           </div>
@@ -515,8 +516,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/03/01/打印1到最大的n位数/" rel="prev" title="打印1到最大的n位数">
-                打印1到最大的n位数 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/03/01/红黑树详解/" rel="prev" title="红黑树，B树， B+树，B*树">
+                红黑树，B树， B+树，B*树 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -594,7 +595,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">135</span>
+                <span class="site-state-item-count">137</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>

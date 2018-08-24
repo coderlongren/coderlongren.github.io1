@@ -303,7 +303,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/03/08/ThreadLocal内存泄漏/">
+    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/03/11/leetcode257_BinaryTreePaths/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Sailong Ren">
@@ -322,7 +322,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/08/ThreadLocal内存泄漏/" itemprop="url">ThreadLocal内存泄露问题的分析</a></h1>
+                <a class="post-title-link" href="/2018/03/11/leetcode257_BinaryTreePaths/" itemprop="url">leetcode257_BinaryTreePaths</a></h1>
         
 
         <div class="post-meta">
@@ -334,8 +334,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-08T23:18:40+08:00">
-                2018-03-08
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-11T14:18:40+08:00">
+                2018-03-11
               </time>
             
 
@@ -357,8 +357,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/JDK/" itemprop="url" rel="index">
-                    <span itemprop="name">JDK</span>
+                  <a href="/categories/leetcode/" itemprop="url" rel="index">
+                    <span itemprop="name">leetcode</span>
                   </a>
                 </span>
 
@@ -396,28 +396,160 @@
       
         
           
-            <h2 id="深入分析-ThreadLocal-内存泄漏问题"><a href="#深入分析-ThreadLocal-内存泄漏问题" class="headerlink" title="深入分析 ThreadLocal 内存泄漏问题"></a>深入分析 ThreadLocal 内存泄漏问题</h2><p>原文出处 <a href="http://www.importnew.com/22039.html" target="_blank" rel="external">http://www.importnew.com/22039.html</a><br>ThreadLocal 的作用是提供线程内的局部变量，这种变量在线程的生命周期内起作用，减少同一个线程内多个函数或者组件之间一些公共变量的传递的复杂度。但是如果滥用ThreadLocal，就可能会导致内存泄漏。下面，我们将围绕三个方面来分析ThreadLocal 内存泄漏的问题</p>
-<ul>
-<li>ThreadLocal实现原理</li>
-<li>ThreadLocal为什内存泄漏</li>
-<li>ThreadLocal最佳实践</li>
-</ul>
-<p>其实我也只是在书上看过ThreadLocal在队Session存储，数据库连接等地方有较大作用，但是为什么会内存泄漏，还是看大神的分析吧。</p>
-<h1 id="ThreadLocal实现原理"><a href="#ThreadLocal实现原理" class="headerlink" title="ThreadLocal实现原理"></a>ThreadLocal实现原理</h1><p><img src="http://incdn1.b0.upaiyun.com/2016/10/2fdbd552107780c5ae5f98126b38d5a4.png" alt="JDP"></p>
-<p>ThreadLocal的实现是这样的：每个Thread 维护一个 ThreadLocalMap 映射表，这个映射表的 key 是 ThreadLocal实例本身，value 是真正需要存储的 Object。  </p>
-<p>也就是说 ThreadLocal 本身并不存储值，它只是作为一个 key 来让线程从 ThreadLocalMap 获取 value。值得注意的是图中的虚线，表示 ThreadLocalMap 是使用 ThreadLocal 的弱引用作为 Key 的，弱引用的对象在 GC 时会被回收。</p>
-<h2 id="那么-ThreadLocal为什么内存泄漏呢？"><a href="#那么-ThreadLocal为什么内存泄漏呢？" class="headerlink" title="那么 ThreadLocal为什么内存泄漏呢？"></a>那么 ThreadLocal为什么内存泄漏呢？</h2><p>ThreadLocalMap使用ThreadLocal的弱引用作为key，如果一个ThreadLocal没有外部强引用来引用它，那么系统 GC 的时候，这个ThreadLocal势必会被回收，这样一来，ThreadLocalMap中就会出现key为null的Entry，就没有办法访问这些key为null的Entry的value，<em> 如果当前线程再迟迟不结束的话，这些key为null的Entry的value就会一直存在一条强引用链：Thread Ref -&gt; Thread -&gt; ThreaLocalMap -&gt; Entry -&gt; value </em> 永远无法回收，造成内存泄漏。<br>其实，ThreadLocalMap的设计中已经考虑到这种情况，也加上了一些防护措施：在ThreadLocal的get(),set(),remove()的时候都会清除线程ThreadLocalMap里所有key为null的value。</p>
-<p>但是这并不能保证永远不会内存泄漏  </p>
-<ol>
-<li>使用static的ThreadLocal，延长了ThreadLocal的生命周期，可能导致的内存泄漏</li>
-<li>分配使用了ThreadLocal又不再调用get(),set(),remove()方法，那么就会导致内存泄漏。</li>
-</ol>
-<h2 id="弱引用-与-强引用"><a href="#弱引用-与-强引用" class="headerlink" title="弱引用 与 强引用"></a>弱引用 与 强引用</h2><ul>
-<li>如果使用强引用的话<br>引用的ThreadLocal的对象被回收了，但是ThreadLocalMap还持有ThreadLocal的强引用，如果没有手动删除，ThreadLocal不会被回收，导致Entry内存泄漏。</li>
-<li>弱引用的话<br>引用的ThreadLocal的对象被回收了，由于ThreadLocalMap持有ThreadLocal的弱引用，即使没有手动删除，ThreadLocal也会被回收。value在下一次ThreadLocalMap调用set,get，remove的时候会被清除。</li>
-</ul>
-<p>比较来看的话，还是弱引用较为安全一些，至少有GC的一层保障，</p>
+            <p> Given a binary tree, return all root-to-leaf paths.</p>
+<p>For example, given the following binary tree:<br>      1<br>     /   \<br>    2     3<br>     \<br>      5</p>
+<p> All root-to-leaf paths are:</p>
+<pre><code>`[&quot;1-&gt;2-&gt;5&quot;, &quot;1-&gt;3&quot;]`
+</code></pre><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> List&lt;String&gt; <span class="title">binaryTreePaths</span><span class="params">(TreeNode root)</span> </span>&#123;</div><div class="line"> List&lt;String&gt; paths = <span class="keyword">new</span> LinkedList&lt;String&gt;();</div><div class="line"> <span class="keyword">if</span> (root == <span class="keyword">null</span>)&#123;</div><div class="line">	 <span class="keyword">return</span> paths;</div><div class="line"> &#125;</div><div class="line"> searchBT(root, <span class="string">""</span>, paths);</div><div class="line"><span class="keyword">return</span> paths;</div><div class="line"> &#125;</div><div class="line"> <span class="comment">// 简单的递归实现</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">searchBT</span><span class="params">(TreeNode root,String path,List&lt;String&gt; answer)</span></span>&#123;</div><div class="line"> </div><div class="line"> <span class="keyword">if</span> (root.left == <span class="keyword">null</span> &amp;&amp; root.right == <span class="keyword">null</span>)&#123;</div><div class="line">	 answer.add(path + root.val);</div><div class="line"> &#125;</div><div class="line"> <span class="keyword">if</span> (root.left != <span class="keyword">null</span>)&#123;</div><div class="line">	 searchBT(root.left, path + root.val + <span class="string">"-&gt;"</span>, answer);</div><div class="line"> &#125;</div><div class="line"> <span class="keyword">if</span> (root.right != <span class="keyword">null</span>)&#123;</div><div class="line">	 searchBT(root.right, path + root.val + <span class="string">"-&gt;"</span>, answer);</div><div class="line"></div><div class="line"> &#125;</div><div class="line"> </div><div class="line"> </div><div class="line">&#125;</div></pre></td></tr></table></figure>
 
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/03/09/BinaryTree详解/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sailong Ren">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="coderlong的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/03/09/BinaryTree详解/" itemprop="url">BinaryTree的各种操作实现</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-09T23:59:17+08:00">
+                2018-03-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java/" itemprop="url" rel="index">
+                    <span itemprop="name">Java</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>树这种数据结构，既能像链表那样快速的插入和删除，又能想有序数组那样快速查找。这里主要实现一种特殊的树——二叉（搜索）树。二叉搜索树有如下特点：一个节点的左子节点的关键字值小于这个节点，右子节点的关键字值大于或等于这个节点。插入一个节点需要根据这个规则进行插入。</p>
+<h2 id="删除节点"><a href="#删除节点" class="headerlink" title="删除节点"></a>删除节点</h2><p>这是最麻烦的操作，</p>
+<ul>
+<li>叶子节点，直接父节点next置null</li>
+<li>有一个后继</li>
+<li>有两个后继</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div><div class="line">168</div><div class="line">169</div><div class="line">170</div><div class="line">171</div><div class="line">172</div><div class="line">173</div><div class="line">174</div><div class="line">175</div><div class="line">176</div><div class="line">177</div><div class="line">178</div><div class="line">179</div><div class="line">180</div><div class="line">181</div><div class="line">182</div><div class="line">183</div><div class="line">184</div><div class="line">185</div><div class="line">186</div><div class="line">187</div><div class="line">188</div><div class="line">189</div><div class="line">190</div><div class="line">191</div><div class="line">192</div><div class="line">193</div><div class="line">194</div><div class="line">195</div><div class="line">196</div><div class="line">197</div><div class="line">198</div><div class="line">199</div><div class="line">200</div><div class="line">201</div><div class="line">202</div><div class="line">203</div><div class="line">204</div><div class="line">205</div><div class="line">206</div><div class="line">207</div><div class="line">208</div><div class="line">209</div><div class="line">210</div><div class="line">211</div><div class="line">212</div><div class="line">213</div><div class="line">214</div><div class="line">215</div><div class="line">216</div><div class="line">217</div><div class="line">218</div><div class="line">219</div><div class="line">220</div><div class="line">221</div><div class="line">222</div><div class="line">223</div><div class="line">224</div><div class="line">225</div><div class="line">226</div><div class="line">227</div><div class="line">228</div><div class="line">229</div><div class="line">230</div><div class="line">231</div><div class="line">232</div><div class="line">233</div><div class="line">234</div><div class="line">235</div><div class="line">236</div><div class="line">237</div><div class="line">238</div><div class="line">239</div><div class="line">240</div><div class="line">241</div><div class="line">242</div><div class="line">243</div><div class="line">244</div><div class="line">245</div><div class="line">246</div><div class="line">247</div><div class="line">248</div><div class="line">249</div><div class="line">250</div><div class="line">251</div><div class="line">252</div><div class="line">253</div><div class="line">254</div><div class="line">255</div><div class="line">256</div><div class="line">257</div><div class="line">258</div><div class="line">259</div><div class="line">260</div><div class="line">261</div><div class="line">262</div><div class="line">263</div><div class="line">264</div><div class="line">265</div><div class="line">266</div><div class="line">267</div><div class="line">268</div><div class="line">269</div><div class="line">270</div><div class="line">271</div><div class="line">272</div><div class="line">273</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> AVL;</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BinaryTree</span> </span>&#123;</div><div class="line">	<span class="keyword">private</span> BNode root; <span class="comment">//根节点</span></div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="title">BinaryTree</span><span class="params">()</span> </span>&#123;</div><div class="line">		root = <span class="keyword">null</span>;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="comment">//二叉搜索树查找的时间复杂度为O(logN)</span></div><div class="line">	<span class="function"><span class="keyword">public</span> BNode <span class="title">find</span><span class="params">(<span class="keyword">int</span> key)</span> </span>&#123; <span class="comment">//find node with given key</span></div><div class="line">		BNode current = root;</div><div class="line">		<span class="keyword">while</span>(current.key != key) &#123;</div><div class="line">			<span class="keyword">if</span>(key &lt; current.key) &#123;</div><div class="line">				current = current.leftChild;</div><div class="line">			&#125;</div><div class="line">			<span class="keyword">else</span> &#123;</div><div class="line">				current = current.rightChild;</div><div class="line">			&#125;</div><div class="line">			<span class="keyword">if</span>(current == <span class="keyword">null</span>) &#123;</div><div class="line">				<span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">return</span> current;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="comment">//插入节点</span></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">insert</span><span class="params">(<span class="keyword">int</span> key, <span class="keyword">double</span> value)</span> </span>&#123;</div><div class="line">		BNode newNode = <span class="keyword">new</span> BNode();</div><div class="line">		newNode.key = key;</div><div class="line">		newNode.data = value;</div><div class="line">		<span class="keyword">if</span>(root == <span class="keyword">null</span>) &#123; <span class="comment">//if tree is null</span></div><div class="line">			root = newNode;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">else</span> &#123;</div><div class="line">			BNode current = root;</div><div class="line">			BNode parent;</div><div class="line">			<span class="keyword">while</span>(<span class="keyword">true</span>) &#123;</div><div class="line">				parent = current;</div><div class="line">				<span class="keyword">if</span>(key &lt; current.data) &#123; <span class="comment">//turn left</span></div><div class="line">					current = current.leftChild;</div><div class="line">					<span class="keyword">if</span>(current == <span class="keyword">null</span>) &#123;</div><div class="line">						parent.leftChild = newNode;</div><div class="line">						newNode.parent = parent;</div><div class="line">						<span class="keyword">return</span>;</div><div class="line">					&#125;</div><div class="line">				&#125;</div><div class="line">				<span class="keyword">else</span> &#123; <span class="comment">//turn right</span></div><div class="line">					current = current.rightChild;</div><div class="line">					<span class="keyword">if</span>(current == <span class="keyword">null</span>) &#123;</div><div class="line">						parent.rightChild = newNode;</div><div class="line">						newNode.parent = parent;</div><div class="line">						<span class="keyword">return</span>;</div><div class="line">					&#125;</div><div class="line">				&#125;</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="comment">//遍历二叉树</span></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">traverse</span><span class="params">(<span class="keyword">int</span> traverseType)</span> </span>&#123;</div><div class="line">		<span class="keyword">switch</span>(traverseType)</div><div class="line">		&#123;</div><div class="line">		<span class="keyword">case</span> <span class="number">1</span>: System.out.println(<span class="string">"Preorder traversal:"</span>);</div><div class="line">				preOrder(root);<span class="comment">//前向遍历</span></div><div class="line">				<span class="keyword">break</span>;</div><div class="line">		<span class="keyword">case</span> <span class="number">2</span>: System.out.println(<span class="string">"Inorder traversal:"</span>);</div><div class="line">				inOrder(root);<span class="comment">//中向遍历</span></div><div class="line">				<span class="keyword">break</span>;</div><div class="line">		<span class="keyword">case</span> <span class="number">3</span>: System.out.println(<span class="string">"Postorder traversal:"</span>);</div><div class="line">				postOrder(root);<span class="comment">//后向遍历</span></div><div class="line">				<span class="keyword">break</span>;</div><div class="line">		<span class="keyword">default</span>: System.out.println(<span class="string">"Inorder traversal:"</span>);</div><div class="line">				inOrder(root);</div><div class="line">				<span class="keyword">break</span>;</div><div class="line">		&#125;</div><div class="line">		System.out.println(<span class="string">""</span>);</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="comment">//前向遍历</span></div><div class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">preOrder</span><span class="params">(BNode localRoot)</span> </span>&#123;</div><div class="line">		<span class="keyword">if</span>(localRoot != <span class="keyword">null</span>) &#123;</div><div class="line">			System.out.print(localRoot.data + <span class="string">" "</span>);</div><div class="line">			preOrder(localRoot.leftChild);</div><div class="line">			preOrder(localRoot.rightChild);</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="comment">//中向遍历</span></div><div class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">inOrder</span><span class="params">(BNode localRoot)</span> </span>&#123;</div><div class="line">		<span class="keyword">if</span>(localRoot != <span class="keyword">null</span>) &#123;</div><div class="line">			inOrder(localRoot.leftChild);</div><div class="line">			System.out.print(localRoot.data + <span class="string">" "</span>);</div><div class="line">			inOrder(localRoot.rightChild);</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="comment">//后向遍历</span></div><div class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">postOrder</span><span class="params">(BNode localRoot)</span> </span>&#123;</div><div class="line">		<span class="keyword">if</span>(localRoot != <span class="keyword">null</span>) &#123;</div><div class="line">			postOrder(localRoot.leftChild);</div><div class="line">			postOrder(localRoot.rightChild);</div><div class="line">			System.out.print(localRoot.data + <span class="string">" "</span>);</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="comment">//查找最小值</span></div><div class="line">	<span class="comment">/*根据二叉搜索树的存储规则，最小值应该是左边那个没有子节点的那个节点*/</span></div><div class="line">	<span class="function"><span class="keyword">public</span> BNode <span class="title">minNumber</span><span class="params">()</span> </span>&#123;</div><div class="line">		BNode current = root;</div><div class="line">		BNode parent = root;</div><div class="line">		<span class="keyword">while</span>(current != <span class="keyword">null</span>) &#123;</div><div class="line">			parent = current;</div><div class="line">			current = current.leftChild;</div><div class="line">		&#125;	</div><div class="line">		<span class="keyword">return</span> parent;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="comment">//查找最大值</span></div><div class="line">	<span class="comment">/*根据二叉搜索树的存储规则，最大值应该是右边那个没有子节点的那个节点*/</span></div><div class="line">	<span class="function"><span class="keyword">public</span> BNode <span class="title">maxNumber</span><span class="params">()</span> </span>&#123;</div><div class="line">		BNode current = root;</div><div class="line">		BNode parent = root;</div><div class="line">		<span class="keyword">while</span>(current != <span class="keyword">null</span>) &#123;</div><div class="line">			parent = current;</div><div class="line">			current = current.rightChild;</div><div class="line">		&#125;	</div><div class="line">		<span class="keyword">return</span> parent;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="comment">//删除节点</span></div><div class="line">	<span class="comment">/*</span></div><div class="line"><span class="comment">	 * 删除节点在二叉树中是最复杂的，主要有三种情况：</span></div><div class="line"><span class="comment">	 * 1. 该节点没有子节点（简单）</span></div><div class="line"><span class="comment">	 * 2. 该节点有一个子节点（还行）</span></div><div class="line"><span class="comment">	 * 3. 该节点有两个子节点（复杂）</span></div><div class="line"><span class="comment">	 * 删除节点的时间复杂度为O(logN)</span></div><div class="line"><span class="comment">	 */</span></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">delete</span><span class="params">(<span class="keyword">int</span> key)</span> </span>&#123;</div><div class="line">		BNode current = root;</div><div class="line"><span class="comment">//		BNode parent = root;</span></div><div class="line">		<span class="keyword">boolean</span> isLeftChild = <span class="keyword">true</span>;</div><div class="line">		</div><div class="line">		<span class="keyword">if</span>(current == <span class="keyword">null</span>) &#123;</div><div class="line">			<span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">		&#125;</div><div class="line">		<span class="comment">//寻找要删除的节点</span></div><div class="line">		<span class="keyword">while</span>(current.data != key) &#123;</div><div class="line"><span class="comment">//			parent = current;</span></div><div class="line">			<span class="keyword">if</span>(key &lt; current.key) &#123;</div><div class="line">				isLeftChild = <span class="keyword">true</span>;</div><div class="line">				current = current.leftChild;</div><div class="line">			&#125;</div><div class="line">			<span class="keyword">else</span> &#123;</div><div class="line">				isLeftChild = <span class="keyword">false</span>;</div><div class="line">				current = current.rightChild;</div><div class="line">			&#125;</div><div class="line">			<span class="keyword">if</span>(current == <span class="keyword">null</span>) &#123;</div><div class="line">				<span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">		</div><div class="line">		<span class="comment">//找到了要删除的节点，下面开始删除</span></div><div class="line">		<span class="comment">//1. 要删除的节点没有子节点,直接将其父节点的左子节点或者右子节点赋为null即可</span></div><div class="line">		<span class="keyword">if</span>(current.leftChild == <span class="keyword">null</span> &amp;&amp; current.rightChild == <span class="keyword">null</span>) &#123;</div><div class="line">			<span class="keyword">return</span> deleteNoChild(current, isLeftChild);</div><div class="line">		&#125;</div><div class="line">		</div><div class="line">		<span class="comment">//3. 要删除的节点有两个子节点</span></div><div class="line">		<span class="keyword">else</span> <span class="keyword">if</span>(current.leftChild != <span class="keyword">null</span> &amp;&amp; current.rightChild != <span class="keyword">null</span>) &#123;</div><div class="line">			<span class="keyword">return</span> deleteTwoChild(current, isLeftChild);</div><div class="line">		&#125;</div><div class="line">		</div><div class="line">		<span class="comment">//2. 要删除的节点有一个子节点，直接将其砍断，将其子节点与其父节点连起来即可，要考虑特殊情况就是删除根节点，因为根节点没有父节点</span></div><div class="line">		<span class="keyword">else</span> &#123;</div><div class="line">			<span class="keyword">return</span> deleteOneChild(current, isLeftChild);</div><div class="line">		&#125;</div><div class="line">		</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">deleteNoChild</span><span class="params">(BNode node, <span class="keyword">boolean</span> isLeftChild)</span> </span>&#123;</div><div class="line">		<span class="keyword">if</span>(node == root) &#123;</div><div class="line">			root = <span class="keyword">null</span>;</div><div class="line">			<span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">if</span>(isLeftChild) &#123;</div><div class="line">			node.parent.leftChild = <span class="keyword">null</span>;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">else</span> &#123;</div><div class="line">			node.parent.rightChild = <span class="keyword">null</span>;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">deleteOneChild</span><span class="params">(BNode node, <span class="keyword">boolean</span> isLeftChild)</span> </span>&#123;</div><div class="line">		<span class="keyword">if</span>(node.leftChild == <span class="keyword">null</span>) &#123;</div><div class="line">			<span class="keyword">if</span>(node == root) &#123;</div><div class="line">				root = node.rightChild;</div><div class="line">				node.parent = <span class="keyword">null</span>;</div><div class="line">				<span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">			&#125;</div><div class="line">			<span class="keyword">if</span>(isLeftChild) &#123;</div><div class="line">				node.parent.leftChild  = node.rightChild;</div><div class="line">			&#125;</div><div class="line">			<span class="keyword">else</span> &#123;</div><div class="line">				node.parent.rightChild = node.rightChild;</div><div class="line">			&#125;</div><div class="line">			node.rightChild.parent = node.parent;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">else</span> &#123;</div><div class="line">			<span class="keyword">if</span>(node == root) &#123;</div><div class="line">				root = node.leftChild;</div><div class="line">				node.parent = <span class="keyword">null</span>;</div><div class="line">				<span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">			&#125;</div><div class="line">			<span class="keyword">if</span>(isLeftChild) &#123;</div><div class="line">				node.parent.leftChild  = node.leftChild;</div><div class="line">			&#125;</div><div class="line">			<span class="keyword">else</span> &#123;</div><div class="line">				node.parent.rightChild = node.leftChild;</div><div class="line">			&#125;</div><div class="line">			node.leftChild.parent = node.parent;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">deleteTwoChild</span><span class="params">(BNode node, <span class="keyword">boolean</span> isLeftChild)</span> </span>&#123;</div><div class="line">		BNode successor = getSuccessor(node);</div><div class="line">		<span class="keyword">if</span>(node == root) &#123;</div><div class="line">			successor.leftChild = root.leftChild;</div><div class="line">			successor.rightChild = root.rightChild;</div><div class="line">			successor.parent = <span class="keyword">null</span>;</div><div class="line">			root = successor;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">else</span> <span class="keyword">if</span>(isLeftChild) &#123;</div><div class="line">			node.parent.leftChild = successor;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">else</span> &#123;</div><div class="line">			node.parent.rightChild = successor;</div><div class="line">		&#125;</div><div class="line">		successor.leftChild = node.leftChild;<span class="comment">//connect successor to node's left child</span></div><div class="line">		<span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="comment">//获得要删除节点的后继节点（中序遍历的下一个节点）</span></div><div class="line">	<span class="function"><span class="keyword">public</span> BNode <span class="title">getSuccessor</span><span class="params">(BNode delNode)</span> </span>&#123;</div><div class="line">		BNode successor = delNode;</div><div class="line">		BNode current = delNode.rightChild;</div><div class="line">		<span class="keyword">while</span>(current != <span class="keyword">null</span>) &#123;</div><div class="line">			successor = current;</div><div class="line">			current = current.leftChild;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">if</span>(successor != delNode.rightChild) &#123;</div><div class="line">			successor.parent.leftChild = successor.rightChild;</div><div class="line">			<span class="keyword">if</span>(successor.rightChild != <span class="keyword">null</span>) &#123;		</div><div class="line">				successor.rightChild.parent = successor.parent;<span class="comment">//删除后续节点在原来的位置</span></div><div class="line">			&#125;</div><div class="line">			successor.rightChild = delNode.rightChild;<span class="comment">//将后续节点放到正确位置，与右边连上</span></div><div class="line">		&#125;</div><div class="line">		<span class="keyword">return</span> successor;</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">BNode</span> </span>&#123;</div><div class="line">	<span class="keyword">public</span> <span class="keyword">int</span> key;</div><div class="line">	<span class="keyword">public</span> <span class="keyword">double</span> data;</div><div class="line">	<span class="keyword">public</span> BNode parent;</div><div class="line">	<span class="keyword">public</span> BNode leftChild;</div><div class="line">	<span class="keyword">public</span> BNode rightChild;</div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">displayNode</span><span class="params">()</span> </span>&#123;</div><div class="line">		System.out.println(<span class="string">"&#123;"</span> + key + <span class="string">":"</span> + data + <span class="string">"&#125;"</span>);</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
           
         
       
@@ -618,6 +750,168 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/03/08/ThreadLocal内存泄漏/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sailong Ren">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="coderlong的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/03/08/ThreadLocal内存泄漏/" itemprop="url">ThreadLocal内存泄露问题的分析</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-08T23:18:40+08:00">
+                2018-03-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JDK/" itemprop="url" rel="index">
+                    <span itemprop="name">JDK</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="深入分析-ThreadLocal-内存泄漏问题"><a href="#深入分析-ThreadLocal-内存泄漏问题" class="headerlink" title="深入分析 ThreadLocal 内存泄漏问题"></a>深入分析 ThreadLocal 内存泄漏问题</h2><p>原文出处 <a href="http://www.importnew.com/22039.html" target="_blank" rel="external">http://www.importnew.com/22039.html</a><br>ThreadLocal 的作用是提供线程内的局部变量，这种变量在线程的生命周期内起作用，减少同一个线程内多个函数或者组件之间一些公共变量的传递的复杂度。但是如果滥用ThreadLocal，就可能会导致内存泄漏。下面，我们将围绕三个方面来分析ThreadLocal 内存泄漏的问题</p>
+<ul>
+<li>ThreadLocal实现原理</li>
+<li>ThreadLocal为什内存泄漏</li>
+<li>ThreadLocal最佳实践</li>
+</ul>
+<p>其实我也只是在书上看过ThreadLocal在队Session存储，数据库连接等地方有较大作用，但是为什么会内存泄漏，还是看大神的分析吧。</p>
+<h1 id="ThreadLocal实现原理"><a href="#ThreadLocal实现原理" class="headerlink" title="ThreadLocal实现原理"></a>ThreadLocal实现原理</h1><p><img src="http://incdn1.b0.upaiyun.com/2016/10/2fdbd552107780c5ae5f98126b38d5a4.png" alt="JDP"></p>
+<p>ThreadLocal的实现是这样的：每个Thread 维护一个 ThreadLocalMap 映射表，这个映射表的 key 是 ThreadLocal实例本身，value 是真正需要存储的 Object。  </p>
+<p>也就是说 ThreadLocal 本身并不存储值，它只是作为一个 key 来让线程从 ThreadLocalMap 获取 value。值得注意的是图中的虚线，表示 ThreadLocalMap 是使用 ThreadLocal 的弱引用作为 Key 的，弱引用的对象在 GC 时会被回收。</p>
+<h2 id="那么-ThreadLocal为什么内存泄漏呢？"><a href="#那么-ThreadLocal为什么内存泄漏呢？" class="headerlink" title="那么 ThreadLocal为什么内存泄漏呢？"></a>那么 ThreadLocal为什么内存泄漏呢？</h2><p>ThreadLocalMap使用ThreadLocal的弱引用作为key，如果一个ThreadLocal没有外部强引用来引用它，那么系统 GC 的时候，这个ThreadLocal势必会被回收，这样一来，ThreadLocalMap中就会出现key为null的Entry，就没有办法访问这些key为null的Entry的value，<em> 如果当前线程再迟迟不结束的话，这些key为null的Entry的value就会一直存在一条强引用链：Thread Ref -&gt; Thread -&gt; ThreaLocalMap -&gt; Entry -&gt; value </em> 永远无法回收，造成内存泄漏。<br>其实，ThreadLocalMap的设计中已经考虑到这种情况，也加上了一些防护措施：在ThreadLocal的get(),set(),remove()的时候都会清除线程ThreadLocalMap里所有key为null的value。</p>
+<p>但是这并不能保证永远不会内存泄漏  </p>
+<ol>
+<li>使用static的ThreadLocal，延长了ThreadLocal的生命周期，可能导致的内存泄漏</li>
+<li>分配使用了ThreadLocal又不再调用get(),set(),remove()方法，那么就会导致内存泄漏。</li>
+</ol>
+<h2 id="弱引用-与-强引用"><a href="#弱引用-与-强引用" class="headerlink" title="弱引用 与 强引用"></a>弱引用 与 强引用</h2><ul>
+<li>如果使用强引用的话<br>引用的ThreadLocal的对象被回收了，但是ThreadLocalMap还持有ThreadLocal的强引用，如果没有手动删除，ThreadLocal不会被回收，导致Entry内存泄漏。</li>
+<li>弱引用的话<br>引用的ThreadLocal的对象被回收了，由于ThreadLocalMap持有ThreadLocal的弱引用，即使没有手动删除，ThreadLocal也会被回收。value在下一次ThreadLocalMap调用set,get，remove的时候会被清除。</li>
+</ul>
+<p>比较来看的话，还是弱引用较为安全一些，至少有GC的一层保障，</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/03/07/AVL平衡树详解/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -768,7 +1062,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/03/06/二维数组查找/">
+    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/03/06/旋转数组的最小数字/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Sailong Ren">
@@ -787,7 +1081,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/06/二维数组查找/" itemprop="url">二维数组查找</a></h1>
+                <a class="post-title-link" href="/2018/03/06/旋转数组的最小数字/" itemprop="url">旋转数组的最小数字</a></h1>
         
 
         <div class="post-meta">
@@ -861,11 +1155,12 @@
       
         
           
-            <a id="more"></a>
-<p><code>题目描述
-在一个二维数组中，每一行都按照从左到右递增的顺序排序，每一列都按照从上到下递增的顺序排序。请完成一个函数，输入这样的一个二维数组和一个整数，判断数组中是否含有该整数。·</code></p>
-<p>思路： 从右上角开始，若小，向下走，删除一行，若大，向左走，删除一列<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line">* @author 作者 : coderlong</div><div class="line">* @version 创建时间：2018年2月8日 下午9:44:23</div><div class="line">* 类说明: /*</div><div class="line">利用二维数组由上到下，由左到右递增的规律，</div><div class="line">那么选取右上角或者左下角的元素a[row] [col]与target进行比较，</div><div class="line">当target小于元素a[row] [col]时，那么target必定在元素a所在行的左边,</div><div class="line">即col--；</div><div class="line">当target大于元素a[row][col]时，那么target必定在元素a所在列的下边,</div><div class="line">即row++；</div><div class="line">*/</div><div class="line">public class 二维数组查找 &#123;</div><div class="line"></div><div class="line">	public static void main(String[] args) &#123;</div><div class="line">		// TODO Auto-generated method stub</div><div class="line"></div><div class="line">	&#125;</div><div class="line">	public static boolean Find(int[][] array, int target) &#123;</div><div class="line">		int row = 0;</div><div class="line">		int col = array[0].length - 1;</div><div class="line">		while (row &lt; array.length &amp;&amp; col &gt;= 0) &#123;</div><div class="line">			if (target == array[row][col]) &#123;</div><div class="line">				return true;</div><div class="line">			&#125;</div><div class="line">			else if (target &gt; array[row][col]) &#123;</div><div class="line">				row++;</div><div class="line">			&#125;</div><div class="line">			else &#123;</div><div class="line">				col--;</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">		return false;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-
+            <h2 id="旋转数组的最小数字"><a href="#旋转数组的最小数字" class="headerlink" title="旋转数组的最小数字"></a>旋转数组的最小数字</h2><p><code>题目描述
+把一个数组最开始的若干个元素搬到数组的末尾，我们称之为数组的旋转。
+输入一个递增排序的数组的一个旋转，输出旋转数组的最小元素。
+例如数组{3,4,5,1,2}为{1,2,3,4,5}的一个旋转，该数组的最小值为1。
+NOTE：给出的所有元素都大于0，若数组大小为0，请返回0。</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> 旋转数组的最小数字 </span>&#123;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		<span class="comment">// TODO Auto-generated method stub</span></div><div class="line">		<span class="keyword">int</span>[] array = &#123;<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>&#125;;</div><div class="line">		System.out.println(minNumberInRotateArray(array));</div><div class="line">	&#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">minNumberInRotateArray</span><span class="params">(<span class="keyword">int</span>[] array)</span> </span>&#123;</div><div class="line">		<span class="keyword">if</span> (array.length == <span class="number">0</span>) &#123;</div><div class="line">			<span class="keyword">return</span> <span class="number">0</span>;<span class="comment">// 数组长度为0 不合法</span></div><div class="line">		&#125;</div><div class="line">		</div><div class="line">		<span class="keyword">int</span> left = <span class="number">0</span>;<span class="comment">// 处理的第一个元素</span></div><div class="line">		<span class="keyword">int</span> right = array.length - <span class="number">1</span>;</div><div class="line">		<span class="keyword">int</span> mid = left;</div><div class="line">		</div><div class="line">		<span class="keyword">while</span> (array[left] &gt;= array[right]) &#123;</div><div class="line">			<span class="comment">// 当right - left = 1 后一个是结果</span></div><div class="line">			<span class="keyword">if</span> (right - left == <span class="number">1</span>) &#123;</div><div class="line">				<span class="keyword">return</span> array[right];</div><div class="line">			&#125;</div><div class="line">			mid = (left + right)/<span class="number">2</span>;</div><div class="line">			</div><div class="line">			<span class="keyword">if</span> (array[mid] == array[left] &amp;&amp; array[left] == array[right]) &#123;</div><div class="line">				<span class="keyword">return</span> minNum(array, left, right);</div><div class="line">			&#125;</div><div class="line">			<span class="comment">// 最小值 在后半部分</span></div><div class="line">			<span class="keyword">else</span> <span class="keyword">if</span> (array[left] &gt;= array[mid]) &#123;</div><div class="line">				right = mid;</div><div class="line">			&#125;</div><div class="line">			<span class="keyword">else</span> &#123;</div><div class="line">				left = mid;</div><div class="line">			&#125;</div><div class="line">			</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">return</span> array[mid];</div><div class="line">		</div><div class="line">	&#125;</div><div class="line">	<span class="comment">// 顺序查找最小元素</span></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">minNum</span><span class="params">(<span class="keyword">int</span>[] array, <span class="keyword">int</span> left, <span class="keyword">int</span> right)</span> </span>&#123;</div><div class="line">		<span class="keyword">int</span> min = array[left];</div><div class="line">		<span class="keyword">while</span> (left &lt;= right) &#123;</div><div class="line">			min = Math.min(min, array[left++]);</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">return</span> min;</div><div class="line">	&#125;</div><div class="line">	 </div><div class="line">&#125;</div></pre></td></tr></table></figure>
           
         
       
@@ -1008,292 +1303,6 @@
           
             <h2 id="重建二叉树"><a href="#重建二叉树" class="headerlink" title="重建二叉树"></a>重建二叉树</h2><p><code>题目描述：已知中序和前序，请重建二叉树</code></p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> 二叉树重建 </span>&#123;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		<span class="comment">// TODO Auto-generated method stub</span></div><div class="line">		</div><div class="line">	&#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> TreeNode <span class="title">reConstructBinaryTree</span><span class="params">(<span class="keyword">int</span>[] pre, <span class="keyword">int</span>[] in)</span> </span>&#123;</div><div class="line">		<span class="comment">// 前序遍历&#123;1,2,4,7,3,5,6,8&#125;</span></div><div class="line">		<span class="comment">// 中序遍历 &#123;4,7,2,1,5,3,8,6&#125;</span></div><div class="line">		TreeNode root =  reConstruct(pre, <span class="number">0</span>, pre.length - <span class="number">1</span>, in, <span class="number">0</span>, in.length - <span class="number">1</span>);</div><div class="line">		<span class="keyword">return</span> root;</div><div class="line">	&#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> TreeNode <span class="title">reConstruct</span><span class="params">(<span class="keyword">int</span>[] pre, <span class="keyword">int</span> startPre, <span class="keyword">int</span> endPre, <span class="keyword">int</span>[] in, <span class="keyword">int</span> startIn, <span class="keyword">int</span> endIn)</span> </span>&#123;</div><div class="line">		<span class="comment">// 如果起始坐标大于结束下标， 无效的输入</span></div><div class="line">		<span class="keyword">if</span> (startPre &gt; endPre || startIn &gt; endIn) &#123;</div><div class="line">			<span class="keyword">return</span> <span class="keyword">null</span>; <span class="comment">// 无效</span></div><div class="line">		&#125;</div><div class="line">		</div><div class="line">		TreeNode root = <span class="keyword">new</span> TreeNode(pre[<span class="number">0</span>]);<span class="comment">// 前序遍历第一个数，即根节点</span></div><div class="line">		</div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i = startIn; i &lt;= endIn; i++) &#123;</div><div class="line">			<span class="comment">// 在中序遍历中找到 中根节点</span></div><div class="line">			<span class="keyword">if</span> (in[i] == pre[startPre]) &#123;</div><div class="line">				<span class="comment">//i-startIn是左子树节点的个数，前序遍历起始值加上这个就是终点值</span></div><div class="line">                <span class="comment">//i-1就是中序遍历左子树的终点，起始值是从0一直都是从0开始</span></div><div class="line">				root.left = reConstruct(pre, startPre + <span class="number">1</span>, startPre + i - startIn, in, startIn, i - <span class="number">1</span>);</div><div class="line">				<span class="comment">//前序右子树遍历的起始值:startPre+i-startIn+1 前序右子树遍历的终点值:endPre</span></div><div class="line">                <span class="comment">//中序遍历右子树的起始值:i+1,endIn</span></div><div class="line">				root.right = reConstruct(pre, startPre + i - startIn + <span class="number">1</span>, endPre, in, i + <span class="number">1</span>, endIn);</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">return</span> root;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/03/06/滑动窗口最大值/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Sailong Ren">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="coderlong的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/03/06/滑动窗口最大值/" itemprop="url">滑动窗口最大值</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-06T14:18:40+08:00">
-                2018-03-06
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/剑指offer/" itemprop="url" rel="index">
-                    <span itemprop="name">剑指offer</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>给定一个数组和滑动窗口的大小，请找出所有滑动窗口里的最大值。</p>
-<h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> 滑动窗口的最大值 </span>&#123;</div><div class="line">	<span class="function"><span class="keyword">public</span> ArrayList&lt;Integer&gt; <span class="title">maxInWindows</span><span class="params">(<span class="keyword">int</span> [] num, <span class="keyword">int</span> size)</span> </span>&#123;</div><div class="line">		ArrayList&lt;Integer&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line">		<span class="keyword">if</span> (num == <span class="keyword">null</span>) &#123;</div><div class="line">			<span class="keyword">return</span> list;</div><div class="line">		&#125;</div><div class="line">		</div><div class="line">		<span class="keyword">if</span> (num.length &lt; size || size &lt; <span class="number">1</span>) &#123;</div><div class="line">			<span class="keyword">return</span> list;</div><div class="line">		&#125;</div><div class="line">		</div><div class="line">		<span class="comment">// 用来保存可能是滑动窗口最大值的数字的下标</span></div><div class="line">		LinkedList&lt;Integer&gt; indexDeque = <span class="keyword">new</span> LinkedList&lt;&gt;();</div><div class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; size - <span class="number">1</span>; i++) &#123;</div><div class="line">			<span class="comment">// 如果已有数字小于代存入的数据</span></div><div class="line">		&#125;</div><div class="line">		<span class="keyword">return</span> list;</div><div class="line">	&#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> ArrayList&lt;Integer&gt; <span class="title">maxInWindows2</span><span class="params">(<span class="keyword">int</span> [] num, <span class="keyword">int</span> size)</span> </span>&#123;</div><div class="line">		ArrayList&lt;Integer&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line">		ArrayList&lt;Integer&gt; data = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i : num) &#123;</div><div class="line">			data.add(i);</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">if</span> (num == <span class="keyword">null</span>) &#123;</div><div class="line">			<span class="keyword">return</span> list;</div><div class="line">		&#125;</div><div class="line">		</div><div class="line">		<span class="keyword">if</span> (num.length &lt; size || size &lt; <span class="number">1</span>) &#123;</div><div class="line">			<span class="keyword">return</span> list;</div><div class="line">		&#125;</div><div class="line">		Deque&lt;Integer&gt; idx = <span class="keyword">new</span> LinkedList&lt;&gt;();</div><div class="line">		<span class="comment">// 窗口还没有填满的时候，找最大的索引</span></div><div class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; size &amp;&amp; i &lt; num.length; i++) &#123;</div><div class="line">			<span class="keyword">while</span> (!idx.isEmpty() &amp;&amp; data.get(i) &gt; idx.getLast()) &#123;</div><div class="line">				idx.removeLast(); <span class="comment">// 移除队尾保存的索引</span></div><div class="line">			&#125;</div><div class="line">			<span class="comment">// 添加索引</span></div><div class="line">			idx.addLast(i); <span class="comment">// 在队尾添加索引</span></div><div class="line">		&#125;</div><div class="line">		</div><div class="line">		<span class="comment">// 当窗口被填满了时候</span></div><div class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = size; i &lt; data.size(); i++) &#123;</div><div class="line">			<span class="comment">// 第一个窗口用来保存最大值</span></div><div class="line">			list.add(idx.getFirst()); <span class="comment">// 队首元素 永远是最大的</span></div><div class="line">			</div><div class="line">			<span class="comment">// 如果索引对应的 值 比之前的索引值对应的值大或者相等，就删除之前存储的值</span></div><div class="line">			<span class="keyword">while</span> (!idx.isEmpty() &amp;&amp; data.get(i) &gt; data.get(idx.getLast())) &#123;</div><div class="line">				idx.removeLast();</div><div class="line">			&#125;</div><div class="line">			<span class="comment">// 删除已经滑出 窗口的数据对应的下标</span></div><div class="line">			<span class="keyword">while</span> (!idx.isEmpty() &amp;&amp; idx.getFirst() &lt;= (i - size)) &#123;</div><div class="line">				idx.removeFirst();</div><div class="line">			&#125;</div><div class="line">			</div><div class="line">			idx.addLast(i);</div><div class="line">		&#125;</div><div class="line">		</div><div class="line">		<span class="keyword">return</span> list;</div><div class="line">		</div><div class="line">	&#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		<span class="keyword">int</span>[] nums = &#123;<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">2</span>,<span class="number">6</span>,<span class="number">2</span>,<span class="number">5</span>,<span class="number">1</span>&#125;;</div><div class="line">		System.out.println(maxInWindows2(nums, <span class="number">3</span>));</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/03/06/二进制中1的个数/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Sailong Ren">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="coderlong的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/03/06/二进制中1的个数/" itemprop="url">二进制中1的个数</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-06T14:18:40+08:00">
-                2018-03-06
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/剑指offer/" itemprop="url" rel="index">
-                    <span itemprop="name">剑指offer</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <a id="more"></a>
-<h2 id="二进制中1的个数"><a href="#二进制中1的个数" class="headerlink" title="二进制中1的个数"></a>二进制中1的个数</h2><p><code>题目描述
-输入一个整数，输出该数二进制表示中1的个数。其中负数用补码表示。</code><br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> 二进制1的个数 </span>&#123;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		<span class="comment">// TODO Auto-generated method stub</span></div><div class="line">		String string = Integer.toBinaryString(<span class="number">5</span>);</div><div class="line">		string = Integer.toBinaryString(Integer.valueOf(<span class="string">"111"</span>,<span class="number">2</span>));</div><div class="line">		string = Integer.toBinaryString(-<span class="number">16</span>);</div><div class="line"><span class="comment">//		System.out.println(string);</span></div><div class="line">		System.out.println(NumberOf2(-<span class="number">4</span>));</div><div class="line">	&#125;</div><div class="line">	<span class="comment">// 改进的算法，可以应对负数情况</span></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span>  <span class="title">NumberOf2</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</div><div class="line">        <span class="keyword">int</span> count= <span class="number">0</span>;</div><div class="line">        <span class="keyword">int</span> flag = <span class="number">1</span>;</div><div class="line">        <span class="keyword">while</span> (flag != <span class="number">0</span>)&#123;</div><div class="line">            <span class="keyword">if</span> ((n &amp; flag) != <span class="number">0</span>)&#123;</div><div class="line">                count++;      </div><div class="line">            &#125;</div><div class="line">            flag  = flag &lt;&lt; <span class="number">1</span>;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> count;</div><div class="line">	&#125;</div><div class="line">	<span class="comment">// 负数，会造成死循环</span></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span>  <span class="title">NumberOf1</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</div><div class="line">        <span class="keyword">int</span> count= <span class="number">0</span>;</div><div class="line">        <span class="keyword">int</span> flag = <span class="number">1</span>;</div><div class="line">        <span class="keyword">while</span> (n!= <span class="number">0</span>)&#123;</div><div class="line">            <span class="keyword">if</span> ((n &amp; <span class="number">1</span>) != <span class="number">0</span>)&#123;</div><div class="line">                count++;      </div><div class="line">            &#125;</div><div class="line">            n = n&gt;&gt;<span class="number">1</span>;</div><div class="line">        &#125;</div><div class="line">         <span class="keyword">return</span> count;</div><div class="line">     &#125;  </div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-
           
         
       
@@ -1484,7 +1493,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/03/06/旋转数组的最小数字/">
+    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/03/06/二维数组查找/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Sailong Ren">
@@ -1503,7 +1512,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/06/旋转数组的最小数字/" itemprop="url">旋转数组的最小数字</a></h1>
+                <a class="post-title-link" href="/2018/03/06/二维数组查找/" itemprop="url">二维数组查找</a></h1>
         
 
         <div class="post-meta">
@@ -1577,12 +1586,11 @@
       
         
           
-            <h2 id="旋转数组的最小数字"><a href="#旋转数组的最小数字" class="headerlink" title="旋转数组的最小数字"></a>旋转数组的最小数字</h2><p><code>题目描述
-把一个数组最开始的若干个元素搬到数组的末尾，我们称之为数组的旋转。
-输入一个递增排序的数组的一个旋转，输出旋转数组的最小元素。
-例如数组{3,4,5,1,2}为{1,2,3,4,5}的一个旋转，该数组的最小值为1。
-NOTE：给出的所有元素都大于0，若数组大小为0，请返回0。</code></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> 旋转数组的最小数字 </span>&#123;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		<span class="comment">// TODO Auto-generated method stub</span></div><div class="line">		<span class="keyword">int</span>[] array = &#123;<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>&#125;;</div><div class="line">		System.out.println(minNumberInRotateArray(array));</div><div class="line">	&#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">minNumberInRotateArray</span><span class="params">(<span class="keyword">int</span>[] array)</span> </span>&#123;</div><div class="line">		<span class="keyword">if</span> (array.length == <span class="number">0</span>) &#123;</div><div class="line">			<span class="keyword">return</span> <span class="number">0</span>;<span class="comment">// 数组长度为0 不合法</span></div><div class="line">		&#125;</div><div class="line">		</div><div class="line">		<span class="keyword">int</span> left = <span class="number">0</span>;<span class="comment">// 处理的第一个元素</span></div><div class="line">		<span class="keyword">int</span> right = array.length - <span class="number">1</span>;</div><div class="line">		<span class="keyword">int</span> mid = left;</div><div class="line">		</div><div class="line">		<span class="keyword">while</span> (array[left] &gt;= array[right]) &#123;</div><div class="line">			<span class="comment">// 当right - left = 1 后一个是结果</span></div><div class="line">			<span class="keyword">if</span> (right - left == <span class="number">1</span>) &#123;</div><div class="line">				<span class="keyword">return</span> array[right];</div><div class="line">			&#125;</div><div class="line">			mid = (left + right)/<span class="number">2</span>;</div><div class="line">			</div><div class="line">			<span class="keyword">if</span> (array[mid] == array[left] &amp;&amp; array[left] == array[right]) &#123;</div><div class="line">				<span class="keyword">return</span> minNum(array, left, right);</div><div class="line">			&#125;</div><div class="line">			<span class="comment">// 最小值 在后半部分</span></div><div class="line">			<span class="keyword">else</span> <span class="keyword">if</span> (array[left] &gt;= array[mid]) &#123;</div><div class="line">				right = mid;</div><div class="line">			&#125;</div><div class="line">			<span class="keyword">else</span> &#123;</div><div class="line">				left = mid;</div><div class="line">			&#125;</div><div class="line">			</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">return</span> array[mid];</div><div class="line">		</div><div class="line">	&#125;</div><div class="line">	<span class="comment">// 顺序查找最小元素</span></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">minNum</span><span class="params">(<span class="keyword">int</span>[] array, <span class="keyword">int</span> left, <span class="keyword">int</span> right)</span> </span>&#123;</div><div class="line">		<span class="keyword">int</span> min = array[left];</div><div class="line">		<span class="keyword">while</span> (left &lt;= right) &#123;</div><div class="line">			min = Math.min(min, array[left++]);</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">return</span> min;</div><div class="line">	&#125;</div><div class="line">	 </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+            <a id="more"></a>
+<p><code>题目描述
+在一个二维数组中，每一行都按照从左到右递增的顺序排序，每一列都按照从上到下递增的顺序排序。请完成一个函数，输入这样的一个二维数组和一个整数，判断数组中是否含有该整数。·</code></p>
+<p>思路： 从右上角开始，若小，向下走，删除一行，若大，向左走，删除一列<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line">* @author 作者 : coderlong</div><div class="line">* @version 创建时间：2018年2月8日 下午9:44:23</div><div class="line">* 类说明: /*</div><div class="line">利用二维数组由上到下，由左到右递增的规律，</div><div class="line">那么选取右上角或者左下角的元素a[row] [col]与target进行比较，</div><div class="line">当target小于元素a[row] [col]时，那么target必定在元素a所在行的左边,</div><div class="line">即col--；</div><div class="line">当target大于元素a[row][col]时，那么target必定在元素a所在列的下边,</div><div class="line">即row++；</div><div class="line">*/</div><div class="line">public class 二维数组查找 &#123;</div><div class="line"></div><div class="line">	public static void main(String[] args) &#123;</div><div class="line">		// TODO Auto-generated method stub</div><div class="line"></div><div class="line">	&#125;</div><div class="line">	public static boolean Find(int[][] array, int target) &#123;</div><div class="line">		int row = 0;</div><div class="line">		int col = array[0].length - 1;</div><div class="line">		while (row &lt; array.length &amp;&amp; col &gt;= 0) &#123;</div><div class="line">			if (target == array[row][col]) &#123;</div><div class="line">				return true;</div><div class="line">			&#125;</div><div class="line">			else if (target &gt; array[row][col]) &#123;</div><div class="line">				row++;</div><div class="line">			&#125;</div><div class="line">			else &#123;</div><div class="line">				col--;</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">		return false;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+
           
         
       
@@ -1811,7 +1819,7 @@ NOTE：给出的所有元素都大于0，若数组大小为0，请返回0。</co
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">135</span>
+                <span class="site-state-item-count">137</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>

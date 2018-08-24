@@ -303,6 +303,327 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/03/24/二分查找的一点问题/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sailong Ren">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="coderlong的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/03/24/二分查找的一点问题/" itemprop="url">二分查找的一点问题</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-24T14:18:40+08:00">
+                2018-03-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Leetcode/" itemprop="url" rel="index">
+                    <span itemprop="name">Leetcode</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>摘要：二分查找的一些问题<br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/03/24/二分查找的一点问题/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/03/23/NIO/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sailong Ren">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="coderlong的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/03/23/NIO/" itemprop="url">三言两语之 NIO</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-23T23:02:17+08:00">
+                2018-03-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java/" itemprop="url" rel="index">
+                    <span itemprop="name">Java</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="老是说，异步非阻塞，同步非阻塞，异步IO，NIO，同学你能分清吗？"><a href="#老是说，异步非阻塞，同步非阻塞，异步IO，NIO，同学你能分清吗？" class="headerlink" title="老是说，异步非阻塞，同步非阻塞，异步IO，NIO，同学你能分清吗？"></a>老是说，异步非阻塞，同步非阻塞，异步IO，NIO，同学你能分清吗？</h2><p>NIO的selector是NIO实现非阻塞的关键之处。<br>仅用单个线程来处理多个Channels的好处是，只需要更少的线程来处理通道。事实上，可以只用一个线程处理所有的通道。对于操作系统来说，线程之间上下文切换的开销很大，而且每个线程都要占用系统的一些资源（如内存）。因此，使用的线程越少越好。</p>
+<h2 id="Selector的创建"><a href="#Selector的创建" class="headerlink" title="Selector的创建"></a>Selector的创建</h2><pre><code>Selector selector = Selector.open();
+</code></pre><h2 id="向selector注册通道channel"><a href="#向selector注册通道channel" class="headerlink" title="向selector注册通道channel"></a>向selector注册通道channel</h2><pre><code>channel.configureBlocking(false);
+SelectionKey key = channel.register(selector,
+Selectionkey.OP_READ);
+</code></pre><p>通道触发了一个事件意思是该事件已经就绪。<br>这四种事件用SelectionKey的四个常量来表示：<br>    SelectionKey.OP_CONNECT<br>    SelectionKey.OP_ACCEPT<br>    SelectionKey.OP_READ<br>    SelectionKey.OP_WRITE</p>
+<p>当向Selector注册Channel时，register()方法会返回一个SelectionKey对象。这个对象包含了一些你感兴趣的属性：</p>
+<pre><code>interest集合
+ready集合
+Channel
+Selector
+</code></pre><h3 id="interest集合"><a href="#interest集合" class="headerlink" title="interest集合"></a>interest集合</h3><pre><code>int interestSet = selectionKey.interestOps();
+</code></pre><h3 id="ready集合"><a href="#ready集合" class="headerlink" title="ready集合"></a>ready集合</h3><p>eady 集合是通道已经准备就绪的操作的集合。在一次选择(Selection)之后，你会首先访问这个ready set。可以这样访问ready集合：<br>    int readySet = selectionKey.readyOps();<br>可以用像检测interest集合那样的方法，来检测channel中什么事件或操作已经就绪。但是，也可以使用以下四个方法，它们都会返回一个布尔类型：</p>
+<ol>
+<li>selectionKey.isAcceptable();</li>
+<li>selectionKey.isConnectable();</li>
+<li>selectionKey.isReadable();</li>
+<li>selectionKey.isWritable();<h3 id="通过selectionKey来访问-channel-和-selector"><a href="#通过selectionKey来访问-channel-和-selector" class="headerlink" title="通过selectionKey来访问 channel 和 selector"></a>通过selectionKey来访问 channel 和 selector</h3> Channel  channel  = selectionKey.channel();<br> Selector selector = selectionKey.selector();</li>
+</ol>
+<p>还可以通过Selector选择通道<br>一旦向selector注册一个或多个channel 就可以调用重载的seclect()方法，返回你感兴趣的事件，<br>select()阻塞到至少有一个通道在你注册的事件上就绪了。<br>select(long timeout)和select()一样，除了最长会阻塞timeout毫秒(参数)。<br>selectNow()不会阻塞，不管什么通道就绪都立刻返回</p>
+<p>selectedKeys() 一旦调用了select()方法，并且返回值表明有一个或更多个通道就绪了，然后可以通过调用selector的selectedKeys()方法，访问已选择键集中的就绪通道。<br>Set selectedKeus = selector.selectedKeys();</p>
+<p>用完selector之后调用他的close（）方法即可关闭此通道。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">Selector selector = Selector.open();</div><div class="line">channel.configureBlocking(<span class="keyword">false</span>);</div><div class="line">SelectionKey key = channel.register(selector, SelectionKey.OP_READ);</div><div class="line"><span class="keyword">while</span>(<span class="keyword">true</span>) &#123;</div><div class="line">  <span class="keyword">int</span> readyChannels = selector.select();</div><div class="line">  <span class="keyword">if</span>(readyChannels == <span class="number">0</span>) <span class="keyword">continue</span>;</div><div class="line">  Set selectedKeys = selector.selectedKeys();</div><div class="line">  Iterator keyIterator = selectedKeys.iterator();</div><div class="line">  <span class="keyword">while</span>(keyIterator.hasNext()) &#123;</div><div class="line">    SelectionKey key = keyIterator.next();</div><div class="line">    <span class="keyword">if</span>(key.isAcceptable()) &#123;</div><div class="line">        <span class="comment">// a connection was accepted by a ServerSocketChannel.</span></div><div class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (key.isConnectable()) &#123;</div><div class="line">        <span class="comment">// a connection was established with a remote server.</span></div><div class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (key.isReadable()) &#123;</div><div class="line">        <span class="comment">// a channel is ready for reading</span></div><div class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (key.isWritable()) &#123;</div><div class="line">        <span class="comment">// a channel is ready for writing</span></div><div class="line">    &#125;</div><div class="line">    keyIterator.remove();</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="Java-NIO和IO的主要差别"><a href="#Java-NIO和IO的主要差别" class="headerlink" title="Java NIO和IO的主要差别"></a>Java NIO和IO的主要差别</h2><pre><code>IO         |      NIO
+面向流     |      面向缓冲
+阻塞IO     |      非阻塞IO
+无         |      选择器
+</code></pre><h3 id="面向流和面向缓冲有什么区别啊？"><a href="#面向流和面向缓冲有什么区别啊？" class="headerlink" title="面向流和面向缓冲有什么区别啊？"></a>面向流和面向缓冲有什么区别啊？</h3><p>IO面向流，就是说每次从流中读取一个或者多个字节， 一直到都区所有的字节，他们没有被缓存在任何地方，而且不能前后移动流里面的数据，如果要实现前后移动数据，还是需要缓存到一个缓冲区。<br>NIO呢， 就是每次读取，就读取到一个缓冲区中(buffer), 他有position, limit,等属性，所以我们可以前后移动数据，还可以转换读写模式，岂不是很方便。</p>
+<h3 id="阻塞和非阻塞IO到底什么区别？"><a href="#阻塞和非阻塞IO到底什么区别？" class="headerlink" title="阻塞和非阻塞IO到底什么区别？"></a>阻塞和非阻塞IO到底什么区别？</h3><p>IO流是阻塞的，每当他调用read（） 或者write（）方法是，该线程会被阻塞，直到她读到了数据，或者数据完全写入了，这个线程在此期间什么都不能干，即被阻塞了。  NIO使一个线程从某通道发送请求读取数据，但是它仅能得到目前可用的数据，如果目前没有数据可用时，就什么都不会获取。而不是保持线程阻塞，所以直至数据变的可以读取之前，该线程可以继续做其他的事情。 非阻塞写也是如此。一个线程请求写入一些数据到某通道，但不需要等待它完全写入，这个线程同时可以去做别的事情。 线程通常将非阻塞IO的空闲时间用于在其它通道上执行IO操作，所以一个单独的线程现在可以管理多个输入和输出通道（channel）。</p>
+<h3 id="Selector"><a href="#Selector" class="headerlink" title="Selector"></a>Selector</h3><p>selector允许一个单独的线程来监视多个输入通道，你可以注册多个通道使用一个选择器，然后使用一个单独的线程来“选择”通道：这些通道里已经有可以处理的输入，或者选择已准备写入的通道。这种选择机制，使得一个单独的线程很容易来管理多个通道。</p>
+<h3 id="对数据处理有什么不同呢？"><a href="#对数据处理有什么不同呢？" class="headerlink" title="对数据处理有什么不同呢？"></a>对数据处理有什么不同呢？</h3><p>IO的话，估计会一行一行的读向下面这样的代码:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">BufferedReader reader = <span class="keyword">new</span> BufferedReader(<span class="keyword">new</span> InputStreamReader(input));</div><div class="line">String nameLine   = reader.readLine();</div><div class="line">String ageLine    = reader.readLine();</div><div class="line">String emailLine  = reader.readLine();</div><div class="line">String phoneLine  = reader.readLine();</div></pre></td></tr></table></figure></p>
+<p>很多人和我一样，看到这个程序，觉得没什么问题啊，第一行读到了什么，第二行读到了什么。。。。。。<br>可是正式如此准确的预测，你每次都知道每一步都读到了什么数据，所以在多线程中造成了IO的致命弱点—一旦，中间的某一个操作阻塞了，那么你不得不等待他完成，才能继续执行，那么百万级别以上的服务器肯定是不成立的。<br>NIO的处理方式：  </p>
+<pre><code>ByteBuffer buffer = ByteBuffer.allocate(48);
+int bytesRead = inChannel.read(buffer);
+</code></pre><p>你不能确定的直到每一次read之后，buffer里面究竟读取了多少字符，也不知道是否已经读取完了，好吧，你的确不不知道，所以：<br>NIO可让您只使用一个（或几个）单线程管理多个通道（网络连接或文件），但付出的代价是解析数据可能会比从一个阻塞流中读取数据更复杂。<br>如果需要管理同时打开的成千上万个连接，这些连接每次只是发送少量的数据，例如聊天服务器，实现NIO的服务器可能是一个优势。<br>OK，那么接下来的几天，我打算模仿Netty(NIO的一个框架，对NIO繁琐的API进行了很好的封装)，自己实现一个NIO的聊天服务器. 造一个好一点的轮子。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/03/21/数据库特性以及隔离级别/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1639,300 +1960,6 @@ which are both strictly increasing.
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/03/11/leetcode257_BinaryTreePaths/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Sailong Ren">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="coderlong的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/03/11/leetcode257_BinaryTreePaths/" itemprop="url">leetcode257_BinaryTreePaths</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-11T14:18:40+08:00">
-                2018-03-11
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/leetcode/" itemprop="url" rel="index">
-                    <span itemprop="name">leetcode</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p> Given a binary tree, return all root-to-leaf paths.</p>
-<p>For example, given the following binary tree:<br>      1<br>     /   \<br>    2     3<br>     \<br>      5</p>
-<p> All root-to-leaf paths are:</p>
-<pre><code>`[&quot;1-&gt;2-&gt;5&quot;, &quot;1-&gt;3&quot;]`
-</code></pre><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> List&lt;String&gt; <span class="title">binaryTreePaths</span><span class="params">(TreeNode root)</span> </span>&#123;</div><div class="line"> List&lt;String&gt; paths = <span class="keyword">new</span> LinkedList&lt;String&gt;();</div><div class="line"> <span class="keyword">if</span> (root == <span class="keyword">null</span>)&#123;</div><div class="line">	 <span class="keyword">return</span> paths;</div><div class="line"> &#125;</div><div class="line"> searchBT(root, <span class="string">""</span>, paths);</div><div class="line"><span class="keyword">return</span> paths;</div><div class="line"> &#125;</div><div class="line"> <span class="comment">// 简单的递归实现</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">searchBT</span><span class="params">(TreeNode root,String path,List&lt;String&gt; answer)</span></span>&#123;</div><div class="line"> </div><div class="line"> <span class="keyword">if</span> (root.left == <span class="keyword">null</span> &amp;&amp; root.right == <span class="keyword">null</span>)&#123;</div><div class="line">	 answer.add(path + root.val);</div><div class="line"> &#125;</div><div class="line"> <span class="keyword">if</span> (root.left != <span class="keyword">null</span>)&#123;</div><div class="line">	 searchBT(root.left, path + root.val + <span class="string">"-&gt;"</span>, answer);</div><div class="line"> &#125;</div><div class="line"> <span class="keyword">if</span> (root.right != <span class="keyword">null</span>)&#123;</div><div class="line">	 searchBT(root.right, path + root.val + <span class="string">"-&gt;"</span>, answer);</div><div class="line"></div><div class="line"> &#125;</div><div class="line"> </div><div class="line"> </div><div class="line">&#125;</div></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/03/09/BinaryTree详解/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Sailong Ren">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="coderlong的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/03/09/BinaryTree详解/" itemprop="url">BinaryTree的各种操作实现</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-09T23:59:17+08:00">
-                2018-03-09
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Java/" itemprop="url" rel="index">
-                    <span itemprop="name">Java</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>树这种数据结构，既能像链表那样快速的插入和删除，又能想有序数组那样快速查找。这里主要实现一种特殊的树——二叉（搜索）树。二叉搜索树有如下特点：一个节点的左子节点的关键字值小于这个节点，右子节点的关键字值大于或等于这个节点。插入一个节点需要根据这个规则进行插入。</p>
-<h2 id="删除节点"><a href="#删除节点" class="headerlink" title="删除节点"></a>删除节点</h2><p>这是最麻烦的操作，</p>
-<ul>
-<li>叶子节点，直接父节点next置null</li>
-<li>有一个后继</li>
-<li>有两个后继</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div><div class="line">168</div><div class="line">169</div><div class="line">170</div><div class="line">171</div><div class="line">172</div><div class="line">173</div><div class="line">174</div><div class="line">175</div><div class="line">176</div><div class="line">177</div><div class="line">178</div><div class="line">179</div><div class="line">180</div><div class="line">181</div><div class="line">182</div><div class="line">183</div><div class="line">184</div><div class="line">185</div><div class="line">186</div><div class="line">187</div><div class="line">188</div><div class="line">189</div><div class="line">190</div><div class="line">191</div><div class="line">192</div><div class="line">193</div><div class="line">194</div><div class="line">195</div><div class="line">196</div><div class="line">197</div><div class="line">198</div><div class="line">199</div><div class="line">200</div><div class="line">201</div><div class="line">202</div><div class="line">203</div><div class="line">204</div><div class="line">205</div><div class="line">206</div><div class="line">207</div><div class="line">208</div><div class="line">209</div><div class="line">210</div><div class="line">211</div><div class="line">212</div><div class="line">213</div><div class="line">214</div><div class="line">215</div><div class="line">216</div><div class="line">217</div><div class="line">218</div><div class="line">219</div><div class="line">220</div><div class="line">221</div><div class="line">222</div><div class="line">223</div><div class="line">224</div><div class="line">225</div><div class="line">226</div><div class="line">227</div><div class="line">228</div><div class="line">229</div><div class="line">230</div><div class="line">231</div><div class="line">232</div><div class="line">233</div><div class="line">234</div><div class="line">235</div><div class="line">236</div><div class="line">237</div><div class="line">238</div><div class="line">239</div><div class="line">240</div><div class="line">241</div><div class="line">242</div><div class="line">243</div><div class="line">244</div><div class="line">245</div><div class="line">246</div><div class="line">247</div><div class="line">248</div><div class="line">249</div><div class="line">250</div><div class="line">251</div><div class="line">252</div><div class="line">253</div><div class="line">254</div><div class="line">255</div><div class="line">256</div><div class="line">257</div><div class="line">258</div><div class="line">259</div><div class="line">260</div><div class="line">261</div><div class="line">262</div><div class="line">263</div><div class="line">264</div><div class="line">265</div><div class="line">266</div><div class="line">267</div><div class="line">268</div><div class="line">269</div><div class="line">270</div><div class="line">271</div><div class="line">272</div><div class="line">273</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> AVL;</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BinaryTree</span> </span>&#123;</div><div class="line">	<span class="keyword">private</span> BNode root; <span class="comment">//根节点</span></div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="title">BinaryTree</span><span class="params">()</span> </span>&#123;</div><div class="line">		root = <span class="keyword">null</span>;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="comment">//二叉搜索树查找的时间复杂度为O(logN)</span></div><div class="line">	<span class="function"><span class="keyword">public</span> BNode <span class="title">find</span><span class="params">(<span class="keyword">int</span> key)</span> </span>&#123; <span class="comment">//find node with given key</span></div><div class="line">		BNode current = root;</div><div class="line">		<span class="keyword">while</span>(current.key != key) &#123;</div><div class="line">			<span class="keyword">if</span>(key &lt; current.key) &#123;</div><div class="line">				current = current.leftChild;</div><div class="line">			&#125;</div><div class="line">			<span class="keyword">else</span> &#123;</div><div class="line">				current = current.rightChild;</div><div class="line">			&#125;</div><div class="line">			<span class="keyword">if</span>(current == <span class="keyword">null</span>) &#123;</div><div class="line">				<span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">return</span> current;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="comment">//插入节点</span></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">insert</span><span class="params">(<span class="keyword">int</span> key, <span class="keyword">double</span> value)</span> </span>&#123;</div><div class="line">		BNode newNode = <span class="keyword">new</span> BNode();</div><div class="line">		newNode.key = key;</div><div class="line">		newNode.data = value;</div><div class="line">		<span class="keyword">if</span>(root == <span class="keyword">null</span>) &#123; <span class="comment">//if tree is null</span></div><div class="line">			root = newNode;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">else</span> &#123;</div><div class="line">			BNode current = root;</div><div class="line">			BNode parent;</div><div class="line">			<span class="keyword">while</span>(<span class="keyword">true</span>) &#123;</div><div class="line">				parent = current;</div><div class="line">				<span class="keyword">if</span>(key &lt; current.data) &#123; <span class="comment">//turn left</span></div><div class="line">					current = current.leftChild;</div><div class="line">					<span class="keyword">if</span>(current == <span class="keyword">null</span>) &#123;</div><div class="line">						parent.leftChild = newNode;</div><div class="line">						newNode.parent = parent;</div><div class="line">						<span class="keyword">return</span>;</div><div class="line">					&#125;</div><div class="line">				&#125;</div><div class="line">				<span class="keyword">else</span> &#123; <span class="comment">//turn right</span></div><div class="line">					current = current.rightChild;</div><div class="line">					<span class="keyword">if</span>(current == <span class="keyword">null</span>) &#123;</div><div class="line">						parent.rightChild = newNode;</div><div class="line">						newNode.parent = parent;</div><div class="line">						<span class="keyword">return</span>;</div><div class="line">					&#125;</div><div class="line">				&#125;</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="comment">//遍历二叉树</span></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">traverse</span><span class="params">(<span class="keyword">int</span> traverseType)</span> </span>&#123;</div><div class="line">		<span class="keyword">switch</span>(traverseType)</div><div class="line">		&#123;</div><div class="line">		<span class="keyword">case</span> <span class="number">1</span>: System.out.println(<span class="string">"Preorder traversal:"</span>);</div><div class="line">				preOrder(root);<span class="comment">//前向遍历</span></div><div class="line">				<span class="keyword">break</span>;</div><div class="line">		<span class="keyword">case</span> <span class="number">2</span>: System.out.println(<span class="string">"Inorder traversal:"</span>);</div><div class="line">				inOrder(root);<span class="comment">//中向遍历</span></div><div class="line">				<span class="keyword">break</span>;</div><div class="line">		<span class="keyword">case</span> <span class="number">3</span>: System.out.println(<span class="string">"Postorder traversal:"</span>);</div><div class="line">				postOrder(root);<span class="comment">//后向遍历</span></div><div class="line">				<span class="keyword">break</span>;</div><div class="line">		<span class="keyword">default</span>: System.out.println(<span class="string">"Inorder traversal:"</span>);</div><div class="line">				inOrder(root);</div><div class="line">				<span class="keyword">break</span>;</div><div class="line">		&#125;</div><div class="line">		System.out.println(<span class="string">""</span>);</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="comment">//前向遍历</span></div><div class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">preOrder</span><span class="params">(BNode localRoot)</span> </span>&#123;</div><div class="line">		<span class="keyword">if</span>(localRoot != <span class="keyword">null</span>) &#123;</div><div class="line">			System.out.print(localRoot.data + <span class="string">" "</span>);</div><div class="line">			preOrder(localRoot.leftChild);</div><div class="line">			preOrder(localRoot.rightChild);</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="comment">//中向遍历</span></div><div class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">inOrder</span><span class="params">(BNode localRoot)</span> </span>&#123;</div><div class="line">		<span class="keyword">if</span>(localRoot != <span class="keyword">null</span>) &#123;</div><div class="line">			inOrder(localRoot.leftChild);</div><div class="line">			System.out.print(localRoot.data + <span class="string">" "</span>);</div><div class="line">			inOrder(localRoot.rightChild);</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="comment">//后向遍历</span></div><div class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">postOrder</span><span class="params">(BNode localRoot)</span> </span>&#123;</div><div class="line">		<span class="keyword">if</span>(localRoot != <span class="keyword">null</span>) &#123;</div><div class="line">			postOrder(localRoot.leftChild);</div><div class="line">			postOrder(localRoot.rightChild);</div><div class="line">			System.out.print(localRoot.data + <span class="string">" "</span>);</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="comment">//查找最小值</span></div><div class="line">	<span class="comment">/*根据二叉搜索树的存储规则，最小值应该是左边那个没有子节点的那个节点*/</span></div><div class="line">	<span class="function"><span class="keyword">public</span> BNode <span class="title">minNumber</span><span class="params">()</span> </span>&#123;</div><div class="line">		BNode current = root;</div><div class="line">		BNode parent = root;</div><div class="line">		<span class="keyword">while</span>(current != <span class="keyword">null</span>) &#123;</div><div class="line">			parent = current;</div><div class="line">			current = current.leftChild;</div><div class="line">		&#125;	</div><div class="line">		<span class="keyword">return</span> parent;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="comment">//查找最大值</span></div><div class="line">	<span class="comment">/*根据二叉搜索树的存储规则，最大值应该是右边那个没有子节点的那个节点*/</span></div><div class="line">	<span class="function"><span class="keyword">public</span> BNode <span class="title">maxNumber</span><span class="params">()</span> </span>&#123;</div><div class="line">		BNode current = root;</div><div class="line">		BNode parent = root;</div><div class="line">		<span class="keyword">while</span>(current != <span class="keyword">null</span>) &#123;</div><div class="line">			parent = current;</div><div class="line">			current = current.rightChild;</div><div class="line">		&#125;	</div><div class="line">		<span class="keyword">return</span> parent;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="comment">//删除节点</span></div><div class="line">	<span class="comment">/*</span></div><div class="line"><span class="comment">	 * 删除节点在二叉树中是最复杂的，主要有三种情况：</span></div><div class="line"><span class="comment">	 * 1. 该节点没有子节点（简单）</span></div><div class="line"><span class="comment">	 * 2. 该节点有一个子节点（还行）</span></div><div class="line"><span class="comment">	 * 3. 该节点有两个子节点（复杂）</span></div><div class="line"><span class="comment">	 * 删除节点的时间复杂度为O(logN)</span></div><div class="line"><span class="comment">	 */</span></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">delete</span><span class="params">(<span class="keyword">int</span> key)</span> </span>&#123;</div><div class="line">		BNode current = root;</div><div class="line"><span class="comment">//		BNode parent = root;</span></div><div class="line">		<span class="keyword">boolean</span> isLeftChild = <span class="keyword">true</span>;</div><div class="line">		</div><div class="line">		<span class="keyword">if</span>(current == <span class="keyword">null</span>) &#123;</div><div class="line">			<span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">		&#125;</div><div class="line">		<span class="comment">//寻找要删除的节点</span></div><div class="line">		<span class="keyword">while</span>(current.data != key) &#123;</div><div class="line"><span class="comment">//			parent = current;</span></div><div class="line">			<span class="keyword">if</span>(key &lt; current.key) &#123;</div><div class="line">				isLeftChild = <span class="keyword">true</span>;</div><div class="line">				current = current.leftChild;</div><div class="line">			&#125;</div><div class="line">			<span class="keyword">else</span> &#123;</div><div class="line">				isLeftChild = <span class="keyword">false</span>;</div><div class="line">				current = current.rightChild;</div><div class="line">			&#125;</div><div class="line">			<span class="keyword">if</span>(current == <span class="keyword">null</span>) &#123;</div><div class="line">				<span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">		</div><div class="line">		<span class="comment">//找到了要删除的节点，下面开始删除</span></div><div class="line">		<span class="comment">//1. 要删除的节点没有子节点,直接将其父节点的左子节点或者右子节点赋为null即可</span></div><div class="line">		<span class="keyword">if</span>(current.leftChild == <span class="keyword">null</span> &amp;&amp; current.rightChild == <span class="keyword">null</span>) &#123;</div><div class="line">			<span class="keyword">return</span> deleteNoChild(current, isLeftChild);</div><div class="line">		&#125;</div><div class="line">		</div><div class="line">		<span class="comment">//3. 要删除的节点有两个子节点</span></div><div class="line">		<span class="keyword">else</span> <span class="keyword">if</span>(current.leftChild != <span class="keyword">null</span> &amp;&amp; current.rightChild != <span class="keyword">null</span>) &#123;</div><div class="line">			<span class="keyword">return</span> deleteTwoChild(current, isLeftChild);</div><div class="line">		&#125;</div><div class="line">		</div><div class="line">		<span class="comment">//2. 要删除的节点有一个子节点，直接将其砍断，将其子节点与其父节点连起来即可，要考虑特殊情况就是删除根节点，因为根节点没有父节点</span></div><div class="line">		<span class="keyword">else</span> &#123;</div><div class="line">			<span class="keyword">return</span> deleteOneChild(current, isLeftChild);</div><div class="line">		&#125;</div><div class="line">		</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">deleteNoChild</span><span class="params">(BNode node, <span class="keyword">boolean</span> isLeftChild)</span> </span>&#123;</div><div class="line">		<span class="keyword">if</span>(node == root) &#123;</div><div class="line">			root = <span class="keyword">null</span>;</div><div class="line">			<span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">if</span>(isLeftChild) &#123;</div><div class="line">			node.parent.leftChild = <span class="keyword">null</span>;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">else</span> &#123;</div><div class="line">			node.parent.rightChild = <span class="keyword">null</span>;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">deleteOneChild</span><span class="params">(BNode node, <span class="keyword">boolean</span> isLeftChild)</span> </span>&#123;</div><div class="line">		<span class="keyword">if</span>(node.leftChild == <span class="keyword">null</span>) &#123;</div><div class="line">			<span class="keyword">if</span>(node == root) &#123;</div><div class="line">				root = node.rightChild;</div><div class="line">				node.parent = <span class="keyword">null</span>;</div><div class="line">				<span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">			&#125;</div><div class="line">			<span class="keyword">if</span>(isLeftChild) &#123;</div><div class="line">				node.parent.leftChild  = node.rightChild;</div><div class="line">			&#125;</div><div class="line">			<span class="keyword">else</span> &#123;</div><div class="line">				node.parent.rightChild = node.rightChild;</div><div class="line">			&#125;</div><div class="line">			node.rightChild.parent = node.parent;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">else</span> &#123;</div><div class="line">			<span class="keyword">if</span>(node == root) &#123;</div><div class="line">				root = node.leftChild;</div><div class="line">				node.parent = <span class="keyword">null</span>;</div><div class="line">				<span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">			&#125;</div><div class="line">			<span class="keyword">if</span>(isLeftChild) &#123;</div><div class="line">				node.parent.leftChild  = node.leftChild;</div><div class="line">			&#125;</div><div class="line">			<span class="keyword">else</span> &#123;</div><div class="line">				node.parent.rightChild = node.leftChild;</div><div class="line">			&#125;</div><div class="line">			node.leftChild.parent = node.parent;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">deleteTwoChild</span><span class="params">(BNode node, <span class="keyword">boolean</span> isLeftChild)</span> </span>&#123;</div><div class="line">		BNode successor = getSuccessor(node);</div><div class="line">		<span class="keyword">if</span>(node == root) &#123;</div><div class="line">			successor.leftChild = root.leftChild;</div><div class="line">			successor.rightChild = root.rightChild;</div><div class="line">			successor.parent = <span class="keyword">null</span>;</div><div class="line">			root = successor;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">else</span> <span class="keyword">if</span>(isLeftChild) &#123;</div><div class="line">			node.parent.leftChild = successor;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">else</span> &#123;</div><div class="line">			node.parent.rightChild = successor;</div><div class="line">		&#125;</div><div class="line">		successor.leftChild = node.leftChild;<span class="comment">//connect successor to node's left child</span></div><div class="line">		<span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="comment">//获得要删除节点的后继节点（中序遍历的下一个节点）</span></div><div class="line">	<span class="function"><span class="keyword">public</span> BNode <span class="title">getSuccessor</span><span class="params">(BNode delNode)</span> </span>&#123;</div><div class="line">		BNode successor = delNode;</div><div class="line">		BNode current = delNode.rightChild;</div><div class="line">		<span class="keyword">while</span>(current != <span class="keyword">null</span>) &#123;</div><div class="line">			successor = current;</div><div class="line">			current = current.leftChild;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">if</span>(successor != delNode.rightChild) &#123;</div><div class="line">			successor.parent.leftChild = successor.rightChild;</div><div class="line">			<span class="keyword">if</span>(successor.rightChild != <span class="keyword">null</span>) &#123;		</div><div class="line">				successor.rightChild.parent = successor.parent;<span class="comment">//删除后续节点在原来的位置</span></div><div class="line">			&#125;</div><div class="line">			successor.rightChild = delNode.rightChild;<span class="comment">//将后续节点放到正确位置，与右边连上</span></div><div class="line">		&#125;</div><div class="line">		<span class="keyword">return</span> successor;</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">BNode</span> </span>&#123;</div><div class="line">	<span class="keyword">public</span> <span class="keyword">int</span> key;</div><div class="line">	<span class="keyword">public</span> <span class="keyword">double</span> data;</div><div class="line">	<span class="keyword">public</span> BNode parent;</div><div class="line">	<span class="keyword">public</span> BNode leftChild;</div><div class="line">	<span class="keyword">public</span> BNode rightChild;</div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">displayNode</span><span class="params">()</span> </span>&#123;</div><div class="line">		System.out.println(<span class="string">"&#123;"</span> + key + <span class="string">":"</span> + data + <span class="string">"&#125;"</span>);</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1983,7 +2010,7 @@ which are both strictly increasing.
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">135</span>
+                <span class="site-state-item-count">137</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>

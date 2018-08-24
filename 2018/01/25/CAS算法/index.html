@@ -102,7 +102,7 @@
 <meta property="og:site_name" content="coderlong的博客">
 <meta property="og:description" content="写在前面的话CAS（Compare and Swap），即比较并替换，实现并发算法时常用到的一种技术，Doug lea大神在java同步器中大量使用了CAS技术，鬼斧神工的实现了多线程执行的安全性。 CAS算法思想：三个参数，一个当前内存值V、旧的预期值A、即将更新的值B，当且仅当预期值A和内存值V相同时，将内存值修改为B并返回true，否则什么都不做，并返回false。 我们可以先来看一段Jav">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-06-09T01:29:18.187Z">
+<meta property="og:updated_time" content="2018-07-24T11:59:34.803Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="CAS算法">
 <meta name="twitter:description" content="写在前面的话CAS（Compare and Swap），即比较并替换，实现并发算法时常用到的一种技术，Doug lea大神在java同步器中大量使用了CAS技术，鬼斧神工的实现了多线程执行的安全性。 CAS算法思想：三个参数，一个当前内存值V、旧的预期值A、即将更新的值B，当且仅当预期值A和内存值V相同时，将内存值修改为B并返回true，否则什么都不做，并返回false。 我们可以先来看一段Jav">
@@ -399,7 +399,7 @@
 <h2 id="CAS算法思想："><a href="#CAS算法思想：" class="headerlink" title="CAS算法思想："></a>CAS算法思想：</h2><p>三个参数，一个当前内存值V、旧的预期值A、即将更新的值B，当且仅当预期值A和内存值V相同时，将内存值修改为B并返回true，否则什么都不做，并返回false。</p>
 <h3 id="我们可以先来看一段Java自增代码-n"><a href="#我们可以先来看一段Java自增代码-n" class="headerlink" title="我们可以先来看一段Java自增代码 n++"></a>我们可以先来看一段Java自增代码 n++</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">public class Case &#123;</div><div class="line"> </div><div class="line">    public volatile int n;</div><div class="line"> </div><div class="line">    public void add() &#123;</div><div class="line">        n++;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>通过 javap-verbose Case指令看add()方法的字节码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">public void add();</div><div class="line">    flags: ACC_PUBLIC</div><div class="line">    Code:</div><div class="line">      stack=3, locals=1, args_size=1</div><div class="line">         0: aload_0       </div><div class="line">         1: dup           </div><div class="line">         2: getfield      #2                  // Field n:I</div><div class="line">         5: iconst_1      </div><div class="line">         6: iadd          </div><div class="line">         7: putfield      #2                  // Field n:I</div><div class="line">        10: return</div></pre></td></tr></table></figure></p>
-<p>n++被分成了下面几个指令</p>
+<p>n++被分成了下面几个指令，所有Volatile是无法保证原子性得。</p>
 <ol>
 <li>执行getfield拿到原始n；</li>
 <li>执行iadd进行加1操作；</li>
@@ -569,7 +569,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">135</span>
+                <span class="site-state-item-count">137</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
