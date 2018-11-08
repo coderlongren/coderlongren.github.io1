@@ -303,6 +303,436 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/03/06/重建二叉树/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sailong Ren">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="coderlong的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/03/06/重建二叉树/" itemprop="url">重建二叉树</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-06T14:18:40+08:00">
+                2018-03-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/剑指offer/" itemprop="url" rel="index">
+                    <span itemprop="name">剑指offer</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="重建二叉树"><a href="#重建二叉树" class="headerlink" title="重建二叉树"></a>重建二叉树</h2><p><code>题目描述：已知中序和前序，请重建二叉树</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> 二叉树重建 </span>&#123;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		<span class="comment">// TODO Auto-generated method stub</span></div><div class="line">		</div><div class="line">	&#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> TreeNode <span class="title">reConstructBinaryTree</span><span class="params">(<span class="keyword">int</span>[] pre, <span class="keyword">int</span>[] in)</span> </span>&#123;</div><div class="line">		<span class="comment">// 前序遍历&#123;1,2,4,7,3,5,6,8&#125;</span></div><div class="line">		<span class="comment">// 中序遍历 &#123;4,7,2,1,5,3,8,6&#125;</span></div><div class="line">		TreeNode root =  reConstruct(pre, <span class="number">0</span>, pre.length - <span class="number">1</span>, in, <span class="number">0</span>, in.length - <span class="number">1</span>);</div><div class="line">		<span class="keyword">return</span> root;</div><div class="line">	&#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> TreeNode <span class="title">reConstruct</span><span class="params">(<span class="keyword">int</span>[] pre, <span class="keyword">int</span> startPre, <span class="keyword">int</span> endPre, <span class="keyword">int</span>[] in, <span class="keyword">int</span> startIn, <span class="keyword">int</span> endIn)</span> </span>&#123;</div><div class="line">		<span class="comment">// 如果起始坐标大于结束下标， 无效的输入</span></div><div class="line">		<span class="keyword">if</span> (startPre &gt; endPre || startIn &gt; endIn) &#123;</div><div class="line">			<span class="keyword">return</span> <span class="keyword">null</span>; <span class="comment">// 无效</span></div><div class="line">		&#125;</div><div class="line">		</div><div class="line">		TreeNode root = <span class="keyword">new</span> TreeNode(pre[<span class="number">0</span>]);<span class="comment">// 前序遍历第一个数，即根节点</span></div><div class="line">		</div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i = startIn; i &lt;= endIn; i++) &#123;</div><div class="line">			<span class="comment">// 在中序遍历中找到 中根节点</span></div><div class="line">			<span class="keyword">if</span> (in[i] == pre[startPre]) &#123;</div><div class="line">				<span class="comment">//i-startIn是左子树节点的个数，前序遍历起始值加上这个就是终点值</span></div><div class="line">                <span class="comment">//i-1就是中序遍历左子树的终点，起始值是从0一直都是从0开始</span></div><div class="line">				root.left = reConstruct(pre, startPre + <span class="number">1</span>, startPre + i - startIn, in, startIn, i - <span class="number">1</span>);</div><div class="line">				<span class="comment">//前序右子树遍历的起始值:startPre+i-startIn+1 前序右子树遍历的终点值:endPre</span></div><div class="line">                <span class="comment">//中序遍历右子树的起始值:i+1,endIn</span></div><div class="line">				root.right = reConstruct(pre, startPre + i - startIn + <span class="number">1</span>, endPre, in, i + <span class="number">1</span>, endIn);</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">return</span> root;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/03/06/旋转数组的最小数字/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sailong Ren">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="coderlong的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/03/06/旋转数组的最小数字/" itemprop="url">旋转数组的最小数字</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-06T14:18:40+08:00">
+                2018-03-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/剑指offer/" itemprop="url" rel="index">
+                    <span itemprop="name">剑指offer</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="旋转数组的最小数字"><a href="#旋转数组的最小数字" class="headerlink" title="旋转数组的最小数字"></a>旋转数组的最小数字</h2><p><code>题目描述
+把一个数组最开始的若干个元素搬到数组的末尾，我们称之为数组的旋转。
+输入一个递增排序的数组的一个旋转，输出旋转数组的最小元素。
+例如数组{3,4,5,1,2}为{1,2,3,4,5}的一个旋转，该数组的最小值为1。
+NOTE：给出的所有元素都大于0，若数组大小为0，请返回0。</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> 旋转数组的最小数字 </span>&#123;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		<span class="comment">// TODO Auto-generated method stub</span></div><div class="line">		<span class="keyword">int</span>[] array = &#123;<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>&#125;;</div><div class="line">		System.out.println(minNumberInRotateArray(array));</div><div class="line">	&#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">minNumberInRotateArray</span><span class="params">(<span class="keyword">int</span>[] array)</span> </span>&#123;</div><div class="line">		<span class="keyword">if</span> (array.length == <span class="number">0</span>) &#123;</div><div class="line">			<span class="keyword">return</span> <span class="number">0</span>;<span class="comment">// 数组长度为0 不合法</span></div><div class="line">		&#125;</div><div class="line">		</div><div class="line">		<span class="keyword">int</span> left = <span class="number">0</span>;<span class="comment">// 处理的第一个元素</span></div><div class="line">		<span class="keyword">int</span> right = array.length - <span class="number">1</span>;</div><div class="line">		<span class="keyword">int</span> mid = left;</div><div class="line">		</div><div class="line">		<span class="keyword">while</span> (array[left] &gt;= array[right]) &#123;</div><div class="line">			<span class="comment">// 当right - left = 1 后一个是结果</span></div><div class="line">			<span class="keyword">if</span> (right - left == <span class="number">1</span>) &#123;</div><div class="line">				<span class="keyword">return</span> array[right];</div><div class="line">			&#125;</div><div class="line">			mid = (left + right)/<span class="number">2</span>;</div><div class="line">			</div><div class="line">			<span class="keyword">if</span> (array[mid] == array[left] &amp;&amp; array[left] == array[right]) &#123;</div><div class="line">				<span class="keyword">return</span> minNum(array, left, right);</div><div class="line">			&#125;</div><div class="line">			<span class="comment">// 最小值 在后半部分</span></div><div class="line">			<span class="keyword">else</span> <span class="keyword">if</span> (array[left] &gt;= array[mid]) &#123;</div><div class="line">				right = mid;</div><div class="line">			&#125;</div><div class="line">			<span class="keyword">else</span> &#123;</div><div class="line">				left = mid;</div><div class="line">			&#125;</div><div class="line">			</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">return</span> array[mid];</div><div class="line">		</div><div class="line">	&#125;</div><div class="line">	<span class="comment">// 顺序查找最小元素</span></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">minNum</span><span class="params">(<span class="keyword">int</span>[] array, <span class="keyword">int</span> left, <span class="keyword">int</span> right)</span> </span>&#123;</div><div class="line">		<span class="keyword">int</span> min = array[left];</div><div class="line">		<span class="keyword">while</span> (left &lt;= right) &#123;</div><div class="line">			min = Math.min(min, array[left++]);</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">return</span> min;</div><div class="line">	&#125;</div><div class="line">	 </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/03/06/滑动窗口最大值/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sailong Ren">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="coderlong的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/03/06/滑动窗口最大值/" itemprop="url">滑动窗口最大值</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-06T14:18:40+08:00">
+                2018-03-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/剑指offer/" itemprop="url" rel="index">
+                    <span itemprop="name">剑指offer</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>给定一个数组和滑动窗口的大小，请找出所有滑动窗口里的最大值。</p>
+<h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> 滑动窗口的最大值 </span>&#123;</div><div class="line">	<span class="function"><span class="keyword">public</span> ArrayList&lt;Integer&gt; <span class="title">maxInWindows</span><span class="params">(<span class="keyword">int</span> [] num, <span class="keyword">int</span> size)</span> </span>&#123;</div><div class="line">		ArrayList&lt;Integer&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line">		<span class="keyword">if</span> (num == <span class="keyword">null</span>) &#123;</div><div class="line">			<span class="keyword">return</span> list;</div><div class="line">		&#125;</div><div class="line">		</div><div class="line">		<span class="keyword">if</span> (num.length &lt; size || size &lt; <span class="number">1</span>) &#123;</div><div class="line">			<span class="keyword">return</span> list;</div><div class="line">		&#125;</div><div class="line">		</div><div class="line">		<span class="comment">// 用来保存可能是滑动窗口最大值的数字的下标</span></div><div class="line">		LinkedList&lt;Integer&gt; indexDeque = <span class="keyword">new</span> LinkedList&lt;&gt;();</div><div class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; size - <span class="number">1</span>; i++) &#123;</div><div class="line">			<span class="comment">// 如果已有数字小于代存入的数据</span></div><div class="line">		&#125;</div><div class="line">		<span class="keyword">return</span> list;</div><div class="line">	&#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> ArrayList&lt;Integer&gt; <span class="title">maxInWindows2</span><span class="params">(<span class="keyword">int</span> [] num, <span class="keyword">int</span> size)</span> </span>&#123;</div><div class="line">		ArrayList&lt;Integer&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line">		ArrayList&lt;Integer&gt; data = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i : num) &#123;</div><div class="line">			data.add(i);</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">if</span> (num == <span class="keyword">null</span>) &#123;</div><div class="line">			<span class="keyword">return</span> list;</div><div class="line">		&#125;</div><div class="line">		</div><div class="line">		<span class="keyword">if</span> (num.length &lt; size || size &lt; <span class="number">1</span>) &#123;</div><div class="line">			<span class="keyword">return</span> list;</div><div class="line">		&#125;</div><div class="line">		Deque&lt;Integer&gt; idx = <span class="keyword">new</span> LinkedList&lt;&gt;();</div><div class="line">		<span class="comment">// 窗口还没有填满的时候，找最大的索引</span></div><div class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; size &amp;&amp; i &lt; num.length; i++) &#123;</div><div class="line">			<span class="keyword">while</span> (!idx.isEmpty() &amp;&amp; data.get(i) &gt; idx.getLast()) &#123;</div><div class="line">				idx.removeLast(); <span class="comment">// 移除队尾保存的索引</span></div><div class="line">			&#125;</div><div class="line">			<span class="comment">// 添加索引</span></div><div class="line">			idx.addLast(i); <span class="comment">// 在队尾添加索引</span></div><div class="line">		&#125;</div><div class="line">		</div><div class="line">		<span class="comment">// 当窗口被填满了时候</span></div><div class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = size; i &lt; data.size(); i++) &#123;</div><div class="line">			<span class="comment">// 第一个窗口用来保存最大值</span></div><div class="line">			list.add(idx.getFirst()); <span class="comment">// 队首元素 永远是最大的</span></div><div class="line">			</div><div class="line">			<span class="comment">// 如果索引对应的 值 比之前的索引值对应的值大或者相等，就删除之前存储的值</span></div><div class="line">			<span class="keyword">while</span> (!idx.isEmpty() &amp;&amp; data.get(i) &gt; data.get(idx.getLast())) &#123;</div><div class="line">				idx.removeLast();</div><div class="line">			&#125;</div><div class="line">			<span class="comment">// 删除已经滑出 窗口的数据对应的下标</span></div><div class="line">			<span class="keyword">while</span> (!idx.isEmpty() &amp;&amp; idx.getFirst() &lt;= (i - size)) &#123;</div><div class="line">				idx.removeFirst();</div><div class="line">			&#125;</div><div class="line">			</div><div class="line">			idx.addLast(i);</div><div class="line">		&#125;</div><div class="line">		</div><div class="line">		<span class="keyword">return</span> list;</div><div class="line">		</div><div class="line">	&#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		<span class="keyword">int</span>[] nums = &#123;<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">2</span>,<span class="number">6</span>,<span class="number">2</span>,<span class="number">5</span>,<span class="number">1</span>&#125;;</div><div class="line">		System.out.println(maxInWindows2(nums, <span class="number">3</span>));</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/03/06/替换空格/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -544,578 +974,6 @@
 <h2 id="二进制中1的个数"><a href="#二进制中1的个数" class="headerlink" title="二进制中1的个数"></a>二进制中1的个数</h2><p><code>题目描述
 输入一个整数，输出该数二进制表示中1的个数。其中负数用补码表示。</code><br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> 二进制1的个数 </span>&#123;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		<span class="comment">// TODO Auto-generated method stub</span></div><div class="line">		String string = Integer.toBinaryString(<span class="number">5</span>);</div><div class="line">		string = Integer.toBinaryString(Integer.valueOf(<span class="string">"111"</span>,<span class="number">2</span>));</div><div class="line">		string = Integer.toBinaryString(-<span class="number">16</span>);</div><div class="line"><span class="comment">//		System.out.println(string);</span></div><div class="line">		System.out.println(NumberOf2(-<span class="number">4</span>));</div><div class="line">	&#125;</div><div class="line">	<span class="comment">// 改进的算法，可以应对负数情况</span></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span>  <span class="title">NumberOf2</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</div><div class="line">        <span class="keyword">int</span> count= <span class="number">0</span>;</div><div class="line">        <span class="keyword">int</span> flag = <span class="number">1</span>;</div><div class="line">        <span class="keyword">while</span> (flag != <span class="number">0</span>)&#123;</div><div class="line">            <span class="keyword">if</span> ((n &amp; flag) != <span class="number">0</span>)&#123;</div><div class="line">                count++;      </div><div class="line">            &#125;</div><div class="line">            flag  = flag &lt;&lt; <span class="number">1</span>;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> count;</div><div class="line">	&#125;</div><div class="line">	<span class="comment">// 负数，会造成死循环</span></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span>  <span class="title">NumberOf1</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</div><div class="line">        <span class="keyword">int</span> count= <span class="number">0</span>;</div><div class="line">        <span class="keyword">int</span> flag = <span class="number">1</span>;</div><div class="line">        <span class="keyword">while</span> (n!= <span class="number">0</span>)&#123;</div><div class="line">            <span class="keyword">if</span> ((n &amp; <span class="number">1</span>) != <span class="number">0</span>)&#123;</div><div class="line">                count++;      </div><div class="line">            &#125;</div><div class="line">            n = n&gt;&gt;<span class="number">1</span>;</div><div class="line">        &#125;</div><div class="line">         <span class="keyword">return</span> count;</div><div class="line">     &#125;  </div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/03/06/用两个栈实现队列/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Sailong Ren">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="coderlong的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/03/06/用两个栈实现队列/" itemprop="url">用两个栈实现队列</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-06T14:18:40+08:00">
-                2018-03-06
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/剑指offer/" itemprop="url" rel="index">
-                    <span itemprop="name">剑指offer</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="用两个栈实现队列"><a href="#用两个栈实现队列" class="headerlink" title="用两个栈实现队列"></a>用两个栈实现队列</h2><p><code>题目描述
-用两个栈来实现一个队列，完成队列的Push和Pop操作。 队列中的元素为int类型。</code></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> 两个栈实现队列 </span>&#123;</div><div class="line">	</div><div class="line">	Stack&lt;Integer&gt; stack1 = <span class="keyword">new</span> Stack&lt;&gt;();</div><div class="line">	Stack&lt;Integer&gt; stack2 = <span class="keyword">new</span> Stack&lt;&gt;();</div><div class="line">	</div><div class="line">	<span class="comment">// 入队，就是每一次就push()进 stack1中</span></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">push</span><span class="params">(<span class="keyword">int</span> node)</span> </span>&#123;</div><div class="line">		stack1.push(node);</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="comment">// 出队操作： 把stack2全部清空，然后把stack1里面的所有元素都出栈，再进栈 stack2，返回的就是stack2.pop()</span></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">pop</span><span class="params">()</span> </span>&#123;</div><div class="line">		<span class="keyword">while</span> (!stack2.isEmpty()) &#123;</div><div class="line">			<span class="keyword">return</span> stack2.pop();</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">while</span> (!stack1.isEmpty()) &#123;</div><div class="line">			stack2.push(stack1.pop());</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">return</span> stack2.pop();</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/03/06/重建二叉树/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Sailong Ren">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="coderlong的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/03/06/重建二叉树/" itemprop="url">重建二叉树</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-06T14:18:40+08:00">
-                2018-03-06
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/剑指offer/" itemprop="url" rel="index">
-                    <span itemprop="name">剑指offer</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="重建二叉树"><a href="#重建二叉树" class="headerlink" title="重建二叉树"></a>重建二叉树</h2><p><code>题目描述：已知中序和前序，请重建二叉树</code></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> 二叉树重建 </span>&#123;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		<span class="comment">// TODO Auto-generated method stub</span></div><div class="line">		</div><div class="line">	&#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> TreeNode <span class="title">reConstructBinaryTree</span><span class="params">(<span class="keyword">int</span>[] pre, <span class="keyword">int</span>[] in)</span> </span>&#123;</div><div class="line">		<span class="comment">// 前序遍历&#123;1,2,4,7,3,5,6,8&#125;</span></div><div class="line">		<span class="comment">// 中序遍历 &#123;4,7,2,1,5,3,8,6&#125;</span></div><div class="line">		TreeNode root =  reConstruct(pre, <span class="number">0</span>, pre.length - <span class="number">1</span>, in, <span class="number">0</span>, in.length - <span class="number">1</span>);</div><div class="line">		<span class="keyword">return</span> root;</div><div class="line">	&#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> TreeNode <span class="title">reConstruct</span><span class="params">(<span class="keyword">int</span>[] pre, <span class="keyword">int</span> startPre, <span class="keyword">int</span> endPre, <span class="keyword">int</span>[] in, <span class="keyword">int</span> startIn, <span class="keyword">int</span> endIn)</span> </span>&#123;</div><div class="line">		<span class="comment">// 如果起始坐标大于结束下标， 无效的输入</span></div><div class="line">		<span class="keyword">if</span> (startPre &gt; endPre || startIn &gt; endIn) &#123;</div><div class="line">			<span class="keyword">return</span> <span class="keyword">null</span>; <span class="comment">// 无效</span></div><div class="line">		&#125;</div><div class="line">		</div><div class="line">		TreeNode root = <span class="keyword">new</span> TreeNode(pre[<span class="number">0</span>]);<span class="comment">// 前序遍历第一个数，即根节点</span></div><div class="line">		</div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i = startIn; i &lt;= endIn; i++) &#123;</div><div class="line">			<span class="comment">// 在中序遍历中找到 中根节点</span></div><div class="line">			<span class="keyword">if</span> (in[i] == pre[startPre]) &#123;</div><div class="line">				<span class="comment">//i-startIn是左子树节点的个数，前序遍历起始值加上这个就是终点值</span></div><div class="line">                <span class="comment">//i-1就是中序遍历左子树的终点，起始值是从0一直都是从0开始</span></div><div class="line">				root.left = reConstruct(pre, startPre + <span class="number">1</span>, startPre + i - startIn, in, startIn, i - <span class="number">1</span>);</div><div class="line">				<span class="comment">//前序右子树遍历的起始值:startPre+i-startIn+1 前序右子树遍历的终点值:endPre</span></div><div class="line">                <span class="comment">//中序遍历右子树的起始值:i+1,endIn</span></div><div class="line">				root.right = reConstruct(pre, startPre + i - startIn + <span class="number">1</span>, endPre, in, i + <span class="number">1</span>, endIn);</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">return</span> root;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/03/06/二维数组查找/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Sailong Ren">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="coderlong的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/03/06/二维数组查找/" itemprop="url">二维数组查找</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-06T14:18:40+08:00">
-                2018-03-06
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/剑指offer/" itemprop="url" rel="index">
-                    <span itemprop="name">剑指offer</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <a id="more"></a>
-<p><code>题目描述
-在一个二维数组中，每一行都按照从左到右递增的顺序排序，每一列都按照从上到下递增的顺序排序。请完成一个函数，输入这样的一个二维数组和一个整数，判断数组中是否含有该整数。·</code></p>
-<p>思路： 从右上角开始，若小，向下走，删除一行，若大，向左走，删除一列<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line">* @author 作者 : coderlong</div><div class="line">* @version 创建时间：2018年2月8日 下午9:44:23</div><div class="line">* 类说明: /*</div><div class="line">利用二维数组由上到下，由左到右递增的规律，</div><div class="line">那么选取右上角或者左下角的元素a[row] [col]与target进行比较，</div><div class="line">当target小于元素a[row] [col]时，那么target必定在元素a所在行的左边,</div><div class="line">即col--；</div><div class="line">当target大于元素a[row][col]时，那么target必定在元素a所在列的下边,</div><div class="line">即row++；</div><div class="line">*/</div><div class="line">public class 二维数组查找 &#123;</div><div class="line"></div><div class="line">	public static void main(String[] args) &#123;</div><div class="line">		// TODO Auto-generated method stub</div><div class="line"></div><div class="line">	&#125;</div><div class="line">	public static boolean Find(int[][] array, int target) &#123;</div><div class="line">		int row = 0;</div><div class="line">		int col = array[0].length - 1;</div><div class="line">		while (row &lt; array.length &amp;&amp; col &gt;= 0) &#123;</div><div class="line">			if (target == array[row][col]) &#123;</div><div class="line">				return true;</div><div class="line">			&#125;</div><div class="line">			else if (target &gt; array[row][col]) &#123;</div><div class="line">				row++;</div><div class="line">			&#125;</div><div class="line">			else &#123;</div><div class="line">				col--;</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">		return false;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/03/06/滑动窗口最大值/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Sailong Ren">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="coderlong的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/03/06/滑动窗口最大值/" itemprop="url">滑动窗口最大值</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-06T14:18:40+08:00">
-                2018-03-06
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/剑指offer/" itemprop="url" rel="index">
-                    <span itemprop="name">剑指offer</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>给定一个数组和滑动窗口的大小，请找出所有滑动窗口里的最大值。</p>
-<h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> 滑动窗口的最大值 </span>&#123;</div><div class="line">	<span class="function"><span class="keyword">public</span> ArrayList&lt;Integer&gt; <span class="title">maxInWindows</span><span class="params">(<span class="keyword">int</span> [] num, <span class="keyword">int</span> size)</span> </span>&#123;</div><div class="line">		ArrayList&lt;Integer&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line">		<span class="keyword">if</span> (num == <span class="keyword">null</span>) &#123;</div><div class="line">			<span class="keyword">return</span> list;</div><div class="line">		&#125;</div><div class="line">		</div><div class="line">		<span class="keyword">if</span> (num.length &lt; size || size &lt; <span class="number">1</span>) &#123;</div><div class="line">			<span class="keyword">return</span> list;</div><div class="line">		&#125;</div><div class="line">		</div><div class="line">		<span class="comment">// 用来保存可能是滑动窗口最大值的数字的下标</span></div><div class="line">		LinkedList&lt;Integer&gt; indexDeque = <span class="keyword">new</span> LinkedList&lt;&gt;();</div><div class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; size - <span class="number">1</span>; i++) &#123;</div><div class="line">			<span class="comment">// 如果已有数字小于代存入的数据</span></div><div class="line">		&#125;</div><div class="line">		<span class="keyword">return</span> list;</div><div class="line">	&#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> ArrayList&lt;Integer&gt; <span class="title">maxInWindows2</span><span class="params">(<span class="keyword">int</span> [] num, <span class="keyword">int</span> size)</span> </span>&#123;</div><div class="line">		ArrayList&lt;Integer&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line">		ArrayList&lt;Integer&gt; data = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i : num) &#123;</div><div class="line">			data.add(i);</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">if</span> (num == <span class="keyword">null</span>) &#123;</div><div class="line">			<span class="keyword">return</span> list;</div><div class="line">		&#125;</div><div class="line">		</div><div class="line">		<span class="keyword">if</span> (num.length &lt; size || size &lt; <span class="number">1</span>) &#123;</div><div class="line">			<span class="keyword">return</span> list;</div><div class="line">		&#125;</div><div class="line">		Deque&lt;Integer&gt; idx = <span class="keyword">new</span> LinkedList&lt;&gt;();</div><div class="line">		<span class="comment">// 窗口还没有填满的时候，找最大的索引</span></div><div class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; size &amp;&amp; i &lt; num.length; i++) &#123;</div><div class="line">			<span class="keyword">while</span> (!idx.isEmpty() &amp;&amp; data.get(i) &gt; idx.getLast()) &#123;</div><div class="line">				idx.removeLast(); <span class="comment">// 移除队尾保存的索引</span></div><div class="line">			&#125;</div><div class="line">			<span class="comment">// 添加索引</span></div><div class="line">			idx.addLast(i); <span class="comment">// 在队尾添加索引</span></div><div class="line">		&#125;</div><div class="line">		</div><div class="line">		<span class="comment">// 当窗口被填满了时候</span></div><div class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = size; i &lt; data.size(); i++) &#123;</div><div class="line">			<span class="comment">// 第一个窗口用来保存最大值</span></div><div class="line">			list.add(idx.getFirst()); <span class="comment">// 队首元素 永远是最大的</span></div><div class="line">			</div><div class="line">			<span class="comment">// 如果索引对应的 值 比之前的索引值对应的值大或者相等，就删除之前存储的值</span></div><div class="line">			<span class="keyword">while</span> (!idx.isEmpty() &amp;&amp; data.get(i) &gt; data.get(idx.getLast())) &#123;</div><div class="line">				idx.removeLast();</div><div class="line">			&#125;</div><div class="line">			<span class="comment">// 删除已经滑出 窗口的数据对应的下标</span></div><div class="line">			<span class="keyword">while</span> (!idx.isEmpty() &amp;&amp; idx.getFirst() &lt;= (i - size)) &#123;</div><div class="line">				idx.removeFirst();</div><div class="line">			&#125;</div><div class="line">			</div><div class="line">			idx.addLast(i);</div><div class="line">		&#125;</div><div class="line">		</div><div class="line">		<span class="keyword">return</span> list;</div><div class="line">		</div><div class="line">	&#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		<span class="keyword">int</span>[] nums = &#123;<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">2</span>,<span class="number">6</span>,<span class="number">2</span>,<span class="number">5</span>,<span class="number">1</span>&#125;;</div><div class="line">		System.out.println(maxInWindows2(nums, <span class="number">3</span>));</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
           
         
       
@@ -1791,11 +1649,201 @@ AbstractQueuedSynchronizer : compareAndSetState(int expect, int update)
 
 
     
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/03/03/java反射机制深入理解剖析/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sailong Ren">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="coderlong的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/03/03/java反射机制深入理解剖析/" itemprop="url">java反射机制深入理解分析</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-03T14:18:40+08:00">
+                2018-03-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JDK/" itemprop="url" rel="index">
+                    <span itemprop="name">JDK</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="反射的简单介绍"><a href="#反射的简单介绍" class="headerlink" title="反射的简单介绍"></a>反射的简单介绍</h2><p>主要是指程序可以访问，检测和修改它本身状态或行为的一种能力，并能根据自身行为的状态和结果，调整或修改应用所描述行为的状态和相关的语义。</p>
+<p>一个类有多个组成部分，例如：成员变量、方法、构造方法等，反射就是加载类,并解剖出类的各个组成部分。<br>主要功能:  </p>
+<ol>
+<li>在运行时判断一个对象所属于的类</li>
+<li>运行时构造任意一个类的对象</li>
+<li>在运行时判断任意一个类所具有的成员变量和方法；</li>
+<li>在运行时调用任意一个对象的方法；</li>
+<li>生成动态代理</li>
+</ol>
+<h2 id="反射以及作用"><a href="#反射以及作用" class="headerlink" title="反射以及作用"></a>反射以及作用</h2><p><img src="https://img.w3cschool.cn/attachments/day_161205/201612051945255425.png" alt=""><br>java反射机制中有哪些类：主要有五个主要的类<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">java.lang.Class;                </div><div class="line">java.lang.reflect.Constructor;</div><div class="line">java.lang.reflect.Field;        </div><div class="line">java.lang.reflect.Method;</div><div class="line">java.lang.reflect.Modifier;</div></pre></td></tr></table></figure></p>
+<p><em>通过一个对象获得完整的包名和类名</em><br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestReflect</span> </span>&#123;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		TestReflect testReflect = <span class="keyword">new</span> TestReflect();</div><div class="line">        System.out.println(testReflect.getClass().getName());</div><div class="line">        <span class="comment">// 反射.TestReflect</span></div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>实例化Class类对象<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> ClassNotFoundException </span>&#123;</div><div class="line">		<span class="comment">// TODO Auto-generated method stub</span></div><div class="line">		Class&lt;?&gt; class1 = <span class="keyword">null</span>;</div><div class="line">        Class&lt;?&gt; class2 = <span class="keyword">null</span>;</div><div class="line">        Class&lt;?&gt; class3 = <span class="keyword">null</span>;</div><div class="line">        <span class="comment">// 一般采用这种形式</span></div><div class="line">        class1 = Class.forName(<span class="string">"反射.TestReflect"</span>);</div><div class="line">        class2 = <span class="keyword">new</span> TestReflect().getClass();</div><div class="line">        class3 = TestReflect.class;</div><div class="line">        System.out.println(<span class="string">"类名称   "</span> + class1.getName());</div><div class="line">        System.out.println(<span class="string">"类名称   "</span> + class2.getName());</div><div class="line">        Systsem.out.println(<span class="string">"类名称   "</span> + class3.getName());</div><div class="line">        <span class="comment">/** </span></div><div class="line"><span class="comment">         *  类名称   反射.TestReflect</span></div><div class="line"><span class="comment">			类名称   反射.TestReflect</span></div><div class="line"><span class="comment">			类名称   反射.TestReflect</span></div><div class="line"><span class="comment">         */</span></div><div class="line">	</div><div class="line">	&#125;</div></pre></td></tr></table></figure></p>
+<p>获取一个对象的父类与实现的接口<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestReflect1</span> <span class="keyword">implements</span> <span class="title">Cloneable</span>, <span class="title">Serializable</span></span>&#123;</div><div class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">long</span> seriaVersionUID = -<span class="number">2862585049955236662L</span>;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> ClassNotFoundException </span>&#123;</div><div class="line">		<span class="comment">// TODO Auto-generated method stub</span></div><div class="line">		Class&lt;?&gt; clazz = Class.forName(<span class="string">"反射.TestReflect1"</span>);</div><div class="line">		</div><div class="line">		<span class="comment">// 获取父类</span></div><div class="line">		Class&lt;?&gt; parentClass = clazz.getSuperclass();</div><div class="line">		</div><div class="line">		System.out.println(<span class="string">"class对象的父类是:"</span> + parentClass.getName());</div><div class="line">		<span class="comment">// clazz的父类为： java.lang.Object</span></div><div class="line">        <span class="comment">// 获取所有的接口</span></div><div class="line">		</div><div class="line">		Class&lt;?&gt; intes[] = clazz.getInterfaces();</div><div class="line">		System.out.println(<span class="string">"clazz实现的接口有"</span>);</div><div class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt;intes.length; i++) &#123;</div><div class="line">			System.out.println(i++ + <span class="string">":"</span> + intes[i].getName());</div><div class="line">		&#125;</div><div class="line">		<span class="comment">/**</span></div><div class="line"><span class="comment">		 * class对象的父类是:java.lang.Object</span></div><div class="line"><span class="comment">			clazz实现的接口有 0:java.io.Serializable</span></div><div class="line"><span class="comment">		 */</span></div><div class="line"></div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>通过反射机制实例化一个类的对象<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> 反射;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.lang.reflect.Constructor;</div><div class="line"><span class="keyword">import</span> java.lang.reflect.InvocationTargetException;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"><span class="comment">* <span class="doctag">@author</span> 作者 : coderlong</span></div><div class="line"><span class="comment">* <span class="doctag">@version</span> 创建时间：2018年3月3日 下午9:27:11</span></div><div class="line"><span class="comment">* 类说明: </span></div><div class="line"><span class="comment">*/</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestReflect</span> </span>&#123;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException </span>&#123;</div><div class="line">		<span class="comment">// TODO Auto-generated method stub</span></div><div class="line">		Class&lt;?&gt; clazz1 = <span class="keyword">null</span>;</div><div class="line">		clazz1 = Class.forName(<span class="string">"反射.User"</span>);</div><div class="line">		User user = (User)clazz1.newInstance();</div><div class="line">		user.setAge(<span class="number">20</span>);</div><div class="line">        user.setName(<span class="string">"林黛玉"</span>);</div><div class="line">        System.out.println(user);</div><div class="line">        <span class="comment">// result :  User [age=20, name=林黛玉]</span></div><div class="line">        </div><div class="line">        <span class="comment">// 第二种方法 获取构造方法</span></div><div class="line">        Constructor&lt;?&gt; cons[] = clazz1.getConstructors();</div><div class="line">        <span class="comment">// 看一下 每个构造方法需要的方法</span></div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; cons.length; i++) &#123;</div><div class="line">        	Class&lt;?&gt; clazzs[] = cons[i].getParameterTypes();</div><div class="line">        	System.out.print(<span class="string">"cons["</span> + i + <span class="string">"] ("</span>);</div><div class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; clazzs.length; j++) &#123;</div><div class="line">                <span class="keyword">if</span> (j == clazzs.length - <span class="number">1</span>)</div><div class="line">                    System.out.print(clazzs[j].getName());</div><div class="line">                <span class="keyword">else</span></div><div class="line">                    System.out.print(clazzs[j].getName() + <span class="string">","</span>);</div><div class="line">            &#125;</div><div class="line">            System.out.println(<span class="string">")"</span>);</div><div class="line">        &#125;</div><div class="line">        <span class="comment">// 结果</span></div><div class="line">        <span class="comment">//cons[0] (int,java.lang.String)</span></div><div class="line"><span class="comment">//        cons[1] (java.lang.String)</span></div><div class="line"><span class="comment">//        cons[2] ()</span></div><div class="line">        </div><div class="line">        User user2 = (User)cons[<span class="number">0</span>].newInstance(<span class="number">20</span>,<span class="string">"林黛玉"</span>);</div><div class="line">        </div><div class="line">        System.out.println(user2);</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="获取某个类的全部属性-可以使用clazz-getDeclaredFields"><a href="#获取某个类的全部属性-可以使用clazz-getDeclaredFields" class="headerlink" title="获取某个类的全部属性 可以使用clazz.getDeclaredFields()"></a><em>获取某个类的全部属性</em> 可以使用clazz.getDeclaredFields()</h2><h2 id="获得一个类的所有public属性，和父类所有方法-clazz-getFields"><a href="#获得一个类的所有public属性，和父类所有方法-clazz-getFields" class="headerlink" title="获得一个类的所有public属性，和父类所有方法  clazz.getFields()"></a><em>获得一个类的所有public属性，和父类所有方法 </em> clazz.getFields()</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestReflect2</span> <span class="keyword">extends</span> <span class="title">TestReflect</span> <span class="keyword">implements</span> <span class="title">Serializable</span>,<span class="title">Cloneable</span></span>&#123;</div><div class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">long</span> serialVersionUID = -<span class="number">2862585049955236662L</span>;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> ClassNotFoundException</span>&#123;</div><div class="line">		<span class="comment">// TODO Auto-generated method stub</span></div><div class="line">		Class&lt;?&gt; clazz = Class.forName(<span class="string">"反射.TestReflect2"</span>);</div><div class="line">		System.out.println(<span class="string">"本类属性"</span>);</div><div class="line">		<span class="comment">// 取得自己累得全部属性</span></div><div class="line">		Field[] fields = clazz.getDeclaredFields();</div><div class="line">		</div><div class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; fields.length; i++) &#123;</div><div class="line">			<span class="comment">// 获得属性的修饰符</span></div><div class="line">			<span class="keyword">int</span> mo = fields[i].getModifiers();</div><div class="line">			String priv = Modifier.toString(mo);</div><div class="line">			System.out.println(priv);</div><div class="line">			<span class="comment">// 获得属性的类型</span></div><div class="line">			Class&lt;?&gt; type = fields[i].getType();</div><div class="line">			System.out.println(priv + <span class="string">" "</span> + type.getName() + <span class="string">" "</span> + fields[i].getName());</div><div class="line">		&#125;</div><div class="line">		</div><div class="line">		<span class="comment">// 取得接口的实现 或者父类的属性</span></div><div class="line">		System.out.println(<span class="string">"接口的实现 或者父类的属性"</span>);</div><div class="line">		Field[] fields2 = clazz.getFields();</div><div class="line">		</div><div class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; fields2.length; i++) &#123;</div><div class="line">			<span class="comment">// 权限修饰符</span></div><div class="line">			<span class="keyword">int</span> mo = fields2[i].getModifiers();</div><div class="line">			String priv = Modifier.toString(mo);</div><div class="line">			<span class="comment">// 属性的类型</span></div><div class="line">			Class&lt;?&gt; type = fields2[i].getType();</div><div class="line">			System.out.println(priv + <span class="string">" "</span> + type.getName() + <span class="string">" "</span> + fields2[i].getName());</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>获取某个类的全部方法 *</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">testReflect3</span> </span>&#123;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">		<span class="comment">// TODO Auto-generated method stub</span></div><div class="line">		Class&lt;?&gt; clazz = Class.forName(<span class="string">"反射.testReflect3"</span>);</div><div class="line">		</div><div class="line">		Field[] fields = clazz.getDeclaredFields();</div><div class="line">		Method[] methods = clazz.getDeclaredMethods();</div><div class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; methods.length; i++) &#123;</div><div class="line">			<span class="comment">// 返回值</span></div><div class="line">			Class&lt;?&gt; returnType = methods[i].getReturnType();</div><div class="line">			<span class="comment">// 获得方法参数</span></div><div class="line">			Class&lt;?&gt;[] para = methods[i].getParameterTypes();</div><div class="line">			<span class="keyword">int</span> mo = methods[i].getModifiers();</div><div class="line">			<span class="comment">// 修饰符</span></div><div class="line">			String priv = Modifier.toString(mo);</div><div class="line">			System.out.print(priv + <span class="string">" "</span>);</div><div class="line">			System.out.print(returnType.getName() + <span class="string">" "</span>);</div><div class="line">			System.out.print(methods[i].getName() + <span class="string">" "</span>);</div><div class="line">			System.out.print(<span class="string">"("</span>);</div><div class="line">			<span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; para.length; j++) &#123;</div><div class="line">				System.out.print(para[i].getName() + <span class="string">" arg "</span> + j);</div><div class="line">				<span class="keyword">if</span> (j &lt; methods.length - <span class="number">1</span>) &#123;</div><div class="line">					System.out.print(<span class="string">","</span>);</div><div class="line">				&#125;</div><div class="line">			&#125;</div><div class="line">			Class&lt;?&gt;[] excel = methods[i].getExceptionTypes();</div><div class="line">			<span class="keyword">if</span> (excel.length &gt; <span class="number">0</span>) &#123;</div><div class="line">				<span class="keyword">for</span> (<span class="keyword">int</span> k = <span class="number">0</span>; k &lt; excel.length; k++) &#123;</div><div class="line">					System.out.print(excel[k].getName() + <span class="string">" "</span>);</div><div class="line">					<span class="keyword">if</span> (k &lt; excel.length - <span class="number">1</span>) &#123;</div><div class="line">						System.out.print(<span class="string">","</span>);</div><div class="line">					&#125;</div><div class="line">				&#125;</div><div class="line">				</div><div class="line">			&#125;</div><div class="line">			<span class="keyword">else</span> &#123;</div><div class="line">				System.out.print(<span class="string">")"</span>);</div><div class="line">			&#125;</div><div class="line">			System.out.print(<span class="string">")"</span>);</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="comment">// result:</span></div><div class="line">	<span class="comment">// public static void main ([Ljava.lang.String; arg 0java.lang.Exception )</span></div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li><p>通过反射机制调用某个类的方法 *</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestReflect4</span> </span>&#123;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">		Class&lt;?&gt; clazz = Class.forName(<span class="string">"反射.TestReflect4"</span>);</div><div class="line">		Method method = clazz.getMethod(<span class="string">"reflect1"</span>);</div><div class="line">		method.invoke(clazz.newInstance());</div><div class="line">		</div><div class="line">		<span class="comment">// 带参数的方法如何调用</span></div><div class="line">		method = clazz.getMethod(<span class="string">"reflect2"</span>, <span class="keyword">int</span>.class, String.class);</div><div class="line">		method.invoke(clazz. newInstance(),<span class="number">20</span>,<span class="string">"wangyake"</span>);</div><div class="line">		</div><div class="line">	&#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">reflect1</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"Java 反射机制 - 调用某个类的方法shibushi1."</span>);</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">reflect2</span><span class="params">(<span class="keyword">int</span> age, String name)</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"Java 反射机制 - 调用某个类的方法2."</span>);</div><div class="line">        System.out.println(<span class="string">"age -&gt; "</span> + age + <span class="string">". name -&gt; "</span> + name);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>通过反射机制操作某个类的属性 *</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestReflect5</span> </span>&#123;</div><div class="line">	<span class="keyword">private</span> String name  = <span class="string">"coderlong"</span>;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">		<span class="comment">// TODO Auto-generated method stub</span></div><div class="line">		Class&lt;?&gt; clazz = Class.forName(<span class="string">"反射.TestReflect5"</span>);</div><div class="line">		<span class="comment">// 反射对对象属性赋值</span></div><div class="line">		Field field = clazz.getDeclaredField(<span class="string">"name"</span>);</div><div class="line">		Object object = clazz.newInstance();</div><div class="line">		System.out.println(field.get(object));</div><div class="line">		field.setAccessible(<span class="keyword">true</span>);</div><div class="line">		field.set(object,<span class="string">"yake"</span>);</div><div class="line">		System.out.println(field.get(object));</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>反射机制的动态代理 *</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">// 获取类加载器的方法</div><div class="line">TestReflect testReflect = new TestReflect();</div><div class="line">        System.out.println(&quot;类加载器  &quot; + testReflect.getClass().getClassLoader().getClass().getName());</div></pre></td></tr></table></figure>
+<p>在java中有三种类类加载器。</p>
+<p><em>. Bootstrap ClassLoader 此加载器采用c++编写，一般开发中很少见。
+</em>. Extension ClassLoaderyong来进行扩展类的加载，一般对应的是jrelibext目录中的类</p>
+<p>*. AppClassLoader 加载classpath指定的类，是最常用的加载器。同时也是java中默认的加载器。</p>
+<p>如果想要完成动态代理，首先需要定义一个InvocationHandler接口的子类，已完成代理的具体操作</p>
+<h2 id="反射的应用"><a href="#反射的应用" class="headerlink" title="反射的应用"></a>反射的应用</h2><p>在泛型为Integer的ArrayList中存放一个String类型的对象</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">ArrayList&lt;Integer&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line">		Method method = list.getClass().getMethod(<span class="string">"add"</span>, Object.class);</div><div class="line">		method.invoke(list, <span class="string">"可以添加String？"</span>);</div><div class="line">		System.out.println(!list.isEmpty());</div></pre></td></tr></table></figure>
+<p>反射修改数组元素<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException </span>&#123;</div><div class="line">		<span class="comment">// TODO Auto-generated method stub</span></div><div class="line">		ArrayList&lt;Integer&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line">		Method method = list.getClass().getMethod(<span class="string">"add"</span>, Object.class);</div><div class="line">		method.invoke(list, <span class="string">"可以添加String？"</span>);</div><div class="line">		System.out.println(!list.isEmpty());</div><div class="line">		</div><div class="line">		<span class="keyword">int</span>[] temp = &#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>&#125;;</div><div class="line">		Class&lt;?&gt; clazz = temp.getClass().getComponentType();</div><div class="line">		System.out.println(<span class="string">"数组类型"</span> + clazz.getName());</div><div class="line">		System.out.println(<span class="string">"长度"</span>  + Array.getLength(temp));</div><div class="line">		System.out.println(<span class="string">"数组第一个元素"</span> + Array.get(temp,<span class="number">0</span>));</div><div class="line">		Array.set(temp, <span class="number">0</span>, <span class="number">100</span>);</div><div class="line">		System.out.println(<span class="string">"修改后第一个元素"</span> + Array.get(temp, <span class="number">0</span>));</div><div class="line">	&#125;</div></pre></td></tr></table></figure></p>
+<p>优点： </p>
+<ol>
+<li>能够运行时动态获取类的实例，大大提高系统的灵活性和扩展性。 </li>
+<li>与Java动态编译相结合，可以实现无比强大的功能 </li>
+</ol>
+<p>缺点： </p>
+<ol>
+<li>使用反射的性能较低 </li>
+<li>使用反射相对来说不安全 </li>
+<li>破坏了类的封装性，可以通过反射获取这个类的私有方法和属性 </li>
+</ol>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/6/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><span class="space">&hellip;</span><a class="page-number" href="/page/15/">15</a><a class="extend next" rel="next" href="/page/8/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/6/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><a class="extend next" rel="next" href="/page/8/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1841,7 +1889,7 @@ AbstractQueuedSynchronizer : compareAndSetState(int expect, int update)
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">141</span>
+                <span class="site-state-item-count">140</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>

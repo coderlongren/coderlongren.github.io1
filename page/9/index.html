@@ -303,7 +303,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/03/01/斐波那契数列/">
+    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/03/01/打印1到最大的n位数/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Sailong Ren">
@@ -322,7 +322,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/01/斐波那契数列/" itemprop="url">斐波那契数列</a></h1>
+                <a class="post-title-link" href="/2018/03/01/打印1到最大的n位数/" itemprop="url">打印1到最大的n位数</a></h1>
         
 
         <div class="post-meta">
@@ -396,154 +396,8 @@
       
         
           
-            <p>给定一个数组和滑动窗口的大小，请找出所有滑动窗口里的最大值。</p>
-<h2 id="斐波那契数列"><a href="#斐波那契数列" class="headerlink" title="斐波那契数列"></a>斐波那契数列</h2><p><code>题目描述
-大家都知道斐波那契数列，现在要求输入一个整数n，请你输出斐波那契数列的第n项。</code><br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> 斐波那契数列 </span>&#123;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		<span class="comment">// TODO Auto-generated method stub</span></div><div class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= <span class="number">10</span>; i++) &#123;</div><div class="line">			System.out.print(fib(i) + <span class="string">" "</span>);</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	<span class="comment">// 循环的方法，时间复杂度:O(n)</span></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">fib</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</div><div class="line">		<span class="keyword">int</span> prepreNum = <span class="number">0</span>;</div><div class="line">		<span class="keyword">int</span> preNum = <span class="number">1</span>;</div><div class="line">		<span class="keyword">int</span> result = <span class="number">0</span>;</div><div class="line">		</div><div class="line">		<span class="keyword">if</span> (n == <span class="number">0</span>) &#123;</div><div class="line">			<span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">if</span> (n == <span class="number">1</span>) &#123;</div><div class="line">			<span class="keyword">return</span> <span class="number">1</span>;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">2</span>; i &lt;= n; i++) &#123;</div><div class="line">			result = preNum + prepreNum;</div><div class="line">			prepreNum = preNum;</div><div class="line">			preNum = result;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">return</span> result;</div><div class="line">		</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/03/01/从尾到头打印链表/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Sailong Ren">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="coderlong的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/03/01/从尾到头打印链表/" itemprop="url">从尾到头打印链表</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-01T14:18:40+08:00">
-                2018-03-01
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/剑指offer/" itemprop="url" rel="index">
-                    <span itemprop="name">剑指offer</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <a id="more"></a>
-<h2 id="从尾到头打印链表"><a href="#从尾到头打印链表" class="headerlink" title="从尾到头打印链表"></a>从尾到头打印链表</h2><p><code>题目描述：
-输入一个链表，从尾到头打印链表每个节点的值。</code></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> 从尾到头打印链表 </span>&#123;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		<span class="comment">// TODO Auto-generated method stub</span></div><div class="line"></div><div class="line">	&#125;</div><div class="line">	<span class="comment">// 使用堆栈 来逆转打印</span></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> ArrayList&lt;Integer&gt; <span class="title">printListFromTailToHead</span><span class="params">(ListNode head)</span> </span>&#123;</div><div class="line">		<span class="keyword">if</span> (head == <span class="keyword">null</span>) &#123;</div><div class="line">			ArrayList&lt;Integer&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line">			<span class="keyword">return</span> list;</div><div class="line">		&#125;</div><div class="line">		</div><div class="line">		Stack&lt;Integer&gt; stack = <span class="keyword">new</span> Stack&lt;&gt;();</div><div class="line">		<span class="keyword">while</span> (head != <span class="keyword">null</span> ) &#123;</div><div class="line">			stack.push(head.val);</div><div class="line">			head = head.next;</div><div class="line">		&#125;</div><div class="line">		</div><div class="line">		ArrayList&lt;Integer&gt; res = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line">		<span class="keyword">while</span> (!stack.isEmpty()) &#123;</div><div class="line">			Integer item = stack.pop();</div><div class="line">			System.out.println(item); <span class="comment">// 打印</span></div><div class="line">			res.add(item);</div><div class="line">		&#125;</div><div class="line">		</div><div class="line">		<span class="keyword">return</span> res;</div><div class="line">	&#125;</div><div class="line">	<span class="comment">// 递归的方法</span></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">printListFromTailToHead2</span><span class="params">(ListNode head)</span> </span>&#123;</div><div class="line">		<span class="keyword">if</span> (head != <span class="keyword">null</span>) &#123;</div><div class="line">			<span class="keyword">if</span> (head.next != <span class="keyword">null</span>) &#123;</div><div class="line">				printListFromTailToHead2(head.next);</div><div class="line">			&#125;</div><div class="line">			System.out.println(head.val);</div><div class="line">		&#125;</div><div class="line">		</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+            <h2 id="打印1到最大的n位数"><a href="#打印1到最大的n位数" class="headerlink" title="打印1到最大的n位数"></a>打印1到最大的n位数</h2><p><code>题目描述：如n=3,则从1打印到999</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> 打印1到最大的<span class="title">N</span>位数 </span>&#123;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Print1ToMaxOfNDigits</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (n &lt;= <span class="number">0</span>)</div><div class="line">            <span class="keyword">return</span>;</div><div class="line"></div><div class="line">        <span class="keyword">char</span>[] number = <span class="keyword">new</span> <span class="keyword">char</span>[n];</div><div class="line"></div><div class="line">        <span class="comment">//每一个字符设为0</span></div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; i++) &#123;</div><div class="line">            number[i] = <span class="string">'0'</span>;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">while</span> (!Increment(number)) &#123;<span class="comment">//如果加法溢出，则退出，否则打印数字</span></div><div class="line">            PrintNumber(number);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">    &#125;</div><div class="line"></div><div class="line">	<span class="comment">// 字符串number表示一个数字，在 number上增加1</span></div><div class="line">	 <span class="comment">// 如果做加法溢出，则返回true；否则为false</span></div><div class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">Increment</span><span class="params">(<span class="keyword">char</span>[] number)</span> </span>&#123;</div><div class="line">		<span class="keyword">boolean</span> isOverflow = <span class="keyword">false</span>;<span class="comment">//溢出标志</span></div><div class="line">        <span class="keyword">int</span> nTakeOver = <span class="number">0</span>;<span class="comment">//进位</span></div><div class="line">        <span class="keyword">int</span> nLength = number.length;</div><div class="line"></div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = nLength - <span class="number">1</span>; i &gt;= <span class="number">0</span>; i--) &#123;<span class="comment">//从后向前，最后一位数字加1</span></div><div class="line">            <span class="keyword">int</span> nSum = number[i] - <span class="string">'0'</span> + nTakeOver;</div><div class="line">            <span class="keyword">if</span> (i == nLength - <span class="number">1</span>)</div><div class="line">                nSum++;</div><div class="line"></div><div class="line">            <span class="keyword">if</span> (nSum &gt;= <span class="number">10</span>) &#123;</div><div class="line">                <span class="keyword">if</span> (i == <span class="number">0</span>)</div><div class="line">                    isOverflow = <span class="keyword">true</span>;</div><div class="line">                <span class="keyword">else</span> &#123;</div><div class="line">                    nSum -= <span class="number">10</span>;</div><div class="line">                    nTakeOver = <span class="number">1</span>;</div><div class="line">                    number[i] = (<span class="keyword">char</span>) (<span class="string">'0'</span> + nSum);</div><div class="line">                &#125;</div><div class="line">            &#125; <span class="keyword">else</span> &#123;</div><div class="line">                number[i] = (<span class="keyword">char</span>) (<span class="string">'0'</span> + nSum);</div><div class="line">                <span class="keyword">break</span>;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">            <span class="keyword">return</span> isOverflow;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	 <span class="comment">// 字符串number表示一个数字，数字有若干个0开头</span></div><div class="line">    <span class="comment">// 打印出这个数字，并忽略开头的0</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">PrintNumber</span><span class="params">(<span class="keyword">char</span>[] number)</span> </span>&#123;</div><div class="line">        <span class="keyword">boolean</span> isBeginning0 = <span class="keyword">true</span>;</div><div class="line">        <span class="keyword">int</span> nLength = number.length;</div><div class="line"></div><div class="line">        <span class="comment">//标志位的思想，从第一位不为0的数字开始打印，如000123，打印123</span></div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; nLength; ++i) &#123;</div><div class="line">            <span class="keyword">if</span> (isBeginning0 &amp;&amp; number[i] != <span class="string">'0'</span>)</div><div class="line">                isBeginning0 = <span class="keyword">false</span>;</div><div class="line"></div><div class="line">            <span class="keyword">if</span> (!isBeginning0) &#123;</div><div class="line">                System.out.print(number[i]);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        System.out.println();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
           
         
       
@@ -1672,6 +1526,193 @@ You may assume that row1 ≤ row2 and col1 ≤ col2.
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/02/05/JUC之lock机制/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sailong Ren">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="coderlong的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/02/05/JUC之lock机制/" itemprop="url">java.util.concurrent之锁机制</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-05T21:18:40+08:00">
+                2018-02-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JUC/" itemprop="url" rel="index">
+                    <span itemprop="name">JUC</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><code>此博文过长，纯属自己写笔记用，慎入！</code></p>
+<h3 id="Condition借口"><a href="#Condition借口" class="headerlink" title="Condition借口"></a>Condition借口</h3><p>一个线程因为某个condition不满足被挂起，直到该Condition被满足了。<br>类似与Object的wait/<br>notify，因此Condition对象应该是被多线程共享的，需要使用锁保护其状态的一致性</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">BoundedBuffer</span> </span>&#123;</div><div class="line">     <span class="keyword">final</span> Lock lock = <span class="keyword">new</span> ReentrantLock();</div><div class="line">     <span class="keyword">final</span> Condition notFull     = lock.newCondition();</div><div class="line">     <span class="keyword">final</span> Condition notEmpty = lock.newCondition();</div><div class="line"></div><div class="line">     <span class="keyword">final</span> Object[] items = <span class="keyword">new</span> Object[<span class="number">100</span>];</div><div class="line">     <span class="keyword">int</span> putptr, takeptr, count;</div><div class="line"></div><div class="line">     <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">put</span><span class="params">(Object x)</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</div><div class="line">          lock.lock();</div><div class="line">          <span class="keyword">try</span> &#123;</div><div class="line">               <span class="keyword">while</span> (count == items.length)</div><div class="line">                    notFull.await();</div><div class="line">               items[putptr] = x;</div><div class="line">               <span class="keyword">if</span> (++putptr == items.length) putptr = <span class="number">0</span>;</div><div class="line">               ++count;</div><div class="line">               notEmpty.signal();</div><div class="line">          &#125; <span class="keyword">finally</span> &#123;</div><div class="line">               lock.unlock();</div><div class="line">          &#125;</div><div class="line">     &#125;         </div><div class="line"></div><div class="line">     <span class="function"><span class="keyword">public</span> Object <span class="title">take</span><span class="params">()</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</div><div class="line">          lock.lock();</div><div class="line">          <span class="keyword">try</span> &#123;</div><div class="line">               <span class="keyword">while</span> (count == <span class="number">0</span>)</div><div class="line">                    notEmpty.await();</div><div class="line">               Object x = items[takeptr];</div><div class="line">               <span class="keyword">if</span> (++takeptr == items.length) takeptr = <span class="number">0</span>;</div><div class="line">               --count;</div><div class="line">               notFull.signal();</div><div class="line">               <span class="keyword">return</span> x;</div><div class="line">          &#125; <span class="keyword">finally</span> &#123;</div><div class="line">               lock.unlock();</div><div class="line">          &#125;</div><div class="line">     &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="Lock和ReadWriteLock"><a href="#Lock和ReadWriteLock" class="headerlink" title="Lock和ReadWriteLock"></a>Lock和ReadWriteLock</h2><p>很多人一看到ReadWriteLock就觉得这是一个实现了Lock的实现类，然而这也是一个interface，不过实现了这个interface的类，是可以作为读写锁来使用的。的<br>两个接口，后者不是前者的子接口，通过以下ReadWriteLock的代码就可以看出两者的联系了：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">ReadWriteLock</span> </span>&#123;</div><div class="line">    <span class="comment">/**</span></div><div class="line"><span class="comment">     * Returns the lock used for reading.</span></div><div class="line"><span class="comment">     *</span></div><div class="line"><span class="comment">     * <span class="doctag">@return</span> the lock used for reading.</span></div><div class="line"><span class="comment">     读锁</span></div><div class="line"><span class="comment">     */</span></div><div class="line">    <span class="function">Lock <span class="title">readLock</span><span class="params">()</span></span>;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line"><span class="comment">     * Returns the lock used for writing.</span></div><div class="line"><span class="comment">     *写锁</span></div><div class="line"><span class="comment">     * <span class="doctag">@return</span> the lock used for writing.</span></div><div class="line"><span class="comment">     */</span></div><div class="line">    <span class="function">Lock <span class="title">writeLock</span><span class="params">()</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>两个接口都有一个可重入(ReentrantLock, ReentrantReadWriteLock)的实现</p>
+<h2 id="LockSupport工具类"><a href="#LockSupport工具类" class="headerlink" title="LockSupport工具类"></a>LockSupport工具类</h2><p>这个类，我也不是很明白，是一个工具类，操作对象是线程，基于Unsafe类实现<br>基本操作park和unpark。park会把使得当前线程失效（没有提供操作其他线程的，其实是可以实现的），暂时挂起</p>
+<h2 id="AbstractOwnableSynchronizer-AbstractQueuedSynchronizer"><a href="#AbstractOwnableSynchronizer-AbstractQueuedSynchronizer" class="headerlink" title="AbstractOwnableSynchronizer, AbstractQueuedSynchronizer,"></a>AbstractOwnableSynchronizer, AbstractQueuedSynchronizer,</h2><p>AbstractQueuedLongSynchronizer<br>并发包的JDK源码充满了大量的 包装类，和设计模式用到的类，所以就算看着中文的注释还是很难读懂，这三个类，就是典型的代表。<br>AbstractQueuedSynchronizer, AbstractQueuedLongSynchronizer是AbstractOwnableSynchronizer的子类，<br>AbstractOwnableSynchronizer只是实现了被线程独占这些功能的Synchronizer，并不包含如何管理实现多个线程的同步。包含了一个exclusiveOwnerThread，set/get方法。</p>
+<p>AbstractQueuedSynchronizer利用Queue的方式来管理线程关于锁的使用和同步，相当于一个锁的管理者。<br>首先关注四个最核心的方法：<br>protected boolean tryAcquire(int arg)<br>protected boolean tryRelease(int arg)<br>protected int tryAcquireShared(int arg)<br>protected boolean tryReleaseShared(int arg)</p>
+<p>前两个用于独占锁，后两者用于共享锁，这四个方法是由子类来实现的，即如何获取和释放锁AbstractQueuedSynchronizer是不参与的，默认实现是不支持，即抛出UnsupportedOperationException。<br>AbstractQueuedSynchronizer做什么呢？</p>
+<p>当 前线程尝试获取锁的时候，AbstractQueuedSynchronizer会先调用tryAcquire或者tryAcquireShared来尝 试获取，如果得到false，那么把当前线程放到等待队列中去，然后再做进一步操作。我们来分析以下6种情况，前三种用于独占锁，后三者用于共享，独占锁 或者共享锁按照等待方式又分为三种：不可中断线程等待，可中断线程等待，尝试限时等待超时放弃。<br>这6种的方法都含有一个int类型的参数，这个是给上面的tryAcquire这种方法使用的，也就是说它一个自定义的参数，一般用来表示某个自定义的状态。</p>
+<ol>
+<li>独占锁，放入队列之后，直到成功获取，会忽略线程的中断<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">public final void acquire(int arg) &#123;</div><div class="line">        if (!tryAcquire(arg) &amp;&amp;</div><div class="line">            acquireQueued(addWaiter(Node.EXCLUSIVE), arg))</div><div class="line">            selfInterrupt();</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="ReentrantLock"><a href="#ReentrantLock" class="headerlink" title="ReentrantLock"></a>ReentrantLock</h2><p>书上给的解释：<br><code>一个可重入的互斥锁定 Lock，它具有与使用 synchronized 方法和语句所访问的隐式监视器锁定相同的一些基本行为和语义，但功能更强大。ReentrantLock 将由最近成功获得锁定，并且还没有释放该锁定的线程所拥有。当锁定没有被另一个线程所拥有时，调用 lock 的线程将成功获取该锁定并返回。如果当前线程已经拥有该锁定，此方法将立即返回。可以使用 isHeldByCurrentThread() 和 getHoldCount() 方法来检查此情况是否发生。</code></p>
+<h3 id="获取锁"><a href="#获取锁" class="headerlink" title="获取锁"></a>获取锁</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//非公平锁</span></div><div class="line">ReentrantLock lock = <span class="keyword">new</span> ReentrantLock();</div><div class="line">lock.lock();</div></pre></td></tr></table></figure>
+<p>lock()<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">lock</span><span class="params">()</span> </span>&#123;</div><div class="line">  sync.lock();</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>Sync为ReentrantLock里面的一个内部类，它继承AQS（AbstractQueuedSynchronizer），它有两个子类：公平锁FairSync和非公平锁NonfairSync。</p>
+<p>大部分功能都是委托给sync来完成的<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">final</span> <span class="keyword">void</span> <span class="title">lock</span><span class="params">()</span> </span>&#123;</div><div class="line">    <span class="comment">//尝试获取锁</span></div><div class="line">    <span class="keyword">if</span> (compareAndSetState(<span class="number">0</span>, <span class="number">1</span>))</div><div class="line">        setExclusiveOwnerThread(Thread.currentThread());</div><div class="line">    <span class="keyword">else</span></div><div class="line">        <span class="comment">//获取失败，调用AQS的acquire(int arg)方法</span></div><div class="line">        acquire(<span class="number">1</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>尝试获取索，失败的话，就到AQS里面了。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">acquire</span><span class="params">(<span class="keyword">int</span> arg)</span> </span>&#123;</div><div class="line">      <span class="keyword">if</span> (!tryAcquire(arg) &amp;&amp;</div><div class="line">              acquireQueued(addWaiter(Node.EXCLUSIVE), arg))</div><div class="line">          selfInterrupt();</div><div class="line">  &#125;</div></pre></td></tr></table></figure></p>
+<h2 id="释放索"><a href="#释放索" class="headerlink" title="释放索"></a>释放索</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">unlock</span><span class="params">()</span> </span>&#123;</div><div class="line">        sync.release(<span class="number">1</span>);</div><div class="line">  &#125;</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">boolean</span> <span class="title">release</span><span class="params">(<span class="keyword">int</span> arg)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (tryRelease(arg)) &#123;</div><div class="line">            Node h = head;</div><div class="line">            <span class="keyword">if</span> (h != <span class="keyword">null</span> &amp;&amp; h.waitStatus != <span class="number">0</span>)</div><div class="line">                unparkSuccessor(h);</div><div class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<h2 id="公平性"><a href="#公平性" class="headerlink" title="公平性"></a>公平性</h2><p>公平锁与非公平锁的区别在于获取锁的时候是否按照FIFO的顺序来。释放锁不存在公平性和非公平性<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">final</span> <span class="keyword">boolean</span> <span class="title">tryAcquire</span><span class="params">(<span class="keyword">int</span> acquires)</span> </span>&#123;</div><div class="line">        <span class="keyword">final</span> Thread current = Thread.currentThread();</div><div class="line">        <span class="keyword">int</span> c = getState();</div><div class="line">        <span class="keyword">if</span> (c == <span class="number">0</span>) &#123;</div><div class="line">            <span class="keyword">if</span> (!hasQueuedPredecessors() &amp;&amp;</div><div class="line">                    compareAndSetState(<span class="number">0</span>, acquires)) &#123;</div><div class="line">                setExclusiveOwnerThread(current);</div><div class="line">                <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (current == getExclusiveOwnerThread()) &#123;</div><div class="line">            <span class="keyword">int</span> nextc = c + acquires;</div><div class="line">            <span class="keyword">if</span> (nextc &lt; <span class="number">0</span>)</div><div class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> Error(<span class="string">"Maximum lock count exceeded"</span>);</div><div class="line">            setState(nextc);</div><div class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line"><span class="comment">// 主要是判断当前线程是否位于CLH同步队列中的第一个。如果是则返回true，否则返回false。</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">boolean</span> <span class="title">hasQueuedPredecessors</span><span class="params">()</span> </span>&#123;</div><div class="line">        Node t = tail;  <span class="comment">//尾节点</span></div><div class="line">        Node h = head;  <span class="comment">//头节点</span></div><div class="line">        Node s;</div><div class="line"></div><div class="line">        <span class="comment">//头节点 != 尾节点</span></div><div class="line">        <span class="comment">//同步队列第一个节点不为null</span></div><div class="line">        <span class="comment">//当前线程是同步队列第一个节点</span></div><div class="line">        <span class="keyword">return</span> h != t &amp;&amp;</div><div class="line">                ((s = h.next) == <span class="keyword">null</span> || s.thread != Thread.currentThread());</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
+<h2 id="读写锁"><a href="#读写锁" class="headerlink" title="读写锁"></a>读写锁</h2><p>读写锁维护着一对锁，一个读锁和一个写锁。通过分离读锁和写锁，使得并发性比一般的排他锁有了较大的提升：在同一时间可以允许多个读线程同时访问，但是在写线程访问时，所有读线程和写线程都会被阻塞。<br><em>特性</em>  </p>
+<ol>
+<li>公平性：支持公平性和非公平性。</li>
+<li>重入性：支持重入。读写锁最多支持65535个递归写入锁和65535个递归读取锁。</li>
+<li>锁降级：遵循获取写锁、获取读锁在释放写锁的次序，写锁能够降级成为读锁<br>读写锁ReentrantReadWriteLock实现接口ReadWriteLock，该接口维护了一对相关的锁，一个用于只读操作，另一个用于写入操作。</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">ReadWriteLock</span> </span>&#123;</div><div class="line">    <span class="function">Lock <span class="title">readLock</span><span class="params">()</span></span>;</div><div class="line">    <span class="function">Lock <span class="title">writeLock</span><span class="params">()</span></span>;</div><div class="line">&#125;</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ReentrantReadWriteLock</span></span></div><div class="line"><span class="class">        <span class="keyword">implements</span> <span class="title">ReadWriteLock</span>, <span class="title">java</span>.<span class="title">io</span>.<span class="title">Serializable</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">long</span> serialVersionUID = -<span class="number">6992448646407690164L</span>;</div><div class="line">    <span class="comment">/** Inner class providing readlock */</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> ReentrantReadWriteLock.ReadLock readerLock;</div><div class="line">    <span class="comment">/** Inner class providing writelock */</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> ReentrantReadWriteLock.WriteLock writerLock;</div><div class="line">    <span class="comment">/** Performs all synchronization mechanics */</span></div><div class="line">    <span class="keyword">final</span> Sync sync;</div><div class="line"></div><div class="line"> <span class="keyword">abstract</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Sync</span> <span class="keyword">extends</span> <span class="title">AbstractQueuedSynchronizer</span> </span>&#123;</div><div class="line"> &#125;</div><div class="line"> <span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">ReadLock</span> <span class="keyword">implements</span> <span class="title">Lock</span>, <span class="title">java</span>.<span class="title">io</span>.<span class="title">Serializable</span> </span>&#123;</div><div class="line"> &#125;</div><div class="line">。。。。。。。</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>在ReentrantLock中使用一个int类型的state来表示同步状态，该值表示锁被一个线程重复获取的次数。但是读写锁ReentrantReadWriteLock内部维护着两个一对锁，需要用一个变量维护多种状态。所以读写锁采用“按位切割使用”的方式来维护这个变量，将其切分为两部分，高16为表示读，低16为表示写。分割之后，读写锁是如何迅速确定读锁和写锁的状态呢？通过位运算。假如当前同步状态为S，那么写状态等于 S &amp; 0x0000FFFF（将高16位全部抹去），读状态等于S &gt;&gt;&gt; 16(<br>无符号补0右移16位)。</p>
+<h3 id="写锁获取"><a href="#写锁获取" class="headerlink" title="写锁获取"></a>写锁获取</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">final</span> <span class="keyword">boolean</span> <span class="title">tryAcquire</span><span class="params">(<span class="keyword">int</span> acquires)</span> </span>&#123;</div><div class="line">    Thread current = Thread.currentThread();</div><div class="line">    <span class="comment">//当前锁个数</span></div><div class="line">    <span class="keyword">int</span> c = getState();</div><div class="line">    <span class="comment">//写锁</span></div><div class="line">    <span class="keyword">int</span> w = exclusiveCount(c);</div><div class="line">    <span class="keyword">if</span> (c != <span class="number">0</span>) &#123;</div><div class="line">        <span class="comment">//c != 0 &amp;&amp; w == 0 表示存在读锁</span></div><div class="line">        <span class="comment">//当前线程不是已经获取写锁的线程</span></div><div class="line">        <span class="keyword">if</span> (w == <span class="number">0</span> || current != getExclusiveOwnerThread())</div><div class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">        <span class="comment">//超出最大范围</span></div><div class="line">        <span class="keyword">if</span> (w + exclusiveCount(acquires) &gt; MAX_COUNT)</div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> Error(<span class="string">"Maximum lock count exceeded"</span>);</div><div class="line">        setState(c + acquires);</div><div class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="comment">//是否需要阻塞</span></div><div class="line">    <span class="keyword">if</span> (writerShouldBlock() ||</div><div class="line">            !compareAndSetState(c, c + acquires))</div><div class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">    <span class="comment">//设置获取锁的线程为当前线程</span></div><div class="line">    setExclusiveOwnerThread(current);</div><div class="line">    <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>判断读锁是否存在。因为要确保写锁的操作对读锁是可见的，如果在存在读锁的情况下允许获取写锁，那么那些已经获取读锁的其他线程可能就无法感知当前写线程的操作。因此只有等读锁完全释放后，写锁才能够被当前线程所获取，一旦写锁获取了，所有其他读、写线程均会被阻塞。</p>
+<h3 id="写锁的释放"><a href="#写锁的释放" class="headerlink" title="写锁的释放"></a>写锁的释放</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">unlock</span><span class="params">()</span> </span>&#123;</div><div class="line">    sync.release(<span class="number">1</span>);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">boolean</span> <span class="title">release</span><span class="params">(<span class="keyword">int</span> arg)</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span> (tryRelease(arg)) &#123;</div><div class="line">        Node h = head;</div><div class="line">        <span class="keyword">if</span> (h != <span class="keyword">null</span> &amp;&amp; h.waitStatus != <span class="number">0</span>)</div><div class="line">            unparkSuccessor(h);</div><div class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="读锁的获取-与释放"><a href="#读锁的获取-与释放" class="headerlink" title="读锁的获取 与释放"></a>读锁的获取 与释放</h3><p><code>这个有点复杂，涉及到锁的降级，部分代码我现在看不懂以后再说吧。。。</code><br>锁降级就意味着写锁是可以降级为读锁的，但是需要遵循先获取写锁、获取读锁在释放写锁的次序。</p>
+<h1 id="Condition-在没有Lock之前，我们使用synchronized来控制同步，配合Object的wait-、notify-系列方法可以实现等待-通知模式。在Java-SE5后，Java提供了Lock接口，相对于Synchronized而言，Lock提供了条件Condition，对线程的等待、唤醒操作更加详细和灵活。"><a href="#Condition-在没有Lock之前，我们使用synchronized来控制同步，配合Object的wait-、notify-系列方法可以实现等待-通知模式。在Java-SE5后，Java提供了Lock接口，相对于Synchronized而言，Lock提供了条件Condition，对线程的等待、唤醒操作更加详细和灵活。" class="headerlink" title="Condition 在没有Lock之前，我们使用synchronized来控制同步，配合Object的wait()、notify()系列方法可以实现等待/通知模式。在Java SE5后，Java提供了Lock接口，相对于Synchronized而言，Lock提供了条件Condition，对线程的等待、唤醒操作更加详细和灵活。"></a>Condition 在没有Lock之前，我们使用synchronized来控制同步，配合Object的wait()、notify()系列方法可以实现等待/通知模式。在Java SE5后，Java提供了Lock接口，相对于Synchronized而言，Lock提供了条件Condition，对线程的等待、唤醒操作更加详细和灵活。</h1><p>Condition提供了一系列的方法来对阻塞和唤醒线程：</p>
+<ol>
+<li>await() ：造成当前线程在接到信号或被中断之前一直处于等待状态。</li>
+<li>await(long time, TimeUnit unit) ：造成当前线程在接到信号、被中断或到达指定等待时间之前一直处于等待状态。</li>
+<li>awaitNanos(long nanosTimeout) ：造成当前线程在接到信号、被中断或到达指定等待时间之前一直处于等待状态。返回值表示剩余时间，如果在nanosTimesout之前唤醒，那么返回值 = nanosTimeout - 消耗时间，如果返回值 &lt;= 0 ,则可以认定它已经超时了。</li>
+<li>awaitUninterruptibly()：造成当前线程在接到信号之前一直处于等待状态。</li>
+<li>awaitUntil(Date deadline) ：造成当前线程在接到信号、被中断或到达指定最后期限之前一直处于等待状态。如果没有到指定时间就被通知，则返回true，否则表示到了指定时间，返回返回false。</li>
+<li>signal()：唤醒一个等待线程。该线程从等待方法返回前必须获得与Condition相关的锁。</li>
+<li>signalAll()：唤醒所有等待线程。能够从等待方法返回的线程必须获得与Condition相关的锁。</li>
+</ol>
+<p>Condition 需要使用Lock的newCondition()方法来创建<br>Condition为一个接口，其下仅有一个实现类ConditionObject，由于Condition的操作需要获取相关的锁，而AQS则是同步锁的实现基础，所以ConditionObject则定义为AQS的内部类。定义如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConditionObject</span> <span class="keyword">implements</span> <span class="title">Condition</span>, <span class="title">java</span>.<span class="title">io</span>.<span class="title">Serializable</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">long</span> serialVersionUID = <span class="number">1173984872572414699L</span>;</div><div class="line"></div><div class="line">    <span class="comment">//头节点</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">transient</span> Node firstWaiter;</div><div class="line">    <span class="comment">//尾节点</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">transient</span> Node lastWaiter;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ConditionObject</span><span class="params">()</span> </span>&#123;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>具体的过程就是：<br>一个线程获得锁后，通过调用Condition()的Await()会将当前线程先加入到条件队列中，然后释放锁，最后通过isOnSyncQueue(Node node)方法不断自检看节点是否已经在CLH同步队列了，如果是则尝试获取锁，否则一直挂起。当线程调用signal()方法后，程序首先检查当前线程是否获取了锁，然后通过doSignal(Node first)方法唤醒CLH同步队列的首节点。被唤醒的线程，将从await()方法中的while循环中退出来，然后调用acquireQueued()方法竞争同步状态。<br>自我实现一个生产者消费者模型<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> java.util.LinkedList;</div><div class="line"><span class="keyword">import</span> java.util.concurrent.locks.Condition;</div><div class="line"><span class="keyword">import</span> java.util.concurrent.locks.Lock;</div><div class="line"><span class="keyword">import</span> java.util.concurrent.locks.ReentrantLock;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"><span class="comment">* <span class="doctag">@author</span> 作者 : coderlong</span></div><div class="line"><span class="comment">* <span class="doctag">@version</span> 创建时间：2018年4月9日 下午10:30:51</span></div><div class="line"><span class="comment">* 类说明:  使用Condition实现的生产者消费者模式</span></div><div class="line"><span class="comment">*/</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConditionTest</span> </span>&#123;</div><div class="line">  <span class="keyword">private</span> LinkedList&lt;String&gt; buffer;    <span class="comment">//容器</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span> maxSize ;           <span class="comment">//容器最大</span></div><div class="line">    <span class="keyword">private</span> Lock lock;</div><div class="line">    <span class="keyword">private</span> Condition fullCondition;</div><div class="line">    <span class="keyword">private</span> Condition notFullCondition;</div><div class="line">    </div><div class="line">  <span class="function"><span class="keyword">public</span> <span class="title">ConditionTest</span><span class="params">( <span class="keyword">int</span> maxSize)</span> </span>&#123;</div><div class="line">    <span class="keyword">super</span>();</div><div class="line">    <span class="keyword">this</span>.buffer = <span class="keyword">new</span> LinkedList&lt;&gt;();</div><div class="line">    <span class="keyword">this</span>.maxSize = maxSize;</div><div class="line">    <span class="keyword">this</span>.lock = <span class="keyword">new</span> ReentrantLock();</div><div class="line">    <span class="keyword">this</span>.fullCondition = lock.newCondition();</div><div class="line">    <span class="keyword">this</span>.notFullCondition = lock.newCondition();</div><div class="line">  &#125;</div><div class="line">  <span class="comment">// 生产操作</span></div><div class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">set</span><span class="params">(String string)</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</div><div class="line">    lock.lock();</div><div class="line">    <span class="keyword">try</span> &#123;</div><div class="line">      <span class="keyword">while</span> (maxSize == buffer.size())&#123;</div><div class="line">        notFullCondition.await(); <span class="comment">// 慢了</span></div><div class="line">      &#125; </div><div class="line">      System.out.println(<span class="string">"set"</span> + string);</div><div class="line">      buffer.add(string);</div><div class="line">      fullCondition.signal();</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">finally</span> &#123;</div><div class="line">      lock.unlock();</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  </div><div class="line">  <span class="comment">// 消费</span></div><div class="line">  <span class="function"><span class="keyword">public</span> String <span class="title">get</span><span class="params">()</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</div><div class="line">    String string;</div><div class="line">    lock.lock();</div><div class="line">    <span class="keyword">try</span> &#123;</div><div class="line">      <span class="keyword">while</span> (buffer.size() == <span class="number">0</span>) &#123;</div><div class="line">        fullCondition.await(); <span class="comment">// </span></div><div class="line">      &#125;</div><div class="line">      string = buffer.poll();</div><div class="line">      notFullCondition.signal();</div><div class="line">    &#125; <span class="keyword">finally</span> &#123;</div><div class="line">      lock.unlock();</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> string;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">    <span class="comment">// TODO Auto-generated method stub</span></div><div class="line">    ConditionTest conditionTest = <span class="keyword">new</span> ConditionTest(<span class="number">3</span>);</div><div class="line">    <span class="keyword">while</span> (<span class="keyword">true</span>) &#123;</div><div class="line">      Thread setter = <span class="keyword">new</span> Thread(<span class="keyword">new</span> Runnable() &#123;</div><div class="line">        </div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">          <span class="comment">// TODO Auto-generated method stub</span></div><div class="line">          <span class="keyword">try</span> &#123;</div><div class="line">            conditionTest.set(<span class="string">"abc"</span>);</div><div class="line">          &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</div><div class="line">            <span class="comment">// TODO Auto-generated catch block</span></div><div class="line">            e.printStackTrace();</div><div class="line">          &#125;</div><div class="line">        &#125;</div><div class="line">      &#125;);</div><div class="line">      setter.start();</div><div class="line">      Thread getter = <span class="keyword">new</span> Thread(<span class="keyword">new</span> Runnable() &#123;</div><div class="line">        </div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">          <span class="comment">// TODO Auto-generated method stub</span></div><div class="line">          <span class="keyword">try</span> &#123;</div><div class="line">            </div><div class="line">            System.out.println(conditionTest.get());</div><div class="line">            </div><div class="line">          &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</div><div class="line">            <span class="comment">// TODO Auto-generated catch block</span></div><div class="line">            e.printStackTrace();</div><div class="line">          &#125;</div><div class="line">        &#125;</div><div class="line">      &#125;);</div><div class="line">      getter.start();</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://coderlongren.github.io/2018/02/05/再谈回溯法/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1812,7 +1853,7 @@ You may assume that row1 ≤ row2 and col1 ≤ col2.
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/8/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><span class="page-number current">9</span><a class="page-number" href="/page/10/">10</a><span class="space">&hellip;</span><a class="page-number" href="/page/15/">15</a><a class="extend next" rel="next" href="/page/10/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/8/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><span class="page-number current">9</span><a class="page-number" href="/page/10/">10</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><a class="extend next" rel="next" href="/page/10/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1858,7 +1899,7 @@ You may assume that row1 ≤ row2 and col1 ≤ col2.
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">141</span>
+                <span class="site-state-item-count">140</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
