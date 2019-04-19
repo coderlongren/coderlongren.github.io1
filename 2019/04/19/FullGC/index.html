@@ -94,18 +94,18 @@
 
 
 
-<meta name="description" content="Full GC的原因">
+<meta name="description" content="Full GC探究">
 <meta name="keywords" content="JVM">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Full GC的触发原因">
 <meta property="og:url" content="https://coderlongren.github.io/2019/04/19/FullGC/index.html">
 <meta property="og:site_name" content="coderlong的博客">
-<meta property="og:description" content="Full GC的原因">
+<meta property="og:description" content="Full GC探究">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-04-19T03:22:05.461Z">
+<meta property="og:updated_time" content="2019-04-19T11:33:18.389Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Full GC的触发原因">
-<meta name="twitter:description" content="Full GC的原因">
+<meta name="twitter:description" content="Full GC探究">
 
 
 
@@ -395,7 +395,7 @@
       
 
       
-        <p>Full GC的原因<br><a id="more"></a></p>
+        <p>Full GC探究<br><a id="more"></a></p>
 <p>组内revirew故障的时候，经常提到提到有的机器抽风，Full GC太频繁，萌新的我:flush:还没有JVM线上排查问题的经验，自己下去查了下JVM触发Full GC的原因。</p>
 <ul>
 <li>代码中执行System.gc()回向JVM发送执行fullGC的命令，但不一定会立即执行。</li>
@@ -467,8 +467,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/11/12/ZK主从模式的一点总结/" rel="next" title="Zookeeper native主从模式的实践">
-                <i class="fa fa-chevron-left"></i> Zookeeper native主从模式的实践
+              <a href="/2018/11/12/ZK主从模式的一点总结/" rel="next" title="Zookeeper实现主从模式">
+                <i class="fa fa-chevron-left"></i> Zookeeper实现主从模式
               </a>
             
           </div>
